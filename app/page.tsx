@@ -6,16 +6,13 @@ export default function LandingPage() {
     <main style={{background:'#000',color:'#fff',fontFamily:'sans-serif'}}>
       
       {/* NAVBAR */}
-      <nav style={{display:'flex',justifyContent:'space-between',alignItems:'center',padding:'20px 40px',borderBottom:'1px solid #222'}}>
-        <div style={{display:'flex',alignItems:'center',gap:'10px'}}>
-  <img src="/spotify-growth-icon.png" alt="Logo" style={{width:'40px',height:'40px',borderRadius:'10px'}}/>
-  <h1 style={{fontSize:'20px',fontWeight:'bold',color:'#9B59B6',margin:0}}>Spotify Growth</h1>
-</div>
-        <div style={{display:'flex',gap:'20px'}}>
-          <a href="/login" style={{color:'#fff',textDecoration:'none'}}>Connexion</a>
-          <a href="/login" style={{background:'#1DB954',color:'#000',padding:'8px 20px',borderRadius:'20px',textDecoration:'none',fontWeight:'bold'}}>Commencer gratuitement</a>
-        </div>
-      </nav>
+      <nav style={{display:'flex',justifyContent:'space-between',alignItems:'center',padding:'15px 20px',borderBottom:'1px solid #222',position:'sticky',top:0,background:'#000',zIndex:100}}>
+  <div style={{display:'flex',alignItems:'center',gap:'10px'}}>
+    <img src="/spotify-growth-icon.png" alt="Logo" style={{width:'35px',height:'35px',borderRadius:'8px'}}/>
+    <h1 style={{fontSize:'16px',fontWeight:'bold',color:'#9B59B6',margin:0}}>Spotify Growth</h1>
+  </div>
+  <a href="/login" style={{background:'#9B59B6',color:'#fff',padding:'8px 16px',borderRadius:'20px',textDecoration:'none',fontWeight:'bold',fontSize:'14px'}}>Connexion</a>
+</nav>
 
       {/* HERO */}
       <section style={{textAlign:'center',padding:'100px 20px'}}>
