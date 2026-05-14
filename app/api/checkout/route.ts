@@ -12,8 +12,8 @@ export async function POST(req: NextRequest) {
       payment_method_types: ['card'],
       mode: 'subscription',
       line_items: [{ price_data: { currency: 'eur', product_data: { name }, unit_amount: amount, recurring: { interval: 'month' } }, quantity: 1 }],
-      success_url: 'http://localhost:3000/dashboard',
-      cancel_url: 'http://localhost:3000',
+      success_url: 'https://spotify-growth-six.vercel.app/dashboard',
+      cancel_url: 'https://spotify-growth-six.vercel.app',
     });
     return NextResponse.json({ url: session.url });
   } catch (err: any) {
