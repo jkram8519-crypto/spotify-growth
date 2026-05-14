@@ -1,59 +1,115 @@
 'use client';
-import { useState } from 'react';
 
-export default function PricingPage() {
-  const [loading, setLoading] = useState(false);
-  const handleCheckout = async (plan: string) => {
-    setLoading(true);
-    const res = await fetch('/api/checkout', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ plan }),
-    });
-    const { url } = await res.json();
-    window.location.href = url;
-    setLoading(false);
-  };
+export default function LandingPage() {
   return (
-    <main style={{minHeight:'100vh',background:'black',color:'white',padding:'20px'}}>
-      <h1 style={{textAlign:'center',fontSize:'48px'}}>Pricing</h1>
-      <div style={{display:'flex',gap:'25px',justifyContent:'center',flexWrap:'wrap',maxWidth:'1000px',margin:'0 auto',flexDirection:'column',alignItems:'center'}}>
-        <div style={{background:'#18181b',padding:'20px',borderRadius:'24px',width:'min(260px, 90vw)'}}>
-          <h2>Free - 0 euro</h2>
-          <button style={{width:'100%',padding:'12px',marginTop:'20px',color:'white',background:'transparent',border:'1px solid #555',borderRadius:'8px'}}>Plan actuel</button>
-        </div>
-        <div style={{background:'white',color:'black',padding:'20px',borderRadius:'24px',width:'min(260px, 90vw)'}}>
-          <h2>Pro - 9.99 euro/mois</h2>
-          <button onClick={() => handleCheckout('pro')} disabled={loading} style={{width:'100%',padding:'12px',marginTop:'20px',cursor:'pointer',borderRadius:'8px'}}>{loading ? 'Chargement...' : 'Commencer Pro'}</button>
-        </div>
-        <div style={{background:'#18181b',padding:'20px',borderRadius:'24px',width:'min(260px, 90vw)'}}>
-          <h2>Pro+ - 19.99 euro/mois</h2>
-          <button onClick={() => handleCheckout('pro_plus')} disabled={loading} style={{width:'100%',padding:'12px',marginTop:'20px',cursor:'pointer',background:'#22c55e',borderRadius:'8px'}}>{loading ? 'Chargement...' : 'Commencer Pro+'}</button>
-        </div>
-      </div>
-    </main>
-  );
-}
+    <main style={{background:'#000',color:'#fff',fontFamily:'sans-serif',margin:0,padding:0}}>
 
-import { NextRequest, NextResponse } from 'next/server';
-import Stripe from 'stripe';
+      {/* NAVBAR */}
+      <nav style={{display:'flex',justifyContent:'space-between',alignItems:'center',padding:'15px 20px',borderBottom:'1px solid #222',position:'sticky',top:0,background:'#000',zIndex:100}}>
+        <div style={{display:'flex',alignItems:'center',gap:'10px'}}>
+          <img src="/spotify-growth-icon.png" alt="Logo" style={{width:'35px',height:'35px',borderRadius:'8px'}}/>
+          <h1 style={{fontSize:'16px',fontWeight:'bold',color:'#9B59B6',margin:0}}>Spotify Growth</h1>
+        </div>
+        <a href="/login" style={{background:'#9B59B6',color:'#fff',padding:'8px 16px',borderRadius:'20px',textDecoration:'none',fontWeight:'bold',fontSize:'14px'}}>Connexion</a>
+      </nav>
 
-const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, { apiVersion: '2026-04-22.dahlia' });
-export async function POST(req: NextRequest) {
-  try {
-    const { plan } = await req.json();
-    const amount = plan === 'pro' ? 999 : 1999;
-    const name = plan === 'pro' ? 'Spotify Growth Pro' : 'Spotify Growth Pro+';
-    const session = await stripe.checkout.sessions.create({
-      payment_method_types: ['card'],
-      mode: 'subscription',
-      line_items: [{ price_data: { currency: 'eur', product_data: { name }, unit_amount: amount, recurring: { interval: 'month' } }, quantity: 1 }],
-      success_url: 'http://localhost:3000/dashboard',
-      cancel_url: 'http://localhost:3000',
-    });
-    return NextResponse.json({ url: session.url });
-  } catch (err: any) {
-    console.error('Stripe error:', err.message);
-    return NextResponse.json({ error: err.message }, { status: 500 });
-  }
-}
+      {/* HERO */}
+      <section style={{textAlign:'center',padding:'80px 20px 60px'}}>
+        <div style={{display:'inline-block',background:'#1a0030',border:'1px solid #9B59B6',borderRadius:'25px',padding:'8px 20px',marginBottom:'30px'}}>
+          <p style={{margin:0,color:'#D7BDE2',fontSize:'14px'}}>🚀 L'outil IA numéro 1 pour artistes indépendants</p>
+        </div>
+        <h2 style={{fontSize:'48px',fontWeight:'bold',marginBottom:'20px',lineHeight:'1.1',margin:'0 0 20px 0'}}>
+          Fais exploser ta<br/>
+          <span style={{color:'#9B59B6'}}>croissance Spotify</span>
+        </h2>
+        <p style={{color:'#aaa',fontSize:'18px',maxWidth:'600px',margin:'20px auto 40px'}}>
+          Génère des pitches professionnels, trouve des playlists et suis tes performances — tout en un.
+        </p>
+        <div style={{display:'flex',gap:'15px',justifyContent:'center',flexWrap:'wrap'}}>
+          <a href="/login" style={{background:'#9B59B6',color:'#fff',padding:'16px 30px',borderRadius:'30px',textDecoration:'none',fontWeight:'bold',fontSize:'16px'}}>
+            Commencer gratuitement →
+          </a>
+          <a href="#features" style={{border:'1px solid #555',color:'#fff',padding:'16px 30px',borderRadius:'30px',textDecoration:'none',fontSize:'16px'}}>
+            Voir les fonctionnalités
+          </a>
+        </div>
+      </section>
+
+      {/* STATS */}
+      <section style={{display:'flex',justifyContent:'center',gap:'30px',padding:'40px 20px',background:'#0d0020',flexWrap:'wrap'}}>
+        {[
+          {value:'500+',label:'Artistes actifs'},
+          {value:'10k+',label:'Pitches générés'},
+          {value:'3x',label:'Plus de streams'},
+          {value:'€9.99',label:'Par mois seulement'},
+        ].map((s,i) => (
+          <div key={i} style={{textAlign:'center',minWidth:'120px'}}>
+            <p style={{fontSize:'36px',fontWeight:'bold',color:'#9B59B6',margin:'0 0 8px 0'}}>{s.value}</p>
+            <p style={{color:'#aaa',margin:0,fontSize:'14px'}}>{s.label}</p>
+          </div>
+        ))}
+      </section>
+
+      {/* FEATURES */}
+      <section id="features" style={{padding:'80px 20px'}}>
+        <h2 style={{textAlign:'center',fontSize:'36px',fontWeight:'bold',marginBottom:'20px'}}>Tout ce dont tu as besoin</h2>
+        <p style={{textAlign:'center',color:'#aaa',marginBottom:'40px',fontSize:'16px'}}>Des outils professionnels à prix accessible</p>
+        <div style={{display:'grid',gridTemplateColumns:'repeat(auto-fit, minmax(280px, 1fr))',gap:'20px',maxWidth:'1000px',margin:'0 auto'}}>
+          {[
+            {emoji:'🚀',title:'Pitch Generator IA',desc:"Génère des pitches professionnels pour les curateurs de playlist en quelques secondes."},
+            {emoji:'🎯',title:'Playlist Finder',desc:"Trouve les playlists parfaites pour ton genre et contacte les curateurs directement."},
+            {emoji:'📊',title:'Analytics',desc:"Suis tes streams, saves et performances en temps réel depuis ton dashboard."},
+            {emoji:'📱',title:'App Mobile',desc:"Gère ta croissance depuis ton téléphone avec notre app iOS et Android."},
+            {emoji:'🤖',title:'IA Avancée',desc:"Propulsé par l'intelligence artificielle pour des résultats professionnels."},
+            {emoji:'💰',title:'Prix Abordable',desc:"À partir de €9.99/mois, bien moins cher que les agences traditionnelles."},
+          ].map((f,i) => (
+            <div key={i} style={{background:'#0d0020',padding:'30px',borderRadius:'20px',border:'1px solid #2d1040'}}>
+              <p style={{fontSize:'40px',margin:'0 0 15px 0'}}>{f.emoji}</p>
+              <h3 style={{fontSize:'18px',fontWeight:'bold',margin:'0 0 10px 0'}}>{f.title}</h3>
+              <p style={{color:'#aaa',lineHeight:'1.6',margin:0,fontSize:'14px'}}>{f.desc}</p>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      {/* TESTIMONIALS */}
+      <section style={{background:'#0d0020',padding:'80px 20px'}}>
+        <h2 style={{textAlign:'center',fontSize:'36px',fontWeight:'bold',marginBottom:'40px'}}>Ce qu'ils en disent</h2>
+        <div style={{display:'grid',gridTemplateColumns:'repeat(auto-fit, minmax(280px, 1fr))',gap:'20px',maxWidth:'1000px',margin:'0 auto'}}>
+          {[
+            {text:'"En 2 semaines j\'ai eu 3 placements en playlist. Incroyable !"',name:'Alex M.',role:'Producteur'},
+            {text:'"L\'app mobile est parfaite. Je gère tout depuis mon téléphone."',name:'Sarah K.',role:'Artiste'},
+            {text:'"J\'ai multiplié mes streams par 3 en un mois."',name:'DJ Marco',role:'DJ'},
+          ].map((t,i) => (
+            <div key={i} style={{background:'#000',padding:'30px',borderRadius:'20px',border:'1px solid #2d1040'}}>
+              <p style={{color:'#ccc',lineHeight:'1.7',margin:'0 0 20px 0',fontStyle:'italic'}}>{t.text}</p>
+              <div style={{display:'flex',alignItems:'center',gap:'12px'}}>
+                <div style={{width:'44px',height:'44px',borderRadius:'50%',background:'linear-gradient(135deg,#9B59B6,#6C3483)',display:'flex',alignItems:'center',justifyContent:'center',fontSize:'20px',flexShrink:0}}>🎵</div>
+                <div>
+                  <p style={{fontWeight:'bold',margin:0}}>{t.name}</p>
+                  <p style={{color:'#9B59B6',margin:0,fontSize:'14px'}}>{t.role}</p>
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      {/* PRICING */}
+      <section style={{padding:'80px 20px',textAlign:'center'}}>
+        <h2 style={{fontSize:'36px',fontWeight:'bold',marginBottom:'15px'}}>Tarifs simples</h2>
+        <p style={{color:'#aaa',marginBottom:'40px',fontSize:'16px'}}>Commence gratuitement, évolue quand tu es prêt</p>
+        <div style={{display:'flex',flexDirection:'column',gap:'20px',maxWidth:'400px',margin:'0 auto'}}>
+          <div style={{background:'#0d0020',padding:'35px',borderRadius:'24px',border:'1px solid #2d1040',textAlign:'left'}}>
+            <h3 style={{fontSize:'24px',marginBottom:'8px'}}>Free</h3>
+            <p style={{fontSize:'40px',fontWeight:'bold',marginBottom:'5px'}}>€0</p>
+            <p style={{color:'#aaa',marginBottom:'20px',fontSize:'14px'}}>Pour commencer</p>
+            <p style={{color:'#ccc',marginBottom:'20px'}}>✅ Pitch Generator • ✅ Bio Generator • ✅ Release Checklist</p>
+            <a href="/login" style={{display:'block',border:'1px solid #555',color:'#fff',padding:'14px',borderRadius:'12px',textDecoration:'none',textAlign:'center'}}>Commencer</a>
+          </div>
+          <div style={{background:'linear-gradient(135deg,#6C3483,#9B59B6)',padding:'35px',borderRadius:'24px',textAlign:'left'}}>
+            <p style={{background:'rgba(255,255,255,0.2)',borderRadius:'15px',padding:'4px 12px',display:'inline-block',marginBottom:'10px',fontSize:'12px',fontWeight:'bold'}}>⭐ POPULAIRE</p>
+            <h3 style={{fontSize:'24px',marginBottom:'8px'}}>Pro</h3>
+            <p style={{fontSize:'40px',fontWeight:'bold',marginBottom:'5px'}}>€9.99<span style={{fontSize:'16px'}}>/mois</span></p>
+            <p style={{marginBottom:'20px',opacity:0.9}}>✅ Playlist Finder • ✅ Release Planner • ✅ AI avancée</p>
+            <a href="/login" style={{display:'
