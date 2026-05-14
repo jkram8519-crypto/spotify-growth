@@ -15,18 +15,18 @@ export default function PricingPage() {
     setLoading(false);
   };
   return (
-    <main style={{minHeight:'100vh',background:'black',color:'white',padding:'40px'}}>
+    <main style={{minHeight:'100vh',background:'black',color:'white',padding:'20px'}}>
       <h1 style={{textAlign:'center',fontSize:'48px'}}>Pricing</h1>
       <div style={{display:'flex',gap:'25px',justifyContent:'center',flexWrap:'wrap',maxWidth:'1000px',margin:'0 auto',flexDirection:'column',alignItems:'center'}}>
-        <div style={{background:'#18181b',padding:'40px',borderRadius:'24px',width:'min(260px, 90vw)'}}>
+        <div style={{background:'#18181b',padding:'20px',borderRadius:'24px',width:'min(260px, 90vw)'}}>
           <h2>Free - 0 euro</h2>
           <button style={{width:'100%',padding:'12px',marginTop:'20px',color:'white',background:'transparent',border:'1px solid #555',borderRadius:'8px'}}>Plan actuel</button>
         </div>
-        <div style={{background:'white',color:'black',padding:'40px',borderRadius:'24px',width:'min(260px, 90vw)'}}>
+        <div style={{background:'white',color:'black',padding:'20px',borderRadius:'24px',width:'min(260px, 90vw)'}}>
           <h2>Pro - 9.99 euro/mois</h2>
           <button onClick={() => handleCheckout('pro')} disabled={loading} style={{width:'100%',padding:'12px',marginTop:'20px',cursor:'pointer',borderRadius:'8px'}}>{loading ? 'Chargement...' : 'Commencer Pro'}</button>
         </div>
-        <div style={{background:'#18181b',padding:'40px',borderRadius:'24px',width:'min(260px, 90vw)'}}>
+        <div style={{background:'#18181b',padding:'20px',borderRadius:'24px',width:'min(260px, 90vw)'}}>
           <h2>Pro+ - 19.99 euro/mois</h2>
           <button onClick={() => handleCheckout('pro_plus')} disabled={loading} style={{width:'100%',padding:'12px',marginTop:'20px',cursor:'pointer',background:'#22c55e',borderRadius:'8px'}}>{loading ? 'Chargement...' : 'Commencer Pro+'}</button>
         </div>
