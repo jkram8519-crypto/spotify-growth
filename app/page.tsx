@@ -1,140 +1,50 @@
 'use client';
-import { useState } from 'react';
 
 export default function LandingPage() {
   return (
-    <main style={{background:'#000',color:'#fff',fontFamily:'sans-serif'}}>
-      
-      {/* NAVBAR */}
+    <main style={{background:'#000',color:'#fff',fontFamily:'sans-serif',margin:0,padding:0}}>
       <nav style={{display:'flex',justifyContent:'space-between',alignItems:'center',padding:'15px 20px',borderBottom:'1px solid #222',position:'sticky',top:0,background:'#000',zIndex:100}}>
-  <div style={{display:'flex',alignItems:'center',gap:'10px'}}>
-    <img src="/spotify-growth-icon.png" alt="Logo" style={{width:'35px',height:'35px',borderRadius:'8px'}}/>
-    <h1 style={{fontSize:'16px',fontWeight:'bold',color:'#9B59B6',margin:0}}>Spotify Growth</h1>
-  </div>
-  <a href="/login" style={{background:'#9B59B6',color:'#fff',padding:'8px 16px',borderRadius:'20px',textDecoration:'none',fontWeight:'bold',fontSize:'14px'}}>Connexion</a>
-</nav>
-
-      {/* HERO */}
-      <section style={{textAlign:'center',padding:'100px 20px'}}>
-        <p style={{color:'#1DB954',fontWeight:'bold',marginBottom:'20px'}}>🚀 L'outil IA pour artistes indépendants</p>
-        <h2 style={{fontSize:'60px',fontWeight:'bold',marginBottom:'20px',lineHeight:'1.1'}}>Fais exploser ta<br/>croissance Spotify</h2>
-        <p style={{color:'#aaa',fontSize:'20px',marginBottom:'40px',maxWidth:'600px',margin:'0 auto 40px'}}>Génère des pitches professionnels, trouve des playlists et suis tes performances — tout en un.</p>
-        <div style={{display:'flex',gap:'15px',justifyContent:'center'}}>
-          <a href="/login" style={{background:'#1DB954',color:'#000',padding:'15px 35px',borderRadius:'30px',textDecoration:'none',fontWeight:'bold',fontSize:'18px'}}>Commencer gratuitement</a>
-          <a href="#features" style={{border:'1px solid #555',color:'#fff',padding:'15px 35px',borderRadius:'30px',textDecoration:'none',fontSize:'18px'}}>Voir les fonctionnalités</a>
+        <div style={{display:'flex',alignItems:'center',gap:'10px'}}>
+          <img src="/spotify-growth-icon.png" alt="Logo" style={{width:'35px',height:'35px',borderRadius:'8px'}}/>
+          <h1 style={{fontSize:'16px',fontWeight:'bold',color:'#9B59B6',margin:0}}>Spotify Growth</h1>
+        </div>
+        <a href="/login" style={{background:'#9B59B6',color:'#fff',padding:'8px 16px',borderRadius:'20px',textDecoration:'none',fontWeight:'bold',fontSize:'14px'}}>Connexion</a>
+      </nav>
+      <section style={{textAlign:'center',padding:'80px 20px 60px'}}>
+        <h2 style={{fontSize:'48px',fontWeight:'bold',marginBottom:'20px',lineHeight:'1.1'}}>Fais exploser ta <span style={{color:'#9B59B6'}}>croissance Spotify</span></h2>
+        <p style={{color:'#aaa',fontSize:'18px',maxWidth:'600px',margin:'20px auto 40px'}}>Génère des pitches professionnels, trouve des playlists et suis tes performances.</p>
+        <div style={{display:'flex',gap:'15px',justifyContent:'center',flexWrap:'wrap'}}>
+          <a href="/login" style={{background:'#9B59B6',color:'#fff',padding:'16px 30px',borderRadius:'30px',textDecoration:'none',fontWeight:'bold',fontSize:'16px'}}>Commencer gratuitement</a>
         </div>
       </section>
-
-      {/* STATS */}
-      <section style={{display:'flex',justifyContent:'center',gap:'30px',padding:'60px 20px',background:'#0d0020',flexWrap:'wrap'}}>
-        <div style={{textAlign:'center'}}>
-          <p style={{fontSize:'40px',fontWeight:'bold',color:'#1DB954'}}>500+</p>
-          <p style={{color:'#aaa'}}>Artistes actifs</p>
-        </div>
-        <div style={{textAlign:'center'}}>
-          <p style={{fontSize:'40px',fontWeight:'bold',color:'#1DB954'}}>10k+</p>
-          <p style={{color:'#aaa'}}>Pitches générés</p>
-        </div>
-        <div style={{textAlign:'center'}}>
-          <p style={{fontSize:'40px',fontWeight:'bold',color:'#1DB954'}}>3x</p>
-          <p style={{color:'#aaa'}}>Plus de streams</p>
-        </div>
-      </section>
-
-      {/* FEATURES */}
-      <section id="features" style={{padding:'80px 40px'}}>
-        <h2 style={{textAlign:'center',fontSize:'40px',fontWeight:'bold',marginBottom:'60px'}}>Tout ce dont tu as besoin</h2>
-        <div style={{display:'grid',gridTemplateColumns:'repeat(auto-fit, minmax(250px, 1fr))',gap:'25px',maxWidth:'1100px',margin:'0 auto'}}>
-          <div style={{background:'#111',padding:'30px',borderRadius:'20px',border:'1px solid #222'}}>
-            <p style={{fontSize:'40px',marginBottom:'15px'}}>🚀</p>
-            <h3 style={{fontSize:'22px',marginBottom:'10px'}}>Pitch Generator IA</h3>
-            <p style={{color:'#aaa'}}>Génère des pitches professionnels pour les curateurs de playlist en quelques secondes.</p>
+      <section style={{padding:'80px 20px',textAlign:'center'}}>
+        <h2 style={{fontSize:'36px',fontWeight:'bold',marginBottom:'40px'}}>Tarifs simples</h2>
+        <div style={{display:'flex',flexDirection:'column',gap:'20px',maxWidth:'400px',margin:'0 auto'}}>
+          <div style={{background:'#0d0020',padding:'35px',borderRadius:'24px',border:'1px solid #2d1040',textAlign:'left'}}>
+            <h3 style={{fontSize:'24px',marginBottom:'8px'}}>Free - 0€</h3>
+            <p style={{color:'#ccc',marginBottom:'20px'}}>Pitch Generator, Bio Generator, Release Checklist</p>
+            <a href="/login" style={{display:'block',border:'1px solid #555',color:'#fff',padding:'14px',borderRadius:'12px',textDecoration:'none',textAlign:'center'}}>Commencer</a>
           </div>
-          <div style={{background:'#111',padding:'30px',borderRadius:'20px',border:'1px solid #222'}}>
-            <p style={{fontSize:'40px',marginBottom:'15px'}}>🎯</p>
-            <h3 style={{fontSize:'22px',marginBottom:'10px'}}>Playlist Finder</h3>
-            <p style={{color:'#aaa'}}>Trouve les playlists parfaites pour ton genre et contacte les curateurs directement.</p>
+          <div style={{background:'linear-gradient(135deg,#6C3483,#9B59B6)',padding:'35px',borderRadius:'24px',textAlign:'left'}}>
+            <h3 style={{fontSize:'24px',marginBottom:'8px'}}>Pro - 9.99€/mois</h3>
+            <p style={{marginBottom:'20px'}}>Playlist Finder, Release Planner, AI avancée</p>
+            <a href="/login" style={{display:'block',background:'#fff',color:'#6C3483',padding:'14px',borderRadius:'12px',textDecoration:'none',textAlign:'center',fontWeight:'bold'}}>Commencer Pro</a>
           </div>
-          <div style={{background:'#111',padding:'30px',borderRadius:'20px',border:'1px solid #222'}}>
-            <p style={{fontSize:'40px',marginBottom:'15px'}}>📊</p>
-            <h3 style={{fontSize:'22px',marginBottom:'10px'}}>Analytics</h3>
-            <p style={{color:'#aaa'}}>Suis tes streams, saves et performances en temps réel depuis ton dashboard.</p>
-          </div>
-          <div style={{background:'#111',padding:'30px',borderRadius:'20px',border:'1px solid #222'}}>
-            <p style={{fontSize:'40px',marginBottom:'15px'}}>📱</p>
-            <h3 style={{fontSize:'22px',marginBottom:'10px'}}>App Mobile</h3>
-            <p style={{color:'#aaa'}}>Gère ta croissance depuis ton téléphone avec notre app iOS et Android.</p>
-          </div>
-          <div style={{background:'#111',padding:'30px',borderRadius:'20px',border:'1px solid #222'}}>
-            <p style={{fontSize:'40px',marginBottom:'15px'}}>💰</p>
-            <h3 style={{fontSize:'22px',marginBottom:'10px'}}>Prix abordable</h3>
-            <p style={{color:'#aaa'}}>À partir de €9.99/mois, bien moins cher que les agences traditionnelles.</p>
-          </div>
-          <div style={{background:'#111',padding:'30px',borderRadius:'20px',border:'1px solid #222'}}>
-            <p style={{fontSize:'40px',marginBottom:'15px'}}>🤖</p>
-            <h3 style={{fontSize:'22px',marginBottom:'10px'}}>IA Avancée</h3>
-            <p style={{color:'#aaa'}}>Propulsé par l'IA la plus avancée pour des résultats professionnels garantis.</p>
+          <div style={{background:'#0d0020',padding:'35px',borderRadius:'24px',border:'1px solid #2d1040',textAlign:'left'}}>
+            <h3 style={{fontSize:'24px',marginBottom:'8px'}}>Pro+ - 19.99€/mois</h3>
+            <p style={{color:'#ccc',marginBottom:'20px'}}>Spotify Analytics, Growth AI, Marketing Auto</p>
+            <a href="/login" style={{display:'block',background:'#9B59B6',color:'#fff',padding:'14px',borderRadius:'12px',textDecoration:'none',textAlign:'center',fontWeight:'bold'}}>Commencer Pro+</a>
           </div>
         </div>
       </section>
-
-      {/* TESTIMONIALS */}
-      <section style={{background:'#111',padding:'80px 40px'}}>
-        <h2 style={{textAlign:'center',fontSize:'40px',fontWeight:'bold',marginBottom:'60px'}}>Ce qu'ils en disent</h2>
-        <div style={{display:'grid',gridTemplateColumns:'repeat(3,1fr)',gap:'30px',maxWidth:'1000px',margin:'0 auto'}}>
-          <div style={{background:'#000',padding:'30px',borderRadius:'20px'}}>
-            <p style={{color:'#aaa',marginBottom:'20px'}}>"En 2 semaines j'ai eu 3 playlists avec le pitch généré. Incroyable !"</p>
-            <p style={{fontWeight:'bold'}}>— Alex M., Producteur</p>
-          </div>
-          <div style={{background:'#000',padding:'30px',borderRadius:'20px'}}>
-            <p style={{color:'#aaa',marginBottom:'20px'}}>"L'app mobile est parfaite. Je gère tout depuis mon téléphone entre deux concerts."</p>
-            <p style={{fontWeight:'bold'}}>— Sarah K., Artiste</p>
-          </div>
-          <div style={{background:'#000',padding:'30px',borderRadius:'20px'}}>
-            <p style={{color:'#aaa',marginBottom:'20px'}}>"J'ai multiplié mes streams par 3 en un mois. Le meilleur investissement de ma carrière."</p>
-            <p style={{fontWeight:'bold'}}>— DJ Marco, DJ</p>
-          </div>
+      <footer style={{padding:'30px 20px',borderTop:'1px solid #222',textAlign:'center'}}>
+        <div style={{display:'flex',gap:'20px',justifyContent:'center',flexWrap:'wrap',marginBottom:'15px'}}>
+          <a href="/cgv" style={{color:'#aaa',textDecoration:'none',fontSize:'14px'}}>CGV</a>
+          <a href="/mentions-legales" style={{color:'#aaa',textDecoration:'none',fontSize:'14px'}}>Mentions Légales</a>
+          <a href="/a-propos" style={{color:'#aaa',textDecoration:'none',fontSize:'14px'}}>À propos</a>
         </div>
-      </section>
-
-      {/* PRICING */}
-      <section style={{padding:'80px 40px',textAlign:'center'}}>
-        <h2 style={{fontSize:'40px',fontWeight:'bold',marginBottom:'20px'}}>Tarifs simples</h2>
-        <p style={{color:'#aaa',marginBottom:'60px'}}>Commence gratuitement, évolue quand tu es prêt</p>
-        <div style={{display:'flex',gap:'20px',justifyContent:'center'}}>
-          <div style={{background:'#111',padding:'40px',borderRadius:'20px',width:'250px',border:'1px solid #222'}}>
-            <h3 style={{fontSize:'24px',marginBottom:'10px'}}>Free</h3>
-            <p style={{fontSize:'40px',fontWeight:'bold',marginBottom:'20px'}}>€0</p>
-            <p style={{color:'#aaa',marginBottom:'30px'}}>Pitch Generator • Bio Generator • Release Checklist</p>
-            <a href="/login" style={{display:'block',border:'1px solid #555',color:'#fff',padding:'12px',borderRadius:'10px',textDecoration:'none'}}>Commencer</a>
-          </div>
-          <div style={{background:'#1DB954',padding:'40px',borderRadius:'20px',width:'250px',color:'#000'}}>
-            <h3 style={{fontSize:'24px',marginBottom:'10px'}}>Pro</h3>
-            <p style={{fontSize:'40px',fontWeight:'bold',marginBottom:'20px'}}>€9.99<span style={{fontSize:'16px'}}>/mois</span></p>
-            <p style={{marginBottom:'30px'}}>Playlist Finder • Release Planner • AI avancée</p>
-            <a href="/login" style={{display:'block',background:'#000',color:'#fff',padding:'12px',borderRadius:'10px',textDecoration:'none',fontWeight:'bold'}}>Commencer Pro</a>
-          </div>
-          <div style={{background:'#111',padding:'40px',borderRadius:'20px',width:'250px',border:'1px solid #222'}}>
-            <h3 style={{fontSize:'24px',marginBottom:'10px'}}>Pro+</h3>
-            <p style={{fontSize:'40px',fontWeight:'bold',marginBottom:'20px'}}>€19.99<span style={{fontSize:'16px'}}>/mois</span></p>
-            <p style={{color:'#aaa',marginBottom:'30px'}}>Spotify Analytics • Growth AI • Marketing Auto</p>
-            <a href="/login" style={{display:'block',background:'#1DB954',color:'#000',padding:'12px',borderRadius:'10px',textDecoration:'none',fontWeight:'bold'}}>Commencer Pro+</a>
-          </div>
-        </div>
-      </section>
-
-      {/* CTA FINAL */}
-      <section style={{textAlign:'center',padding:'100px 20px',background:'#111'}}>
-        <h2 style={{fontSize:'48px',fontWeight:'bold',marginBottom:'20px'}}>Prêt à faire exploser<br/>ta musique ?</h2>
-        <p style={{color:'#aaa',marginBottom:'40px',fontSize:'18px'}}>Rejoins 500+ artistes qui utilisent Spotify Growth</p>
-        <a href="/login" style={{background:'#1DB954',color:'#000',padding:'15px 40px',borderRadius:'30px',textDecoration:'none',fontWeight:'bold',fontSize:'20px'}}>Commencer gratuitement →</a>
-      </section>
-
-      {/* FOOTER */}
-      <footer style={{textAlign:'center',padding:'40px',borderTop:'1px solid #222',color:'#aaa'}}>
-        <p>© 2026 Spotify Growth Optimizer. Tous droits réservés.</p>
+        <p style={{color:'#555',margin:0,fontSize:'14px'}}>© 2026 Spotify Growth. Tous droits réservés.</p>
       </footer>
-
     </main>
   );
 }

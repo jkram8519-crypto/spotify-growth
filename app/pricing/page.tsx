@@ -112,4 +112,41 @@ export default function LandingPage() {
             <h3 style={{fontSize:'24px',marginBottom:'8px'}}>Pro</h3>
             <p style={{fontSize:'40px',fontWeight:'bold',marginBottom:'5px'}}>€9.99<span style={{fontSize:'16px'}}>/mois</span></p>
             <p style={{marginBottom:'20px',opacity:0.9}}>✅ Playlist Finder • ✅ Release Planner • ✅ AI avancée</p>
-            <a href="/login" style={{display:'
+            <a href="/login" style={{display:'block',background:'#fff',color:'#6C3483',padding:'14px',borderRadius:'12px',textDecoration:'none',textAlign:'center',fontWeight:'bold'}}>Commencer Pro</a>
+          </div>
+          <div style={{background:'#0d0020',padding:'35px',borderRadius:'24px',border:'1px solid #2d1040',textAlign:'left'}}>
+            <h3 style={{fontSize:'24px',marginBottom:'8px'}}>Pro+</h3>
+            <p style={{fontSize:'40px',fontWeight:'bold',marginBottom:'5px'}}>€19.99<span style={{fontSize:'16px'}}>/mois</span></p>
+            <p style={{color:'#aaa',marginBottom:'20px',fontSize:'14px'}}>Le plan ultime</p>
+            <p style={{color:'#ccc',marginBottom:'20px'}}>✅ Spotify Analytics • ✅ Growth AI • ✅ Marketing Auto</p>
+            <a href="/login" style={{display:'block',background:'#9B59B6',color:'#fff',padding:'14px',borderRadius:'12px',textDecoration:'none',textAlign:'center',fontWeight:'bold'}}>Commencer Pro+</a>
+          </div>
+        </div>
+      </section>
+
+      {/* CTA FINAL */}
+      <section style={{textAlign:'center',padding:'80px 20px',background:'linear-gradient(135deg,#0d0020,#1a0030)'}}>
+        <h2 style={{fontSize:'40px',fontWeight:'bold',marginBottom:'20px',lineHeight:'1.2'}}>
+          Prêt à faire exploser<br/>
+          <span style={{color:'#9B59B6'}}>ta musique ?</span>
+        </h2>
+        <p style={{color:'#aaa',marginBottom:'40px',fontSize:'18px'}}>Rejoins 500+ artistes qui utilisent Spotify Growth</p>
+        <a href="/login" style={{background:'#9B59B6',color:'#fff',padding:'16px 40px',borderRadius:'30px',textDecoration:'none',fontWeight:'bold',fontSize:'18px'}}>
+          Commencer gratuitement →
+        </a>
+      </section>
+
+      {/* FOOTER */}
+      <footer style={{padding:'30px 20px',borderTop:'1px solid #222',textAlign:'center'}}>
+        <p style={{color:'#9B59B6',fontWeight:'bold',marginBottom:'15px'}}>🎵 Spotify Growth</p>
+        <div style={{display:'flex',gap:'20px',justifyContent:'center',flexWrap:'wrap',marginBottom:'15px'}}>
+          <a href="/cgv" style={{color:'#aaa',textDecoration:'none',fontSize:'14px'}}>CGV</a>
+          <a href="/mentions-legales" style={{color:'#aaa',textDecoration:'none',fontSize:'14px'}}>Mentions Légales</a>
+          <a href="/a-propos" style={{color:'#aaa',textDecoration:'none',fontSize:'14px'}}>À propos</a>
+        </div>
+        <p style={{color:'#555',margin:0,fontSize:'14px'}}>© 2026 Spotify Growth. Tous droits réservés.</p>
+      </footer>
+
+    </main>
+  );
+}
