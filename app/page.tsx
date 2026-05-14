@@ -44,7 +44,7 @@ export default function LandingPage() {
       {/* FEATURES */}
       <section id="features" style={{padding:'80px 40px'}}>
         <h2 style={{textAlign:'center',fontSize:'40px',fontWeight:'bold',marginBottom:'60px'}}>Tout ce dont tu as besoin</h2>
-        <div style={{display:'grid',gridTemplateColumns:gridTemplateColumns:'repeat(auto-fit, minmax(250px, 1fr))'
+        <div style={{display:'grid',gridTemplateColumns:'repeat(auto-fit, minmax(250px, 1fr))'
           <div style={{background:'#111',padding:'30px',borderRadius:'20px',border:'1px solid #222'}}>
             <p style={{fontSize:'40px',marginBottom:'15px'}}>🚀</p>
             <h3 style={{fontSize:'22px',marginBottom:'10px'}}>Pitch Generator IA</h3>
