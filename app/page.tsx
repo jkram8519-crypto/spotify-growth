@@ -26,7 +26,7 @@ export default function LandingPage() {
       </section>
 
       {/* STATS */}
-      <section style={{display:'flex',justifyContent:'center',gap:'60px',padding:'60px',background:'#111'}}>
+      <section style={{display:'flex',justifyContent:'center',gap:'30px',padding:'60px 20px',background:'#0d0020',flexWrap:'wrap'}}>
         <div style={{textAlign:'center'}}>
           <p style={{fontSize:'40px',fontWeight:'bold',color:'#1DB954'}}>500+</p>
           <p style={{color:'#aaa'}}>Artistes actifs</p>
@@ -44,7 +44,7 @@ export default function LandingPage() {
       {/* FEATURES */}
       <section id="features" style={{padding:'80px 40px'}}>
         <h2 style={{textAlign:'center',fontSize:'40px',fontWeight:'bold',marginBottom:'60px'}}>Tout ce dont tu as besoin</h2>
-        <div style={{display:'grid',gridTemplateColumns:'repeat(3,1fr)',gap:'30px',maxWidth:'1000px',margin:'0 auto'}}>
+        <div style={{display:'grid',gridTemplateColumns:gridTemplateColumns:'repeat(auto-fit, minmax(250px, 1fr))'
           <div style={{background:'#111',padding:'30px',borderRadius:'20px',border:'1px solid #222'}}>
             <p style={{fontSize:'40px',marginBottom:'15px'}}>🚀</p>
             <h3 style={{fontSize:'22px',marginBottom:'10px'}}>Pitch Generator IA</h3>
