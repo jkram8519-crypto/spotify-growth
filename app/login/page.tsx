@@ -52,6 +52,12 @@ export default function LoginPage() {
         </button>
 
         {message && <p className="mt-4 text-center text-green-400">{message}</p>}
+        <p style={{textAlign:'center', marginTop:'20px', color:'#aaa'}}>
+  Pas de compte ?{' '}
+  <a href="/inscription" style={{color:'#9B59B6', fontWeight:'bold'}}>
+    S'inscrire
+  </a>
+</p>
       </div>
     </main>
   );
