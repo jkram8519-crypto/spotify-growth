@@ -297,6 +297,98 @@ const generateContenu = async () => {
   <div id="calendar-result" style={{display:'none'}} className="mt-4"></div>
 </div>
       </div>
+      {/* ANALYTICS IA */}
+<div className="bg-zinc-900 p-8 rounded-3xl mt-8 col-span-2">
+  <h2 className="text-2xl font-bold mb-2">📊 Analytics IA</h2>
+  <p className="text-zinc-400 mb-6">Entre tes stats Spotify et l'IA te donne des recommandations actionnables</p>
+
+  <div className="grid md:grid-cols-2 gap-4 mb-6">
+    <div>
+      <label className="text-zinc-400 text-sm mb-1 block">Taux de save (%)</label>
+      <input id="save-rate" type="number" placeholder="ex: 15" className="w-full bg-zinc-800 p-3 rounded-xl text-white placeholder-zinc-500"/>
+    </div>
+    <div>
+      <label className="text-zinc-400 text-sm mb-1 block">Skip rate (%)</label>
+      <input id="skip-rate" type="number" placeholder="ex: 45" className="w-full bg-zinc-800 p-3 rounded-xl text-white placeholder-zinc-500"/>
+    </div>
+    <div>
+      <label className="text-zinc-400 text-sm mb-1 block">Replay rate (%)</label>
+      <input id="replay-rate" type="number" placeholder="ex: 25" className="w-full bg-zinc-800 p-3 rounded-xl text-white placeholder-zinc-500"/>
+    </div>
+    <div>
+      <label className="text-zinc-400 text-sm mb-1 block">Durée d'écoute moyenne (secondes)</label>
+      <input id="listen-time" type="number" placeholder="ex: 45" className="w-full bg-zinc-800 p-3 rounded-xl text-white placeholder-zinc-500"/>
+    </div>
+    <div>
+      <label className="text-zinc-400 text-sm mb-1 block">Pays principal</label>
+      <input id="main-country" type="text" placeholder="ex: France" className="w-full bg-zinc-800 p-3 rounded-xl text-white placeholder-zinc-500"/>
+    </div>
+    <div>
+      <label className="text-zinc-400 text-sm mb-1 block">Durée totale du track (secondes)</label>
+      <input id="track-duration" type="number" placeholder="ex: 180" className="w-full bg-zinc-800 p-3 rounded-xl text-white placeholder-zinc-500"/>
+    </div>
+  </div>
+
+  <button
+    className="bg-blue-600 hover:bg-blue-500 text-white px-6 py-3 rounded-xl font-bold w-full mb-6"
+    onClick={() => {
+      const saveRate = parseInt((document.getElementById('save-rate') as HTMLInputElement).value) || 0;
+      const skipRate = parseInt((document.getElementById('skip-rate') as HTMLInputElement).value) || 0;
+      const replayRate = parseInt((document.getElementById('replay-rate') as HTMLInputElement).value) || 0;
+      const listenTime = parseInt((document.getElementById('listen-time') as HTMLInputElement).value) || 0;
+      const mainCountry = (document.getElementById('main-country') as HTMLInputElement).value || 'France';
+      const trackDuration = parseInt((document.getElementById('track-duration') as HTMLInputElement).value) || 180;
+
+      const recommendations = [];
+
+      if (saveRate < 10) {
+        recommendations.push({type:'🔴', title:'Taux de save trop bas', desc:`Seulement ${saveRate}% de saves. Les auditeurs n'accrochent pas. Rends ton hook plus mémorable dans les 30 premières secondes.`, action:'Raccourcis ton intro et place ton meilleur moment avant 30 secondes.'});
+      } else if (saveRate >= 20) {
+        recommendations.push({type:'🟢', title:'Excellent taux de save !', desc:`${saveRate}% de saves — tu as un vrai fan base. Capitalise sur cette audience.`, action:'Lance une campagne de pré-save pour ton prochain track.'});
+      } else {
+        recommendations.push({type:'🟡', title:'Taux de save correct', desc:`${saveRate}% de saves — c'est dans la moyenne. Tu peux faire mieux !`, action:'Ajoute un call-to-action dans tes posts : "Sauvegarde ce track !"'});
+      }
+
+      if (skipRate > 50) {
+        recommendations.push({type:'🔴', title:'Skip rate élevé', desc:`${skipRate}% des auditeurs skippent ton track. Quelque chose les fait décrocher.`, action:'Analyse où ils quittent et raccourcis cette partie. L\'intro est souvent trop longue.'});
+      } else if (skipRate < 20) {
+        recommendations.push({type:'🟢', title:'Excellent engagement !', desc:`Seulement ${skipRate}% de skips. Les gens écoutent jusqu\'au bout !`, action:'Ce track est parfait pour les playlists algorithmiques Spotify.'});
+      }
+
+      if (replayRate > 30) {
+        recommendations.push({type:'🟢', title:'Moment viral détecté !', desc:`${replayRate}% de replay rate — il y a un moment que les gens réécoutent.`, action:'Identifie ce moment exact et utilise-le comme extrait TikTok. C\'est ton hook viral !'});
+      }
+
+      if (listenTime < trackDuration * 0.3) {
+        recommendations.push({type:'🔴', title:'Écoute trop courte', desc:`Les auditeurs écoutent seulement ${listenTime}s sur ${trackDuration}s. Ils partent trop tôt.`, action:`Ton drop ou refrain arrive trop tard. Place-le avant ${Math.round(trackDuration * 0.2)}s.`});
+      } else if (listenTime > trackDuration * 0.7) {
+        recommendations.push({type:'🟢', title:'Excellente rétention !', desc:`Les auditeurs écoutent ${listenTime}s — plus de 70% du track !`, action:'Parfait pour les playlists algorithmiques. Soumet ce track à Spotify Editorial.'});
+      }
+
+      if (mainCountry.toLowerCase() !== 'france') {
+        recommendations.push({type:'🟡', title:`Audience principale : ${mainCountry}`, desc:`Ton audience principale n\'est pas en France mais en ${mainCountry}.`, action:`Cible les playlists de ${mainCountry} et lance des ads géolocalisées dans ce pays.`});
+      }
+
+      const container = document.getElementById('analytics-result');
+      if (!container) return;
+      container.innerHTML = `
+        <p class="text-blue-400 font-bold mb-4">✅ Analyse IA complète — ${recommendations.length} recommandations</p>
+        ${recommendations.map(r => `
+          <div class="bg-zinc-800 p-4 rounded-xl mb-3 border-l-4 ${r.type==='🔴'?'border-red-500':r.type==='🟢'?'border-green-500':'border-yellow-500'}">
+            <p class="font-bold mb-1">${r.type} ${r.title}</p>
+            <p class="text-zinc-400 text-sm mb-2">${r.desc}</p>
+            <p class="text-blue-400 text-sm font-medium">✅ Action : ${r.action}</p>
+          </div>
+        `).join('')}
+      `;
+      container.style.display = 'block';
+    }}
+  >
+    🔍 Analyser mes performances
+  </button>
+
+  <div id="analytics-result" style={{display:'none'}}></div>
+</div>
     </main>
   );
 }
