@@ -94,7 +94,7 @@ const generateContenu = async () => {
       <a href="/pricing" className="bg-purple-600 text-white px-3 py-1 rounded-full text-xs font-bold hover:bg-purple-500">Upgrade Pro</a>
     </div>
     <p className="text-zinc-400 text-sm hidden md:block">{user?.email}</p>
-    <button onClick={handleDeconnexion} className="text-zinc-500 hover:text-red-400 text-xs transition-all">Déconnexion</button>
+    <button onClick={async () => { await supabase.auth.signOut(); window.location.href = '/login'; }} className="text-zinc-500 hover:text-red-400 text-xs transition-all">Déconnexion</button>
   </div>
 </nav>  
 
