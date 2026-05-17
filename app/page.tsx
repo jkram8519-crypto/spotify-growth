@@ -55,7 +55,7 @@ export default function LandingPage() {
             {emoji:'🚀',title:'Pitch Generator IA',desc:"Génère des pitches professionnels pour les curateurs de playlist en quelques secondes."},
             {emoji:'🗓️',title:'Manager IA — Calendrier',desc:"Entre ta date de sortie et l'IA génère automatiquement tout ton planning sur 44 jours."},
             {emoji:'🎯',title:'Playlist Finder',desc:"Trouve les playlists parfaites pour ton genre et contacte les curateurs directement."},
-            {emoji:'📊',title:'Analytics',desc:"Suis tes streams, saves et performances en temps réel depuis ton dashboard."},
+            {emoji:'📊',title:'Analytics IA',desc:"Entre tes stats Spotify et l'IA analyse ton taux de save, skip rate et te donne des actions concrètes."},
             {emoji:'📱',title:'Contenu Réseaux Sociaux',desc:"Génère du contenu optimisé pour Instagram, TikTok, Twitter et email en un clic."},
             {emoji:'🤖',title:'IA Avancée',desc:"Propulsé par l'intelligence artificielle pour des résultats professionnels garantis."},
           ].map((f,i) => (
