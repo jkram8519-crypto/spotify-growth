@@ -80,10 +80,23 @@ const generateContenu = async () => {
   };
   return (
     <main className="min-h-screen bg-black text-white">
-      <nav className="flex items-center justify-between p-6 border-b border-zinc-800">
-        <h1 className="text-2xl font-bold">🎵 Spotify Growth</h1>
-        <p className="text-zinc-400 text-sm">{user?.email}</p>
-      </nav>
+  <nav className="flex items-center justify-between p-4 border-b border-zinc-800 bg-black sticky top-0 z-50">
+  <div className="flex items-center gap-3">
+    <img src="/spotify-growth-icon.png" alt="Logo" style={{width:'36px',height:'36px',borderRadius:'10px'}}/>
+    <div>
+      <h1 className="text-lg font-bold text-white">Spotify Growth</h1>
+      <p className="text-zinc-500 text-xs">Dashboard Artiste</p>
+    </div>
+  </div>
+  <div className="flex items-center gap-4">
+    <div className="hidden md:flex gap-2">
+      <span className="bg-purple-900 text-purple-300 px-3 py-1 rounded-full text-xs font-bold">Plan Free</span>
+      <a href="/pricing" className="bg-purple-600 text-white px-3 py-1 rounded-full text-xs font-bold hover:bg-purple-500">Upgrade Pro</a>
+    </div>
+    <p className="text-zinc-400 text-sm hidden md:block">{user?.email}</p>
+    <button onClick={handleDeconnexion} className="text-zinc-500 hover:text-red-400 text-xs transition-all">Déconnexion</button>
+  </div>
+</nav>  
 
       <div className="max-w-6xl mx-auto p-8">
         <div className="grid md:grid-cols-3 gap-6 mb-10">
