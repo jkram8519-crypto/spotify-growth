@@ -299,7 +299,6 @@ const generateContenu = async () => {
   
   <div id="calendar-result" style={{display:'none'}} className="mt-4"></div>
 </div>
-      </div>
       {/* ANALYTICS IA */}
 <div className="bg-zinc-900 p-8 rounded-3xl mt-8 col-span-2">
   <h2 className="text-2xl font-bold mb-2">📊 Analytics IA</h2>
