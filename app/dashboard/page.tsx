@@ -226,6 +226,76 @@ const generateContenu = async () => {
             </>
           )}
         </div>
+        {/* MANAGER IA - CALENDRIER DE SORTIE */}
+<div className="bg-zinc-900 p-8 rounded-3xl mt-8 col-span-2">
+  <h2 className="text-2xl font-bold mb-2">🗓️ Manager IA — Calendrier de Sortie</h2>
+  <p className="text-zinc-400 mb-6">Entre ta date de sortie et l'IA génère tout ton planning automatiquement</p>
+  
+  <div className="flex gap-4 mb-6 flex-wrap">
+    <input
+      type="text"
+      className="bg-zinc-800 p-3 rounded-xl text-white placeholder-zinc-500 flex-1"
+      placeholder="Nom du track (ex: Pulse)"
+      id="track-name-cal"
+    />
+    <input
+      type="date"
+      className="bg-zinc-800 p-3 rounded-xl text-white flex-1"
+      id="release-date"
+    />
+    <button
+      className="bg-purple-600 hover:bg-purple-500 text-white px-6 py-3 rounded-xl font-bold"
+      onClick={() => {
+        const trackName = (document.getElementById('track-name-cal') as HTMLInputElement).value;
+        const releaseDate = (document.getElementById('release-date') as HTMLInputElement).value;
+        if (!trackName || !releaseDate) return;
+        
+        const release = new Date(releaseDate);
+        const format = (d: Date) => d.toLocaleDateString('fr-FR', {day:'numeric',month:'long'});
+        const addDays = (d: Date, n: number) => { const r = new Date(d); r.setDate(r.getDate()+n); return r; };
+        
+        const calendar = [
+          {day: -30, emoji: '🎭', action: `Teaser mystère sur Instagram pour "${trackName}"`},
+          {day: -21, emoji: '📢', action: `Annonce officielle du titre "${trackName}"`},
+          {day: -14, emoji: '🎯', action: `Envoyer le pitch aux curateurs Spotify`},
+          {day: -10, emoji: '🎵', action: `Premier extrait TikTok (15 secondes)`},
+          {day: -7,  emoji: '📮', action: `Soumission Spotify Editorial Playlist`},
+          {day: -5,  emoji: '🎬', action: `Deuxième TikTok (making of)`},
+          {day: -3,  emoji: '⏰', action: `Story countdown Instagram`},
+          {day: -2,  emoji: '💾', action: `Lancer les pré-saves`},
+          {day: -1,  emoji: '🔥', action: `Teaser final 30 secondes`},
+          {day:  0,  emoji: '🚀', action: `SORTIE DE "${trackName}" — Poster sur tous les réseaux !`},
+          {day:  1,  emoji: '📱', action: `TikTok/Reels reaction à la sortie`},
+          {day:  3,  emoji: '💰', action: `Lancer les ads Facebook/Instagram`},
+          {day:  7,  emoji: '📊', action: `Bilan des streams et ajuster la stratégie`},
+          {day: 14,  emoji: '🔄', action: `Relance avec nouveau contenu`},
+        ];
+        
+        const container = document.getElementById('calendar-result');
+        if (!container) return;
+        container.innerHTML = `
+          <p class="text-purple-400 font-bold mb-4">✅ Calendrier généré pour "${trackName}" — Sortie le ${format(release)}</p>
+          ${calendar.map(item => {
+            const date = addDays(release, item.day);
+            const isToday = item.day === 0;
+            return `<div class="flex items-start gap-3 mb-3 p-3 rounded-xl ${isToday ? 'bg-purple-900 border border-purple-500' : 'bg-zinc-800'}">
+              <span class="text-2xl">${item.emoji}</span>
+              <div>
+                <p class="text-zinc-400 text-xs">${item.day === 0 ? '🎯 JOUR J' : item.day > 0 ? `J+${item.day}` : `J${item.day}`} — ${format(date)}</p>
+                <p class="text-white text-sm font-medium">${item.action}</p>
+              </div>
+            </div>`;
+          }).join('')}
+        `;
+        container.style.display = 'block';
+      }}
+    >
+      🗓️ Générer le planning
+    </button>
+  </div>
+  
+  <div id="calendar-result" style={{display:'none'}} className="mt-4"></div>
+</div>
       </div>
     </main>
   );
