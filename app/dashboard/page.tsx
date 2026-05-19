@@ -569,11 +569,11 @@ const generateContenu = async () => {
         </div>
         <div class="mt-4 p-4 bg-zinc-800 rounded-xl">
           <p class="text-zinc-400 text-sm font-bold mb-2">💡 Pour améliorer ton score :</p>
-          ${score < 70 ? `
+         ${score < 70 ? '<p class="text-yellow-400 text-sm">→ Améliore ta présence sur les réseaux sociaux et soumets ton track aux curateurs Spotify</p>' : '<p class="text-green-400 text-sm">→ Continue comme ca ! Tu es sur la bonne voie 🚀</p>'}
             ${playlists === 0 ? '<p class="text-yellow-400 text-sm">→ Soumets ton track aux curateurs Spotify</p>' : ''}
             ${save < 10 ? '<p class="text-yellow-400 text-sm">→ Améliore ton hook dans les 30 premières secondes</p>' : ''}
             ${streams < 5000 ? '<p class="text-yellow-400 text-sm">→ Lance une campagne TikTok pour booster tes streams</p>' : ''}
-            ${social < 5 ? '<p
+            ${social < 5 ? '<
     </main>
   );
 }
