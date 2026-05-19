@@ -467,6 +467,62 @@ const generateContenu = async () => {
 
   <div id="playlist-result" style={{display:'none'}}></div>
 </div>
-    </main>
+  {/* GROWTH SCORE */}
+<div className="bg-zinc-900 p-8 rounded-3xl mt-8 col-span-2">
+  <h2 className="text-2xl font-bold mb-2">🎯 Growth Score</h2>
+  <p className="text-zinc-400 mb-6">Ton score de croissance Spotify sur 100</p>
+  <div className="grid md:grid-cols-2 gap-6 mb-6">
+    <div>
+      <label className="text-zinc-400 text-sm mb-1 block">Streams ce mois</label>
+      <input id="gs-streams" type="number" placeholder="ex: 5000" className="w-full bg-zinc-800 p-3 rounded-xl text-white placeholder-zinc-500"/>
+    </div>
+    <div>
+      <label className="text-zinc-400 text-sm mb-1 block">Followers Spotify</label>
+      <input id="gs-followers" type="number" placeholder="ex: 500" className="w-full bg-zinc-800 p-3 rounded-xl text-white placeholder-zinc-500"/>
+    </div>
+    <div>
+      <label className="text-zinc-400 text-sm mb-1 block">Nombre de playlists</label>
+      <input id="gs-playlists" type="number" placeholder="ex: 3" className="w-full bg-zinc-800 p-3 rounded-xl text-white placeholder-zinc-500"/>
+    </div>
+    <div>
+      <label className="text-zinc-400 text-sm mb-1 block">Taux de save (%)</label>
+      <input id="gs-save" type="number" placeholder="ex: 15" className="w-full bg-zinc-800 p-3 rounded-xl text-white placeholder-zinc-500"/>
+    </div>
+    <div>
+      <label className="text-zinc-400 text-sm mb-1 block">Sorties ce mois</label>
+      <input id="gs-releases" type="number" placeholder="ex: 1" className="w-full bg-zinc-800 p-3 rounded-xl text-white placeholder-zinc-500"/>
+    </div>
+    <div>
+      <label className="text-zinc-400 text-sm mb-1 block">Presence reseaux (1-10)</label>
+      <input id="gs-social" type="number" placeholder="ex: 7" min="1" max="10" className="w-full bg-zinc-800 p-3 rounded-xl text-white placeholder-zinc-500"/>
+    </div>
+  </div>
+  <button className="bg-purple-600 text-white px-6 py-3 rounded-xl font-bold w-full mb-6"
+    onClick={() => {
+      const streams = parseInt((document.getElementById('gs-streams') as HTMLInputElement).value) || 0;
+      const followers = parseInt((document.getElementById('gs-followers') as HTMLInputElement).value) || 0;
+      const playlists = parseInt((document.getElementById('gs-playlists') as HTMLInputElement).value) || 0;
+      const save = parseInt((document.getElementById('gs-save') as HTMLInputElement).value) || 0;
+      const releases = parseInt((document.getElementById('gs-releases') as HTMLInputElement).value) || 0;
+      const social = parseInt((document.getElementById('gs-social') as HTMLInputElement).value) || 0;
+      let score = 0;
+      if (streams > 10000) score += 20; else if (streams > 5000) score += 15; else if (streams > 1000) score += 10; else score += 5;
+      if (followers > 1000) score += 20; else if (followers > 500) score += 15; else if (followers > 100) score += 10; else score += 5;
+      if (playlists > 10) score += 20; else if (playlists > 5) score += 15; else if (playlists > 0) score += 10;
+      if (save > 20) score += 20; else if (save > 10) score += 15; else if (save > 5) score += 10; else score += 5;
+      if (releases >= 2) score += 10; else if (releases === 1) score += 7;
+      score += Math.min(social, 10);
+      const scoreColor = score >= 70 ? 'color:#1DB954' : score >= 40 ? 'color:#f39c12' : 'color:#e74c3c';
+      const scoreLabel = score >= 70 ? 'Excellent 🚀' : score >= 40 ? 'En progression 📈' : 'A ameliorer ⚠️';
+      const scoreTip = score >= 70 ? 'Continue comme ca, tu es sur la bonne voie!' : 'Soumets ton track aux curateurs et ameliore ta presence sur les reseaux.';
+      const container = document.getElementById('growth-score-result');
+      if (!container) return;
+      container.innerHTML = '<div style="text-align:center;margin-bottom:20px"><div style="font-size:96px;font-weight:bold;' + scoreColor + '">' + score + '</div><div style="color:#aaa">/100</div><div style="font-size:24px;margin-top:8px">' + scoreLabel + '</div></div><div style="background:#27272a;padding:15px;border-radius:12px"><p style="color:#aaa;font-size:14px">Conseil : ' + scoreTip + '</p></div>';
+      container.style.display = 'block';
+    }}>
+    🎯 Calculer mon Growth Score
+  </button>
+  <div id="growth-score-result" style={{display:'none'}}></div>
+</div>  </main>
   );
 }
