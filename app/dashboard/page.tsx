@@ -686,6 +686,60 @@ const generateContenu = async () => {
   </button>
   <div id="profile-result" style={{display:'none'}}></div>
 </div>
+</div>{/* IA ASSISTANT MUSIC MARKETING */}
+<div className="bg-zinc-900 p-8 rounded-3xl mt-8 col-span-2">
+  <h2 className="text-2xl font-bold mb-2">🤖 IA Assistant Music Marketing</h2>
+  <p className="text-zinc-400 mb-6">Pose n'importe quelle question sur ta carrière musicale — l'IA te répond comme un vrai manager</p>
+  <div className="mb-4">
+    <div className="flex gap-2 flex-wrap mb-4">
+      {[
+        'Comment pitcher sur Spotify ?',
+        'Comment choisir ma date de sortie ?',
+        'Comment faire une campagne TikTok ?',
+        'Comment trouver des playlists ?',
+        'Comment augmenter mes streams ?',
+      ].map((q, i) => (
+        <button key={i}
+          className="bg-zinc-800 text-zinc-300 px-3 py-2 rounded-xl text-sm hover:bg-purple-900 transition-all"
+          onClick={() => {
+            const input = document.getElementById('ai-question') as HTMLTextAreaElement;
+            if (input) input.value = q;
+          }}>
+          {q}
+        </button>
+      ))}
+    </div>
+    <textarea
+      id="ai-question"
+      placeholder="Ex: Comment je peux obtenir plus de placements en playlist ? Mon genre est l'electronic et j'ai 500 streams..."
+      className="w-full bg-zinc-800 p-4 rounded-xl text-white placeholder-zinc-500 resize-none"
+      rows={4}
+    />
+  </div>
+  <button
+    className="bg-gradient-to-r from-purple-600 to-blue-600 text-white px-6 py-3 rounded-xl font-bold w-full mb-6"
+    onClick={async () => {
+      const question = (document.getElementById('ai-question') as HTMLTextAreaElement).value;
+      if (!question) return;
+      const container = document.getElementById('ai-response');
+      if (!container) return;
+      container.innerHTML = '<p style="color:#9B59B6">🤖 L\'IA analyse ta question...</p>';
+      container.style.display = 'block';
+      try {
+        const response = await fetch('/api/assistant', {
+          method: 'POST',
+          headers: {'Content-Type': 'application/json'},
+          body: JSON.stringify({question})
+        });
+        const data = await response.json();
+        container.innerHTML = '<div style="background:#1a0030;padding:20px;border-radius:12px;border:1px solid #9B59B6"><p style="color:#9B59B6;font-weight:bold;margin-bottom:10px">🤖 Spotlift IA Manager</p><p style="color:#ccc;line-height:1.8;white-space:pre-wrap">' + data.response + '</p></div>';
+      } catch(e) {
+        container.innerHTML = '<p style="color:#e74c3c">Erreur — verifie ta connexion</p>';
+      }
+    }}>
+    🤖 Demander à l'IA Manager
+  </button>
+  <div id="ai-response" style={{display:'none'}}></div>
 </div>
 </div>  </main>
   );
