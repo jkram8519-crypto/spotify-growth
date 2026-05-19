@@ -573,7 +573,7 @@ const generateContenu = async () => {
             ${playlists === 0 ? '<p class="text-yellow-400 text-sm">→ Soumets ton track aux curateurs Spotify</p>' : ''}
             ${save < 10 ? '<p class="text-yellow-400 text-sm">→ Améliore ton hook dans les 30 premières secondes</p>' : ''}
             ${streams < 5000 ? '<p class="text-yellow-400 text-sm">→ Lance une campagne TikTok pour booster tes streams</p>' : ''}
-            ${social < 5 ? '<
+            ${score < 70 ? '<p class="text-yellow-400 text-sm">Ameliore ta presence sur les reseaux et soumets ton track aux curateurs</p>' : '<p class="text-green-400 text-sm">Continue comme ca, tu es sur la bonne voie!</p>'}
     </main>
   );
 }
