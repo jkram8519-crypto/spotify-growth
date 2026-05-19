@@ -526,7 +526,14 @@ const generateContenu = async () => {
   <div id="growth-score-result" style={{display:'none'}}></div>
 </div>
 
-    </div>
+      container.innerHTML = `<div style="text-align:center;margin-bottom:20px"><div style="font-size:96px;font-weight:bold;color:${color}">${score}</div><div style="color:#aaa">/100</div><div style="font-size:24px;margin-top:8px">${label}</div></div><div style="background:#27272a;padding:15px;border-radius:12px"><p style="color:#aaa;font-size:14px">Conseil : ${tip}</p></div>`;
+      container.style.display = 'block';
+    }}>
+    Calculer mon Growth Score
+  </button>
+  <div id="growth-score-result" style={{display:'none'}}></div>
+</div>
+  </div>
   </main>
   );
 }
