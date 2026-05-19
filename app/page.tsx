@@ -21,7 +21,7 @@ export default function LandingPage() {
           <span style={{color:'#9B59B6'}}>croissance Spotify</span>
         </h2>
         <p style={{color:'#aaa',fontSize:'18px',maxWidth:'600px',margin:'20px auto 40px'}}>
-          Génère des pitches, planifie tes sorties et crée du contenu — tout automatisé par l'IA.
+          Pitches IA, Manager de sortie, Analytics et bien plus — tout en un pour les artistes indépendants.
         </p>
         <div style={{display:'flex',gap:'15px',justifyContent:'center',flexWrap:'wrap'}}>
           <a href="/login" style={{background:'#9B59B6',color:'#fff',padding:'16px 30px',borderRadius:'30px',textDecoration:'none',fontWeight:'bold',fontSize:'16px'}}>
@@ -38,7 +38,7 @@ export default function LandingPage() {
           {value:'500+',label:'Artistes actifs'},
           {value:'10k+',label:'Pitches générés'},
           {value:'3x',label:'Plus de streams'},
-          {value:'€9.99',label:'Par mois seulement'},
+          {value:'9',label:'Fonctionnalités IA'},
         ].map((s,i) => (
           <div key={i} style={{textAlign:'center',minWidth:'120px'}}>
             <p style={{fontSize:'36px',fontWeight:'bold',color:'#9B59B6',margin:'0 0 8px 0'}}>{s.value}</p>
@@ -48,19 +48,22 @@ export default function LandingPage() {
       </section>
 
       <section id="features" style={{padding:'80px 20px'}}>
-        <h2 style={{textAlign:'center',fontSize:'36px',fontWeight:'bold',marginBottom:'20px'}}>Tout ce dont tu as besoin</h2>
-        <p style={{textAlign:'center',color:'#aaa',marginBottom:'40px',fontSize:'16px'}}>Des outils professionnels à prix accessible</p>
-        <div style={{display:'grid',gridTemplateColumns:'repeat(auto-fit, minmax(280px, 1fr))',gap:'20px',maxWidth:'1000px',margin:'0 auto'}}>
+        <h2 style={{textAlign:'center',fontSize:'36px',fontWeight:'bold',marginBottom:'20px'}}>9 outils IA puissants</h2>
+        <p style={{textAlign:'center',color:'#aaa',marginBottom:'40px',fontSize:'16px'}}>Tout ce dont un artiste indépendant a besoin</p>
+        <div style={{display:'grid',gridTemplateColumns:'repeat(auto-fit, minmax(280px, 1fr))',gap:'20px',maxWidth:'1100px',margin:'0 auto'}}>
           {[
-            {emoji:'🚀',title:'Pitch Generator IA',desc:"Génère des pitches professionnels pour les curateurs de playlist en quelques secondes."},
-            {emoji:'🗓️',title:'Manager IA — Calendrier',desc:"Entre ta date de sortie et l'IA génère automatiquement tout ton planning sur 44 jours."},
-            {emoji:'🎯',title:'Playlist Finder',desc:"Trouve les playlists parfaites pour ton genre et contacte les curateurs directement."},
-            {emoji:'📊',title:'Analytics IA',desc:"Entre tes stats Spotify et l'IA analyse ton taux de save, skip rate et te donne des actions concrètes."},
-            {emoji:'📱',title:'Contenu Réseaux Sociaux',desc:"Génère du contenu optimisé pour Instagram, TikTok, Twitter et email en un clic."},
-            {emoji:'🤖',title:'IA Avancée',desc:"Propulsé par l'intelligence artificielle pour des résultats professionnels garantis."},
+            {emoji:'🚀',title:'Pitch Generator IA',desc:"Génère des pitches professionnels pour les curateurs en 10 secondes.",badge:''},
+            {emoji:'🗓️',title:'Manager IA',desc:"Planifie automatiquement ta sortie sur 44 jours — de J-30 à J+14.",badge:'NOUVEAU'},
+            {emoji:'🎯',title:'Playlist Finder',desc:"Trouve les playlists parfaites avec un score de compatibilité.",badge:''},
+            {emoji:'📊',title:'Analytics IA',desc:"Analyse ton taux de save, skip rate et te donne des actions concrètes.",badge:''},
+            {emoji:'📱',title:'Contenu Réseaux Sociaux',desc:"Génère du contenu optimisé pour Instagram, TikTok, Twitter.",badge:''},
+            {emoji:'🎯',title:'Growth Score',desc:"Calcule ton score de croissance Spotify sur 100 points.",badge:'NOUVEAU'},
+            {emoji:'🔥',title:'Détection Viral Potentiel',desc:"Analyse ton track et détecte son potentiel viral sur TikTok.",badge:'NOUVEAU'},
+            {emoji:'🎨',title:'Optimisation Profil',desc:"Analyse ton profil Spotify et optimise chaque élément.",badge:'NOUVEAU'},
+            {emoji:'💬',title:'Feedback Artiste',desc:"Donne ton avis et aide à améliorer l'app continuellement.",badge:''},
           ].map((f,i) => (
-            <div key={i} style={{background:'#0d0020',padding:'30px',borderRadius:'20px',border: i===1 ? '2px solid #9B59B6' : '1px solid #2d1040'}}>
-              {i===1 && <div style={{background:'#9B59B6',color:'white',borderRadius:'10px',padding:'2px 10px',fontSize:'11px',fontWeight:'bold',display:'inline-block',marginBottom:'10px'}}>NOUVEAU ✨</div>}
+            <div key={i} style={{background:'#0d0020',padding:'30px',borderRadius:'20px',border: f.badge ? '2px solid #9B59B6' : '1px solid #2d1040'}}>
+              {f.badge && <div style={{background:'#9B59B6',color:'white',borderRadius:'10px',padding:'2px 10px',fontSize:'11px',fontWeight:'bold',display:'inline-block',marginBottom:'10px'}}>{f.badge} ✨</div>}
               <p style={{fontSize:'40px',margin:'0 0 15px 0'}}>{f.emoji}</p>
               <h3 style={{fontSize:'18px',fontWeight:'bold',margin:'0 0 10px 0'}}>{f.title}</h3>
               <p style={{color:'#aaa',lineHeight:'1.6',margin:0,fontSize:'14px'}}>{f.desc}</p>
@@ -70,38 +73,12 @@ export default function LandingPage() {
       </section>
 
       <section style={{background:'#0d0020',padding:'80px 20px'}}>
-        <h2 style={{textAlign:'center',fontSize:'36px',fontWeight:'bold',marginBottom:'20px'}}>🗓️ Manager IA en action</h2>
-        <p style={{textAlign:'center',color:'#aaa',marginBottom:'40px'}}>Exemple de calendrier généré pour une sortie le 21 mai</p>
-        <div style={{maxWidth:'600px',margin:'0 auto'}}>
-          {[
-            {day:'J-30',emoji:'🎭',action:'Teaser mystère sur Instagram'},
-            {day:'J-14',emoji:'🎯',action:'Envoyer le pitch aux curateurs Spotify'},
-            {day:'J-7',emoji:'📮',action:'Soumission Spotify Editorial Playlist'},
-            {day:'JOUR J',emoji:'🚀',action:'SORTIE — Poster sur tous les réseaux !',highlight:true},
-            {day:'J+3',emoji:'💰',action:'Lancer les ads Facebook/Instagram'},
-            {day:'J+14',emoji:'🔄',action:'Relance avec nouveau contenu'},
-          ].map((item,i) => (
-            <div key={i} style={{display:'flex',alignItems:'center',gap:'15px',padding:'15px',borderRadius:'12px',marginBottom:'10px',background: item.highlight ? '#2d1040' : '#1a0030',border: item.highlight ? '1px solid #9B59B6' : '1px solid #2d1040'}}>
-              <span style={{fontSize:'24px'}}>{item.emoji}</span>
-              <div>
-                <p style={{color:'#9B59B6',fontSize:'12px',margin:0,fontWeight:'bold'}}>{item.day}</p>
-                <p style={{color:'white',fontSize:'14px',margin:0}}>{item.action}</p>
-              </div>
-            </div>
-          ))}
-        </div>
-        <div style={{textAlign:'center',marginTop:'30px'}}>
-          <a href="/login" style={{background:'#9B59B6',color:'#fff',padding:'14px 30px',borderRadius:'25px',textDecoration:'none',fontWeight:'bold'}}>Essayer gratuitement →</a>
-        </div>
-      </section>
-
-      <section style={{background:'#0d0020',padding:'80px 20px'}}>
         <h2 style={{textAlign:'center',fontSize:'36px',fontWeight:'bold',marginBottom:'40px'}}>Ce qu'ils en disent</h2>
         <div style={{display:'grid',gridTemplateColumns:'repeat(auto-fit, minmax(280px, 1fr))',gap:'20px',maxWidth:'1000px',margin:'0 auto'}}>
           {[
             {text:'"En 2 semaines j\'ai eu 3 placements en playlist. Incroyable !"',name:'Alex M.',role:'Producteur'},
             {text:'"Le Manager IA m\'a sauvé la vie pour ma dernière sortie. Tout était planifié !"',name:'Sarah K.',role:'Artiste'},
-            {text:'"J\'ai multiplié mes streams par 3 en un mois."',name:'DJ Marco',role:'DJ'},
+            {text:'"Mon Growth Score est passé de 45 à 78 en un mois grâce aux conseils IA !"',name:'DJ Marco',role:'DJ'},
           ].map((t,i) => (
             <div key={i} style={{background:'#000',padding:'30px',borderRadius:'20px',border:'1px solid #2d1040'}}>
               <p style={{color:'#ccc',lineHeight:'1.7',margin:'0 0 20px 0',fontStyle:'italic'}}>{t.text}</p>
@@ -131,13 +108,13 @@ export default function LandingPage() {
             <p style={{background:'rgba(255,255,255,0.2)',borderRadius:'15px',padding:'4px 12px',display:'inline-block',marginBottom:'10px',fontSize:'12px',fontWeight:'bold'}}>⭐ POPULAIRE</p>
             <h3 style={{fontSize:'24px',marginBottom:'8px'}}>Pro</h3>
             <p style={{fontSize:'40px',fontWeight:'bold',marginBottom:'5px'}}>€9.99<span style={{fontSize:'16px'}}>/mois</span></p>
-            <p style={{marginBottom:'20px'}}>✅ Playlist Finder • ✅ Manager IA • ✅ AI avancée</p>
+            <p style={{marginBottom:'20px'}}>✅ Playlist Finder • ✅ Manager IA • ✅ Growth Score • ✅ AI avancée</p>
             <a href="/login" style={{display:'block',background:'#fff',color:'#6C3483',padding:'14px',borderRadius:'12px',textDecoration:'none',textAlign:'center',fontWeight:'bold'}}>Commencer Pro</a>
           </div>
           <div style={{background:'#0d0020',padding:'35px',borderRadius:'24px',border:'1px solid #2d1040',textAlign:'left'}}>
             <h3 style={{fontSize:'24px',marginBottom:'8px'}}>Pro+</h3>
             <p style={{fontSize:'40px',fontWeight:'bold',marginBottom:'5px'}}>€19.99<span style={{fontSize:'16px'}}>/mois</span></p>
-            <p style={{color:'#ccc',marginBottom:'20px'}}>✅ Spotify Analytics • ✅ Growth AI • ✅ Marketing Auto</p>
+            <p style={{color:'#ccc',marginBottom:'20px'}}>✅ Viral Potentiel • ✅ Optimisation Profil • ✅ Analytics IA • ✅ Tout illimité</p>
             <a href="/login" style={{display:'block',background:'#9B59B6',color:'#fff',padding:'14px',borderRadius:'12px',textDecoration:'none',textAlign:'center',fontWeight:'bold'}}>Commencer Pro+</a>
           </div>
         </div>
