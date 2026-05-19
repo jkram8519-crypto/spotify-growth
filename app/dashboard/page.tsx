@@ -467,6 +467,113 @@ const generateContenu = async () => {
 
   <div id="playlist-result" style={{display:'none'}}></div>
 </div>
+{/* GROWTH SCORE */}
+<div className="bg-zinc-900 p-8 rounded-3xl mt-8 col-span-2">
+  <h2 className="text-2xl font-bold mb-2">🎯 Growth Score</h2>
+  <p className="text-zinc-400 mb-6">Ton score de croissance Spotify sur 100</p>
+
+  <div className="grid md:grid-cols-2 gap-6 mb-6">
+    <div>
+      <label className="text-zinc-400 text-sm mb-1 block">Nombre de streams ce mois</label>
+      <input id="gs-streams" type="number" placeholder="ex: 5000" className="w-full bg-zinc-800 p-3 rounded-xl text-white placeholder-zinc-500"/>
+    </div>
+    <div>
+      <label className="text-zinc-400 text-sm mb-1 block">Nombre de followers Spotify</label>
+      <input id="gs-followers" type="number" placeholder="ex: 500" className="w-full bg-zinc-800 p-3 rounded-xl text-white placeholder-zinc-500"/>
+    </div>
+    <div>
+      <label className="text-zinc-400 text-sm mb-1 block">Nombre de playlists</label>
+      <input id="gs-playlists" type="number" placeholder="ex: 3" className="w-full bg-zinc-800 p-3 rounded-xl text-white placeholder-zinc-500"/>
+    </div>
+    <div>
+      <label className="text-zinc-400 text-sm mb-1 block">Taux de save (%)</label>
+      <input id="gs-save" type="number" placeholder="ex: 15" className="w-full bg-zinc-800 p-3 rounded-xl text-white placeholder-zinc-500"/>
+    </div>
+    <div>
+      <label className="text-zinc-400 text-sm mb-1 block">Sorties ce mois</label>
+      <input id="gs-releases" type="number" placeholder="ex: 1" className="w-full bg-zinc-800 p-3 rounded-xl text-white placeholder-zinc-500"/>
+    </div>
+    <div>
+      <label className="text-zinc-400 text-sm mb-1 block">Présence réseaux sociaux (1-10)</label>
+      <input id="gs-social" type="number" placeholder="ex: 7" min="1" max="10" className="w-full bg-zinc-800 p-3 rounded-xl text-white placeholder-zinc-500"/>
+    </div>
+  </div>
+
+  <button
+    className="bg-gradient-to-r from-purple-600 to-green-500 text-white px-6 py-3 rounded-xl font-bold w-full mb-6"
+    onClick={() => {
+      const streams = parseInt((document.getElementById('gs-streams') as HTMLInputElement).value) || 0;
+      const followers = parseInt((document.getElementById('gs-followers') as HTMLInputElement).value) || 0;
+      const playlists = parseInt((document.getElementById('gs-playlists') as HTMLInputElement).value) || 0;
+      const save = parseInt((document.getElementById('gs-save') as HTMLInputElement).value) || 0;
+      const releases = parseInt((document.getElementById('gs-releases') as HTMLInputElement).value) || 0;
+      const social = parseInt((document.getElementById('gs-social') as HTMLInputElement).value) || 0;
+
+      let score = 0;
+      const details = [];
+
+      // Streams
+      if (streams > 10000) { score += 20; details.push({label:'Streams excellents', pts:'+20', color:'text-green-400'}); }
+      else if (streams > 5000) { score += 15; details.push({label:'Bons streams', pts:'+15', color:'text-green-400'}); }
+      else if (streams > 1000) { score += 10; details.push({label:'Streams corrects', pts:'+10', color:'text-yellow-400'}); }
+      else { score += 5; details.push({label:'Streams faibles', pts:'+5', color:'text-red-400'}); }
+
+      // Followers
+      if (followers > 1000) { score += 20; details.push({label:'Audience solide', pts:'+20', color:'text-green-400'}); }
+      else if (followers > 500) { score += 15; details.push({label:'Bonne audience', pts:'+15', color:'text-green-400'}); }
+      else if (followers > 100) { score += 10; details.push({label:'Audience en croissance', pts:'+10', color:'text-yellow-400'}); }
+      else { score += 5; details.push({label:'Audience faible', pts:'+5', color:'text-red-400'}); }
+
+      // Playlists
+      if (playlists > 10) { score += 20; details.push({label:'Excellent placement playlist', pts:'+20', color:'text-green-400'}); }
+      else if (playlists > 5) { score += 15; details.push({label:'Bon placement playlist', pts:'+15', color:'text-green-400'}); }
+      else if (playlists > 0) { score += 10; details.push({label:'Quelques playlists', pts:'+10', color:'text-yellow-400'}); }
+      else { score += 0; details.push({label:'Aucune playlist', pts:'0', color:'text-red-400'}); }
+
+      // Save rate
+      if (save > 20) { score += 20; details.push({label:'Taux de save excellent', pts:'+20', color:'text-green-400'}); }
+      else if (save > 10) { score += 15; details.push({label:'Bon taux de save', pts:'+15', color:'text-green-400'}); }
+      else if (save > 5) { score += 10; details.push({label:'Taux de save correct', pts:'+10', color:'text-yellow-400'}); }
+      else { score += 5; details.push({label:'Taux de save faible', pts:'+5', color:'text-red-400'}); }
+
+      // Releases
+      if (releases >= 2) { score += 10; details.push({label:'Activité régulière', pts:'+10', color:'text-green-400'}); }
+      else if (releases === 1) { score += 7; details.push({label:'Une sortie ce mois', pts:'+7', color:'text-yellow-400'}); }
+      else { score += 0; details.push({label:'Aucune sortie', pts:'0', color:'text-red-400'}); }
+
+      // Social
+      const socialScore = Math.round(social);
+      score += socialScore;
+      details.push({label:'Présence réseaux sociaux', pts:`+${socialScore}`, color: social >= 7 ? 'text-green-400' : social >= 4 ? 'text-yellow-400' : 'text-red-400'});
+
+      const scoreColor = score >= 70 ? '#1DB954' : score >= 40 ? '#f39c12' : '#e74c3c';
+      const scoreLabel = score >= 70 ? '🚀 Excellent' : score >= 40 ? '📈 En progression' : '⚠️ À améliorer';
+
+      const container = document.getElementById('growth-score-result');
+      if (!container) return;
+      container.innerHTML = `
+        <div class="flex items-center justify-center mb-6">
+          <div class="text-center">
+            <div style="font-size:96px;font-weight:bold;color:${scoreColor};line-height:1;">${score}</div>
+            <div style="font-size:20px;color:#aaa;">/100</div>
+            <div style="font-size:24px;margin-top:8px;">${scoreLabel}</div>
+          </div>
+        </div>
+        <div class="grid gap-3">
+          ${details.map(d => `
+            <div class="bg-zinc-800 p-3 rounded-xl flex justify-between items-center">
+              <span class="text-white text-sm">${d.label}</span>
+              <span class="${d.color} font-bold">${d.pts} pts</span>
+            </div>
+          `).join('')}
+        </div>
+        <div class="mt-4 p-4 bg-zinc-800 rounded-xl">
+          <p class="text-zinc-400 text-sm font-bold mb-2">💡 Pour améliorer ton score :</p>
+          ${score < 70 ? `
+            ${playlists === 0 ? '<p class="text-yellow-400 text-sm">→ Soumets ton track aux curateurs Spotify</p>' : ''}
+            ${save < 10 ? '<p class="text-yellow-400 text-sm">→ Améliore ton hook dans les 30 premières secondes</p>' : ''}
+            ${streams < 5000 ? '<p class="text-yellow-400 text-sm">→ Lance une campagne TikTok pour booster tes streams</p>' : ''}
+            ${social < 5 ? '<p
     </main>
   );
 }
