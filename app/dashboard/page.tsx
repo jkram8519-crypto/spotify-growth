@@ -523,6 +523,88 @@ const generateContenu = async () => {
     🎯 Calculer mon Growth Score
   </button>
   <div id="growth-score-result" style={{display:'none'}}></div>
+  {/* DETECTION VIRAL POTENTIEL */}
+<div className="bg-zinc-900 p-8 rounded-3xl mt-8 col-span-2">
+  <h2 className="text-2xl font-bold mb-2">🔥 Détection Viral Potentiel</h2>
+  <p className="text-zinc-400 mb-6">Analyse ton track et détecte son potentiel viral sur TikTok et Spotify</p>
+  <div className="grid md:grid-cols-2 gap-6 mb-6">
+    <div>
+      <label className="text-zinc-400 text-sm mb-1 block">Durée de l'intro (secondes)</label>
+      <input id="vp-intro" type="number" placeholder="ex: 15" className="w-full bg-zinc-800 p-3 rounded-xl text-white placeholder-zinc-500"/>
+    </div>
+    <div>
+      <label className="text-zinc-400 text-sm mb-1 block">Durée avant le drop/refrain (secondes)</label>
+      <input id="vp-drop" type="number" placeholder="ex: 30" className="w-full bg-zinc-800 p-3 rounded-xl text-white placeholder-zinc-500"/>
+    </div>
+    <div>
+      <label className="text-zinc-400 text-sm mb-1 block">Tempo (BPM)</label>
+      <input id="vp-bpm" type="number" placeholder="ex: 128" className="w-full bg-zinc-800 p-3 rounded-xl text-white placeholder-zinc-500"/>
+    </div>
+    <div>
+      <label className="text-zinc-400 text-sm mb-1 block">Genre musical</label>
+      <select id="vp-genre" className="w-full bg-zinc-800 p-3 rounded-xl text-white">
+        <option value="pop">Pop</option>
+        <option value="hiphop">Hip-Hop / Rap</option>
+        <option value="electronic">Electronic / Dance</option>
+        <option value="rnb">R&B / Soul</option>
+        <option value="latin">Latin</option>
+        <option value="rock">Rock</option>
+        <option value="other">Autre</option>
+      </select>
+    </div>
+    <div>
+      <label className="text-zinc-400 text-sm mb-1 block">Le track a un hook mémorable ?</label>
+      <select id="vp-hook" className="w-full bg-zinc-800 p-3 rounded-xl text-white">
+        <option value="yes">Oui — très accrocheur</option>
+        <option value="maybe">Peut-être</option>
+        <option value="no">Non — pas vraiment</option>
+      </select>
+    </div>
+    <div>
+      <label className="text-zinc-400 text-sm mb-1 block">Le track a une partie dansable ?</label>
+      <select id="vp-dance" className="w-full bg-zinc-800 p-3 rounded-xl text-white">
+        <option value="yes">Oui</option>
+        <option value="no">Non</option>
+      </select>
+    </div>
+  </div>
+  <button className="bg-red-600 hover:bg-red-500 text-white px-6 py-3 rounded-xl font-bold w-full mb-6"
+    onClick={() => {
+      const intro = parseInt((document.getElementById('vp-intro') as HTMLInputElement).value) || 0;
+      const drop = parseInt((document.getElementById('vp-drop') as HTMLInputElement).value) || 0;
+      const bpm = parseInt((document.getElementById('vp-bpm') as HTMLInputElement).value) || 0;
+      const genre = (document.getElementById('vp-genre') as HTMLSelectElement).value;
+      const hook = (document.getElementById('vp-hook') as HTMLSelectElement).value;
+      const dance = (document.getElementById('vp-dance') as HTMLSelectElement).value;
+      let score = 0;
+      const signals = [];
+      if (intro <= 10) { score += 25; signals.push({emoji:'🟢', text:'Intro courte — parfait pour TikTok et Spotify'}); }
+      else if (intro <= 20) { score += 15; signals.push({emoji:'🟡', text:'Intro correcte — essaie de la raccourcir a 10 secondes'}); }
+      else { score += 0; signals.push({emoji:'🔴', text:'Intro trop longue — les auditeurs vont skipper avant le drop'}); }
+      if (drop <= 20) { score += 25; signals.push({emoji:'🟢', text:'Drop tres rapide — viral potentiel eleve sur TikTok'}); }
+      else if (drop <= 35) { score += 15; signals.push({emoji:'🟡', text:'Drop correct — essaie de le placer avant 20 secondes'}); }
+      else { score += 5; signals.push({emoji:'🔴', text:'Drop trop tardif — 70% des auditeurs TikTok partent avant 30s'}); }
+      if (bpm >= 120 && bpm <= 140) { score += 20; signals.push({emoji:'🟢', text:'BPM ideal pour les playlists Dance et TikTok'}); }
+      else if (bpm >= 90 && bpm <= 120) { score += 15; signals.push({emoji:'🟡', text:'BPM correct pour le streaming Spotify'}); }
+      else { score += 10; signals.push({emoji:'🟡', text:'BPM atypique — peut fonctionner dans une niche specifique'}); }
+      if (hook === 'yes') { score += 20; signals.push({emoji:'🟢', text:'Hook memorables — cle du succes viral'}); }
+      else if (hook === 'maybe') { score += 10; signals.push({emoji:'🟡', text:'Hook a ameliorer — travaille sur la melodie principale'}); }
+      else { score += 0; signals.push({emoji:'🔴', text:'Pas de hook — difficile de percer sans element memorables'}); }
+      if (dance === 'yes') { score += 10; signals.push({emoji:'🟢', text:'Partie dansable — parfait pour les challenges TikTok'}); }
+      else { score += 5; signals.push({emoji:'🟡', text:'Pas de partie dansable — mise sur lemotion pour les Reels'}); }
+      const genreBonus: Record<string, string> = {pop:'Pop tres populaire sur Spotify', hiphop:'Hip-Hop tres performant sur TikTok', electronic:'Electronic ideal pour les playlists Dance', rnb:'R&B tres applaudi sur les Reels', latin:'Latin en pleine explosion mondiale', rock:'Rock niche mais audience fidelissime', other:'Genre unique — trouve ta niche specifique'};
+      signals.push({emoji:'🎵', text:genreBonus[genre]});
+      const viral = score >= 75 ? 'VIRAL POTENTIEL ELEVE' : score >= 50 ? 'BON POTENTIEL' : 'POTENTIEL LIMITE';
+      const viralColor = score >= 75 ? '#1DB954' : score >= 50 ? '#f39c12' : '#e74c3c';
+      const container = document.getElementById('viral-result');
+      if (!container) return;
+      container.innerHTML = '<div style="text-align:center;margin-bottom:20px"><div style="font-size:72px;font-weight:bold;color:' + viralColor + '">' + score + '%</div><div style="font-size:22px;color:' + viralColor + ';font-weight:bold;margin-top:8px">' + viral + '</div></div>' + signals.map(s => '<div style="background:#27272a;padding:12px;border-radius:10px;margin-bottom:8px;display:flex;gap:10px;align-items:center"><span style="font-size:20px">' + s.emoji + '</span><span style="color:#ccc;font-size:14px">' + s.text + '</span></div>').join('');
+      container.style.display = 'block';
+    }}>
+    🔥 Analyser le potentiel viral
+  </button>
+  <div id="viral-result" style={{display:'none'}}></div>
+</div>
 </div>  </main>
   );
 }
