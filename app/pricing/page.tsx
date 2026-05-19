@@ -8,7 +8,7 @@ export default function LandingPage() {
       <nav style={{display:'flex',justifyContent:'space-between',alignItems:'center',padding:'15px 20px',borderBottom:'1px solid #222',position:'sticky',top:0,background:'#000',zIndex:100}}>
         <div style={{display:'flex',alignItems:'center',gap:'10px'}}>
           <img src="/spotify-growth-icon.png" alt="Logo" style={{width:'35px',height:'35px',borderRadius:'8px'}}/>
-          <h1 style={{fontSize:'16px',fontWeight:'bold',color:'#9B59B6',margin:0}}>Spotify Growth</h1>
+          <h1 style={{fontSize:'16px',fontWeight:'bold',color:'#9B59B6',margin:0}}>Spotlift</h1>
         </div>
         <a href="/login" style={{background:'#9B59B6',color:'#fff',padding:'8px 16px',borderRadius:'20px',textDecoration:'none',fontWeight:'bold',fontSize:'14px'}}>Connexion</a>
       </nav>
@@ -130,7 +130,7 @@ export default function LandingPage() {
           Prêt à faire exploser<br/>
           <span style={{color:'#9B59B6'}}>ta musique ?</span>
         </h2>
-        <p style={{color:'#aaa',marginBottom:'40px',fontSize:'18px'}}>Rejoins 500+ artistes qui utilisent Spotify Growth</p>
+        <p style={{color:'#aaa',marginBottom:'40px',fontSize:'18px'}}>Rejoins 500+ artistes qui utilisent Spotlift</p>
         <a href="/login" style={{background:'#9B59B6',color:'#fff',padding:'16px 40px',borderRadius:'30px',textDecoration:'none',fontWeight:'bold',fontSize:'18px'}}>
           Commencer gratuitement →
         </a>
@@ -138,13 +138,13 @@ export default function LandingPage() {
 
       {/* FOOTER */}
       <footer style={{padding:'30px 20px',borderTop:'1px solid #222',textAlign:'center'}}>
-        <p style={{color:'#9B59B6',fontWeight:'bold',marginBottom:'15px'}}>🎵 Spotify Growth</p>
+        <p style={{color:'#9B59B6',fontWeight:'bold',marginBottom:'15px'}}>🎵 Spotlift</p>
         <div style={{display:'flex',gap:'20px',justifyContent:'center',flexWrap:'wrap',marginBottom:'15px'}}>
           <a href="/cgv" style={{color:'#aaa',textDecoration:'none',fontSize:'14px'}}>CGV</a>
           <a href="/mentions-legales" style={{color:'#aaa',textDecoration:'none',fontSize:'14px'}}>Mentions Légales</a>
           <a href="/a-propos" style={{color:'#aaa',textDecoration:'none',fontSize:'14px'}}>À propos</a>
         </div>
-        <p style={{color:'#555',margin:0,fontSize:'14px'}}>© 2026 Spotify Growth. Tous droits réservés.</p>
+        <p style={{color:'#555',margin:0,fontSize:'14px'}}>© 2026 Spotlift. Tous droits réservés.</p>
       </footer>
 
     </main>

@@ -84,7 +84,7 @@ const generateContenu = async () => {
   <div className="flex items-center gap-3">
     <img src="/spotify-growth-icon.png" alt="Logo" style={{width:'36px',height:'36px',borderRadius:'10px'}}/>
     <div>
-      <h1 className="text-lg font-bold text-white">Spotify Growth</h1>
+      <h1 className="text-lg font-bold text-white">Spotlift</h1>
       <p className="text-zinc-500 text-xs">Dashboard Artiste</p>
     </div>
   </div>

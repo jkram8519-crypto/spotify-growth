@@ -2,12 +2,12 @@ export default function APropos() {
   return (
     <main style={{background:'#000',color:'#fff',padding:'60px 40px',maxWidth:'800px',margin:'0 auto',fontFamily:'sans-serif'}}>
       <h1 style={{fontSize:'36px',fontWeight:'bold',marginBottom:'10px'}}>À propos</h1>
-      <p style={{color:'#aaa',marginBottom:'40px'}}>L'histoire derrière Spotify Growth Optimizer</p>
+      <p style={{color:'#aaa',marginBottom:'40px'}}>L'histoire derrière Spotlift</p>
 
       <section style={{marginBottom:'40px',background:'#0d0020',padding:'30px',borderRadius:'20px',border:'1px solid #2d1040'}}>
         <h2 style={{fontSize:'24px',fontWeight:'bold',marginBottom:'15px',color:'#9B59B6'}}>Notre mission</h2>
         <p style={{color:'#ccc',lineHeight:'1.8',fontSize:'18px'}}>
-          Spotify Growth Optimizer a été créé pour donner aux artistes indépendants les mêmes outils que les grandes maisons de disques — mais à un prix accessible à tous.
+          Spotlift a été créé pour donner aux artistes indépendants les mêmes outils que les grandes maisons de disques — mais à un prix accessible à tous.
         </p>
       </section>
 
@@ -18,7 +18,7 @@ export default function APropos() {
           <div>
             <h3 style={{fontSize:'20px',fontWeight:'bold',marginBottom:'5px'}}>J.K. Ram</h3>
             <p style={{color:'#9B59B6',marginBottom:'10px'}}>Développeur & Passionné de musique</p>
-            <p style={{color:'#ccc',lineHeight:'1.8'}}>Passionné par la technologie et la musique, j'ai créé Spotify Growth Optimizer pour aider les artistes indépendants à percer sans avoir besoin d'un label.</p>
+            <p style={{color:'#ccc',lineHeight:'1.8'}}>Passionné par la technologie et la musique, j'ai créé Spotlift pour aider les artistes indépendants à percer sans avoir besoin d'un label.</p>
           </div>
         </div>
       </section>

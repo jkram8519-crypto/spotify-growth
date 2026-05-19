@@ -5,14 +5,14 @@ export default function CGV() {
       <p style={{color:'#aaa',marginBottom:'40px'}}>Dernière mise à jour : Mai 2026</p>
 
       {[
-        {title:'1. Objet',text:"Les présentes CGV régissent l'utilisation de Spotify Growth Optimizer, une plateforme SaaS permettant aux artistes indépendants de développer leur présence sur Spotify grâce à des outils d'intelligence artificielle."},
-        {title:'2. Éditeur',text:"Spotify Growth Optimizer est édité par J.K. Ram. Email : j.k.ram8519@gmail.com"},
+        {title:'1. Objet',text:"Les présentes CGV régissent l'utilisation de Spotlift, une plateforme SaaS permettant aux artistes indépendants de développer leur présence sur Spotify grâce à des outils d'intelligence artificielle."},
+        {title:'2. Éditeur',text:"Spotlift est édité par J.K. Ram. Email : j.k.ram8519@gmail.com"},
         {title:'3. Services proposés',text:"Free (0€/mois) : Pitch generator basique, bio generator, release checklist. Pro (9.99€/mois) : Tous les outils IA avancés, playlist finder, release planner. Pro+ (19.99€/mois) : Analytics Spotify, growth AI, marketing automation."},
         {title:'4. Prix et paiement',text:"Les prix sont en euros TTC. Le paiement s'effectue par carte bancaire via Stripe. L'abonnement est renouvelé automatiquement chaque mois jusqu'à résiliation."},
         {title:'5. Résiliation',text:"L'utilisateur peut résilier son abonnement à tout moment. La résiliation prend effet à la fin de la période en cours. Aucun remboursement ne sera effectué pour la période déjà payée."},
         {title:'6. Droit de rétractation',text:"Conformément à la législation européenne, l'utilisateur dispose de 14 jours pour exercer son droit de rétractation. Contact : j.k.ram8519@gmail.com"},
         {title:'7. Données personnelles',text:"Les données personnelles collectées sont utilisées uniquement pour la fourniture du service. Elles ne sont jamais vendues à des tiers. Conformément au RGPD, vous disposez d'un droit d'accès, rectification et suppression."},
-        {title:'8. Limitation de responsabilité',text:"Spotify Growth Optimizer ne garantit pas de résultats spécifiques en termes de streams ou placements en playlist. Les outils fournis sont des aides à la promotion musicale."},
+        {title:'8. Limitation de responsabilité',text:"Spotlift ne garantit pas de résultats spécifiques en termes de streams ou placements en playlist. Les outils fournis sont des aides à la promotion musicale."},
         {title:'9. Propriété intellectuelle',text:"L'ensemble du contenu de la plateforme est protégé par le droit d'auteur. Toute reproduction sans autorisation est interdite."},
         {title:'10. Droit applicable',text:"Les présentes CGV sont soumises au droit français. En cas de litige, les tribunaux français seront compétents."},
       ].map((s, i) => (
