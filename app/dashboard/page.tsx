@@ -604,6 +604,88 @@ const generateContenu = async () => {
     🔥 Analyser le potentiel viral
   </button>
   <div id="viral-result" style={{display:'none'}}></div>
+  {/* OPTIMISATION PROFIL ARTISTE */}
+<div className="bg-zinc-900 p-8 rounded-3xl mt-8 col-span-2">
+  <h2 className="text-2xl font-bold mb-2">🎨 Optimisation Profil Artiste</h2>
+  <p className="text-zinc-400 mb-6">Analyse ton profil Spotify et obtiens des recommandations pour l'optimiser</p>
+  <div className="grid md:grid-cols-2 gap-6 mb-6">
+    <div>
+      <label className="text-zinc-400 text-sm mb-1 block">Nom d'artiste</label>
+      <input id="op-name" type="text" placeholder="ex: DJ Marco" className="w-full bg-zinc-800 p-3 rounded-xl text-white placeholder-zinc-500"/>
+    </div>
+    <div>
+      <label className="text-zinc-400 text-sm mb-1 block">Tu as une photo de profil professionnelle ?</label>
+      <select id="op-photo" className="w-full bg-zinc-800 p-3 rounded-xl text-white">
+        <option value="yes">Oui — photo pro</option>
+        <option value="ok">Oui — mais pas terrible</option>
+        <option value="no">Non</option>
+      </select>
+    </div>
+    <div>
+      <label className="text-zinc-400 text-sm mb-1 block">Tu as une bio Spotify ?</label>
+      <select id="op-bio" className="w-full bg-zinc-800 p-3 rounded-xl text-white">
+        <option value="yes">Oui — bio complète</option>
+        <option value="short">Oui — mais trop courte</option>
+        <option value="no">Non</option>
+      </select>
+    </div>
+    <div>
+      <label className="text-zinc-400 text-sm mb-1 block">Tu as des liens réseaux sociaux sur Spotify ?</label>
+      <select id="op-links" className="w-full bg-zinc-800 p-3 rounded-xl text-white">
+        <option value="all">Oui — tous les liens</option>
+        <option value="some">Quelques uns</option>
+        <option value="no">Non</option>
+      </select>
+    </div>
+    <div>
+      <label className="text-zinc-400 text-sm mb-1 block">Tu as une Artist Pick (mise en avant) ?</label>
+      <select id="op-pick" className="w-full bg-zinc-800 p-3 rounded-xl text-white">
+        <option value="yes">Oui</option>
+        <option value="no">Non</option>
+      </select>
+    </div>
+    <div>
+      <label className="text-zinc-400 text-sm mb-1 block">Ton profil est-il revendiqué sur Spotify for Artists ?</label>
+      <select id="op-claimed" className="w-full bg-zinc-800 p-3 rounded-xl text-white">
+        <option value="yes">Oui</option>
+        <option value="no">Non</option>
+      </select>
+    </div>
+  </div>
+  <button className="bg-blue-600 hover:bg-blue-500 text-white px-6 py-3 rounded-xl font-bold w-full mb-6"
+    onClick={() => {
+      const name = (document.getElementById('op-name') as HTMLInputElement).value || 'Artiste';
+      const photo = (document.getElementById('op-photo') as HTMLSelectElement).value;
+      const bio = (document.getElementById('op-bio') as HTMLSelectElement).value;
+      const links = (document.getElementById('op-links') as HTMLSelectElement).value;
+      const pick = (document.getElementById('op-pick') as HTMLSelectElement).value;
+      const claimed = (document.getElementById('op-claimed') as HTMLSelectElement).value;
+      let score = 0;
+      const recs = [];
+      if (photo === 'yes') { score += 25; recs.push({emoji:'🟢', text:'Super photo de profil — premiere impression parfaite'}); }
+      else if (photo === 'ok') { score += 15; recs.push({emoji:'🟡', text:'Photo acceptable — investis dans une vraie seance photo pro'}); }
+      else { score += 0; recs.push({emoji:'🔴', text:'URGENT : Ajoute une photo pro — cest la premiere chose que voient les curateurs'}); }
+      if (bio === 'yes') { score += 25; recs.push({emoji:'🟢', text:'Bio complete — les curateurs peuvent te decouvrir facilement'}); }
+      else if (bio === 'short') { score += 15; recs.push({emoji:'🟡', text:'Bio trop courte — ajoute ton style, tes influences et tes accomplissements'}); }
+      else { score += 0; recs.push({emoji:'🔴', text:'URGENT : Ecris une bio — les playlists editoriales la lisent avant de te placer'}); }
+      if (links === 'all') { score += 20; recs.push({emoji:'🟢', text:'Tous les liens reseaux — parfait pour convertir les auditeurs en fans'}); }
+      else if (links === 'some') { score += 10; recs.push({emoji:'🟡', text:'Ajoute tous tes liens reseaux sociaux sur Spotify for Artists'}); }
+      else { score += 0; recs.push({emoji:'🔴', text:'Ajoute tes liens Instagram, TikTok et YouTube sur ton profil Spotify'}); }
+      if (pick === 'yes') { score += 15; recs.push({emoji:'🟢', text:'Artist Pick active — tu mets en avant ton meilleur contenu'}); }
+      else { score += 0; recs.push({emoji:'🔴', text:'Active lArtist Pick — mets ton dernier track ou ta meilleure playlist en avant'}); }
+      if (claimed === 'yes') { score += 15; recs.push({emoji:'🟢', text:'Profil revendique — tu as acces a toutes les fonctionnalites Spotify for Artists'}); }
+      else { score += 0; recs.push({emoji:'🔴', text:'URGENT : Revendique ton profil sur artists.spotify.com maintenant'}); }
+      const label = score >= 75 ? 'Profil Optimise' : score >= 50 ? 'Profil Correct' : 'Profil a Ameliorer';
+      const color = score >= 75 ? '#1DB954' : score >= 50 ? '#f39c12' : '#e74c3c';
+      const container = document.getElementById('profile-result');
+      if (!container) return;
+      container.innerHTML = '<div style="text-align:center;margin-bottom:20px"><div style="font-size:72px;font-weight:bold;color:' + color + '">' + score + '/100</div><div style="font-size:22px;color:' + color + ';font-weight:bold;margin-top:8px">' + label + ' — ' + name + '</div></div>' + recs.map(r => '<div style="background:#27272a;padding:12px;border-radius:10px;margin-bottom:8px;display:flex;gap:10px;align-items:flex-start"><span style="font-size:20px">' + r.emoji + '</span><span style="color:#ccc;font-size:14px">' + r.text + '</span></div>').join('');
+      container.style.display = 'block';
+    }}>
+    🎨 Analyser mon profil artiste
+  </button>
+  <div id="profile-result" style={{display:'none'}}></div>
+</div>
 </div>
 </div>  </main>
   );
