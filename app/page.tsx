@@ -139,8 +139,8 @@ export default function LandingPage() {
       {q:"Comment contacter le support ?",a:"Tu peux nous contacter par email à j.k.ram8519@gmail.com. Nous répondons dans les 24 heures."},
     ].map((item, i) => (
       <div key={i} style={{background:'#000',padding:'25px',borderRadius:'15px',marginBottom:'15px',border:'1px solid #2d1040'}}>
-        <p style={{fontWeight:'bold',fontSize:'18px',marginBottom:'10px',color:'#9B59B6'}}>❓ {item.q}</p>
-        <p style={{color:'#ccc',lineHeight:'1.7',margin:0}}>{item.a}</p>
+        <p style={{fontWeight:'bold',fontSize:'15px',marginBottom:'8px',color:'#9B59B6'}}>❓ {item.q}</p>
+        <p style={{color:'#ccc',lineHeight:'1.6',margin:0}}>{item.a}</p>
       </div>
     ))}
   </div>
