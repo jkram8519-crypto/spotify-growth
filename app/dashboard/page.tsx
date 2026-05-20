@@ -739,7 +739,73 @@ const generateContenu = async () => {
     }}>
     🤖 Demander à l'IA Manager
   </button>
-  <div id="ai-response" style={{display:'none'}}></div>
+  <div id="ai-response" style={{display:'none'}}></div>{/* DASHBOARD MULTI-PLATEFORMES */}
+<div className="bg-zinc-900 p-8 rounded-3xl mt-8 col-span-2">
+  <h2 className="text-2xl font-bold mb-2">📊 Dashboard Multi-Plateformes</h2>
+  <p className="text-zinc-400 mb-6">Entre tes stats de toutes tes plateformes et visualise ta croissance globale</p>
+  <div className="grid md:grid-cols-2 gap-6 mb-6">
+    <div className="bg-zinc-800 p-6 rounded-2xl border border-green-800">
+      <p className="text-green-400 font-bold mb-4">🎵 Spotify</p>
+      <input id="mp-sp-streams" type="number" placeholder="Streams ce mois" className="w-full bg-zinc-700 p-3 rounded-xl text-white placeholder-zinc-500 mb-3"/>
+      <input id="mp-sp-followers" type="number" placeholder="Followers" className="w-full bg-zinc-700 p-3 rounded-xl text-white placeholder-zinc-500 mb-3"/>
+      <input id="mp-sp-saves" type="number" placeholder="Saves ce mois" className="w-full bg-zinc-700 p-3 rounded-xl text-white placeholder-zinc-500"/>
+    </div>
+    <div className="bg-zinc-800 p-6 rounded-2xl border border-pink-800">
+      <p className="text-pink-400 font-bold mb-4">📱 TikTok</p>
+      <input id="mp-tt-views" type="number" placeholder="Vues ce mois" className="w-full bg-zinc-700 p-3 rounded-xl text-white placeholder-zinc-500 mb-3"/>
+      <input id="mp-tt-followers" type="number" placeholder="Followers" className="w-full bg-zinc-700 p-3 rounded-xl text-white placeholder-zinc-500 mb-3"/>
+      <input id="mp-tt-likes" type="number" placeholder="Likes ce mois" className="w-full bg-zinc-700 p-3 rounded-xl text-white placeholder-zinc-500"/>
+    </div>
+    <div className="bg-zinc-800 p-6 rounded-2xl border border-purple-800">
+      <p className="text-purple-400 font-bold mb-4">📸 Instagram</p>
+      <input id="mp-ig-reach" type="number" placeholder="Reach ce mois" className="w-full bg-zinc-700 p-3 rounded-xl text-white placeholder-zinc-500 mb-3"/>
+      <input id="mp-ig-followers" type="number" placeholder="Followers" className="w-full bg-zinc-700 p-3 rounded-xl text-white placeholder-zinc-500 mb-3"/>
+      <input id="mp-ig-engagement" type="number" placeholder="Taux engagement (%)" className="w-full bg-zinc-700 p-3 rounded-xl text-white placeholder-zinc-500"/>
+    </div>
+    <div className="bg-zinc-800 p-6 rounded-2xl border border-red-800">
+      <p className="text-red-400 font-bold mb-4">🎬 YouTube</p>
+      <input id="mp-yt-views" type="number" placeholder="Vues ce mois" className="w-full bg-zinc-700 p-3 rounded-xl text-white placeholder-zinc-500 mb-3"/>
+      <input id="mp-yt-subscribers" type="number" placeholder="Abonnés" className="w-full bg-zinc-700 p-3 rounded-xl text-white placeholder-zinc-500 mb-3"/>
+      <input id="mp-yt-watchtime" type="number" placeholder="Watch time (heures)" className="w-full bg-zinc-700 p-3 rounded-xl text-white placeholder-zinc-500"/>
+    </div>
+  </div>
+  <button className="bg-gradient-to-r from-green-600 to-purple-600 text-white px-6 py-3 rounded-xl font-bold w-full mb-6"
+    onClick={() => {
+      const spStreams = parseInt((document.getElementById('mp-sp-streams') as HTMLInputElement).value) || 0;
+      const spFollowers = parseInt((document.getElementById('mp-sp-followers') as HTMLInputElement).value) || 0;
+      const spSaves = parseInt((document.getElementById('mp-sp-saves') as HTMLInputElement).value) || 0;
+      const ttViews = parseInt((document.getElementById('mp-tt-views') as HTMLInputElement).value) || 0;
+      const ttFollowers = parseInt((document.getElementById('mp-tt-followers') as HTMLInputElement).value) || 0;
+      const ttLikes = parseInt((document.getElementById('mp-tt-likes') as HTMLInputElement).value) || 0;
+      const igReach = parseInt((document.getElementById('mp-ig-reach') as HTMLInputElement).value) || 0;
+      const igFollowers = parseInt((document.getElementById('mp-ig-followers') as HTMLInputElement).value) || 0;
+      const igEngagement = parseInt((document.getElementById('mp-ig-engagement') as HTMLInputElement).value) || 0;
+      const ytViews = parseInt((document.getElementById('mp-yt-views') as HTMLInputElement).value) || 0;
+      const ytSubscribers = parseInt((document.getElementById('mp-yt-subscribers') as HTMLInputElement).value) || 0;
+      const totalFollowers = spFollowers + ttFollowers + igFollowers + ytSubscribers;
+      const totalViews = spStreams + ttViews + igReach + ytViews;
+      const platforms = [
+        {name:'Spotify', color:'#1DB954', followers:spFollowers, activity:spStreams, metric:'streams', saves:spSaves},
+        {name:'TikTok', color:'#ff0050', followers:ttFollowers, activity:ttViews, metric:'vues', likes:ttLikes},
+        {name:'Instagram', color:'#E1306C', followers:igFollowers, activity:igReach, metric:'reach', engagement:igEngagement},
+        {name:'YouTube', color:'#FF0000', followers:ytSubscribers, activity:ytViews, metric:'vues', watchtime:0},
+      ];
+      const best = platforms.reduce((a, b) => a.activity > b.activity ? a : b);
+      const container = document.getElementById('multiplatform-result');
+      if (!container) return;
+      container.innerHTML = '<div style="margin-bottom:20px"><div style="display:grid;grid-template-columns:1fr 1fr;gap:15px;margin-bottom:20px">' +
+        '<div style="background:#1a0030;padding:20px;border-radius:12px;text-align:center"><div style="font-size:36px;font-weight:bold;color:#9B59B6">' + totalFollowers.toLocaleString() + '</div><div style="color:#aaa;font-size:14px">Total Followers</div></div>' +
+        '<div style="background:#1a0030;padding:20px;border-radius:12px;text-align:center"><div style="font-size:36px;font-weight:bold;color:#1DB954">' + totalViews.toLocaleString() + '</div><div style="color:#aaa;font-size:14px">Total Vues/Streams</div></div>' +
+        '</div>' +
+        '<div style="background:#1a0030;padding:15px;border-radius:12px;margin-bottom:15px"><p style="color:#f39c12;font-weight:bold;margin-bottom:5px">🏆 Plateforme la plus performante</p><p style="color:#ccc">' + best.name + ' avec ' + best.activity.toLocaleString() + ' ' + best.metric + ' ce mois</p></div>' +
+        platforms.map(p => '<div style="background:#27272a;padding:15px;border-radius:12px;margin-bottom:10px;display:flex;justify-content:space-between;align-items:center"><div><span style="font-weight:bold;color:' + p.color + '">' + p.name + '</span><br/><span style="color:#aaa;font-size:13px">' + p.followers.toLocaleString() + ' followers</span></div><div style="text-align:right"><span style="color:#fff;font-weight:bold">' + p.activity.toLocaleString() + '</span><br/><span style="color:#aaa;font-size:13px">' + p.metric + '</span></div></div>').join('') +
+        '<div style="background:#1a0030;padding:15px;border-radius:12px;margin-top:10px"><p style="color:#9B59B6;font-weight:bold;margin-bottom:8px">💡 Conseil IA</p><p style="color:#ccc;font-size:14px">' + (best.name === 'TikTok' ? 'TikTok est ta plateforme principale — utilise-la pour rediriger vers Spotify avec un lien en bio.' : best.name === 'Spotify' ? 'Spotify performe bien — soumets plus de tracks aux curateurs pour accelerer.' : best.name === 'Instagram' ? 'Instagram est fort — convertis ton audience en auditeurs Spotify avec des extraits musicaux.' : 'YouTube performe — cree des clips et behind the scenes pour booster tes autres plateformes.') + '</p></div></div>';
+      container.style.display = 'block';
+    }}>
+    📊 Analyser mes plateformes
+  </button>
+  <div id="multiplatform-result" style={{display:'none'}}></div>
+</div>
 </div>
 </div>  </main>
   );
