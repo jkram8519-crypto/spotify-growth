@@ -61,8 +61,6 @@ export default function LandingPage() {
             {emoji:'🔥',title:'Détection Viral Potentiel',desc:"Analyse ton track et détecte son potentiel viral sur TikTok.",badge:'NOUVEAU'},
             {emoji:'🎨',title:'Optimisation Profil',desc:"Analyse ton profil Spotify et optimise chaque élément.",badge:'NOUVEAU'},
             {emoji:'🤖',title:'IA Assistant Marketing',desc:"Pose tes questions à l'IA manager et obtiens des conseils pro instantanément.",badge:'NOUVEAU'},
-            {emoji:'🤖',title:'IA Assistant Marketing',desc:"Pose tes questions à l'IA manager et obtiens des conseils pro instantanément.",badge:'NOUVEAU'},
-            {emoji:'🤖',title:'IA Assistant Marketing',desc:"Pose tes questions à l'IA manager et obtiens des conseils pro instantanément.",badge:'NOUVEAU'},
             {emoji:'💬',title:'Feedback Artiste',desc:"Donne ton avis et aide à améliorer l'app continuellement.",badge:''},
           ].map((f,i) => (
             <div key={i} style={{background:'#0d0020',padding:'30px',borderRadius:'20px',border: f.badge ? '2px solid #9B59B6' : '1px solid #2d1040'}}>
