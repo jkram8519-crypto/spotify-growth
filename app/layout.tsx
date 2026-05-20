@@ -13,7 +13,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: 'Spotlift — L\'outil IA pour artistes indépendants'
+  title: 'Spotlift — L\'outil IA pour artistes indépendants',
   description: 'Génère des pitches Spotify pro en 10 secondes, planifie tes sorties avec l\'IA et analyse tes performances. 11 outils IA pour artistes indépendants.'
 };
 
