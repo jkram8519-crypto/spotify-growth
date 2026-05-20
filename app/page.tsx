@@ -38,7 +38,7 @@ export default function LandingPage() {
           {value:'500+',label:'Artistes actifs'},
           {value:'10k+',label:'Pitches générés'},
           {value:'3x',label:'Plus de streams'},
-          {value:'10',label:'Fonctionnalités IA'},
+          {value:'11',label:'Fonctionnalités IA'},
         ].map((s,i) => (
           <div key={i} style={{textAlign:'center',minWidth:'120px'}}>
             <p style={{fontSize:'36px',fontWeight:'bold',color:'#9B59B6',margin:'0 0 8px 0'}}>{s.value}</p>
@@ -48,7 +48,7 @@ export default function LandingPage() {
       </section>
 
       <section id="features" style={{padding:'80px 20px'}}>
-        <h2 style={{textAlign:'center',fontSize:'36px',fontWeight:'bold',marginBottom:'20px'}}>10 outils IA puissants</h2>
+        <h2 style={{textAlign:'center',fontSize:'36px',fontWeight:'bold',marginBottom:'20px'}}>11 outils IA puissants</h2>
         <p style={{textAlign:'center',color:'#aaa',marginBottom:'40px',fontSize:'16px'}}>Tout ce dont un artiste indépendant a besoin</p>
         <div style={{display:'grid',gridTemplateColumns:'repeat(auto-fit, minmax(280px, 1fr))',gap:'20px',maxWidth:'1100px',margin:'0 auto'}}>
           {[
@@ -61,6 +61,7 @@ export default function LandingPage() {
             {emoji:'🔥',title:'Détection Viral Potentiel',desc:"Analyse ton track et détecte son potentiel viral sur TikTok.",badge:'NOUVEAU'},
             {emoji:'🎨',title:'Optimisation Profil',desc:"Analyse ton profil Spotify et optimise chaque élément.",badge:'NOUVEAU'},
             {emoji:'🤖',title:'IA Assistant Marketing',desc:"Pose tes questions à l'IA manager et obtiens des conseils pro instantanément.",badge:'NOUVEAU'},
+            {emoji:'📊',title:'Dashboard Multi-Plateformes',desc:"Centralise tes stats Spotify, TikTok, Instagram et YouTube en un seul endroit.",badge:'NOUVEAU'},
             {emoji:'💬',title:'Feedback Artiste',desc:"Donne ton avis et aide à améliorer l'app continuellement.",badge:''},
           ].map((f,i) => (
             <div key={i} style={{background:'#0d0020',padding:'30px',borderRadius:'20px',border: f.badge ? '2px solid #9B59B6' : '1px solid #2d1040'}}>
