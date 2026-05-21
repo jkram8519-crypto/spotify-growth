@@ -160,7 +160,9 @@ export default function LandingPage() {
           <a href="/mentions-legales" style={{color:'#aaa',textDecoration:'none',fontSize:'14px'}}>Mentions Légales</a>
           <a href="/a-propos" style={{color:'#aaa',textDecoration:'none',fontSize:'14px'}}>À propos</a>
           <a href="/confidentialite" style={{color:'#aaa',textDecoration:'none',fontSize:'14px'}}>Confidentialité</a>
-        </div>
+          <a href="/faq"
+          
+        
         <p style={{color:'#555',margin:0,fontSize:'14px'}}>© 2026 Spotlift. Tous droits réservés.</p>
       </footer>
 
