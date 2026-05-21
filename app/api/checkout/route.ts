@@ -8,13 +8,11 @@ export async function POST(req: NextRequest) {
     const { plan, billing } = await req.json();
 
     let priceId: string | null = null;
-    let amount = 0;
-    let name = '';
 
     if (billing === 'annual') {
       if (plan === 'pro') {
         priceId = 'price_1TZdyqEJZOJWQzK8MHbox9HP';
-      } else {
+      } else if (plan === 'pro_plus') {
         priceId = 'price_1TZe1TEJZOJWQzK8rI39hcAv';
       }
     }
@@ -30,8 +28,8 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ url: session.url });
     }
 
-    amount = plan === 'pro' ? 999 : 1999;
-    name = plan === 'pro' ? 'Spotlift Pro' : 'Spotlift Pro+';
+    const amount = plan === 'pro' ? 999 : 1999;
+    const name = plan === 'pro' ? 'Spotlift Pro' : 'Spotlift Pro+';
 
     const session = await stripe.checkout.sessions.create({
       payment_method_types: ['card'],
@@ -41,8 +39,9 @@ export async function POST(req: NextRequest) {
       cancel_url: 'https://getspotlift.vercel.app/pricing',
     });
     return NextResponse.json({ url: session.url });
+
   } catch (err: any) {
-    console.error('Stripe error:', err.message);
-    return NextResponse.json({ error: err.message }, { status: 500 });
+    console.error('Stripe error details:', JSON.stringify(err));
+    return NextResponse.json({ error: err.message, details: err.raw || err }, { status: 500 });
   }
 }
