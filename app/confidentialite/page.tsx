@@ -13,11 +13,11 @@ export default function Confidentialite() {
       </section>
       <section style={{marginBottom:'35px'}}>
         <h2 style={{fontSize:'22px',fontWeight:'bold',marginBottom:'12px',color:'#9B59B6'}}>3. Vos droits RGPD</h2>
-        <p style={{color:'#ccc',lineHeight:'1.8'}}>Vous disposez d un droit d acces, rectification et suppression. Contact : j.k.ram8519@gmail.com</p>
+        <p style={{color:'#ccc',lineHeight:'1.8'}}>Vous disposez d un droit d acces, rectification et suppression. Contact : contact.spotlift@gmail.com</p>
       </section>
       <section style={{marginBottom:'35px'}}>
         <h2 style={{fontSize:'22px',fontWeight:'bold',marginBottom:'12px',color:'#9B59B6'}}>4. Contact</h2>
-        <p style={{color:'#ccc',lineHeight:'1.8'}}>j.k.ram8519@gmail.com</p>
+        <p style={{color:'#ccc',lineHeight:'1.8'}}>contact.spotlift@gmail.com</p>
       </section>
     </main>
   );

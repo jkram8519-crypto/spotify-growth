@@ -44,7 +44,7 @@ export default function APropos() {
       <section style={{textAlign:'center',background:'linear-gradient(135deg,#1a0030,#0d0020)',padding:'40px',borderRadius:'20px',border:'1px solid #9B59B6'}}>
         <h2 style={{fontSize:'28px',fontWeight:'bold',marginBottom:'15px'}}>Une question ?</h2>
         <p style={{color:'#aaa',marginBottom:'20px'}}>On est là pour t'aider !</p>
-        <a href="mailto:j.k.ram8519@gmail.com" style={{background:'#9B59B6',color:'#fff',padding:'12px 30px',borderRadius:'25px',textDecoration:'none',fontWeight:'bold'}}>Nous contacter</a>
+        <a href="mailto:contact.spotlift@gmail.com" style={{background:'#9B59B6',color:'#fff',padding:'12px 30px',borderRadius:'25px',textDecoration:'none',fontWeight:'bold'}}>Nous contacter</a>
       </section>
     </main>
   );

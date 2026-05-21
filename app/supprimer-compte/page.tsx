@@ -6,7 +6,7 @@ export default function SupprimerCompte() {
       <section style={{marginBottom:'35px',background:'#0d0020',padding:'30px',borderRadius:'20px',border:'1px solid #2d1040'}}>
         <h2 style={{fontSize:'22px',fontWeight:'bold',marginBottom:'15px',color:'#9B59B6'}}>Comment supprimer votre compte</h2>
         <p style={{color:'#ccc',lineHeight:'1.8'}}>Pour demander la suppression de votre compte et de toutes vos donnees, envoyez un email a :</p>
-        <p style={{color:'#9B59B6',fontSize:'20px',fontWeight:'bold',margin:'20px 0'}}>j.k.ram8519@gmail.com</p>
+        <p style={{color:'#9B59B6',fontSize:'20px',fontWeight:'bold',margin:'20px 0'}}>contact.spotlift@gmail.com</p>
         <p style={{color:'#ccc',lineHeight:'1.8'}}>Objet : Suppression de compte Spotlift</p>
       </section>
       <section style={{marginBottom:'35px'}}>

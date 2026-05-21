@@ -11,7 +11,7 @@ export default function FAQ() {
         {q:"L'app est-elle disponible sur mobile ?",a:"Oui ! Spotlift est disponible sur Android via Google Play. La version iOS arrive prochainement."},
         {q:"Comment annuler mon abonnement ?",a:"Tu peux annuler à tout moment depuis ton dashboard. Aucun engagement, aucune pénalité."},
         {q:"Mes données sont-elles sécurisées ?",a:"Oui ! Tes données sont stockées sur Supabase (Union Européenne) et nous respectons le RGPD. Tes données ne sont jamais vendues."},
-        {q:"Comment contacter le support ?",a:"Par email à j.k.ram8519@gmail.com. Nous répondons dans les 24 heures."},
+        {q:"Comment contacter le support ?",a:"Par email à contact.spotlift@gmail.com. Nous répondons dans les 24 heures."},
       ].map((item, i) => (
         <section key={i} style={{marginBottom:'25px',background:'#0d0020',padding:'20px',borderRadius:'12px',border:'1px solid #2d1040'}}>
           <h2 style={{fontSize:'16px',fontWeight:'bold',marginBottom:'10px',color:'#9B59B6'}}>❓ {item.q}</h2>
