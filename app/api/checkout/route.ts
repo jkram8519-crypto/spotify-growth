@@ -5,15 +5,40 @@ const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, { apiVersion: '2026-04
 
 export async function POST(req: NextRequest) {
   try {
-    const { plan } = await req.json();
-    const amount = plan === 'pro' ? 999 : 1999;
-    const name = plan === 'pro' ? 'Spotify Growth Pro' : 'Spotify Growth Pro+';
+    const { plan, billing } = await req.json();
+
+    let priceId: string | null = null;
+    let amount = 0;
+    let name = '';
+
+    if (billing === 'annual') {
+      if (plan === 'pro') {
+        priceId = 'price_1TZdyqEJZOJWQzK8MHbox9HP';
+      } else {
+        priceId = 'price_1TZe1TEJZOJWQzK8rI39hcAv';
+      }
+    }
+
+    if (priceId) {
+      const session = await stripe.checkout.sessions.create({
+        payment_method_types: ['card'],
+        mode: 'subscription',
+        line_items: [{ price: priceId, quantity: 1 }],
+        success_url: 'https://getspotlift.vercel.app/dashboard',
+        cancel_url: 'https://getspotlift.vercel.app/pricing',
+      });
+      return NextResponse.json({ url: session.url });
+    }
+
+    amount = plan === 'pro' ? 999 : 1999;
+    name = plan === 'pro' ? 'Spotlift Pro' : 'Spotlift Pro+';
+
     const session = await stripe.checkout.sessions.create({
       payment_method_types: ['card'],
       mode: 'subscription',
       line_items: [{ price_data: { currency: 'eur', product_data: { name }, unit_amount: amount, recurring: { interval: 'month' } }, quantity: 1 }],
-      success_url: 'https://spotify-growth-six.vercel.app/dashboard',
-      cancel_url: 'https://spotify-growth-six.vercel.app',
+      success_url: 'https://getspotlift.vercel.app/dashboard',
+      cancel_url: 'https://getspotlift.vercel.app/pricing',
     });
     return NextResponse.json({ url: session.url });
   } catch (err: any) {
