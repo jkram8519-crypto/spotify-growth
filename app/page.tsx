@@ -133,14 +133,14 @@ export default function LandingPage() {
       {q:"C'est gratuit ?",a:"Oui ! Le plan Free est 100% gratuit et inclut le Pitch Generator, le Bio Generator et la Release Checklist. Les plans Pro (€9.99/mois) et Pro+ (€19.99/mois) débloquent toutes les fonctionnalités avancées."},
       {q:"Comment fonctionne le Pitch Generator IA ?",a:"Tu entres le nom de ton track et ton genre musical, et l'IA génère en 10 secondes un pitch professionnel prêt à envoyer aux curateurs de playlist. Plus besoin de passer des heures à rédiger !"},
       {q:"Qu'est-ce que le Manager IA ?",a:"Le Manager IA est un calendrier intelligent qui planifie automatiquement toute ta stratégie de sortie sur 44 jours — de J-30 (teaser) jusqu'à J+14 (relance). Tu sais exactement quoi faire chaque jour."},
-      {q:"L'app est-elle disponible sur mobile ?",a:"Oui ! Spotlift est disponible sur Android via Google Play. La version iOS arrive prochainement."},
+      {q:"L'app est-elle disponible sur mobile ?",a:"Oui ! Spotlift sera bientôt  disponible sur Android via Google Play. La version iOS arrive prochainement."},
       {q:"Comment annuler mon abonnement ?",a:"Tu peux annuler ton abonnement à tout moment depuis ton dashboard. Il n'y a aucun engagement et aucune pénalité d'annulation."},
       {q:"Mes données sont-elles sécurisées ?",a:"Oui ! Tes données sont stockées de manière sécurisée sur Supabase (Union Européenne) et nous respectons le RGPD. Tes données ne sont jamais vendues à des tiers."},
       {q:"Comment contacter le support ?",a:"Tu peux nous contacter par email à j.k.ram8519@gmail.com. Nous répondons dans les 24 heures."},
     ].map((item, i) => (
       <div key={i} style={{background:'#000',padding:'25px',borderRadius:'15px',marginBottom:'15px',border:'1px solid #2d1040'}}>
-        <p style={{fontWeight:'bold',fontSize:'15px',marginBottom:'8px',color:'#9B59B6'}}>❓ {item.q}</p>
-        <p style={{color:'#ccc',lineHeight:'1.6',margin:0}}>{item.a}</p>
+        <p style={{fontWeight:'bold',fontSize:'13px',marginBottom:'6px',color:'#9B59B6'}}>❓ {item.q}</p>
+        <p style={{color:'#ccc',lineHeight:'1.5',margin:0}}>{item.a}</p>
       </div>
     ))}
   </div>
