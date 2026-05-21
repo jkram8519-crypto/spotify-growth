@@ -54,7 +54,7 @@ export default function LandingPage() {
             {emoji:'📊',title:'Analytics IA',desc:"Analyse ton taux de save, skip rate et te donne des actions concretes.",badge:''},
             {emoji:'📱',title:'Contenu Réseaux Sociaux',desc:"Genere du contenu optimise pour Instagram, TikTok, Twitter.",badge:''},
             {emoji:'🎯',title:'Growth Score',desc:"Calcule ton score de croissance Spotify sur 100 points.",badge:'NOUVEAU'},
-            {emoji:'🔥',title:'Detection Viral Potentiel',desc:"Analyse ton track et detecte son potentiel viral sur TikTok.",badge:'NOUVEAU'},
+            {emoji:'🔥',title:'Détection Viral Potentiel',desc:"Analyse ton track et détecte son potentiel viral sur TikTok.",badge:'NOUVEAU'},
             {emoji:'🎨',title:'Optimisation Profil',desc:"Analyse ton profil Spotify et optimise chaque element.",badge:'NOUVEAU'},
             {emoji:'🤖',title:'IA Assistant Marketing',desc:"Pose tes questions a l'IA manager et obtiens des conseils pro.",badge:'NOUVEAU'},
             {emoji:'📊',title:'Dashboard Multi-Plateformes',desc:"Centralise tes stats Spotify, TikTok, Instagram et YouTube.",badge:'NOUVEAU'},
