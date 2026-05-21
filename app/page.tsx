@@ -14,7 +14,7 @@ export default function LandingPage() {
 
       <section style={{textAlign:'center',padding:'80px 20px 60px'}}>
         <div style={{display:'inline-block',background:'#1a0030',border:'1px solid #9B59B6',borderRadius:'25px',padding:'8px 20px',marginBottom:'30px'}}>
-          <p style={{margin:0,color:'#D7BDE2',fontSize:'14px'}}>L'outil IA numero 1 pour artistes independants</p>
+          <p style={{margin:0,color:'#D7BDE2',fontSize:'14px'}}>L'outil IA numero 1 pour artistes indépendants</p>
         </div>
         <h2 style={{fontSize:'48px',fontWeight:'bold',marginBottom:'20px',lineHeight:'1.1'}}>
           Fais exploser ta<br/>
@@ -32,9 +32,9 @@ export default function LandingPage() {
       <section style={{display:'flex',justifyContent:'center',gap:'30px',padding:'40px 20px',background:'#0d0020',flexWrap:'wrap'}}>
         {[
           {value:'500+',label:'Artistes actifs'},
-          {value:'10k+',label:'Pitches generes'},
+          {value:'10k+',label:'Pitches générés'},
           {value:'3x',label:'Plus de streams'},
-          {value:'11',label:'Fonctionnalites IA'},
+          {value:'11',label:'Fonctionnalités IA'},
         ].map((s,i) => (
           <div key={i} style={{textAlign:'center',minWidth:'120px'}}>
             <p style={{fontSize:'36px',fontWeight:'bold',color:'#9B59B6',margin:'0 0 8px 0'}}>{s.value}</p>
@@ -48,11 +48,11 @@ export default function LandingPage() {
         <p style={{textAlign:'center',color:'#aaa',marginBottom:'40px',fontSize:'16px'}}>Tout ce dont un artiste independant a besoin</p>
         <div style={{display:'grid',gridTemplateColumns:'repeat(auto-fit, minmax(280px, 1fr))',gap:'20px',maxWidth:'1100px',margin:'0 auto'}}>
           {[
-            {emoji:'🚀',title:'Pitch Generator IA',desc:"Genere des pitches professionnels pour les curateurs en 10 secondes.",badge:''},
-            {emoji:'🗓️',title:'Manager IA',desc:"Planifie automatiquement ta sortie sur 44 jours.",badge:'NOUVEAU'},
+            {emoji:'🚀',title:'Pitch Générator IA',desc:"énère des pitches professionnels pour les curateurs en 10 secondes.",badge:''},
+            {emoji:'🗓️',title:'Manager IA',desc:"Planifie automatiquement ta sortie sur 44 jours — de J-30 à J+14..",badge:'NOUVEAU'},
             {emoji:'🎯',title:'Playlist Finder',desc:"Trouve les playlists parfaites avec un score de compatibilite.",badge:''},
             {emoji:'📊',title:'Analytics IA',desc:"Analyse ton taux de save, skip rate et te donne des actions concretes.",badge:''},
-            {emoji:'📱',title:'Contenu Reseaux Sociaux',desc:"Genere du contenu optimise pour Instagram, TikTok, Twitter.",badge:''},
+            {emoji:'📱',title:'Contenu Réseaux Sociaux',desc:"Genere du contenu optimise pour Instagram, TikTok, Twitter.",badge:''},
             {emoji:'🎯',title:'Growth Score',desc:"Calcule ton score de croissance Spotify sur 100 points.",badge:'NOUVEAU'},
             {emoji:'🔥',title:'Detection Viral Potentiel',desc:"Analyse ton track et detecte son potentiel viral sur TikTok.",badge:'NOUVEAU'},
             {emoji:'🎨',title:'Optimisation Profil',desc:"Analyse ton profil Spotify et optimise chaque element.",badge:'NOUVEAU'},
@@ -94,7 +94,7 @@ export default function LandingPage() {
 
       <section style={{padding:'80px 20px',textAlign:'center'}}>
   <h2 style={{fontSize:'36px',fontWeight:'bold',marginBottom:'15px'}}>Tarifs simples</h2>
-  <p style={{color:'#aaa',marginBottom:'30px',fontSize:'16px'}}>Commence gratuitement, evolue quand tu es pret</p>
+  <p style={{color:'#aaa',marginBottom:'30px',fontSize:'16px'}}>Commence gratuitement, évolue quand tu es prêt</p>
 
   {/* Onglets mensuel/annuel */}
   <div style={{display:'inline-flex',background:'#1a0030',borderRadius:'30px',padding:'4px',marginBottom:'40px',border:'1px solid #2d1040'}}>
