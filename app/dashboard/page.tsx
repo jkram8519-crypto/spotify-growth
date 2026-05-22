@@ -831,6 +831,7 @@ const generateContenu = async () => {
     📊 Analyser mes plateformes
   </button>
   <div id="multiplatform-result" style={{display:'none'}}></div>
+</div>
     </div>
   </div>
     </main>
