@@ -68,6 +68,11 @@ export default function LoginPage() {
 
         {message && <p className="mt-4 text-center text-green-400">{message}</p>}
         <p style={{textAlign:'center', marginTop:'20px', color:'#aaa'}}>
+          <p style={{textAlign:'center',marginBottom:'15px'}}>
+  <a href="/reset-password" style={{color:'#555',fontSize:'13px',textDecoration:'none'}}>
+    Mot de passe oublié ?
+  </a>
+</p>
   Pas de compte ?{' '}
   <a href="/inscription" style={{color:'#9B59B6', fontWeight:'bold'}}>
     S'inscrire
