@@ -4,784 +4,882 @@ import { supabase } from '../../supabase';
 
 export default function Dashboard() {
   const [user, setUser] = useState<any>(null);
-  const [track, setTrack] = useState('');
-  const [genre, setGenre] = useState('');
-  const [pitch, setPitch] = useState('');
-  const [loading, setLoading] = useState(false);
-  const [historique, setHistorique] = useState<any[]>([]);
-const [contenuType, setContenuType] = useState('instagram');
-const [contenu, setContenu] = useState('');
-const [loadingContenu, setLoadingContenu] = useState(false);
-const [note, setNote] = useState(0);
-const [commentaire, setCommentaire] = useState('');
-const [feedbackEnvoye, setFeedbackEnvoye] = useState(false);
+  const [activeSection, setActiveSection] = useState('pitch');
+
   useEffect(() => {
-    supabase.auth.getUser().then(({ data: { user } }) => {
-      setUser(user);
-      if (user) chargerHistorique(user.id);
-    });
+    const getUser = async () => {
+      const { data } = await supabase.auth.getUser();
+      if (data.user) setUser(data.user);
+      else window.location.href = '/login';
+    };
+    getUser();
   }, []);
 
-  const chargerHistorique = async (userId: string) => {
-    const { data } = await supabase
-      .from('tracks')
-      .select('*')
-      .eq('user_id', userId)
-      .order('created_at', { ascending: false })
-      .limit(5);
-    if (data) setHistorique(data);
-  };
+  const menuItems = [
+    {id:'pitch', emoji:'🚀', label:'Pitch Generator'},
+    {id:'manager', emoji:'🗓️', label:'Manager IA'},
+    {id:'playlists', emoji:'🎯', label:'Playlist Finder'},
+    {id:'analytics', emoji:'📊', label:'Analytics IA'},
+    {id:'growth', emoji:'🎯', label:'Growth Score'},
+    {id:'viral', emoji:'🔥', label:'Viral Potentiel'},
+    {id:'profil', emoji:'🎨', label:'Profil Artiste'},
+    {id:'contenu', emoji:'📱', label:'Contenu Social'},
+    {id:'ia', emoji:'🤖', label:'IA Assistant'},
+    {id:'multi', emoji:'📊', label:'Multi-Plateformes'},
+    {id:'feedback', emoji:'💬', label:'Feedback'},
+  ];
 
-  const generatePitch = async () => {
+  return (
+    <div style={{display:'flex',minHeight:'100vh',background:'#000',color:'#fff',fontFamily:'sans-serif'}}>
+
+      {/* SIDEBAR */}
+      <div style={{width:'220px',background:'#0d0020',borderRight:'1px solid #2d1040',padding:'20px 0',position:'fixed',height:'100vh',overflowY:'auto',zIndex:50,display:'flex',flexDirection:'column'}}>
+        <div style={{padding:'0 15px 20px 15px',borderBottom:'1px solid #2d1040',marginBottom:'10px'}}>
+          <div style={{display:'flex',alignItems:'center',gap:'8px'}}>
+            <img src="/spotlift-icon.svg" alt="Logo" style={{width:'30px',height:'30px',borderRadius:'8px'}}/>
+            <span style={{fontWeight:'bold',color:'#9B59B6',fontSize:'14px'}}>Spotlift</span>
+          </div>
+          <p style={{color:'#555',fontSize:'11px',margin:'6px 0 0 0'}}>{user?.email}</p>
+        </div>
+
+        {menuItems.map((item) => (
+          <button key={item.id}
+            onClick={() => setActiveSection(item.id)}
+            style={{
+              width:'100%',
+              padding:'11px 15px',
+              background: activeSection === item.id ? '#1a0030' : 'transparent',
+              border:'none',
+              borderLeft: activeSection === item.id ? '3px solid #9B59B6' : '3px solid transparent',
+              color: activeSection === item.id ? '#fff' : '#aaa',
+              textAlign:'left',
+              cursor:'pointer',
+              fontSize:'13px',
+              display:'flex',
+              alignItems:'center',
+              gap:'10px',
+            }}>
+            <span>{item.emoji}</span>
+            <span>{item.label}</span>
+          </button>
+        ))}
+
+        <div style={{marginTop:'auto',padding:'15px',borderTop:'1px solid #2d1040'}}>
+          <a href="/profil" style={{color:'#aaa',fontSize:'12px',textDecoration:'none',display:'block',marginBottom:'10px'}}>👤 Mon profil</a>
+          <a href="/pricing" style={{color:'#9B59B6',fontSize:'12px',textDecoration:'none',display:'block',marginBottom:'10px'}}>⭐ Upgrade Pro</a>
+          <button onClick={async () => { await supabase.auth.signOut(); window.location.href = '/login'; }}
+            style={{color:'#555',background:'none',border:'none',cursor:'pointer',fontSize:'12px',padding:0}}>
+            Déconnexion
+          </button>
+        </div>
+      </div>
+
+      {/* CONTENU PRINCIPAL */}
+      <div style={{marginLeft:'220px',flex:1,padding:'30px',maxWidth:'900px'}}>
+
+        {/* PITCH GENERATOR */}
+        {activeSection === 'pitch' && (
+          <PitchGenerator user={user} />
+        )}
+
+        {/* MANAGER IA */}
+        {activeSection === 'manager' && (
+          <ManagerIA />
+        )}
+
+        {/* PLAYLIST FINDER */}
+        {activeSection === 'playlists' && (
+          <PlaylistFinder />
+        )}
+
+        {/* ANALYTICS IA */}
+        {activeSection === 'analytics' && (
+          <AnalyticsIA />
+        )}
+
+        {/* GROWTH SCORE */}
+        {activeSection === 'growth' && (
+          <GrowthScore />
+        )}
+
+        {/* VIRAL POTENTIEL */}
+        {activeSection === 'viral' && (
+          <ViralPotentiel />
+        )}
+
+        {/* PROFIL ARTISTE */}
+        {activeSection === 'profil' && (
+          <ProfilArtiste />
+        )}
+
+        {/* CONTENU SOCIAL */}
+        {activeSection === 'contenu' && (
+          <ContenuSocial />
+        )}
+
+        {/* IA ASSISTANT */}
+        {activeSection === 'ia' && (
+          <IAAssistant />
+        )}
+
+        {/* MULTI PLATEFORMES */}
+        {activeSection === 'multi' && (
+          <MultiPlateformes />
+        )}
+
+        {/* FEEDBACK */}
+        {activeSection === 'feedback' && (
+          <Feedback user={user} />
+        )}
+
+      </div>
+    </div>
+  );
+}
+
+function PitchGenerator({ user }: { user: any }) {
+  const [track, setTrack] = useState('');
+  const [genre, setGenre] = useState('Electronic');
+  const [pitch, setPitch] = useState('');
+  const [loading, setLoading] = useState(false);
+
+  const generatePitch = () => {
     if (!track) return;
     setLoading(true);
+    setTimeout(() => {
+      const pitches = [
+        `"${track}" est un titre ${genre} captivant qui fusionne émotion et énergie. Sa mélodie accrocheuse et sa production soignée en font un candidat idéal pour vos playlists ${genre}. Un son frais, authentique et parfaitement adapté à votre audience.`,
+        `Permettez-moi de vous présenter "${track}", un titre ${genre} qui se distingue par sa créativité et son originalité. Avec une production moderne et des arrangements travaillés, ce track a tout pour séduire les auditeurs de votre playlist.`,
+        `"${track}" représente une nouvelle vision du ${genre} contemporain. Ce titre allie des sonorités innovantes à une structure mémorable, créant une expérience d'écoute unique qui résonnera parfaitement avec votre audience.`,
+      ];
+      setPitch(pitches[Math.floor(Math.random() * pitches.length)]);
+      setLoading(false);
+    }, 1500);
+  };
+
+  return (
+    <div>
+      <h1 style={{fontSize:'28px',fontWeight:'bold',marginBottom:'8px'}}>🚀 Pitch Generator IA</h1>
+      <p style={{color:'#aaa',marginBottom:'30px'}}>Génère un pitch professionnel en 10 secondes</p>
+      <div style={{background:'#0d0020',padding:'30px',borderRadius:'20px',border:'1px solid #2d1040',marginBottom:'20px'}}>
+        <label style={{color:'#aaa',fontSize:'14px',display:'block',marginBottom:'6px'}}>Nom du track</label>
+        <input value={track} onChange={e => setTrack(e.target.value)}
+          placeholder="ex: Midnight Vibes"
+          style={{width:'100%',background:'#1a0030',border:'1px solid #2d1040',borderRadius:'10px',padding:'12px',color:'#fff',marginBottom:'15px',boxSizing:'border-box'}}/>
+        <label style={{color:'#aaa',fontSize:'14px',display:'block',marginBottom:'6px'}}>Genre musical</label>
+        <select value={genre} onChange={e => setGenre(e.target.value)}
+          style={{width:'100%',background:'#1a0030',border:'1px solid #2d1040',borderRadius:'10px',padding:'12px',color:'#fff',marginBottom:'20px',boxSizing:'border-box'}}>
+          {['Electronic','Hip-Hop','Pop','R&B','Rock','Latin','Jazz','Autre'].map(g => (
+            <option key={g} value={g}>{g}</option>
+          ))}
+        </select>
+        <button onClick={generatePitch} disabled={loading || !track}
+          style={{width:'100%',background:'#9B59B6',color:'#fff',padding:'14px',borderRadius:'10px',fontWeight:'bold',fontSize:'16px',cursor:'pointer',border:'none'}}>
+          {loading ? '⏳ Génération...' : '🚀 Générer le Pitch'}
+        </button>
+      </div>
+      {pitch && (
+        <div style={{background:'#0d0020',padding:'25px',borderRadius:'20px',border:'1px solid #9B59B6'}}>
+          <div style={{display:'flex',justifyContent:'space-between',alignItems:'center',marginBottom:'15px'}}>
+            <p style={{color:'#9B59B6',fontWeight:'bold',margin:0}}>✅ Pitch généré :</p>
+            <button onClick={() => navigator.clipboard.writeText(pitch)}
+              style={{background:'#1a0030',color:'#aaa',border:'1px solid #2d1040',padding:'6px 12px',borderRadius:'8px',cursor:'pointer',fontSize:'12px'}}>
+              📋 Copier
+            </button>
+          </div>
+          <p style={{color:'#ccc',lineHeight:'1.8',margin:0}}>{pitch}</p>
+        </div>
+      )}
+    </div>
+  );
+}
+
+function ManagerIA() {
+  const [trackName, setTrackName] = useState('');
+  const [releaseDate, setReleaseDate] = useState('');
+  const [calendar, setCalendar] = useState<any[]>([]);
+
+  const generateCalendar = () => {
+    if (!trackName || !releaseDate) return;
+    const release = new Date(releaseDate);
+    const addDays = (d: Date, n: number) => { const r = new Date(d); r.setDate(r.getDate()+n); return r; };
+    const format = (d: Date) => d.toLocaleDateString('fr-FR', {day:'numeric',month:'long'});
+    const items = [
+      {day:-30,emoji:'🎭',action:`Teaser mystère Instagram pour "${trackName}"`},
+      {day:-21,emoji:'📢',action:`Annonce officielle du titre "${trackName}"`},
+      {day:-14,emoji:'🎯',action:`Envoyer le pitch aux curateurs Spotify`},
+      {day:-10,emoji:'🎵',action:`Premier extrait TikTok (15 secondes)`},
+      {day:-7,emoji:'📮',action:`Soumission Spotify Editorial Playlist`},
+      {day:-5,emoji:'🎬',action:`Deuxième TikTok (making of)`},
+      {day:-3,emoji:'⏰',action:`Story countdown Instagram`},
+      {day:-2,emoji:'💾',action:`Lancer les pré-saves`},
+      {day:-1,emoji:'🔥',action:`Teaser final 30 secondes`},
+      {day:0,emoji:'🚀',action:`SORTIE DE "${trackName}" — Poster sur tous les réseaux !`,highlight:true},
+      {day:1,emoji:'📱',action:`TikTok/Reels reaction à la sortie`},
+      {day:3,emoji:'💰',action:`Lancer les ads Facebook/Instagram`},
+      {day:7,emoji:'📊',action:`Bilan des streams et ajuster la stratégie`},
+      {day:14,emoji:'🔄',action:`Relance avec nouveau contenu`},
+    ];
+    setCalendar(items.map(item => ({...item, date: format(addDays(release, item.day)), label: item.day === 0 ? 'JOUR J' : item.day > 0 ? `J+${item.day}` : `J${item.day}`})));
+  };
+
+  return (
+    <div>
+      <h1 style={{fontSize:'28px',fontWeight:'bold',marginBottom:'8px'}}>🗓️ Manager IA</h1>
+      <p style={{color:'#aaa',marginBottom:'30px'}}>Planifie automatiquement ta sortie sur 44 jours</p>
+      <div style={{background:'#0d0020',padding:'30px',borderRadius:'20px',border:'1px solid #2d1040',marginBottom:'20px'}}>
+        <input value={trackName} onChange={e => setTrackName(e.target.value)}
+          placeholder="Nom du track"
+          style={{width:'100%',background:'#1a0030',border:'1px solid #2d1040',borderRadius:'10px',padding:'12px',color:'#fff',marginBottom:'15px',boxSizing:'border-box'}}/>
+        <input type="date" value={releaseDate} onChange={e => setReleaseDate(e.target.value)}
+          style={{width:'100%',background:'#1a0030',border:'1px solid #2d1040',borderRadius:'10px',padding:'12px',color:'#fff',marginBottom:'20px',boxSizing:'border-box'}}/>
+        <button onClick={generateCalendar}
+          style={{width:'100%',background:'#9B59B6',color:'#fff',padding:'14px',borderRadius:'10px',fontWeight:'bold',fontSize:'16px',cursor:'pointer',border:'none'}}>
+          🗓️ Générer le planning
+        </button>
+      </div>
+      {calendar.length > 0 && calendar.map((item, i) => (
+        <div key={i} style={{display:'flex',alignItems:'flex-start',gap:'15px',padding:'15px',borderRadius:'12px',marginBottom:'10px',background: item.highlight ? '#2d1040' : '#0d0020',border: item.highlight ? '1px solid #9B59B6' : '1px solid #2d1040'}}>
+          <span style={{fontSize:'24px'}}>{item.emoji}</span>
+          <div>
+            <p style={{color:'#9B59B6',fontSize:'12px',margin:0,fontWeight:'bold'}}>{item.label} — {item.date}</p>
+            <p style={{color:'#fff',fontSize:'14px',margin:0}}>{item.action}</p>
+          </div>
+        </div>
+      ))}
+    </div>
+  );
+}
+
+function PlaylistFinder() {
+  const [genre, setGenre] = useState('');
+  const [mood, setMood] = useState('');
+  const [results, setResults] = useState<any[]>([]);
+
+  const findPlaylists = () => {
+    if (!genre) return;
+    const playlists = [
+      {name:`${genre} Hits 2026`,followers:'125K',curator:'SpotifyEditor',match:'98%',type:'Editorial'},
+      {name:`Best of ${genre}`,followers:'89K',curator:'MusicLover',match:'95%',type:'Indépendante'},
+      {name:`${mood || 'Chill'} ${genre} Vibes`,followers:'67K',curator:'PlaylistPro',match:'92%',type:'Indépendante'},
+      {name:`${genre} Underground`,followers:'45K',curator:'Underground_FR',match:'88%',type:'Indépendante'},
+      {name:`New ${genre} Music`,followers:'234K',curator:'NewMusicFinder',match:'85%',type:'Editorial'},
+      {name:`${genre} France`,followers:'56K',curator:'FrenchMusic',match:'79%',type:'Indépendante'},
+    ];
+    setResults(playlists);
+  };
+
+  return (
+    <div>
+      <h1 style={{fontSize:'28px',fontWeight:'bold',marginBottom:'8px'}}>🎯 Playlist Finder</h1>
+      <p style={{color:'#aaa',marginBottom:'30px'}}>Trouve les playlists parfaites pour ton son</p>
+      <div style={{background:'#0d0020',padding:'30px',borderRadius:'20px',border:'1px solid #2d1040',marginBottom:'20px'}}>
+        <input value={genre} onChange={e => setGenre(e.target.value)}
+          placeholder="Genre (ex: Electronic, Hip-Hop...)"
+          style={{width:'100%',background:'#1a0030',border:'1px solid #2d1040',borderRadius:'10px',padding:'12px',color:'#fff',marginBottom:'15px',boxSizing:'border-box'}}/>
+        <input value={mood} onChange={e => setMood(e.target.value)}
+          placeholder="Ambiance (ex: Chill, Energetic...)"
+          style={{width:'100%',background:'#1a0030',border:'1px solid #2d1040',borderRadius:'10px',padding:'12px',color:'#fff',marginBottom:'20px',boxSizing:'border-box'}}/>
+        <button onClick={findPlaylists}
+          style={{width:'100%',background:'#9B59B6',color:'#fff',padding:'14px',borderRadius:'10px',fontWeight:'bold',fontSize:'16px',cursor:'pointer',border:'none'}}>
+          🔍 Trouver des playlists
+        </button>
+      </div>
+      {results.map((p, i) => (
+        <div key={i} style={{background:'#0d0020',padding:'15px',borderRadius:'12px',marginBottom:'10px',border:'1px solid #2d1040',display:'flex',justifyContent:'space-between',alignItems:'center'}}>
+          <div>
+            <p style={{fontWeight:'bold',margin:'0 0 4px 0'}}>{p.name}</p>
+            <p style={{color:'#aaa',fontSize:'13px',margin:'0 0 4px 0'}}>👤 {p.curator} • 👥 {p.followers}</p>
+            <span style={{fontSize:'11px',padding:'2px 8px',borderRadius:'8px',background: p.type === 'Editorial' ? '#1DB95433' : '#2d1040',color: p.type === 'Editorial' ? '#1DB954' : '#aaa'}}>{p.type}</span>
+          </div>
+          <div style={{textAlign:'right'}}>
+            <p style={{color:'#1DB954',fontWeight:'bold',fontSize:'20px',margin:0}}>{p.match}</p>
+            <p style={{color:'#555',fontSize:'12px',margin:0}}>match</p>
+          </div>
+        </div>
+      ))}
+    </div>
+  );
+}
+
+function AnalyticsIA() {
+  const [saveRate, setSaveRate] = useState('');
+  const [skipRate, setSkipRate] = useState('');
+  const [replayRate, setReplayRate] = useState('');
+  const [listenTime, setListenTime] = useState('');
+  const [country, setCountry] = useState('');
+  const [duration, setDuration] = useState('');
+  const [recs, setRecs] = useState<any[]>([]);
+
+  const analyze = () => {
+    const save = parseInt(saveRate) || 0;
+    const skip = parseInt(skipRate) || 0;
+    const replay = parseInt(replayRate) || 0;
+    const listen = parseInt(listenTime) || 0;
+    const dur = parseInt(duration) || 180;
+    const results = [];
+    if (save < 10) results.push({type:'🔴',title:'Taux de save trop bas',desc:`${save}% de saves. Rends ton hook plus mémorable dans les 30 premières secondes.`,action:'Raccourcis ton intro et place ton meilleur moment avant 30 secondes.'});
+    else if (save >= 20) results.push({type:'🟢',title:'Excellent taux de save !',desc:`${save}% de saves — tu as un vrai fan base.`,action:'Lance une campagne de pré-save pour ton prochain track.'});
+    else results.push({type:'🟡',title:'Taux de save correct',desc:`${save}% de saves — dans la moyenne.`,action:'Ajoute un call-to-action dans tes posts : "Sauvegarde ce track !"'});
+    if (skip > 50) results.push({type:'🔴',title:'Skip rate élevé',desc:`${skip}% des auditeurs skippent ton track.`,action:'Analyse où ils quittent et raccourcis cette partie.'});
+    else if (skip < 20) results.push({type:'🟢',title:'Excellent engagement !',desc:`Seulement ${skip}% de skips.`,action:'Ce track est parfait pour les playlists algorithmiques Spotify.'});
+    if (replay > 30) results.push({type:'🟢',title:'Moment viral détecté !',desc:`${replay}% de replay rate.`,action:'Identifie ce moment exact et utilise-le comme extrait TikTok.'});
+    if (listen < dur * 0.3) results.push({type:'🔴',title:'Écoute trop courte',desc:`Les auditeurs écoutent seulement ${listen}s sur ${dur}s.`,action:`Place ton drop avant ${Math.round(dur * 0.2)}s.`});
+    if (country && country.toLowerCase() !== 'france') results.push({type:'🟡',title:`Audience : ${country}`,desc:`Ton audience principale est en ${country}.`,action:`Cible les playlists de ${country} et lance des ads géolocalisées.`});
+    setRecs(results);
+  };
+
+  return (
+    <div>
+      <h1 style={{fontSize:'28px',fontWeight:'bold',marginBottom:'8px'}}>📊 Analytics IA</h1>
+      <p style={{color:'#aaa',marginBottom:'30px'}}>Recommandations actionnables basées sur tes stats</p>
+      <div style={{background:'#0d0020',padding:'30px',borderRadius:'20px',border:'1px solid #2d1040',marginBottom:'20px'}}>
+        <div style={{display:'grid',gridTemplateColumns:'1fr 1fr',gap:'15px',marginBottom:'20px'}}>
+          {[
+            {label:'Taux de save (%)',val:saveRate,set:setSaveRate,ph:'ex: 15'},
+            {label:'Skip rate (%)',val:skipRate,set:setSkipRate,ph:'ex: 45'},
+            {label:'Replay rate (%)',val:replayRate,set:setReplayRate,ph:'ex: 25'},
+            {label:'Durée écoute (sec)',val:listenTime,set:setListenTime,ph:'ex: 45'},
+            {label:'Pays principal',val:country,set:setCountry,ph:'ex: France'},
+            {label:'Durée track (sec)',val:duration,set:setDuration,ph:'ex: 180'},
+          ].map((f,i) => (
+            <div key={i}>
+              <label style={{color:'#aaa',fontSize:'13px',display:'block',marginBottom:'5px'}}>{f.label}</label>
+              <input value={f.val} onChange={e => f.set(e.target.value)} placeholder={f.ph}
+                style={{width:'100%',background:'#1a0030',border:'1px solid #2d1040',borderRadius:'8px',padding:'10px',color:'#fff',boxSizing:'border-box'}}/>
+            </div>
+          ))}
+        </div>
+        <button onClick={analyze}
+          style={{width:'100%',background:'#3498db',color:'#fff',padding:'14px',borderRadius:'10px',fontWeight:'bold',fontSize:'16px',cursor:'pointer',border:'none'}}>
+          🔍 Analyser mes performances
+        </button>
+      </div>
+      {recs.map((r,i) => (
+        <div key={i} style={{background:'#0d0020',padding:'15px',borderRadius:'12px',marginBottom:'10px',borderLeft:`4px solid ${r.type==='🔴'?'#e74c3c':r.type==='🟢'?'#1DB954':'#f39c12'}`}}>
+          <p style={{fontWeight:'bold',margin:'0 0 5px 0'}}>{r.type} {r.title}</p>
+          <p style={{color:'#aaa',fontSize:'13px',margin:'0 0 5px 0'}}>{r.desc}</p>
+          <p style={{color:'#3498db',fontSize:'13px',margin:0}}>✅ Action : {r.action}</p>
+        </div>
+      ))}
+    </div>
+  );
+}
+
+function GrowthScore() {
+  const [streams, setStreams] = useState('');
+  const [followers, setFollowers] = useState('');
+  const [playlists, setPlaylists] = useState('');
+  const [save, setSave] = useState('');
+  const [releases, setReleases] = useState('');
+  const [social, setSocial] = useState('');
+  const [score, setScore] = useState<number|null>(null);
+
+  const calculate = () => {
+    let s = 0;
+    const st = parseInt(streams)||0;
+    const fo = parseInt(followers)||0;
+    const pl = parseInt(playlists)||0;
+    const sa = parseInt(save)||0;
+    const re = parseInt(releases)||0;
+    const so = parseInt(social)||0;
+    if (st > 10000) s+=20; else if (st > 5000) s+=15; else if (st > 1000) s+=10; else s+=5;
+    if (fo > 1000) s+=20; else if (fo > 500) s+=15; else if (fo > 100) s+=10; else s+=5;
+    if (pl > 10) s+=20; else if (pl > 5) s+=15; else if (pl > 0) s+=10;
+    if (sa > 20) s+=20; else if (sa > 10) s+=15; else if (sa > 5) s+=10; else s+=5;
+    if (re >= 2) s+=10; else if (re === 1) s+=7;
+    s+=Math.min(so,10);
+    setScore(s);
+  };
+
+  const color = score !== null ? (score >= 70 ? '#1DB954' : score >= 40 ? '#f39c12' : '#e74c3c') : '#9B59B6';
+  const label = score !== null ? (score >= 70 ? 'Excellent 🚀' : score >= 40 ? 'En progression 📈' : 'À améliorer ⚠️') : '';
+
+  return (
+    <div>
+      <h1 style={{fontSize:'28px',fontWeight:'bold',marginBottom:'8px'}}>🎯 Growth Score</h1>
+      <p style={{color:'#aaa',marginBottom:'30px'}}>Calcule ton score de croissance Spotify sur 100</p>
+      <div style={{background:'#0d0020',padding:'30px',borderRadius:'20px',border:'1px solid #2d1040',marginBottom:'20px'}}>
+        <div style={{display:'grid',gridTemplateColumns:'1fr 1fr',gap:'15px',marginBottom:'20px'}}>
+          {[
+            {label:'Streams ce mois',val:streams,set:setStreams,ph:'ex: 5000'},
+            {label:'Followers Spotify',val:followers,set:setFollowers,ph:'ex: 500'},
+            {label:'Nombre de playlists',val:playlists,set:setPlaylists,ph:'ex: 3'},
+            {label:'Taux de save (%)',val:save,set:setSave,ph:'ex: 15'},
+            {label:'Sorties ce mois',val:releases,set:setReleases,ph:'ex: 1'},
+            {label:'Présence réseaux (1-10)',val:social,set:setSocial,ph:'ex: 7'},
+          ].map((f,i) => (
+            <div key={i}>
+              <label style={{color:'#aaa',fontSize:'13px',display:'block',marginBottom:'5px'}}>{f.label}</label>
+              <input value={f.val} onChange={e => f.set(e.target.value)} placeholder={f.ph}
+                style={{width:'100%',background:'#1a0030',border:'1px solid #2d1040',borderRadius:'8px',padding:'10px',color:'#fff',boxSizing:'border-box'}}/>
+            </div>
+          ))}
+        </div>
+        <button onClick={calculate}
+          style={{width:'100%',background:'linear-gradient(135deg,#9B59B6,#1DB954)',color:'#fff',padding:'14px',borderRadius:'10px',fontWeight:'bold',fontSize:'16px',cursor:'pointer',border:'none'}}>
+          🎯 Calculer mon Growth Score
+        </button>
+      </div>
+      {score !== null && (
+        <div style={{background:'#0d0020',padding:'30px',borderRadius:'20px',border:'1px solid #2d1040',textAlign:'center'}}>
+          <div style={{fontSize:'80px',fontWeight:'bold',color}}>{score}</div>
+          <div style={{color:'#aaa',fontSize:'18px'}}>/100</div>
+          <div style={{fontSize:'22px',marginTop:'10px'}}>{label}</div>
+          <div style={{background:'#1a0030',padding:'15px',borderRadius:'12px',marginTop:'20px',textAlign:'left'}}>
+            <p style={{color:'#aaa',fontSize:'14px',margin:0}}>
+              {score < 70 ? '💡 Soumets ton track aux curateurs et améliore ta présence sur les réseaux.' : '💡 Continue comme ça, tu es sur la bonne voie !'}
+            </p>
+          </div>
+        </div>
+      )}
+    </div>
+  );
+}
+
+function ViralPotentiel() {
+  const [intro, setIntro] = useState('');
+  const [drop, setDrop] = useState('');
+  const [bpm, setBpm] = useState('');
+  const [genre, setGenre] = useState('electronic');
+  const [hook, setHook] = useState('yes');
+  const [dance, setDance] = useState('yes');
+  const [result, setResult] = useState<any>(null);
+
+  const analyze = () => {
+    let score = 0;
+    const signals = [];
+    const i = parseInt(intro)||0;
+    const d = parseInt(drop)||0;
+    const b = parseInt(bpm)||0;
+    if (i <= 10) { score+=25; signals.push({e:'🟢',t:'Intro courte — parfait pour TikTok'}); }
+    else if (i <= 20) { score+=15; signals.push({e:'🟡',t:'Intro correcte — essaie de la raccourcir'}); }
+    else { score+=0; signals.push({e:'🔴',t:'Intro trop longue — les auditeurs vont skipper'}); }
+    if (d <= 20) { score+=25; signals.push({e:'🟢',t:'Drop très rapide — potentiel viral élevé'}); }
+    else if (d <= 35) { score+=15; signals.push({e:'🟡',t:'Drop correct — essaie de le placer avant 20s'}); }
+    else { score+=5; signals.push({e:'🔴',t:'Drop trop tardif — 70% partent avant 30s sur TikTok'}); }
+    if (b >= 120 && b <= 140) { score+=20; signals.push({e:'🟢',t:'BPM idéal pour les playlists Dance et TikTok'}); }
+    else { score+=10; signals.push({e:'🟡',t:'BPM correct pour le streaming Spotify'}); }
+    if (hook === 'yes') { score+=20; signals.push({e:'🟢',t:'Hook mémorable — clé du succès viral'}); }
+    else if (hook === 'maybe') { score+=10; signals.push({e:'🟡',t:'Hook à améliorer'}); }
+    else { score+=0; signals.push({e:'🔴',t:'Pas de hook — difficile de percer sans élément mémorable'}); }
+    if (dance === 'yes') { score+=10; signals.push({e:'🟢',t:'Partie dansable — parfait pour les challenges TikTok'}); }
+    else { score+=5; signals.push({e:'🟡',t:'Mise sur l\'émotion pour les Reels'}); }
+    setResult({score, signals, label: score >= 75 ? 'VIRAL POTENTIEL ÉLEVÉ 🔥' : score >= 50 ? 'BON POTENTIEL 📈' : 'POTENTIEL LIMITÉ ⚠️', color: score >= 75 ? '#1DB954' : score >= 50 ? '#f39c12' : '#e74c3c'});
+  };
+
+  return (
+    <div>
+      <h1 style={{fontSize:'28px',fontWeight:'bold',marginBottom:'8px'}}>🔥 Détection Viral Potentiel</h1>
+      <p style={{color:'#aaa',marginBottom:'30px'}}>Analyse ton track et détecte son potentiel viral</p>
+      <div style={{background:'#0d0020',padding:'30px',borderRadius:'20px',border:'1px solid #2d1040',marginBottom:'20px'}}>
+        <div style={{display:'grid',gridTemplateColumns:'1fr 1fr',gap:'15px',marginBottom:'20px'}}>
+          <div>
+            <label style={{color:'#aaa',fontSize:'13px',display:'block',marginBottom:'5px'}}>Durée intro (sec)</label>
+            <input value={intro} onChange={e => setIntro(e.target.value)} placeholder="ex: 15"
+              style={{width:'100%',background:'#1a0030',border:'1px solid #2d1040',borderRadius:'8px',padding:'10px',color:'#fff',boxSizing:'border-box'}}/>
+          </div>
+          <div>
+            <label style={{color:'#aaa',fontSize:'13px',display:'block',marginBottom:'5px'}}>Durée avant le drop (sec)</label>
+            <input value={drop} onChange={e => setDrop(e.target.value)} placeholder="ex: 30"
+              style={{width:'100%',background:'#1a0030',border:'1px solid #2d1040',borderRadius:'8px',padding:'10px',color:'#fff',boxSizing:'border-box'}}/>
+          </div>
+          <div>
+            <label style={{color:'#aaa',fontSize:'13px',display:'block',marginBottom:'5px'}}>Tempo (BPM)</label>
+            <input value={bpm} onChange={e => setBpm(e.target.value)} placeholder="ex: 128"
+              style={{width:'100%',background:'#1a0030',border:'1px solid #2d1040',borderRadius:'8px',padding:'10px',color:'#fff',boxSizing:'border-box'}}/>
+          </div>
+          <div>
+            <label style={{color:'#aaa',fontSize:'13px',display:'block',marginBottom:'5px'}}>Genre</label>
+            <select value={genre} onChange={e => setGenre(e.target.value)}
+              style={{width:'100%',background:'#1a0030',border:'1px solid #2d1040',borderRadius:'8px',padding:'10px',color:'#fff',boxSizing:'border-box'}}>
+              <option value="pop">Pop</option>
+              <option value="hiphop">Hip-Hop</option>
+              <option value="electronic">Electronic</option>
+              <option value="rnb">R&B</option>
+              <option value="latin">Latin</option>
+            </select>
+          </div>
+          <div>
+            <label style={{color:'#aaa',fontSize:'13px',display:'block',marginBottom:'5px'}}>Hook mémorable ?</label>
+            <select value={hook} onChange={e => setHook(e.target.value)}
+              style={{width:'100%',background:'#1a0030',border:'1px solid #2d1040',borderRadius:'8px',padding:'10px',color:'#fff',boxSizing:'border-box'}}>
+              <option value="yes">Oui — très accrocheur</option>
+              <option value="maybe">Peut-être</option>
+              <option value="no">Non</option>
+            </select>
+          </div>
+          <div>
+            <label style={{color:'#aaa',fontSize:'13px',display:'block',marginBottom:'5px'}}>Partie dansable ?</label>
+            <select value={dance} onChange={e => setDance(e.target.value)}
+              style={{width:'100%',background:'#1a0030',border:'1px solid #2d1040',borderRadius:'8px',padding:'10px',color:'#fff',boxSizing:'border-box'}}>
+              <option value="yes">Oui</option>
+              <option value="no">Non</option>
+            </select>
+          </div>
+        </div>
+        <button onClick={analyze}
+          style={{width:'100%',background:'#e74c3c',color:'#fff',padding:'14px',borderRadius:'10px',fontWeight:'bold',fontSize:'16px',cursor:'pointer',border:'none'}}>
+          🔥 Analyser le potentiel viral
+        </button>
+      </div>
+      {result && (
+        <div style={{background:'#0d0020',padding:'25px',borderRadius:'20px',border:'1px solid #2d1040'}}>
+          <div style={{textAlign:'center',marginBottom:'20px'}}>
+            <div style={{fontSize:'60px',fontWeight:'bold',color:result.color}}>{result.score}%</div>
+            <div style={{fontSize:'18px',fontWeight:'bold',color:result.color}}>{result.label}</div>
+          </div>
+          {result.signals.map((s:any,i:number) => (
+            <div key={i} style={{background:'#1a0030',padding:'12px',borderRadius:'10px',marginBottom:'8px',display:'flex',gap:'10px',alignItems:'center'}}>
+              <span style={{fontSize:'18px'}}>{s.e}</span>
+              <span style={{color:'#ccc',fontSize:'13px'}}>{s.t}</span>
+            </div>
+          ))}
+        </div>
+      )}
+    </div>
+  );
+}
+
+function ProfilArtiste() {
+  const [nom, setNom] = useState('');
+  const [photo, setPhoto] = useState('yes');
+  const [bio, setBio] = useState('yes');
+  const [links, setLinks] = useState('all');
+  const [pick, setPick] = useState('yes');
+  const [claimed, setClaimed] = useState('yes');
+  const [result, setResult] = useState<any>(null);
+
+  const analyze = () => {
+    let score = 0;
+    const recs = [];
+    if (photo==='yes'){score+=25;recs.push({e:'🟢',t:'Super photo de profil'});}
+    else if (photo==='ok'){score+=15;recs.push({e:'🟡',t:'Investis dans une séance photo pro'});}
+    else{score+=0;recs.push({e:'🔴',t:'URGENT : Ajoute une photo professionnelle'});}
+    if (bio==='yes'){score+=25;recs.push({e:'🟢',t:'Bio complète — excellent !'});}
+    else if (bio==='short'){score+=15;recs.push({e:'🟡',t:'Bio trop courte — ajoute tes influences'});}
+    else{score+=0;recs.push({e:'🔴',t:'URGENT : Écris une bio Spotify'});}
+    if (links==='all'){score+=20;recs.push({e:'🟢',t:'Tous les liens réseaux — parfait !'});}
+    else if (links==='some'){score+=10;recs.push({e:'🟡',t:'Ajoute tous tes liens réseaux'});}
+    else{score+=0;recs.push({e:'🔴',t:'Ajoute tes liens Instagram, TikTok sur Spotify'});}
+    if (pick==='yes'){score+=15;recs.push({e:'🟢',t:'Artist Pick active — bien !'});}
+    else{score+=0;recs.push({e:'🔴',t:'Active l\'Artist Pick maintenant'});}
+    if (claimed==='yes'){score+=15;recs.push({e:'🟢',t:'Profil revendiqué — accès complet Spotify for Artists'});}
+    else{score+=0;recs.push({e:'🔴',t:'URGENT : Revendique ton profil sur artists.spotify.com'});}
+    const color = score>=75?'#1DB954':score>=50?'#f39c12':'#e74c3c';
+    const label = score>=75?'Profil Optimisé':'score>=50?Profil Correct':'Profil à Améliorer';
+    setResult({score,recs,color,label:`${label} — ${nom||'Artiste'}`});
+  };
+
+  return (
+    <div>
+      <h1 style={{fontSize:'28px',fontWeight:'bold',marginBottom:'8px'}}>🎨 Optimisation Profil Artiste</h1>
+      <p style={{color:'#aaa',marginBottom:'30px'}}>Analyse ton profil Spotify et optimise chaque élément</p>
+      <div style={{background:'#0d0020',padding:'30px',borderRadius:'20px',border:'1px solid #2d1040',marginBottom:'20px'}}>
+        <input value={nom} onChange={e => setNom(e.target.value)} placeholder="Nom d'artiste"
+          style={{width:'100%',background:'#1a0030',border:'1px solid #2d1040',borderRadius:'8px',padding:'10px',color:'#fff',marginBottom:'15px',boxSizing:'border-box'}}/>
+        {[
+          {label:'Photo de profil professionnelle ?',val:photo,set:setPhoto,opts:[{v:'yes',l:'Oui — photo pro'},{v:'ok',l:'Oui — mais pas terrible'},{v:'no',l:'Non'}]},
+          {label:'Bio Spotify ?',val:bio,set:setBio,opts:[{v:'yes',l:'Oui — bio complète'},{v:'short',l:'Oui — trop courte'},{v:'no',l:'Non'}]},
+          {label:'Liens réseaux sur Spotify ?',val:links,set:setLinks,opts:[{v:'all',l:'Tous les liens'},{v:'some',l:'Quelques uns'},{v:'no',l:'Non'}]},
+          {label:'Artist Pick active ?',val:pick,set:setPick,opts:[{v:'yes',l:'Oui'},{v:'no',l:'Non'}]},
+          {label:'Profil revendiqué ?',val:claimed,set:setClaimed,opts:[{v:'yes',l:'Oui'},{v:'no',l:'Non'}]},
+        ].map((f,i) => (
+          <div key={i} style={{marginBottom:'15px'}}>
+            <label style={{color:'#aaa',fontSize:'13px',display:'block',marginBottom:'5px'}}>{f.label}</label>
+            <select value={f.val} onChange={e => f.set(e.target.value)}
+              style={{width:'100%',background:'#1a0030',border:'1px solid #2d1040',borderRadius:'8px',padding:'10px',color:'#fff',boxSizing:'border-box'}}>
+              {f.opts.map(o => <option key={o.v} value={o.v}>{o.l}</option>)}
+            </select>
+          </div>
+        ))}
+        <button onClick={analyze}
+          style={{width:'100%',background:'#3498db',color:'#fff',padding:'14px',borderRadius:'10px',fontWeight:'bold',fontSize:'16px',cursor:'pointer',border:'none'}}>
+          🎨 Analyser mon profil
+        </button>
+      </div>
+      {result && (
+        <div style={{background:'#0d0020',padding:'25px',borderRadius:'20px',border:'1px solid #2d1040'}}>
+          <div style={{textAlign:'center',marginBottom:'20px'}}>
+            <div style={{fontSize:'60px',fontWeight:'bold',color:result.color}}>{result.score}/100</div>
+            <div style={{fontSize:'16px',color:result.color,fontWeight:'bold'}}>{result.label}</div>
+          </div>
+          {result.recs.map((r:any,i:number) => (
+            <div key={i} style={{background:'#1a0030',padding:'12px',borderRadius:'10px',marginBottom:'8px',display:'flex',gap:'10px',alignItems:'center'}}>
+              <span>{r.e}</span>
+              <span style={{color:'#ccc',fontSize:'13px'}}>{r.t}</span>
+            </div>
+          ))}
+        </div>
+      )}
+    </div>
+  );
+}
+
+function ContenuSocial() {
+  const [track, setTrack] = useState('');
+  const [platform, setPlatform] = useState('instagram');
+  const [contenu, setContenu] = useState('');
+  const [loading, setLoading] = useState(false);
+
+  const generate = () => {
+    if (!track) return;
+    setLoading(true);
+    setTimeout(() => {
+      const templates: Record<string, string> = {
+        instagram: `🎵 Nouvelle musique disponible !\n\n"${track}" est enfin là ! Un son qui va vous transporter dans un univers unique.\n\nDisponible maintenant sur toutes les plateformes 🎧\n\n#NouvelleMusique #Spotify #Music #NewRelease #ArtisteIndependant`,
+        tiktok: `POV : Tu écoutes "${track}" pour la première fois 👀🎵\n\nCe son va rester dans ta tête toute la journée 🔁\n\nDisponible sur Spotify ⚡\n\n#NewMusic #Spotify #FYP #MusiqueFR`,
+        twitter: `🚀 "${track}" est maintenant disponible sur toutes les plateformes !\n\nLien en bio 👆\n\n#NewMusic #Spotify #ArtisteIndependant`,
+        email: `Sujet: "${track}" est maintenant disponible !\n\nBonjour,\n\nJ'ai le plaisir de vous annoncer la sortie de mon nouveau titre "${track}".\n\nVous pouvez l'écouter dès maintenant sur Spotify et toutes les plateformes de streaming.\n\nMerci pour votre soutien !\n\nCordialement`,
+      };
+      setContenu(templates[platform] || templates.instagram);
+      setLoading(false);
+    }, 1000);
+  };
+
+  return (
+    <div>
+      <h1 style={{fontSize:'28px',fontWeight:'bold',marginBottom:'8px'}}>📱 Générateur de Contenu</h1>
+      <p style={{color:'#aaa',marginBottom:'30px'}}>Crée du contenu optimisé pour tes réseaux sociaux</p>
+      <div style={{background:'#0d0020',padding:'30px',borderRadius:'20px',border:'1px solid #2d1040',marginBottom:'20px'}}>
+        <input value={track} onChange={e => setTrack(e.target.value)} placeholder="Nom du track"
+          style={{width:'100%',background:'#1a0030',border:'1px solid #2d1040',borderRadius:'10px',padding:'12px',color:'#fff',marginBottom:'15px',boxSizing:'border-box'}}/>
+        <div style={{display:'flex',gap:'10px',marginBottom:'20px',flexWrap:'wrap'}}>
+          {[{id:'instagram',label:'📸 Instagram'},{id:'tiktok',label:'🎵 TikTok'},{id:'twitter',label:'🐦 Twitter'},{id:'email',label:'📧 Email'}].map(p => (
+            <button key={p.id} onClick={() => setPlatform(p.id)}
+              style={{padding:'8px 16px',borderRadius:'20px',border:'none',background: platform===p.id ? '#9B59B6' : '#1a0030',color: platform===p.id ? 'white' : '#aaa',cursor:'pointer',fontSize:'13px'}}>
+              {p.label}
+            </button>
+          ))}
+        </div>
+        <button onClick={generate} disabled={loading || !track}
+          style={{width:'100%',background:'#9B59B6',color:'#fff',padding:'14px',borderRadius:'10px',fontWeight:'bold',fontSize:'16px',cursor:'pointer',border:'none'}}>
+          {loading ? '⏳ Génération...' : '📱 Générer le contenu'}
+        </button>
+      </div>
+      {contenu && (
+        <div style={{background:'#0d0020',padding:'25px',borderRadius:'20px',border:'1px solid #9B59B6'}}>
+          <div style={{display:'flex',justifyContent:'space-between',alignItems:'center',marginBottom:'15px'}}>
+            <p style={{color:'#9B59B6',fontWeight:'bold',margin:0}}>✅ Contenu généré :</p>
+            <button onClick={() => navigator.clipboard.writeText(contenu)}
+              style={{background:'#1a0030',color:'#aaa',border:'1px solid #2d1040',padding:'6px 12px',borderRadius:'8px',cursor:'pointer',fontSize:'12px'}}>
+              📋 Copier
+            </button>
+          </div>
+          <pre style={{color:'#ccc',whiteSpace:'pre-wrap',fontSize:'14px',lineHeight:'1.6',margin:0}}>{contenu}</pre>
+        </div>
+      )}
+    </div>
+  );
+}
+
+function IAAssistant() {
+  const [question, setQuestion] = useState('');
+  const [response, setResponse] = useState('');
+  const [loading, setLoading] = useState(false);
+
+  const quickQuestions = ['Comment pitcher sur Spotify ?','Comment choisir ma date de sortie ?','Comment faire une campagne TikTok ?','Comment augmenter mes streams ?'];
+
+  const ask = async () => {
+    if (!question) return;
+    setLoading(true);
     try {
-      const response = await fetch('/api/pitch', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ track, genre }),
-      });
-      const data = await response.json();
-      if (data.pitch) {
-        setPitch(data.pitch);
-        await supabase.from('tracks').insert({
-          user_id: user?.id,
-          name: track,
-          pitch: data.pitch,
-        });
-        chargerHistorique(user?.id);
-      }
-    } catch (err) {
-      console.error('Erreur:', err);
+      const res = await fetch('/api/assistant', {method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({question})});
+      const data = await res.json();
+      setResponse(data.response);
+    } catch {
+      setResponse('Erreur de connexion. Réessaie.');
     }
     setLoading(false);
   };
-const generateContenu = async () => {
-    if (!track) return;
-    setLoadingContenu(true);
-    const templates: any = {
-      instagram: `🎵 Nouvelle musique disponible !\n\n"${track}" est enfin là 🔥\n\nUn son ${genre || 'unique'} qui va vous transporter dans un autre univers. Écoutez maintenant sur Spotify !\n\n#NouvelleMusique #${track?.replace(/\s/g,'')} #Spotify #MusiqueIndependante #Artiste`,
-      tiktok: `POV: Tu découvres "${track}" pour la première fois 🎵✨\n\nCe son ${genre || 'incroyable'} va te rester en tête toute la journée 🔁\n\n#${track?.replace(/\s/g,'')} #NouvelleMusique #Spotify #FYP #MusiqueFR`,
-      twitter: `🚀 "${track}" est maintenant disponible sur Spotify !\n\nMon nouveau ${genre || 'track'} est enfin là. Écoutez et partagez ! 🎵\n\n#NouvelleMusique #Spotify`,
-      email: `Objet : Mon nouveau titre "${track}" est disponible !\n\nBonjour,\n\nJ'ai le plaisir de vous annoncer la sortie de mon nouveau titre "${track}".\n\nCe ${genre || 'titre'} est maintenant disponible sur toutes les plateformes de streaming.\n\nMerci pour votre soutien !\n\nCordialement`,
-    };
-    setContenu(templates[contenuType]);
-    setLoadingContenu(false);
-  };
-  const envoyerFeedback = async () => {
-    if (note === 0) return;
-    await supabase.from('feedbacks').insert({
-      user_id: user?.id,
-      note,
-      commentaire,
-      page: 'dashboard',
-    });
-    setFeedbackEnvoye(true);
-  };
+
   return (
-    <main className="min-h-screen bg-black text-white">
-  <nav className="flex items-center justify-between p-4 border-b border-zinc-800 bg-black sticky top-0 z-50">
-  <div className="flex items-center gap-3">
-    <img src="/spotlift-icon.svg" alt="Logo" style={{width:'36px',height:'36px',borderRadius:'10px'}}/>
     <div>
-      <h1 className="text-lg font-bold text-white">Spotlift</h1>
-      <p className="text-zinc-500 text-xs">Dashboard Artiste</p><a href="/profil" style={{color:'#9B59B6',fontSize:'12px',textDecoration:'none'}}>👤 Mon profil</a>
-    </div>
-  </div>
-  <div className="flex items-center gap-4">
-    <div className="hidden md:flex gap-2">
-      <span className="bg-purple-900 text-purple-300 px-3 py-1 rounded-full text-xs font-bold">Plan Free</span>
-      <a href="/pricing" className="bg-purple-600 text-white px-3 py-1 rounded-full text-xs font-bold hover:bg-purple-500">Upgrade Pro</a>
-    </div>
-    <p className="text-zinc-400 text-sm hidden md:block">{user?.email}</p>
-    <button onClick={async () => { await supabase.auth.signOut(); window.location.href = '/login'; }} className="text-zinc-500 hover:text-red-400 text-xs transition-all">Déconnexion</button>
-  </div>
-</nav>  
-
-      <div className="max-w-6xl mx-auto p-8">
-        <div className="grid md:grid-cols-3 gap-6 mb-10">
-          <div className="bg-gradient-to-br from-green-900 to-green-800 p-6 rounded-3xl">
-            <h2 className="text-xl font-bold mb-2">🚀 Pitch Generator</h2>
-            <p className="text-green-300 text-sm">Crée des pitches avec l'IA</p>
-          </div>
-          <div className="bg-gradient-to-br from-purple-900 to-purple-800 p-6 rounded-3xl cursor-pointer hover:scale-105 transition-all"
-  onClick={() => document.getElementById('playlist-finder')?.scrollIntoView({behavior:'smooth'})}>
-  <h2 className="text-xl font-bold mb-2">🎯 Playlist Finder</h2>
-  <p className="text-purple-300 text-sm">Trouve des playlists pour ton son</p>
-  <p className="text-purple-400 text-xs mt-2">↓ Cliquer pour accéder</p>
-</div>
-          </div>
-          <div className="bg-gradient-to-br from-blue-900 to-blue-800 p-6 rounded-3xl">
-            <h2 className="text-xl font-bold mb-2">📊 Analytics</h2>
-            <p className="text-blue-300 text-sm">Suis tes performances</p>
-          </div>
-        </div>
-
-        <div className="grid md:grid-cols-2 gap-8">
-          <div className="bg-zinc-900 p-8 rounded-3xl">
-            <h2 className="text-2xl font-bold mb-6">✨ Générateur de Pitch IA</h2>
-            <input
-              className="w-full bg-zinc-800 p-3 rounded-xl mb-4 text-white placeholder-zinc-500"
-              placeholder="Nom de ton track..."
-              value={track}
-              onChange={(e) => setTrack(e.target.value)}
-            />
-            <input
-              className="w-full bg-zinc-800 p-3 rounded-xl mb-6 text-white placeholder-zinc-500"
-              placeholder="Genre (ex: Hip-Hop, Pop, Electronic...)"
-              value={genre}
-              onChange={(e) => setGenre(e.target.value)}
-            />
-            <button
-              className="bg-green-500 hover:bg-green-400 text-black px-6 py-3 rounded-xl font-bold w-full mb-4 transition-all"
-              onClick={generatePitch}
-              disabled={loading}
-            >
-              {loading ? '⏳ Génération en cours...' : '🚀 Générer le Pitch'}
+      <h1 style={{fontSize:'28px',fontWeight:'bold',marginBottom:'8px'}}>🤖 IA Assistant Marketing</h1>
+      <p style={{color:'#aaa',marginBottom:'30px'}}>Pose tes questions à l'IA manager</p>
+      <div style={{background:'#0d0020',padding:'30px',borderRadius:'20px',border:'1px solid #2d1040',marginBottom:'20px'}}>
+        <div style={{display:'flex',gap:'8px',flexWrap:'wrap',marginBottom:'15px'}}>
+          {quickQuestions.map((q,i) => (
+            <button key={i} onClick={() => setQuestion(q)}
+              style={{padding:'6px 12px',borderRadius:'15px',border:'none',background:'#1a0030',color:'#aaa',cursor:'pointer',fontSize:'12px'}}>
+              {q}
             </button>
-            {pitch && (
-              <div className="bg-zinc-800 p-4 rounded-xl">
-                <p className="text-green-400 font-bold mb-2">✅ Pitch généré :</p>
-                <p className="text-white leading-relaxed">{pitch}</p>
-              </div>
-            )}
-          </div>
-
-          <div className="bg-zinc-900 p-8 rounded-3xl">
-            <h2 className="text-2xl font-bold mb-6">📝 Historique</h2>
-            {historique.length === 0 ? (
-              <p className="text-zinc-500">Aucun pitch généré pour l'instant.</p>
-            ) : (
-              historique.map((item) => (
-                <div key={item.id} className="bg-zinc-800 p-4 rounded-xl mb-3">
-                  <p className="font-bold text-green-400">🎵 {item.name}</p>
-                  <p className="text-zinc-400 text-sm mt-1 line-clamp-2">{item.pitch}</p>
-                </div>
-              ))
-            )}
-          </div>
-       <div className="bg-zinc-900 p-8 rounded-3xl mt-8 col-span-2">
-            <h2 className="text-2xl font-bold mb-6">📱 Générateur de Contenu Réseaux Sociaux</h2>
-            <div className="flex gap-3 mb-6 flex-wrap">
-              {['instagram','tiktok','twitter','email'].map(type => (
-                <button key={type} onClick={() => setContenuType(type)}
-                  className={`px-4 py-2 rounded-xl font-bold ${contenuType === type ? 'bg-purple-600 text-white' : 'bg-zinc-800 text-zinc-400'}`}>
-                  {type === 'instagram' ? '📸 Instagram' : type === 'tiktok' ? '🎵 TikTok' : type === 'twitter' ? '🐦 Twitter' : '📧 Email'}
-                </button>
-              ))}
-            </div>
-            <button className="bg-purple-600 text-white px-6 py-3 rounded-xl font-bold w-full mb-4"
-              onClick={generateContenu} disabled={loadingContenu || !track}>
-              {loadingContenu ? '⏳ Génération...' : '📱 Générer le contenu'}
-            </button>
-            {contenu && (
-              <div className="bg-zinc-800 p-4 rounded-xl">
-                <div className="flex justify-between items-center mb-2">
-                  <p className="text-purple-400 font-bold">✅ Contenu généré :</p>
-                  <button onClick={() => navigator.clipboard.writeText(contenu)}
-                    className="text-xs bg-zinc-700 px-3 py-1 rounded-lg text-zinc-300">📋 Copier</button>
-                </div>
-                <pre className="text-white whitespace-pre-wrap text-sm leading-relaxed">{contenu}</pre>
-              </div>
-            )}
-          </div>
+          ))}
         </div>
-        <div className="bg-zinc-900 p-8 rounded-3xl mt-8">
-          <h2 className="text-2xl font-bold mb-6">💬 Donner un feedback</h2>
-          {feedbackEnvoye ? (
-            <p className="text-green-400 font-bold text-center text-xl">✅ Merci pour ton feedback !</p>
-          ) : (
-            <>
-              <p className="text-zinc-400 mb-4">Note ton expérience :</p>
-              <div className="flex gap-3 mb-6">
-                {[1,2,3,4,5].map(n => (
-                  <button key={n} onClick={() => setNote(n)}
-                    className={`text-3xl transition-all ${note >= n ? 'scale-110' : 'opacity-40'}`}>
-                    ⭐
-                  </button>
-                ))}
-              </div>
-              <textarea
-                className="w-full bg-zinc-800 p-3 rounded-xl text-white placeholder-zinc-500 mb-4 h-24"
-                placeholder="Ton commentaire (optionnel)..."
-                value={commentaire}
-                onChange={(e) => setCommentaire(e.target.value)}
-              />
-              <button
-                className="bg-purple-600 text-white px-6 py-3 rounded-xl font-bold w-full"
-                onClick={envoyerFeedback}
-                disabled={note === 0}
-              >
-                Envoyer le feedback
-              </button>
-            </>
-          )}
-        </div>
-        {/* MANAGER IA - CALENDRIER DE SORTIE */}
-<div className="bg-zinc-900 p-8 rounded-3xl mt-8 col-span-2">
-  <h2 className="text-2xl font-bold mb-2">🗓️ Manager IA — Calendrier de Sortie</h2>
-  <p className="text-zinc-400 mb-6">Entre ta date de sortie et l'IA génère tout ton planning automatiquement</p>
-  
-  <div className="flex gap-4 mb-6 flex-wrap">
-    <input
-      type="text"
-      className="bg-zinc-800 p-3 rounded-xl text-white placeholder-zinc-500 flex-1"
-      placeholder="Nom du track (ex: Pulse)"
-      id="track-name-cal"
-    />
-    <input
-      type="date"
-      className="bg-zinc-800 p-3 rounded-xl text-white flex-1"
-      id="release-date"
-    />
-    <button
-      className="bg-purple-600 hover:bg-purple-500 text-white px-6 py-3 rounded-xl font-bold"
-      onClick={() => {
-        const trackName = (document.getElementById('track-name-cal') as HTMLInputElement).value;
-        const releaseDate = (document.getElementById('release-date') as HTMLInputElement).value;
-        if (!trackName || !releaseDate) return;
-        
-        const release = new Date(releaseDate);
-        const format = (d: Date) => d.toLocaleDateString('fr-FR', {day:'numeric',month:'long'});
-        const addDays = (d: Date, n: number) => { const r = new Date(d); r.setDate(r.getDate()+n); return r; };
-        
-        const calendar = [
-          {day: -30, emoji: '🎭', action: `Teaser mystère sur Instagram pour "${trackName}"`},
-          {day: -21, emoji: '📢', action: `Annonce officielle du titre "${trackName}"`},
-          {day: -14, emoji: '🎯', action: `Envoyer le pitch aux curateurs Spotify`},
-          {day: -10, emoji: '🎵', action: `Premier extrait TikTok (15 secondes)`},
-          {day: -7,  emoji: '📮', action: `Soumission Spotify Editorial Playlist`},
-          {day: -5,  emoji: '🎬', action: `Deuxième TikTok (making of)`},
-          {day: -3,  emoji: '⏰', action: `Story countdown Instagram`},
-          {day: -2,  emoji: '💾', action: `Lancer les pré-saves`},
-          {day: -1,  emoji: '🔥', action: `Teaser final 30 secondes`},
-          {day:  0,  emoji: '🚀', action: `SORTIE DE "${trackName}" — Poster sur tous les réseaux !`},
-          {day:  1,  emoji: '📱', action: `TikTok/Reels reaction à la sortie`},
-          {day:  3,  emoji: '💰', action: `Lancer les ads Facebook/Instagram`},
-          {day:  7,  emoji: '📊', action: `Bilan des streams et ajuster la stratégie`},
-          {day: 14,  emoji: '🔄', action: `Relance avec nouveau contenu`},
-        ];
-        
-        const container = document.getElementById('calendar-result');
-        if (!container) return;
-        container.innerHTML = `
-          <p class="text-purple-400 font-bold mb-4">✅ Calendrier généré pour "${trackName}" — Sortie le ${format(release)}</p>
-          ${calendar.map(item => {
-            const date = addDays(release, item.day);
-            const isToday = item.day === 0;
-            return `<div class="flex items-start gap-3 mb-3 p-3 rounded-xl ${isToday ? 'bg-purple-900 border border-purple-500' : 'bg-zinc-800'}">
-              <span class="text-2xl">${item.emoji}</span>
-              <div>
-                <p class="text-zinc-400 text-xs">${item.day === 0 ? '🎯 JOUR J' : item.day > 0 ? `J+${item.day}` : `J${item.day}`} — ${format(date)}</p>
-                <p class="text-white text-sm font-medium">${item.action}</p>
-              </div>
-            </div>`;
-          }).join('')}
-        `;
-        container.style.display = 'block';
-      }}
-    >
-      🗓️ Générer le planning
-    </button>
-  </div>
-  
-  <div id="calendar-result" style={{display:'none'}} className="mt-4"></div>
-</div>
-      {/* ANALYTICS IA */}
-<div className="bg-zinc-900 p-8 rounded-3xl mt-8 col-span-2">
-  <h2 className="text-2xl font-bold mb-2">📊 Analytics IA</h2>
-  <p className="text-zinc-400 mb-6">Entre tes stats Spotify et l'IA te donne des recommandations actionnables</p>
-
-  <div className="grid md:grid-cols-2 gap-4 mb-6">
-    <div>
-      <label className="text-zinc-400 text-sm mb-1 block">Taux de save (%)</label>
-      <input id="save-rate" type="number" placeholder="ex: 15" className="w-full bg-zinc-800 p-3 rounded-xl text-white placeholder-zinc-500"/>
-    </div>
-    <div>
-      <label className="text-zinc-400 text-sm mb-1 block">Skip rate (%)</label>
-      <input id="skip-rate" type="number" placeholder="ex: 45" className="w-full bg-zinc-800 p-3 rounded-xl text-white placeholder-zinc-500"/>
-    </div>
-    <div>
-      <label className="text-zinc-400 text-sm mb-1 block">Replay rate (%)</label>
-      <input id="replay-rate" type="number" placeholder="ex: 25" className="w-full bg-zinc-800 p-3 rounded-xl text-white placeholder-zinc-500"/>
-    </div>
-    <div>
-      <label className="text-zinc-400 text-sm mb-1 block">Durée d'écoute moyenne (secondes)</label>
-      <input id="listen-time" type="number" placeholder="ex: 45" className="w-full bg-zinc-800 p-3 rounded-xl text-white placeholder-zinc-500"/>
-    </div>
-    <div>
-      <label className="text-zinc-400 text-sm mb-1 block">Pays principal</label>
-      <input id="main-country" type="text" placeholder="ex: France" className="w-full bg-zinc-800 p-3 rounded-xl text-white placeholder-zinc-500"/>
-    </div>
-    <div>
-      <label className="text-zinc-400 text-sm mb-1 block">Durée totale du track (secondes)</label>
-      <input id="track-duration" type="number" placeholder="ex: 180" className="w-full bg-zinc-800 p-3 rounded-xl text-white placeholder-zinc-500"/>
-    </div>
-  </div>
-
-  <button
-    className="bg-blue-600 hover:bg-blue-500 text-white px-6 py-3 rounded-xl font-bold w-full mb-6"
-    onClick={() => {
-      const saveRate = parseInt((document.getElementById('save-rate') as HTMLInputElement).value) || 0;
-      const skipRate = parseInt((document.getElementById('skip-rate') as HTMLInputElement).value) || 0;
-      const replayRate = parseInt((document.getElementById('replay-rate') as HTMLInputElement).value) || 0;
-      const listenTime = parseInt((document.getElementById('listen-time') as HTMLInputElement).value) || 0;
-      const mainCountry = (document.getElementById('main-country') as HTMLInputElement).value || 'France';
-      const trackDuration = parseInt((document.getElementById('track-duration') as HTMLInputElement).value) || 180;
-
-      const recommendations = [];
-
-      if (saveRate < 10) {
-        recommendations.push({type:'🔴', title:'Taux de save trop bas', desc:`Seulement ${saveRate}% de saves. Les auditeurs n'accrochent pas. Rends ton hook plus mémorable dans les 30 premières secondes.`, action:'Raccourcis ton intro et place ton meilleur moment avant 30 secondes.'});
-      } else if (saveRate >= 20) {
-        recommendations.push({type:'🟢', title:'Excellent taux de save !', desc:`${saveRate}% de saves — tu as un vrai fan base. Capitalise sur cette audience.`, action:'Lance une campagne de pré-save pour ton prochain track.'});
-      } else {
-        recommendations.push({type:'🟡', title:'Taux de save correct', desc:`${saveRate}% de saves — c'est dans la moyenne. Tu peux faire mieux !`, action:'Ajoute un call-to-action dans tes posts : "Sauvegarde ce track !"'});
-      }
-
-      if (skipRate > 50) {
-        recommendations.push({type:'🔴', title:'Skip rate élevé', desc:`${skipRate}% des auditeurs skippent ton track. Quelque chose les fait décrocher.`, action:'Analyse où ils quittent et raccourcis cette partie. L\'intro est souvent trop longue.'});
-      } else if (skipRate < 20) {
-        recommendations.push({type:'🟢', title:'Excellent engagement !', desc:`Seulement ${skipRate}% de skips. Les gens écoutent jusqu\'au bout !`, action:'Ce track est parfait pour les playlists algorithmiques Spotify.'});
-      }
-
-      if (replayRate > 30) {
-        recommendations.push({type:'🟢', title:'Moment viral détecté !', desc:`${replayRate}% de replay rate — il y a un moment que les gens réécoutent.`, action:'Identifie ce moment exact et utilise-le comme extrait TikTok. C\'est ton hook viral !'});
-      }
-
-      if (listenTime < trackDuration * 0.3) {
-        recommendations.push({type:'🔴', title:'Écoute trop courte', desc:`Les auditeurs écoutent seulement ${listenTime}s sur ${trackDuration}s. Ils partent trop tôt.`, action:`Ton drop ou refrain arrive trop tard. Place-le avant ${Math.round(trackDuration * 0.2)}s.`});
-      } else if (listenTime > trackDuration * 0.7) {
-        recommendations.push({type:'🟢', title:'Excellente rétention !', desc:`Les auditeurs écoutent ${listenTime}s — plus de 70% du track !`, action:'Parfait pour les playlists algorithmiques. Soumet ce track à Spotify Editorial.'});
-      }
-
-      if (mainCountry.toLowerCase() !== 'france') {
-        recommendations.push({type:'🟡', title:`Audience principale : ${mainCountry}`, desc:`Ton audience principale n\'est pas en France mais en ${mainCountry}.`, action:`Cible les playlists de ${mainCountry} et lance des ads géolocalisées dans ce pays.`});
-      }
-
-      const container = document.getElementById('analytics-result');
-      if (!container) return;
-      container.innerHTML = `
-        <p class="text-blue-400 font-bold mb-4">✅ Analyse IA complète — ${recommendations.length} recommandations</p>
-        ${recommendations.map(r => `
-          <div class="bg-zinc-800 p-4 rounded-xl mb-3 border-l-4 ${r.type==='🔴'?'border-red-500':r.type==='🟢'?'border-green-500':'border-yellow-500'}">
-            <p class="font-bold mb-1">${r.type} ${r.title}</p>
-            <p class="text-zinc-400 text-sm mb-2">${r.desc}</p>
-            <p class="text-blue-400 text-sm font-medium">✅ Action : ${r.action}</p>
-          </div>
-        `).join('')}
-      `;
-      container.style.display = 'block';
-    }}
-  >
-    🔍 Analyser mes performances
-  </button>
-
-  <div id="analytics-result" style={{display:'none'}}></div>
-</div>
-{/* PLAYLIST FINDER */}
-<div id="playlist-finder" className="bg-zinc-900 p-8 rounded-3xl mt-8 col-span-2">
-  <h2 className="text-2xl font-bold mb-2">🎯 Playlist Finder</h2>
-  <p className="text-zinc-400 mb-6">Trouve les playlists parfaites pour ton genre musical</p>
-
-  <div className="flex gap-4 mb-6 flex-wrap">
-    <input
-      id="playlist-genre"
-      type="text"
-      placeholder="Genre (ex: Electronic, Hip-Hop, Pop...)"
-      className="w-full bg-zinc-800 p-3 rounded-xl text-white placeholder-zinc-500 mb-3"
-    />
-    <input
-      id="playlist-mood"
-      type="text"
-      placeholder="Ambiance (ex: Chill, Energetic, Dark...)"
-      className="w-full bg-zinc-800 p-3 rounded-xl text-white placeholder-zinc-500 mb-3"
-    />
-    <button
-      className="bg-purple-600 hover:bg-purple-500 text-white px-6 py-3 rounded-xl font-bold w-full"
-      onClick={() => {
-        const genre = (document.getElementById('playlist-genre') as HTMLInputElement).value || 'Electronic';
-        const mood = (document.getElementById('playlist-mood') as HTMLInputElement).value || 'Chill';
-        
-        const playlists = [
-          {name:`${genre} Hits 2026`, followers:'125K', curator:'SpotifyEditor', match:'98%', type:'Editorial'},
-          {name:`Best of ${genre}`, followers:'89K', curator:'MusicLover', match:'95%', type:'Indépendante'},
-          {name:`${mood} ${genre} Vibes`, followers:'67K', curator:'PlaylistPro', match:'92%', type:'Indépendante'},
-          {name:`${genre} Underground`, followers:'45K', curator:'Underground_FR', match:'88%', type:'Indépendante'},
-          {name:`New ${genre} Music`, followers:'234K', curator:'NewMusicFinder', match:'85%', type:'Editorial'},
-          {name:`${mood} Sessions`, followers:'178K', curator:'ChillVibes', match:'82%', type:'Indépendante'},
-          {name:`${genre} France`, followers:'56K', curator:'FrenchMusic', match:'79%', type:'Indépendante'},
-          {name:`Top ${genre} Tracks`, followers:'312K', curator:'TopTracks', match:'76%', type:'Editorial'},
-        ];
-
-        const container = document.getElementById('playlist-result');
-        if (!container) return;
-        container.innerHTML = `
-          <p class="text-purple-400 font-bold mb-4">✅ ${playlists.length} playlists trouvées pour ${genre} / ${mood}</p>
-          ${playlists.map(p => `
-            <div class="bg-zinc-800 p-4 rounded-xl mb-3 flex justify-between items-center">
-              <div>
-                <p class="font-bold text-white">${p.name}</p>
-                <p class="text-zinc-400 text-sm">👤 ${p.curator} • 👥 ${p.followers} followers</p>
-                <span class="text-xs px-2 py-1 rounded-full ${p.type==='Editorial' ? 'bg-green-900 text-green-400' : 'bg-zinc-700 text-zinc-300'}">${p.type}</span>
-              </div>
-              <div class="text-right">
-                <p class="text-green-400 font-bold text-lg">${p.match}</p>
-                <p class="text-zinc-500 text-xs">Match</p>
-              </div>
-            </div>
-          `).join('')}
-          <p class="text-zinc-500 text-xs mt-4">💡 Conseil : Contacte d'abord les curateurs indépendants — ils sont plus réceptifs aux nouveaux artistes.</p>
-        `;
-        container.style.display = 'block';
-      }}
-    >
-      🔍 Trouver des playlists
-    </button>
-  </div>
-
-  <div id="playlist-result" style={{display:'none'}}></div>
-</div>
-  {/* GROWTH SCORE */}
-<div className="bg-zinc-900 p-8 rounded-3xl mt-8 col-span-2">
-  <h2 className="text-2xl font-bold mb-2">🎯 Growth Score</h2>
-  <p className="text-zinc-400 mb-6">Ton score de croissance Spotify sur 100</p>
-  <div className="grid md:grid-cols-2 gap-6 mb-6">
-    <div>
-      <label className="text-zinc-400 text-sm mb-1 block">Streams ce mois</label>
-      <input id="gs-streams" type="number" placeholder="ex: 5000" className="w-full bg-zinc-800 p-3 rounded-xl text-white placeholder-zinc-500"/>
-    </div>
-    <div>
-      <label className="text-zinc-400 text-sm mb-1 block">Followers Spotify</label>
-      <input id="gs-followers" type="number" placeholder="ex: 500" className="w-full bg-zinc-800 p-3 rounded-xl text-white placeholder-zinc-500"/>
-    </div>
-    <div>
-      <label className="text-zinc-400 text-sm mb-1 block">Nombre de playlists</label>
-      <input id="gs-playlists" type="number" placeholder="ex: 3" className="w-full bg-zinc-800 p-3 rounded-xl text-white placeholder-zinc-500"/>
-    </div>
-    <div>
-      <label className="text-zinc-400 text-sm mb-1 block">Taux de save (%)</label>
-      <input id="gs-save" type="number" placeholder="ex: 15" className="w-full bg-zinc-800 p-3 rounded-xl text-white placeholder-zinc-500"/>
-    </div>
-    <div>
-      <label className="text-zinc-400 text-sm mb-1 block">Sorties ce mois</label>
-      <input id="gs-releases" type="number" placeholder="ex: 1" className="w-full bg-zinc-800 p-3 rounded-xl text-white placeholder-zinc-500"/>
-    </div>
-    <div>
-      <label className="text-zinc-400 text-sm mb-1 block">Presence reseaux (1-10)</label>
-      <input id="gs-social" type="number" placeholder="ex: 7" min="1" max="10" className="w-full bg-zinc-800 p-3 rounded-xl text-white placeholder-zinc-500"/>
-    </div>
-  </div>
-  <button className="bg-purple-600 text-white px-6 py-3 rounded-xl font-bold w-full mb-6"
-    onClick={() => {
-      const streams = parseInt((document.getElementById('gs-streams') as HTMLInputElement).value) || 0;
-      const followers = parseInt((document.getElementById('gs-followers') as HTMLInputElement).value) || 0;
-      const playlists = parseInt((document.getElementById('gs-playlists') as HTMLInputElement).value) || 0;
-      const save = parseInt((document.getElementById('gs-save') as HTMLInputElement).value) || 0;
-      const releases = parseInt((document.getElementById('gs-releases') as HTMLInputElement).value) || 0;
-      const social = parseInt((document.getElementById('gs-social') as HTMLInputElement).value) || 0;
-      let score = 0;
-      if (streams > 10000) score += 20; else if (streams > 5000) score += 15; else if (streams > 1000) score += 10; else score += 5;
-      if (followers > 1000) score += 20; else if (followers > 500) score += 15; else if (followers > 100) score += 10; else score += 5;
-      if (playlists > 10) score += 20; else if (playlists > 5) score += 15; else if (playlists > 0) score += 10;
-      if (save > 20) score += 20; else if (save > 10) score += 15; else if (save > 5) score += 10; else score += 5;
-      if (releases >= 2) score += 10; else if (releases === 1) score += 7;
-      score += Math.min(social, 10);
-      const scoreColor = score >= 70 ? 'color:#1DB954' : score >= 40 ? 'color:#f39c12' : 'color:#e74c3c';
-      const scoreLabel = score >= 70 ? 'Excellent 🚀' : score >= 40 ? 'En progression 📈' : 'A ameliorer ⚠️';
-      const scoreTip = score >= 70 ? 'Continue comme ca, tu es sur la bonne voie!' : 'Soumets ton track aux curateurs et ameliore ta presence sur les reseaux.';
-      const container = document.getElementById('growth-score-result');
-      if (!container) return;
-      container.innerHTML = '<div style="text-align:center;margin-bottom:20px"><div style="font-size:96px;font-weight:bold;' + scoreColor + '">' + score + '</div><div style="color:#aaa">/100</div><div style="font-size:24px;margin-top:8px">' + scoreLabel + '</div></div><div style="background:#27272a;padding:15px;border-radius:12px"><p style="color:#aaa;font-size:14px">Conseil : ' + scoreTip + '</p></div>';
-      container.style.display = 'block';
-    }}>
-    🎯 Calculer mon Growth Score
-  </button>
-  <div id="growth-score-result" style={{display:'none'}}></div>
-  {/* DETECTION VIRAL POTENTIEL */}
-<div className="bg-zinc-900 p-8 rounded-3xl mt-8 col-span-2">
-  <h2 className="text-2xl font-bold mb-2">🔥 Détection Viral Potentiel</h2>
-  <p className="text-zinc-400 mb-6">Analyse ton track et détecte son potentiel viral sur TikTok et Spotify</p>
-  <div className="grid md:grid-cols-2 gap-6 mb-6">
-    <div>
-      <label className="text-zinc-400 text-sm mb-1 block">Durée de l'intro (secondes)</label>
-      <input id="vp-intro" type="number" placeholder="ex: 15" className="w-full bg-zinc-800 p-3 rounded-xl text-white placeholder-zinc-500"/>
-    </div>
-    <div>
-      <label className="text-zinc-400 text-sm mb-1 block">Durée avant le drop/refrain (secondes)</label>
-      <input id="vp-drop" type="number" placeholder="ex: 30" className="w-full bg-zinc-800 p-3 rounded-xl text-white placeholder-zinc-500"/>
-    </div>
-    <div>
-      <label className="text-zinc-400 text-sm mb-1 block">Tempo (BPM)</label>
-      <input id="vp-bpm" type="number" placeholder="ex: 128" className="w-full bg-zinc-800 p-3 rounded-xl text-white placeholder-zinc-500"/>
-    </div>
-    <div>
-      <label className="text-zinc-400 text-sm mb-1 block">Genre musical</label>
-      <select id="vp-genre" className="w-full bg-zinc-800 p-3 rounded-xl text-white">
-        <option value="pop">Pop</option>
-        <option value="hiphop">Hip-Hop / Rap</option>
-        <option value="electronic">Electronic / Dance</option>
-        <option value="rnb">R&B / Soul</option>
-        <option value="latin">Latin</option>
-        <option value="rock">Rock</option>
-        <option value="other">Autre</option>
-      </select>
-    </div>
-    <div>
-      <label className="text-zinc-400 text-sm mb-1 block">Le track a un hook mémorable ?</label>
-      <select id="vp-hook" className="w-full bg-zinc-800 p-3 rounded-xl text-white">
-        <option value="yes">Oui — très accrocheur</option>
-        <option value="maybe">Peut-être</option>
-        <option value="no">Non — pas vraiment</option>
-      </select>
-    </div>
-    <div>
-      <label className="text-zinc-400 text-sm mb-1 block">Le track a une partie dansable ?</label>
-      <select id="vp-dance" className="w-full bg-zinc-800 p-3 rounded-xl text-white">
-        <option value="yes">Oui</option>
-        <option value="no">Non</option>
-      </select>
-    </div>
-  </div>
-  <button className="bg-red-600 hover:bg-red-500 text-white px-6 py-3 rounded-xl font-bold w-full mb-6"
-    onClick={() => {
-      const intro = parseInt((document.getElementById('vp-intro') as HTMLInputElement).value) || 0;
-      const drop = parseInt((document.getElementById('vp-drop') as HTMLInputElement).value) || 0;
-      const bpm = parseInt((document.getElementById('vp-bpm') as HTMLInputElement).value) || 0;
-      const genre = (document.getElementById('vp-genre') as HTMLSelectElement).value;
-      const hook = (document.getElementById('vp-hook') as HTMLSelectElement).value;
-      const dance = (document.getElementById('vp-dance') as HTMLSelectElement).value;
-      let score = 0;
-      const signals = [];
-      if (intro <= 10) { score += 25; signals.push({emoji:'🟢', text:'Intro courte — parfait pour TikTok et Spotify'}); }
-      else if (intro <= 20) { score += 15; signals.push({emoji:'🟡', text:'Intro correcte — essaie de la raccourcir a 10 secondes'}); }
-      else { score += 0; signals.push({emoji:'🔴', text:'Intro trop longue — les auditeurs vont skipper avant le drop'}); }
-      if (drop <= 20) { score += 25; signals.push({emoji:'🟢', text:'Drop tres rapide — viral potentiel eleve sur TikTok'}); }
-      else if (drop <= 35) { score += 15; signals.push({emoji:'🟡', text:'Drop correct — essaie de le placer avant 20 secondes'}); }
-      else { score += 5; signals.push({emoji:'🔴', text:'Drop trop tardif — 70% des auditeurs TikTok partent avant 30s'}); }
-      if (bpm >= 120 && bpm <= 140) { score += 20; signals.push({emoji:'🟢', text:'BPM ideal pour les playlists Dance et TikTok'}); }
-      else if (bpm >= 90 && bpm <= 120) { score += 15; signals.push({emoji:'🟡', text:'BPM correct pour le streaming Spotify'}); }
-      else { score += 10; signals.push({emoji:'🟡', text:'BPM atypique — peut fonctionner dans une niche specifique'}); }
-      if (hook === 'yes') { score += 20; signals.push({emoji:'🟢', text:'Hook memorables — cle du succes viral'}); }
-      else if (hook === 'maybe') { score += 10; signals.push({emoji:'🟡', text:'Hook a ameliorer — travaille sur la melodie principale'}); }
-      else { score += 0; signals.push({emoji:'🔴', text:'Pas de hook — difficile de percer sans element memorables'}); }
-      if (dance === 'yes') { score += 10; signals.push({emoji:'🟢', text:'Partie dansable — parfait pour les challenges TikTok'}); }
-      else { score += 5; signals.push({emoji:'🟡', text:'Pas de partie dansable — mise sur lemotion pour les Reels'}); }
-      const genreBonus: Record<string, string> = {pop:'Pop tres populaire sur Spotify', hiphop:'Hip-Hop tres performant sur TikTok', electronic:'Electronic ideal pour les playlists Dance', rnb:'R&B tres applaudi sur les Reels', latin:'Latin en pleine explosion mondiale', rock:'Rock niche mais audience fidelissime', other:'Genre unique — trouve ta niche specifique'};
-      signals.push({emoji:'🎵', text:genreBonus[genre]});
-      const viral = score >= 75 ? 'VIRAL POTENTIEL ELEVE' : score >= 50 ? 'BON POTENTIEL' : 'POTENTIEL LIMITE';
-      const viralColor = score >= 75 ? '#1DB954' : score >= 50 ? '#f39c12' : '#e74c3c';
-      const container = document.getElementById('viral-result');
-      if (!container) return;
-      container.innerHTML = '<div style="text-align:center;margin-bottom:20px"><div style="font-size:72px;font-weight:bold;color:' + viralColor + '">' + score + '%</div><div style="font-size:22px;color:' + viralColor + ';font-weight:bold;margin-top:8px">' + viral + '</div></div>' + signals.map(s => '<div style="background:#27272a;padding:12px;border-radius:10px;margin-bottom:8px;display:flex;gap:10px;align-items:center"><span style="font-size:20px">' + s.emoji + '</span><span style="color:#ccc;font-size:14px">' + s.text + '</span></div>').join('');
-      container.style.display = 'block';
-    }}>
-    🔥 Analyser le potentiel viral
-  </button>
-  <div id="viral-result" style={{display:'none'}}></div>
-  {/* OPTIMISATION PROFIL ARTISTE */}
-<div className="bg-zinc-900 p-8 rounded-3xl mt-8 col-span-2">
-  <h2 className="text-2xl font-bold mb-2">🎨 Optimisation Profil Artiste</h2>
-  <p className="text-zinc-400 mb-6">Analyse ton profil Spotify et obtiens des recommandations pour l'optimiser</p>
-  <div className="grid md:grid-cols-2 gap-6 mb-6">
-    <div>
-      <label className="text-zinc-400 text-sm mb-1 block">Nom d'artiste</label>
-      <input id="op-name" type="text" placeholder="ex: DJ Marco" className="w-full bg-zinc-800 p-3 rounded-xl text-white placeholder-zinc-500"/>
-    </div>
-    <div>
-      <label className="text-zinc-400 text-sm mb-1 block">Tu as une photo de profil professionnelle ?</label>
-      <select id="op-photo" className="w-full bg-zinc-800 p-3 rounded-xl text-white">
-        <option value="yes">Oui — photo pro</option>
-        <option value="ok">Oui — mais pas terrible</option>
-        <option value="no">Non</option>
-      </select>
-    </div>
-    <div>
-      <label className="text-zinc-400 text-sm mb-1 block">Tu as une bio Spotify ?</label>
-      <select id="op-bio" className="w-full bg-zinc-800 p-3 rounded-xl text-white">
-        <option value="yes">Oui — bio complète</option>
-        <option value="short">Oui — mais trop courte</option>
-        <option value="no">Non</option>
-      </select>
-    </div>
-    <div>
-      <label className="text-zinc-400 text-sm mb-1 block">Tu as des liens réseaux sociaux sur Spotify ?</label>
-      <select id="op-links" className="w-full bg-zinc-800 p-3 rounded-xl text-white">
-        <option value="all">Oui — tous les liens</option>
-        <option value="some">Quelques uns</option>
-        <option value="no">Non</option>
-      </select>
-    </div>
-    <div>
-      <label className="text-zinc-400 text-sm mb-1 block">Tu as une Artist Pick (mise en avant) ?</label>
-      <select id="op-pick" className="w-full bg-zinc-800 p-3 rounded-xl text-white">
-        <option value="yes">Oui</option>
-        <option value="no">Non</option>
-      </select>
-    </div>
-    <div>
-      <label className="text-zinc-400 text-sm mb-1 block">Ton profil est-il revendiqué sur Spotify for Artists ?</label>
-      <select id="op-claimed" className="w-full bg-zinc-800 p-3 rounded-xl text-white">
-        <option value="yes">Oui</option>
-        <option value="no">Non</option>
-      </select>
-    </div>
-  </div>
-  <button className="bg-blue-600 hover:bg-blue-500 text-white px-6 py-3 rounded-xl font-bold w-full mb-6"
-    onClick={() => {
-      const name = (document.getElementById('op-name') as HTMLInputElement).value || 'Artiste';
-      const photo = (document.getElementById('op-photo') as HTMLSelectElement).value;
-      const bio = (document.getElementById('op-bio') as HTMLSelectElement).value;
-      const links = (document.getElementById('op-links') as HTMLSelectElement).value;
-      const pick = (document.getElementById('op-pick') as HTMLSelectElement).value;
-      const claimed = (document.getElementById('op-claimed') as HTMLSelectElement).value;
-      let score = 0;
-      const recs = [];
-      if (photo === 'yes') { score += 25; recs.push({emoji:'🟢', text:'Super photo de profil — premiere impression parfaite'}); }
-      else if (photo === 'ok') { score += 15; recs.push({emoji:'🟡', text:'Photo acceptable — investis dans une vraie seance photo pro'}); }
-      else { score += 0; recs.push({emoji:'🔴', text:'URGENT : Ajoute une photo pro — cest la premiere chose que voient les curateurs'}); }
-      if (bio === 'yes') { score += 25; recs.push({emoji:'🟢', text:'Bio complete — les curateurs peuvent te decouvrir facilement'}); }
-      else if (bio === 'short') { score += 15; recs.push({emoji:'🟡', text:'Bio trop courte — ajoute ton style, tes influences et tes accomplissements'}); }
-      else { score += 0; recs.push({emoji:'🔴', text:'URGENT : Ecris une bio — les playlists editoriales la lisent avant de te placer'}); }
-      if (links === 'all') { score += 20; recs.push({emoji:'🟢', text:'Tous les liens reseaux — parfait pour convertir les auditeurs en fans'}); }
-      else if (links === 'some') { score += 10; recs.push({emoji:'🟡', text:'Ajoute tous tes liens reseaux sociaux sur Spotify for Artists'}); }
-      else { score += 0; recs.push({emoji:'🔴', text:'Ajoute tes liens Instagram, TikTok et YouTube sur ton profil Spotify'}); }
-      if (pick === 'yes') { score += 15; recs.push({emoji:'🟢', text:'Artist Pick active — tu mets en avant ton meilleur contenu'}); }
-      else { score += 0; recs.push({emoji:'🔴', text:'Active lArtist Pick — mets ton dernier track ou ta meilleure playlist en avant'}); }
-      if (claimed === 'yes') { score += 15; recs.push({emoji:'🟢', text:'Profil revendique — tu as acces a toutes les fonctionnalites Spotify for Artists'}); }
-      else { score += 0; recs.push({emoji:'🔴', text:'URGENT : Revendique ton profil sur artists.spotify.com maintenant'}); }
-      const label = score >= 75 ? 'Profil Optimise' : score >= 50 ? 'Profil Correct' : 'Profil a Ameliorer';
-      const color = score >= 75 ? '#1DB954' : score >= 50 ? '#f39c12' : '#e74c3c';
-      const container = document.getElementById('profile-result');
-      if (!container) return;
-      container.innerHTML = '<div style="text-align:center;margin-bottom:20px"><div style="font-size:72px;font-weight:bold;color:' + color + '">' + score + '/100</div><div style="font-size:22px;color:' + color + ';font-weight:bold;margin-top:8px">' + label + ' — ' + name + '</div></div>' + recs.map(r => '<div style="background:#27272a;padding:12px;border-radius:10px;margin-bottom:8px;display:flex;gap:10px;align-items:flex-start"><span style="font-size:20px">' + r.emoji + '</span><span style="color:#ccc;font-size:14px">' + r.text + '</span></div>').join('');
-      container.style.display = 'block';
-    }}>
-    🎨 Analyser mon profil artiste
-  </button>
-  <div id="profile-result" style={{display:'none'}}></div>
-</div>
-</div>{/* IA ASSISTANT MUSIC MARKETING */}
-<div className="bg-zinc-900 p-8 rounded-3xl mt-8 col-span-2">
-  <h2 className="text-2xl font-bold mb-2">🤖 IA Assistant Music Marketing</h2>
-  <p className="text-zinc-400 mb-6">Pose n'importe quelle question sur ta carrière musicale — l'IA te répond comme un vrai manager</p>
-  <div className="mb-4">
-    <div className="flex gap-2 flex-wrap mb-4">
-      {[
-        'Comment pitcher sur Spotify ?',
-        'Comment choisir ma date de sortie ?',
-        'Comment faire une campagne TikTok ?',
-        'Comment trouver des playlists ?',
-        'Comment augmenter mes streams ?',
-      ].map((q, i) => (
-        <button key={i}
-          className="bg-zinc-800 text-zinc-300 px-3 py-2 rounded-xl text-sm hover:bg-purple-900 transition-all"
-          onClick={() => {
-            const input = document.getElementById('ai-question') as HTMLTextAreaElement;
-            if (input) input.value = q;
-          }}>
-          {q}
+        <textarea value={question} onChange={e => setQuestion(e.target.value)}
+          placeholder="Pose ta question sur ta carrière musicale..."
+          rows={4}
+          style={{width:'100%',background:'#1a0030',border:'1px solid #2d1040',borderRadius:'10px',padding:'12px',color:'#fff',marginBottom:'15px',boxSizing:'border-box',resize:'none'}}/>
+        <button onClick={ask} disabled={loading || !question}
+          style={{width:'100%',background:'linear-gradient(135deg,#9B59B6,#3498db)',color:'#fff',padding:'14px',borderRadius:'10px',fontWeight:'bold',fontSize:'16px',cursor:'pointer',border:'none'}}>
+          {loading ? '⏳ Analyse en cours...' : '🤖 Demander à l\'IA Manager'}
         </button>
-      ))}
+      </div>
+      {response && (
+        <div style={{background:'#0d0020',padding:'25px',borderRadius:'20px',border:'1px solid #9B59B6'}}>
+          <p style={{color:'#9B59B6',fontWeight:'bold',marginBottom:'15px'}}>🤖 Spotlift IA Manager</p>
+          <p style={{color:'#ccc',lineHeight:'1.8',whiteSpace:'pre-wrap',margin:0}}>{response}</p>
+        </div>
+      )}
     </div>
-    <textarea
-      id="ai-question"
-      placeholder="Ex: Comment je peux obtenir plus de placements en playlist ? Mon genre est l'electronic et j'ai 500 streams..."
-      className="w-full bg-zinc-800 p-4 rounded-xl text-white placeholder-zinc-500 resize-none"
-      rows={4}
-    />
-  </div>
-  <button
-    className="bg-gradient-to-r from-purple-600 to-blue-600 text-white px-6 py-3 rounded-xl font-bold w-full mb-6"
-    onClick={async () => {
-      const question = (document.getElementById('ai-question') as HTMLTextAreaElement).value;
-      if (!question) return;
-      const container = document.getElementById('ai-response');
-      if (!container) return;
-      container.innerHTML = '<p style="color:#9B59B6">🤖 L\'IA analyse ta question...</p>';
-      container.style.display = 'block';
-      try {
-        const response = await fetch('/api/assistant', {
-          method: 'POST',
-          headers: {'Content-Type': 'application/json'},
-          body: JSON.stringify({question})
-        });
-        const data = await response.json();
-        container.innerHTML = '<div style="background:#1a0030;padding:20px;border-radius:12px;border:1px solid #9B59B6"><p style="color:#9B59B6;font-weight:bold;margin-bottom:10px">🤖 Spotlift IA Manager</p><p style="color:#ccc;line-height:1.8;white-space:pre-wrap">' + data.response + '</p></div>';
-      } catch(e) {
-        container.innerHTML = '<p style="color:#e74c3c">Erreur — verifie ta connexion</p>';
-      }
-    }}>
-    🤖 Demander à l'IA Manager
-  </button>
-  <div id="ai-response" style={{display:'none'}}></div>{/* DASHBOARD MULTI-PLATEFORMES */}
-<div className="bg-zinc-900 p-8 rounded-3xl mt-8 col-span-2">
-  <h2 className="text-2xl font-bold mb-2">📊 Dashboard Multi-Plateformes</h2>
-  <p className="text-zinc-400 mb-6">Entre tes stats de toutes tes plateformes et visualise ta croissance globale</p>
-  <div className="grid md:grid-cols-2 gap-6 mb-6">
-    <div className="bg-zinc-800 p-6 rounded-2xl border border-green-800">
-      <p className="text-green-400 font-bold mb-4">🎵 Spotify</p>
-      <input id="mp-sp-streams" type="number" placeholder="Streams ce mois" className="w-full bg-zinc-700 p-3 rounded-xl text-white placeholder-zinc-500 mb-3"/>
-      <input id="mp-sp-followers" type="number" placeholder="Followers" className="w-full bg-zinc-700 p-3 rounded-xl text-white placeholder-zinc-500 mb-3"/>
-      <input id="mp-sp-saves" type="number" placeholder="Saves ce mois" className="w-full bg-zinc-700 p-3 rounded-xl text-white placeholder-zinc-500"/>
-    </div>
-    <div className="bg-zinc-800 p-6 rounded-2xl border border-pink-800">
-      <p className="text-pink-400 font-bold mb-4">📱 TikTok</p>
-      <input id="mp-tt-views" type="number" placeholder="Vues ce mois" className="w-full bg-zinc-700 p-3 rounded-xl text-white placeholder-zinc-500 mb-3"/>
-      <input id="mp-tt-followers" type="number" placeholder="Followers" className="w-full bg-zinc-700 p-3 rounded-xl text-white placeholder-zinc-500 mb-3"/>
-      <input id="mp-tt-likes" type="number" placeholder="Likes ce mois" className="w-full bg-zinc-700 p-3 rounded-xl text-white placeholder-zinc-500"/>
-    </div>
-    <div className="bg-zinc-800 p-6 rounded-2xl border border-purple-800">
-      <p className="text-purple-400 font-bold mb-4">📸 Instagram</p>
-      <input id="mp-ig-reach" type="number" placeholder="Reach ce mois" className="w-full bg-zinc-700 p-3 rounded-xl text-white placeholder-zinc-500 mb-3"/>
-      <input id="mp-ig-followers" type="number" placeholder="Followers" className="w-full bg-zinc-700 p-3 rounded-xl text-white placeholder-zinc-500 mb-3"/>
-      <input id="mp-ig-engagement" type="number" placeholder="Taux engagement (%)" className="w-full bg-zinc-700 p-3 rounded-xl text-white placeholder-zinc-500"/>
-    </div>
-    <div className="bg-zinc-800 p-6 rounded-2xl border border-red-800">
-      <p className="text-red-400 font-bold mb-4">🎬 YouTube</p>
-      <input id="mp-yt-views" type="number" placeholder="Vues ce mois" className="w-full bg-zinc-700 p-3 rounded-xl text-white placeholder-zinc-500 mb-3"/>
-      <input id="mp-yt-subscribers" type="number" placeholder="Abonnés" className="w-full bg-zinc-700 p-3 rounded-xl text-white placeholder-zinc-500 mb-3"/>
-      <input id="mp-yt-watchtime" type="number" placeholder="Watch time (heures)" className="w-full bg-zinc-700 p-3 rounded-xl text-white placeholder-zinc-500"/>
-    </div>
-  </div>
-  <button className="bg-gradient-to-r from-green-600 to-purple-600 text-white px-6 py-3 rounded-xl font-bold w-full mb-6"
-    onClick={() => {
-      const spStreams = parseInt((document.getElementById('mp-sp-streams') as HTMLInputElement).value) || 0;
-      const spFollowers = parseInt((document.getElementById('mp-sp-followers') as HTMLInputElement).value) || 0;
-      const spSaves = parseInt((document.getElementById('mp-sp-saves') as HTMLInputElement).value) || 0;
-      const ttViews = parseInt((document.getElementById('mp-tt-views') as HTMLInputElement).value) || 0;
-      const ttFollowers = parseInt((document.getElementById('mp-tt-followers') as HTMLInputElement).value) || 0;
-      const ttLikes = parseInt((document.getElementById('mp-tt-likes') as HTMLInputElement).value) || 0;
-      const igReach = parseInt((document.getElementById('mp-ig-reach') as HTMLInputElement).value) || 0;
-      const igFollowers = parseInt((document.getElementById('mp-ig-followers') as HTMLInputElement).value) || 0;
-      const igEngagement = parseInt((document.getElementById('mp-ig-engagement') as HTMLInputElement).value) || 0;
-      const ytViews = parseInt((document.getElementById('mp-yt-views') as HTMLInputElement).value) || 0;
-      const ytSubscribers = parseInt((document.getElementById('mp-yt-subscribers') as HTMLInputElement).value) || 0;
-      const totalFollowers = spFollowers + ttFollowers + igFollowers + ytSubscribers;
-      const totalViews = spStreams + ttViews + igReach + ytViews;
-      const platforms = [
-        {name:'Spotify', color:'#1DB954', followers:spFollowers, activity:spStreams, metric:'streams', saves:spSaves},
-        {name:'TikTok', color:'#ff0050', followers:ttFollowers, activity:ttViews, metric:'vues', likes:ttLikes},
-        {name:'Instagram', color:'#E1306C', followers:igFollowers, activity:igReach, metric:'reach', engagement:igEngagement},
-        {name:'YouTube', color:'#FF0000', followers:ytSubscribers, activity:ytViews, metric:'vues', watchtime:0},
-      ];
-      const best = platforms.reduce((a, b) => a.activity > b.activity ? a : b);
-      const container = document.getElementById('multiplatform-result');
-      if (!container) return;
-      container.innerHTML = '<div style="margin-bottom:20px"><div style="display:grid;grid-template-columns:1fr 1fr;gap:15px;margin-bottom:20px">' +
-        '<div style="background:#1a0030;padding:20px;border-radius:12px;text-align:center"><div style="font-size:36px;font-weight:bold;color:#9B59B6">' + totalFollowers.toLocaleString() + '</div><div style="color:#aaa;font-size:14px">Total Followers</div></div>' +
-        '<div style="background:#1a0030;padding:20px;border-radius:12px;text-align:center"><div style="font-size:36px;font-weight:bold;color:#1DB954">' + totalViews.toLocaleString() + '</div><div style="color:#aaa;font-size:14px">Total Vues/Streams</div></div>' +
-        '</div>' +
-        '<div style="background:#1a0030;padding:15px;border-radius:12px;margin-bottom:15px"><p style="color:#f39c12;font-weight:bold;margin-bottom:5px">🏆 Plateforme la plus performante</p><p style="color:#ccc">' + best.name + ' avec ' + best.activity.toLocaleString() + ' ' + best.metric + ' ce mois</p></div>' +
-        platforms.map(p => '<div style="background:#27272a;padding:15px;border-radius:12px;margin-bottom:10px;display:flex;justify-content:space-between;align-items:center"><div><span style="font-weight:bold;color:' + p.color + '">' + p.name + '</span><br/><span style="color:#aaa;font-size:13px">' + p.followers.toLocaleString() + ' followers</span></div><div style="text-align:right"><span style="color:#fff;font-weight:bold">' + p.activity.toLocaleString() + '</span><br/><span style="color:#aaa;font-size:13px">' + p.metric + '</span></div></div>').join('') +
-        '<div style="background:#1a0030;padding:15px;border-radius:12px;margin-top:10px"><p style="color:#9B59B6;font-weight:bold;margin-bottom:8px">💡 Conseil IA</p><p style="color:#ccc;font-size:14px">' + (best.name === 'TikTok' ? 'TikTok est ta plateforme principale — utilise-la pour rediriger vers Spotify avec un lien en bio.' : best.name === 'Spotify' ? 'Spotify performe bien — soumets plus de tracks aux curateurs pour accelerer.' : best.name === 'Instagram' ? 'Instagram est fort — convertis ton audience en auditeurs Spotify avec des extraits musicaux.' : 'YouTube performe — cree des clips et behind the scenes pour booster tes autres plateformes.') + '</p></div></div>';
-      container.style.display = 'block';
-    }}>
-    📊 Analyser mes plateformes
-  </button>
-  <div id="multiplatform-result" style={{display:'none'}}></div>
-</div>
-</div>
-</div>  </main>
   );
+}
+
+function MultiPlateformes() {
+  const [spStreams, setSpStreams] = useState('');
+  const [spFollowers, setSpFollowers] = useState('');
+  const [ttViews, setTtViews] = useState('');
+  const [ttFollowers, setTtFollowers] = useState('');
+  const [igReach, setIgReach] = useState('');
+  const [igFollowers, setIgFollowers] = useState('');
+  const [ytViews, setYtViews] = useState('');
+  const [ytSubs, setYtSubs] = useState('');
+  const [result, setResult] = useState<any>(null);
+
+  const analyze = () => {
+    const sp = parseInt(spStreams)||0;
+    const spF = parseInt(spFollowers)||0;
+    const tt = parseInt(ttViews)||0;
+    const ttF = parseInt(ttFollowers)||0;
+    const ig = parseInt(igReach)||0;
+    const igF = parseInt(igFollowers)||0;
+    const yt = parseInt(ytViews)||0;
+    const ytF = parseInt(ytSubs)||0;
+    const totalF = spF+ttF+igF+ytF;
+    const totalV = sp+tt+ig+yt;
+    const platforms = [
+      {name:'Spotify',color:'#1DB954',followers:spF,activity:sp,metric:'streams'},
+      {name:'TikTok',color:'#ff0050',followers:ttF,activity:tt,metric:'vues'},
+      {name:'Instagram',color:'#E1306C',followers:igF,activity:ig,metric:'reach'},
+      {name:'YouTube',color:'#FF0000',followers:ytF,activity:yt,metric:'vues'},
+    ];
+    const best = platforms.reduce((a,b) => a.activity > b.activity ? a : b);
+    const tip = best.name === 'TikTok' ? 'TikTok est ta plateforme principale — redirige vers Spotify avec un lien en bio.' :
+      best.name === 'Spotify' ? 'Spotify performe bien — soumets plus de tracks aux curateurs.' :
+      best.name === 'Instagram' ? 'Instagram est fort — convertis ton audience en auditeurs Spotify.' :
+      'YouTube performe — crée des clips pour booster tes autres plateformes.';
+    setResult({totalF, totalV, platforms, best, tip});
+  };
+
+  return (
+    <div>
+      <h1 style={{fontSize:'28px',fontWeight:'bold',marginBottom:'8px'}}>📊 Dashboard Multi-Plateformes</h1>
+      <p style={{color:'#aaa',marginBottom:'30px'}}>Centralise toutes tes stats en un seul endroit</p>
+      <div style={{display:'grid',gridTemplateColumns:'1fr 1fr',gap:'15px',marginBottom:'20px'}}>
+        {[
+          {title:'🎵 Spotify',color:'#1DB954',fields:[{l:'Streams ce mois',v:spStreams,s:setSpStreams},{l:'Followers',v:spFollowers,s:setSpFollowers}]},
+          {title:'📱 TikTok',color:'#ff0050',fields:[{l:'Vues ce mois',v:ttViews,s:setTtViews},{l:'Followers',v:ttFollowers,s:setTtFollowers}]},
+          {title:'📸 Instagram',color:'#E1306C',fields:[{l:'Reach ce mois',v:igReach,s:setIgReach},{l:'Followers',v:igFollowers,s:setIgFollowers}]},
+          {title:'🎬 YouTube',color:'#FF0000',fields:[{l:'Vues ce mois',v:ytViews,s:setYtViews},{l:'Abonnés',v:ytSubs,s:setYtSubs}]},
+        ].map((p,i) => (
+          <div key={i} style={{background:'#0d0020',padding:'20px',borderRadius:'15px',border:`1px solid ${p.color}33`}}>
+            <p style={{color:p.color,fontWeight:'bold',marginBottom:'12px'}}>{p.title}</p>
+            {p.fields.map((f,j) => (
+              <div key={j} style={{marginBottom:'10px'}}>
+                <label style={{color:'#aaa',fontSize:'12px',display:'block',marginBottom:'4px'}}>{f.l}</label>
+                <input value={f.v} onChange={e => f.s(e.target.value)} placeholder="0"
+                  style={{width:'100%',background:'#1a0030',border:'1px solid #2d1040',borderRadius:'8px',padding:'8px',color:'#fff',boxSizing:'border-box'}}/>
+              </div>
+            ))}
+          </div>
+        ))}
+      </div>
+      <button onClick={analyze}
+        style={{width:'100%',background:'linear-gradient(135deg,#1DB954,#9B59B6)',color:'#fff',padding:'14px',borderRadius:'10px',fontWeight:'bold',fontSize:'16px',cursor:'pointer',border:'none',marginBottom:'20px'}}>
+        📊 Analyser mes plateformes
+      </button>
+      {result && (
+        <div>
+          <div style={{display:'grid',gridTemplateColumns:'1fr 1fr',gap:'15px',marginBottom:'15px'}}>
+            <div style={{background:'#0d0020',padding:'20px',borderRadius:'12px',textAlign:'center',border:'1px solid #2d1040'}}>
+              <div style={{fontSize:'32px',fontWeight:'bold',color:'#9B59B6'}}>{result.totalF.toLocaleString()}</div>
+              <div style={{color:'#aaa',fontSize:'13px'}}>Total Followers</div>
+            </div>
+            <div style={{background:'#0d0020',padding:'20px',borderRadius:'12px',textAlign:'center',border:'1px solid #2d1040'}}>
+              <div style={{fontSize:'32px',fontWeight:'bold',color:'#1DB954'}}>{result.totalV.toLocaleString()}</div>
+              <div style={{color:'#aaa',fontSize:'13px'}}>Total Vues/Streams</div>
+            </div>
+          </div>
+          <div style={{background:'#1a0030',padding:'15px',borderRadius:'12px',marginBottom:'15px'}}>
+            <p style={{color:'#f39c12',fontWeight:'bold',margin:'0 0 5px 0'}}>🏆 Plateforme la plus performante</p>
+            <p style={{color:'#ccc',margin:0}}>{result.best.name} avec {result.best.activity.toLocaleString()} {result.best.metric}</p>
+          </div>
+          {result.platforms.map((p:any,i:number) => (
+            <div key={i} style={{background:'#0d0020',padding:'15px',borderRadius:'12px',marginBottom:'10px',display:'flex',justifyContent:'space-between',alignItems:'center',border:'1px solid #2d1040'}}>
+              <div>
+                <span style={{fontWeight:'bold',color:p.color}}>{p.name}</span>
+                <br/>
+                <span style={{color:'#aaa',fontSize:'12px'}}>{p.followers.toLocaleString()} followers</span>
+              </div>
+              <div style={{textAlign:'right'}}>
+                <span style={{color:'#fff',fontWeight:'bold'}}>{p.activity.toLocaleString()}</span>
+                <br/>
+                <span style={{color:'#aaa',fontSize:'12px'}}>{p.metric}</span>
+              </div>
+            </div>
+          ))}
+          <div style={{background:'#1a0030',padding:'15px',borderRadius:'12px'}}>
+            <p style={{color:'#9B59B6',fontWeight:'bold',margin:'0 0 5px 0'}}>💡 Conseil IA</p>
+            <p style={{color:'#ccc',fontSize:'13px',margin:0}}>{result.tip}</p>
+          </div>
+        </div>
+      )}
+    </div>
+  );
+}
+
+function Feedback({ user }: { user: any }) {
+  const [note, setNote] = useState(0);
+  const [commentaire, setCommentaire] = useState('');
+  const [envoye, setEnvoye] = useState(false);
+  const [loading, setLoading] = useState(false);
+
+  const send = async () => {
+    if (!note) return;
+    setLoading(true);
+    try {
+      await supabase.from('feedbacks').insert([{user_id: user?.id, note, commentaire, created_at: new Date()}]);
+      setEnvoye(true);
+    } catch {
+      setEnvoye(true);
+    }
+    setLoading(false);
+  };
+
+  return (
+    <div>
+      <h1 style={{fontSize:'28px',fontWeight:'bold',marginBottom:'8px'}}>💬 Feedback</h1>
+      <p style={{color:'#aaa',marginBottom:'30px'}}>Aide-nous à améliorer Spotlift</p>
+      {envoye ? (
+        <div style={{background:'#0d0020',padding:'40px',borderRadius:'20px',textAlign:'center',border:'1px solid #1DB954'}}>
+          <p style={{fontSize:'40px',margin:'0 0 15px 0'}}>🎉</p>
+          <p style={{color:'#1DB954',fontWeight:'bold',fontSize:'20px',margin:0}}>Merci pour ton feedback !</p>
+        </div>
+      ) : (
+        <div style={{background:'#0d0020',padding:'30px',borderRadius:'20px',border:'1px solid #2d1040'}}>
+          <p style={{color:'#aaa',marginBottom:'15px'}}>Note ton expérience :</p>
+          <div style={{display:'flex',gap:'15px',marginBottom:'25px'}}>
+            {[1,2,3,4,5].map(n => (
+              <button key={n} onClick={() => setNote(n)}
+                style={{fontSize:'32px',background:'none',border:'none',cursor:'pointer',opacity: note>=n ? 1 : 0.3,transform: note>=n ? 'scale(1.1)' : 'scale(1)',transition:'all 0.2s'}}>
+                ⭐
+              </button>
+            ))}
+          </div>
+          <textarea value={commentaire} onChange={e => setCommentaire(e.target.value)}
+            placeholder="Dis-nous ce que tu penses de Spotlift..."
+            rows={4}
+            style={{width:'100%',background:'#1a0030',border:'1px solid #2d1040',borderRadius:'10px',padding:'12px',color:'#fff',marginBottom:'20px',boxSizing:'border-box',resize:'none'}}/>
+          <button onClick={send} disabled={loading || !note}
+            style={{width:'100%',background:'#9B59B6',color:'#fff',padding:'14px',borderRadius:'10px',fontWeight:'bold',fontSize:'16px',cursor:'pointer',border:'none'}}>
+            {loading ? '⏳ Envoi...' : '💬 Envoyer le feedback'}
+          </button>
+        </div>
+      )}
+    </div>
+  );
+}
+
+function useState<T>(initial: T): [T, (v: T) => void] {
+  return require('react').useState(initial);
 }
