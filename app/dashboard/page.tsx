@@ -567,7 +567,7 @@ function ProfilArtiste() {
     if (claimed==='yes'){score+=15;recs.push({e:'🟢',t:'Profil revendiqué — accès complet Spotify for Artists'});}
     else{score+=0;recs.push({e:'🔴',t:'URGENT : Revendique ton profil sur artists.spotify.com'});}
     const color = score>=75?'#1DB954':score>=50?'#f39c12':'#e74c3c';
-    const label = score>=75?'Profil Optimisé':'score>=50?Profil Correct':'Profil à Améliorer';
+    const label = score>=75 ? 'Profil Optimise' : score>=50 ? 'Profil Correct' : 'Profil a Ameliorer';
     setResult({score,recs,color,label:`${label} — ${nom||'Artiste'}`});
   };
 
