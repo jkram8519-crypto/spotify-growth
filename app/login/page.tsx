@@ -47,7 +47,22 @@ export default function LoginPage() {
           className="w-full bg-green-500 p-3 rounded-xl font-bold text-black"
           onClick={handleConnexion}
           disabled={chargement}
-        >
+        ><button
+  style={{width:'100%',background:'#fff',color:'#333',padding:'14px',borderRadius:'10px',fontWeight:'bold',fontSize:'16px',cursor:'pointer',border:'1px solid #ddd',marginBottom:'15px',display:'flex',alignItems:'center',justifyContent:'center',gap:'10px'}}
+  onClick={async () => {
+    const { supabase } = await import('../../supabase');
+    await supabase.auth.signInWithOAuth({
+      provider: 'google',
+      options: {
+        redirectTo: 'https://getspotlift.vercel.app/dashboard'
+      }
+    });
+  }}>
+  <img src="https://www.google.com/favicon.ico" width="20" height="20" alt="Google"/>
+  Se connecter avec Google
+</button>
+
+<div style={{textAlign:'center',marginBottom:'15px',color:'#555',fontSize:'14px'}}>— ou —</div>
           {chargement ? 'Chargement...' : 'Se connecter'}
         </button>
 
