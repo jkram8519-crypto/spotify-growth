@@ -21,11 +21,11 @@ export default function LandingPage() {
           <span style={{color:'#9B59B6'}}>croissance Spotify</span>
         </h2>
         <p style={{color:'#aaa',fontSize:'18px',maxWidth:'600px',margin:'20px auto 40px'}}>
-          Pitches IA, Manager de sortie, Analytics et bien plus pour les artistes independants.
+          Pitches IA, Manager de sortie, Analytics et bien plus pour les artistes indépendants.
         </p>
         <div style={{display:'flex',gap:'15px',justifyContent:'center',flexWrap:'wrap'}}>
           <a href="/login" style={{background:'#9B59B6',color:'#fff',padding:'16px 30px',borderRadius:'30px',textDecoration:'none',fontWeight:'bold',fontSize:'16px'}}>Commencer gratuitement</a>
-          <a href="#features" style={{border:'1px solid #555',color:'#fff',padding:'16px 30px',borderRadius:'30px',textDecoration:'none',fontSize:'16px'}}>Voir les fonctionnalites</a>
+          <a href="#features" style={{border:'1px solid #555',color:'#fff',padding:'16px 30px',borderRadius:'30px',textDecoration:'none',fontSize:'16px'}}>Voir les fonctionnalités</a>
         </div>
       </section>
 
