@@ -85,7 +85,7 @@ const generateContenu = async () => {
     <img src="/spotlift-icon.svg" alt="Logo" style={{width:'36px',height:'36px',borderRadius:'10px'}}/>
     <div>
       <h1 className="text-lg font-bold text-white">Spotlift</h1>
-      <p className="text-zinc-500 text-xs">Dashboard Artiste</p>
+      <p className="text-zinc-500 text-xs">Dashboard Artiste</p><a href="/profil" style={{color:'#9B59B6',fontSize:'12px',textDecoration:'none'}}>👤 Mon profil</a>
     </div>
   </div>
   <div className="flex items-center gap-4">
