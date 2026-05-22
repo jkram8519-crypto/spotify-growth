@@ -27,6 +27,45 @@ export default function LandingPage() {
           <a href="/login" style={{background:'#9B59B6',color:'#fff',padding:'16px 30px',borderRadius:'30px',textDecoration:'none',fontWeight:'bold',fontSize:'16px'}}>Commencer gratuitement</a>
           <a href="#features" style={{border:'1px solid #555',color:'#fff',padding:'16px 30px',borderRadius:'30px',textDecoration:'none',fontSize:'16px'}}>Voir les fonctionnalités</a>
         </div>
+        {/* HERO VISUAL */}
+<div style={{marginTop:'60px',display:'flex',justifyContent:'center'}}>
+  <div style={{background:'#0d0020',border:'1px solid #2d1040',borderRadius:'20px',padding:'25px',maxWidth:'600px',width:'100%',boxShadow:'0 0 60px rgba(155,89,182,0.15)'}}>
+    <div style={{display:'flex',alignItems:'center',gap:'10px',marginBottom:'20px',borderBottom:'1px solid #2d1040',paddingBottom:'15px'}}>
+      <div style={{width:'12px',height:'12px',borderRadius:'50%',background:'#e74c3c'}}/>
+      <div style={{width:'12px',height:'12px',borderRadius:'50%',background:'#f39c12'}}/>
+      <div style={{width:'12px',height:'12px',borderRadius:'50%',background:'#1DB954'}}/>
+      <span style={{color:'#555',fontSize:'13px',marginLeft:'10px'}}>Spotlift Dashboard</span>
+    </div>
+    <div style={{display:'grid',gridTemplateColumns:'1fr 1fr',gap:'15px',marginBottom:'15px'}}>
+      <div style={{background:'#1a0030',padding:'15px',borderRadius:'12px',border:'1px solid #2d1040'}}>
+        <p style={{color:'#9B59B6',fontSize:'11px',margin:'0 0 5px 0',fontWeight:'bold'}}>🚀 PITCH GÉNÉRÉ</p>
+        <p style={{color:'#ccc',fontSize:'11px',margin:0,lineHeight:'1.5'}}>"Midnight Vibes" est un titre Electronic captivant...</p>
+      </div>
+      <div style={{background:'#1a0030',padding:'15px',borderRadius:'12px',border:'1px solid #2d1040'}}>
+        <p style={{color:'#1DB954',fontSize:'11px',margin:'0 0 5px 0',fontWeight:'bold'}}>🎯 GROWTH SCORE</p>
+        <p style={{color:'#fff',fontSize:'28px',fontWeight:'bold',margin:0}}>78<span style={{color:'#555',fontSize:'14px'}}>/100</span></p>
+      </div>
+    </div>
+    <div style={{background:'#1a0030',padding:'15px',borderRadius:'12px',border:'1px solid #2d1040',marginBottom:'15px'}}>
+      <p style={{color:'#f39c12',fontSize:'11px',margin:'0 0 8px 0',fontWeight:'bold'}}>🗓️ MANAGER IA — PROCHAINE ACTION</p>
+      <p style={{color:'#ccc',fontSize:'12px',margin:0}}>J-7 — Soumettre le track à Spotify Editorial Playlist</p>
+    </div>
+    <div style={{display:'grid',gridTemplateColumns:'1fr 1fr 1fr',gap:'10px'}}>
+      <div style={{background:'#1a0030',padding:'12px',borderRadius:'10px',textAlign:'center',border:'1px solid #2d1040'}}>
+        <p style={{color:'#9B59B6',fontWeight:'bold',fontSize:'18px',margin:0}}>98%</p>
+        <p style={{color:'#555',fontSize:'10px',margin:0}}>Match playlist</p>
+      </div>
+      <div style={{background:'#1a0030',padding:'12px',borderRadius:'10px',textAlign:'center',border:'1px solid #2d1040'}}>
+        <p style={{color:'#1DB954',fontWeight:'bold',fontSize:'18px',margin:0}}>3x</p>
+        <p style={{color:'#555',fontSize:'10px',margin:0}}>Plus de streams</p>
+      </div>
+      <div style={{background:'#1a0030',padding:'12px',borderRadius:'10px',textAlign:'center',border:'1px solid #2d1040'}}>
+        <p style={{color:'#f39c12',fontWeight:'bold',fontSize:'18px',margin:0}}>10s</p>
+        <p style={{color:'#555',fontSize:'10px',margin:0}}>Pitch généré</p>
+      </div>
+    </div>
+  </div>
+</div>
       </section>
 
       <section style={{display:'flex',justifyContent:'center',gap:'30px',padding:'40px 20px',background:'#0d0020',flexWrap:'wrap'}}>
