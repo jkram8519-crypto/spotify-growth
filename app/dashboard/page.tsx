@@ -18,6 +18,23 @@ const [tutorialStep, setTutorialStep] = useState(0);
 
   const menuItems = [
     {id:'pitch', emoji:'🚀', label:'Pitch Generator'},
+    {historique.length > 0 && (
+  <div style={{marginTop:'20px'}}>
+    <h3 style={{fontSize:'16px',fontWeight:'bold',marginBottom:'15px',color:'#aaa'}}>📝 Historique des pitches</h3>
+    {historique.map((h, i) => (
+      <div key={i} style={{background:'#0d0020',padding:'15px',borderRadius:'12px',marginBottom:'10px',border:'1px solid #2d1040'}}>
+        <div style={{display:'flex',justifyContent:'space-between',alignItems:'center',marginBottom:'8px'}}>
+          <p style={{color:'#9B59B6',fontWeight:'bold',margin:0,fontSize:'13px'}}>🎵 {h.track} — {h.genre}</p>
+          <button onClick={() => navigator.clipboard.writeText(h.pitch)}
+            style={{background:'#1a0030',color:'#aaa',border:'1px solid #2d1040',padding:'4px 10px',borderRadius:'6px',cursor:'pointer',fontSize:'11px'}}>
+            📋 Copier
+          </button>
+        </div>
+        <p style={{color:'#ccc',fontSize:'12px',lineHeight:'1.6',margin:0}}>{h.pitch}</p>
+      </div>
+    ))}
+  </div>
+)}
     {id:'manager', emoji:'🗓️', label:'Manager IA'},
     {id:'playlists', emoji:'🎯', label:'Playlist Finder'},
     {id:'analytics', emoji:'📊', label:'Analytics IA'},
@@ -238,14 +255,17 @@ function PitchGenerator({ user }: { user: any }) {
         `Permettez-moi de vous présenter "${track}", un titre ${genre} qui se distingue par sa créativité et son originalité. Avec une production moderne et des arrangements travaillés, ce track a tout pour séduire les auditeurs de votre playlist.`,
         `"${track}" représente une nouvelle vision du ${genre} contemporain. Ce titre allie des sonorités innovantes à une structure mémorable, créant une expérience d'écoute unique qui résonnera parfaitement avec votre audience.`,
       ];
-      setPitch(pitches[Math.floor(Math.random() * pitches.length)]);
       setLoading(false);
+      const newPitch = pitches[Math.floor(Math.random() * pitches.length)];
+setPitch(newPitch);
+setHistorique(prev => [{track, genre, pitch:newPitch}, ...prev].slice(0, 5));
     }, 1500);
   };
 
   return (
     <div>
       <h1 style={{fontSize:'28px',fontWeight:'bold',marginBottom:'8px'}}>🚀 Pitch Generator IA</h1>
+      const [historique, setHistorique] = useState<{track:string, genre:string, pitch:string}[]>([]);
       <p style={{color:'#aaa',marginBottom:'30px'}}>Génère un pitch professionnel en 10 secondes</p>
       <div style={{background:'#0d0020',padding:'30px',borderRadius:'20px',border:'1px solid #2d1040',marginBottom:'20px'}}>
         <label style={{color:'#aaa',fontSize:'14px',display:'block',marginBottom:'6px'}}>Nom du track</label>
@@ -271,6 +291,16 @@ function PitchGenerator({ user }: { user: any }) {
             <button onClick={() => navigator.clipboard.writeText(pitch)}
               style={{background:'#1a0030',color:'#aaa',border:'1px solid #2d1040',padding:'6px 12px',borderRadius:'8px',cursor:'pointer',fontSize:'12px'}}>
               📋 Copier
+              <button onClick={() => {
+  const blob = new Blob([pitch], {type:'text/plain'});
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = `pitch-${track}.txt`;
+  a.click();
+}} style={{background:'#1DB954',color:'white',border:'none',padding:'6px 12px',borderRadius:'8px',cursor:'pointer',fontSize:'12px'}}>
+  💾 Sauvegarder
+</button>
             </button>
           </div>
           <p style={{color:'#ccc',lineHeight:'1.8',margin:0}}>{pitch}</p>
