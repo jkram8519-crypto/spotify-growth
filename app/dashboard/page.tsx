@@ -5,7 +5,8 @@ import { supabase } from '../../supabase';
 export default function Dashboard() {
   const [user, setUser] = useState<any>(null);
   const [activeSection, setActiveSection] = useState('pitch');
-
+const [showWelcome, setShowWelcome] = useState(true);
+const [tutorialStep, setTutorialStep] = useState(0);
   useEffect(() => {
     const getUser = async () => {
       const { data } = await supabase.auth.getUser();
@@ -76,6 +77,73 @@ export default function Dashboard() {
 
       {/* CONTENU PRINCIPAL */}
       <div style={{marginLeft:'220px',flex:1,padding:'30px',maxWidth:'900px'}}>
+        {/* MODAL DE BIENVENUE */}
+{showWelcome && (
+  <div style={{position:'fixed',top:0,left:0,right:0,bottom:0,background:'rgba(0,0,0,0.85)',zIndex:1000,display:'flex',alignItems:'center',justifyContent:'center'}}>
+    <div style={{background:'#0d0020',padding:'40px',borderRadius:'24px',maxWidth:'500px',width:'90%',border:'1px solid #9B59B6',textAlign:'center'}}>
+      {tutorialStep === 0 && (
+        <>
+          <p style={{fontSize:'50px',margin:'0 0 15px 0'}}>👋</p>
+          <h2 style={{fontSize:'24px',fontWeight:'bold',marginBottom:'10px'}}>Bienvenue sur Spotlift !</h2>
+          <p style={{color:'#aaa',marginBottom:'25px',lineHeight:'1.6'}}>L'outil IA numéro 1 pour artistes indépendants sur Spotify. Laisse-nous te guider en 3 étapes rapides !</p>
+          <button onClick={() => setTutorialStep(1)}
+            style={{background:'#9B59B6',color:'#fff',padding:'12px 30px',borderRadius:'25px',border:'none',cursor:'pointer',fontWeight:'bold',fontSize:'16px',marginRight:'10px'}}>
+            Commencer le tour 🚀
+          </button>
+          <button onClick={() => setShowWelcome(false)}
+            style={{background:'transparent',color:'#555',padding:'12px 20px',borderRadius:'25px',border:'none',cursor:'pointer',fontSize:'14px'}}>
+            Passer
+          </button>
+        </>
+      )}
+      {tutorialStep === 1 && (
+        <>
+          <p style={{fontSize:'50px',margin:'0 0 15px 0'}}>🚀</p>
+          <p style={{color:'#9B59B6',fontSize:'13px',marginBottom:'5px'}}>ÉTAPE 1 SUR 3</p>
+          <h2 style={{fontSize:'22px',fontWeight:'bold',marginBottom:'10px'}}>Génère ton premier pitch</h2>
+          <p style={{color:'#aaa',marginBottom:'25px',lineHeight:'1.6'}}>Clique sur <strong style={{color:'white'}}>"Pitch Generator"</strong> dans le menu à gauche, entre le nom de ton track et génère un pitch pro en 10 secondes !</p>
+          <div style={{background:'#1a0030',padding:'15px',borderRadius:'12px',marginBottom:'25px',textAlign:'left'}}>
+            <p style={{color:'#ccc',fontSize:'13px',margin:0}}>💡 Astuce : Plus ta description est précise, meilleur sera le pitch généré !</p>
+          </div>
+          <button onClick={() => setTutorialStep(2)}
+            style={{background:'#9B59B6',color:'#fff',padding:'12px 30px',borderRadius:'25px',border:'none',cursor:'pointer',fontWeight:'bold',fontSize:'16px'}}>
+            Suivant →
+          </button>
+        </>
+      )}
+      {tutorialStep === 2 && (
+        <>
+          <p style={{fontSize:'50px',margin:'0 0 15px 0'}}>🗓️</p>
+          <p style={{color:'#9B59B6',fontSize:'13px',marginBottom:'5px'}}>ÉTAPE 2 SUR 3</p>
+          <h2 style={{fontSize:'22px',fontWeight:'bold',marginBottom:'10px'}}>Planifie ta sortie</h2>
+          <p style={{color:'#aaa',marginBottom:'25px',lineHeight:'1.6'}}>Utilise le <strong style={{color:'white'}}>"Manager IA"</strong> pour générer automatiquement ton calendrier de sortie sur 44 jours. De J-30 jusqu'à J+14 !</p>
+          <div style={{background:'#1a0030',padding:'15px',borderRadius:'12px',marginBottom:'25px',textAlign:'left'}}>
+            <p style={{color:'#ccc',fontSize:'13px',margin:0}}>💡 Astuce : Entre ta date de sortie et laisse l'IA planifier tout pour toi !</p>
+          </div>
+          <button onClick={() => setTutorialStep(3)}
+            style={{background:'#9B59B6',color:'#fff',padding:'12px 30px',borderRadius:'25px',border:'none',cursor:'pointer',fontWeight:'bold',fontSize:'16px'}}>
+            Suivant →
+          </button>
+        </>
+      )}
+      {tutorialStep === 3 && (
+        <>
+          <p style={{fontSize:'50px',margin:'0 0 15px 0'}}>🎯</p>
+          <p style={{color:'#9B59B6',fontSize:'13px',marginBottom:'5px'}}>ÉTAPE 3 SUR 3</p>
+          <h2 style={{fontSize:'22px',fontWeight:'bold',marginBottom:'10px'}}>Trouve tes playlists</h2>
+          <p style={{color:'#aaa',marginBottom:'25px',lineHeight:'1.6'}}>Le <strong style={{color:'white'}}>"Playlist Finder"</strong> analyse ton genre musical et trouve les playlists parfaites avec un score de compatibilité !</p>
+          <div style={{background:'#1a0030',padding:'15px',borderRadius:'12px',marginBottom:'25px',textAlign:'left'}}>
+            <p style={{color:'#ccc',fontSize:'13px',margin:0}}>💡 Astuce : Plus ton score de match est élevé, plus tu as de chances d'être placé !</p>
+          </div>
+          <button onClick={() => setShowWelcome(false)}
+            style={{background:'linear-gradient(135deg,#9B59B6,#1DB954)',color:'#fff',padding:'12px 30px',borderRadius:'25px',border:'none',cursor:'pointer',fontWeight:'bold',fontSize:'16px'}}>
+            C'est parti ! 🚀
+          </button>
+        </>
+      )}
+    </div>
+  </div>
+)}
 {/* HEADER DE BIENVENUE */}
 <div style={{background:'linear-gradient(135deg,#1a0030,#0d0020)',padding:'20px 25px',borderRadius:'15px',marginBottom:'25px',border:'1px solid #2d1040',display:'flex',justifyContent:'space-between',alignItems:'center'}}>
   <div>
