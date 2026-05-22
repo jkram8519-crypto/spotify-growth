@@ -76,7 +76,25 @@ export default function Dashboard() {
 
       {/* CONTENU PRINCIPAL */}
       <div style={{marginLeft:'220px',flex:1,padding:'30px',maxWidth:'900px'}}>
-
+{/* HEADER DE BIENVENUE */}
+<div style={{background:'linear-gradient(135deg,#1a0030,#0d0020)',padding:'20px 25px',borderRadius:'15px',marginBottom:'25px',border:'1px solid #2d1040',display:'flex',justifyContent:'space-between',alignItems:'center'}}>
+  <div>
+    <h2 style={{margin:0,fontSize:'20px',fontWeight:'bold'}}>
+      Bonjour 👋 {user?.email?.split('@')[0]}
+    </h2>
+    <p style={{margin:'5px 0 0 0',color:'#aaa',fontSize:'14px'}}>Bienvenue sur ton dashboard Spotlift</p>
+  </div>
+  <div style={{display:'flex',gap:'10px'}}>
+    <div style={{background:'#0d0020',padding:'10px 15px',borderRadius:'10px',textAlign:'center',border:'1px solid #2d1040'}}>
+      <p style={{margin:0,color:'#9B59B6',fontWeight:'bold',fontSize:'18px'}}>11</p>
+      <p style={{margin:0,color:'#555',fontSize:'11px'}}>Outils IA</p>
+    </div>
+    <div style={{background:'#0d0020',padding:'10px 15px',borderRadius:'10px',textAlign:'center',border:'1px solid #2d1040'}}>
+      <p style={{margin:0,color:'#1DB954',fontWeight:'bold',fontSize:'18px'}}>Free</p>
+      <p style={{margin:0,color:'#555',fontSize:'11px'}}>Plan actuel</p>
+    </div>
+  </div>
+</div>
         {/* PITCH GENERATOR */}
         {activeSection === 'pitch' && (
           <PitchGenerator user={user} />
