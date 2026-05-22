@@ -14,7 +14,8 @@ export default function InscriptionPage() {
     if (error) {
       setMessage('Erreur : ' + error.message);
     } else {
-      setMessage('Compte cree ! Verifie ton email.');
+      setMessage('Compte cree ! Redirection...');
+      setTimeout(() => { window.location.href = '/dashboard'; }, 1500);
     }
     setChargement(false);
   };
