@@ -3,7 +3,7 @@ import { useState, useEffect } from 'react';
 import { supabase } from '../../supabase';
 
 export default function Dashboard() {
-  const [user, setUser] = useState<any>(null);
+  const [user, setUser] = useState<any>(null);const [activeSection, setActiveSection] = useState('pitch');
   const [track, setTrack] = useState('');
   const [genre, setGenre] = useState('');
   const [pitch, setPitch] = useState('');
@@ -79,7 +79,58 @@ const generateContenu = async () => {
     setFeedbackEnvoye(true);
   };
   return (
-    <main className="min-h-screen bg-black text-white">
+    <main className="min-h-screen bg-black text-white"><div style={{display:'flex',minHeight:'100vh'}}>
+  {/* SIDEBAR */}
+  <div style={{width:'220px',background:'#0d0020',borderRight:'1px solid #2d1040',padding:'20px 0',position:'fixed',height:'100vh',overflowY:'auto',zIndex:50}}>
+    <div style={{padding:'0 15px',marginBottom:'30px'}}>
+      <img src="/spotlift-icon.svg" alt="Logo" style={{width:'35px',height:'35px',borderRadius:'8px'}}/>
+      <p style={{color:'#9B59B6',fontWeight:'bold',fontSize:'14px',margin:'8px 0 0 0'}}>Spotlift</p>
+    </div>
+    {[
+      {id:'pitch', emoji:'🚀', label:'Pitch Generator'},
+      {id:'manager', emoji:'🗓️', label:'Manager IA'},
+      {id:'playlists', emoji:'🎯', label:'Playlist Finder'},
+      {id:'analytics', emoji:'📊', label:'Analytics IA'},
+      {id:'growth', emoji:'🎯', label:'Growth Score'},
+      {id:'viral', emoji:'🔥', label:'Viral Potentiel'},
+      {id:'profil', emoji:'🎨', label:'Profil Artiste'},
+      {id:'contenu', emoji:'📱', label:'Contenu Social'},
+      {id:'ia', emoji:'🤖', label:'IA Assistant'},
+      {id:'multi', emoji:'📊', label:'Multi-Plateformes'},
+      {id:'feedback', emoji:'💬', label:'Feedback'},
+    ].map((item) => (
+      <button key={item.id}
+        onClick={() => setActiveSection(item.id)}
+        style={{
+          width:'100%',
+          padding:'12px 15px',
+          background: activeSection === item.id ? '#1a0030' : 'transparent',
+          border:'none',
+          borderLeft: activeSection === item.id ? '3px solid #9B59B6' : '3px solid transparent',
+          color: activeSection === item.id ? '#fff' : '#aaa',
+          textAlign:'left',
+          cursor:'pointer',
+          fontSize:'13px',
+          display:'flex',
+          alignItems:'center',
+          gap:'10px',
+          transition:'all 0.2s',
+        }}>
+        <span>{item.emoji}</span>
+        <span>{item.label}</span>
+      </button>
+    ))}
+    <div style={{padding:'15px',marginTop:'20px',borderTop:'1px solid #2d1040'}}>
+      <a href="/profil" style={{color:'#aaa',fontSize:'12px',textDecoration:'none',display:'block',marginBottom:'8px'}}>👤 Mon profil</a>
+      <button onClick={async () => { await supabase.auth.signOut(); window.location.href = '/login'; }}
+        style={{color:'#555',background:'none',border:'none',cursor:'pointer',fontSize:'12px',padding:0}}>
+        Déconnexion
+      </button>
+    </div>
+  </div>
+
+  {/* CONTENU PRINCIPAL */}
+  <div style={{marginLeft:'220px',flex:1,padding:'20px'}}>
   <nav className="flex items-center justify-between p-4 border-b border-zinc-800 bg-black sticky top-0 z-50">
   <div className="flex items-center gap-3">
     <img src="/spotlift-icon.svg" alt="Logo" style={{width:'36px',height:'36px',borderRadius:'10px'}}/>
@@ -785,3 +836,5 @@ const generateContenu = async () => {
 </div>  </main>
   );
 }
+</div>
+  </div>
