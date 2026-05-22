@@ -185,31 +185,6 @@ const generateContenu = async () => {
               </div>
             )}
           </div>
-          <div className="bg-zinc-900 p-8 rounded-3xl mt-8 col-span-2">
-            <h2 className="text-2xl font-bold mb-6">📱 Générateur de Contenu Réseaux Sociaux</h2>
-            <div className="flex gap-3 mb-6 flex-wrap">
-              {['instagram','tiktok','twitter','email'].map(type => (
-                <button key={type} onClick={() => setContenuType(type)}
-                  className={`px-4 py-2 rounded-xl font-bold ${contenuType === type ? 'bg-purple-600 text-white' : 'bg-zinc-800 text-zinc-400'}`}>
-                  {type === 'instagram' ? '📸 Instagram' : type === 'tiktok' ? '🎵 TikTok' : type === 'twitter' ? '🐦 Twitter' : '📧 Email'}
-                </button>
-              ))}
-            </div>
-            <button className="bg-purple-600 text-white px-6 py-3 rounded-xl font-bold w-full mb-4"
-              onClick={generateContenu} disabled={loadingContenu || !track}>
-              {loadingContenu ? '⏳ Génération...' : '📱 Générer le contenu'}
-            </button>
-            {contenu && (
-              <div className="bg-zinc-800 p-4 rounded-xl">
-                <div className="flex justify-between items-center mb-2">
-                  <p className="text-purple-400 font-bold">✅ Contenu généré :</p>
-                  <button onClick={() => navigator.clipboard.writeText(contenu)}
-                    className="text-xs bg-zinc-700 px-3 py-1 rounded-lg text-zinc-300">📋 Copier</button>
-                </div>
-                <pre className="text-white whitespace-pre-wrap text-sm leading-relaxed">{contenu}</pre>
-              </div>
-            )}
-          </div>
         </div>
         <div className="bg-zinc-900 p-8 rounded-3xl mt-8">
           <h2 className="text-2xl font-bold mb-6">💬 Donner un feedback</h2>

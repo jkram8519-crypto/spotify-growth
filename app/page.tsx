@@ -185,12 +185,12 @@ export default function LandingPage() {
         <p style={{color:'#9B59B6',fontWeight:'bold',marginBottom:'15px'}}>Spotlift</p>
         <div style={{display:'flex',gap:'20px',justifyContent:'center',flexWrap:'wrap',marginBottom:'15px'}}>
           <a href="/cgv" style={{color:'#aaa',textDecoration:'none',fontSize:'14px'}}>CGV</a>
-          <a href="/mentions-legales" style={{color:'#aaa',textDecoration:'none',fontSize:'14px'}}>Mentions Legales</a>
+          <a href="/mentions-legales" style={{color:'#aaa',textDecoration:'none',fontSize:'14px'}}>Mentions Légales</a>
           <a href="/a-propos" style={{color:'#aaa',textDecoration:'none',fontSize:'14px'}}>A propos</a>
-          <a href="/confidentialite" style={{color:'#aaa',textDecoration:'none',fontSize:'14px'}}>Confidentialité</a>
+          <a href="/confidentialité" style={{color:'#aaa',textDecoration:'none',fontSize:'14px'}}>Confidentialité</a>
           <a href="/faq" style={{color:'#aaa',textDecoration:'none',fontSize:'14px'}}>FAQ</a>
         </div>
-        <p style={{color:'#555',margin:0,fontSize:'14px'}}>2026 Spotlift. Tous droits reserves.</p>
+        <p style={{color:'#555',margin:0,fontSize:'14px'}}>2026 Spotlift. Tous droits réservés.</p>
       </footer>
 
     </main>
