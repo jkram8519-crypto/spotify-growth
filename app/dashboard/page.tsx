@@ -879,7 +879,3 @@ function Feedback({ user }: { user: any }) {
     </div>
   );
 }
-
-function useState<T>(initial: T): [T, (v: T) => void] {
-  return require('react').useState(initial);
-}
