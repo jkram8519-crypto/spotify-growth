@@ -351,7 +351,7 @@ function AnalyticsIA() {
           ))}
         </div>
         <button onClick={analyze}
-          style={{width:'100%',background:'#3498db',color:'#fff',padding:'14px',borderRadius:'10px',fontWeight:'bold',fontSize:'16px',cursor:'pointer',border:'none'}}>
+          style={{width:'100%',background:'#9B59B6',color:'#fff',padding:'14px',borderRadius:'10px',fontWeight:'bold',fontSize:'16px',cursor:'pointer',border:'none'}}>
           🔍 Analyser mes performances
         </button>
       </div>
@@ -594,7 +594,7 @@ function ProfilArtiste() {
           </div>
         ))}
         <button onClick={analyze}
-          style={{width:'100%',background:'#3498db',color:'#fff',padding:'14px',borderRadius:'10px',fontWeight:'bold',fontSize:'16px',cursor:'pointer',border:'none'}}>
+          style={{width:'100%',background:'#9B59B6',color:'#fff',padding:'14px',borderRadius:'10px',fontWeight:'bold',fontSize:'16px',cursor:'pointer',border:'none'}}>
           🎨 Analyser mon profil
         </button>
       </div>
