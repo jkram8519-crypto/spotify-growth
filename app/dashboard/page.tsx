@@ -228,7 +228,6 @@ function PitchGenerator({ user }: { user: any }) {
   const [genre, setGenre] = useState('Electronic');
   const [pitch, setPitch] = useState('');
   const [loading, setLoading] = useState(false);
-  const [historique, setHistorique] = useState<any[]>([]);
 
   const generatePitch = () => {
     if (!track) return;
@@ -239,7 +238,7 @@ function PitchGenerator({ user }: { user: any }) {
         `Permettez-moi de vous présenter "${track}", un titre ${genre} qui se distingue par sa créativité et son originalité. Avec une production moderne et des arrangements travaillés, ce track a tout pour séduire les auditeurs de votre playlist.`,
         `"${track}" représente une nouvelle vision du ${genre} contemporain. Ce titre allie des sonorités innovantes à une structure mémorable, créant une expérience d'écoute unique qui résonnera parfaitement avec votre audience.`,
       ];
-      const newPitch = pitches[Math.floor(Math.random() * pitches.length)]; setPitch(newPitch); setHistorique((prev: any[]) => [{track, genre, pitch:newPitch}, ...prev].slice(0, 5));
+      setPitch(pitches[Math.floor(Math.random() * pitches.length)]);
       setLoading(false);
     }, 1500);
   };
@@ -278,17 +277,6 @@ function PitchGenerator({ user }: { user: any }) {
         </div>
       )}
     </div>
-    {historique && historique.length > 0 && (
-      <div style={{marginTop:"20px"}}>
-        <h3 style={{fontSize:"16px",fontWeight:"bold",marginBottom:"15px",color:"#aaa"}}>📝 Historique</h3>
-        {historique.map((h, i) => (
-          <div key={i} style={{background:"#0d0020",padding:"15px",borderRadius:"12px",marginBottom:"10px",border:"1px solid #2d1040"}}>
-            <p style={{color:"#9B59B6",fontWeight:"bold",margin:"0 0 8px 0",fontSize:"13px"}}>🎵 {h.track} — {h.genre}</p>
-            <p style={{color:"#ccc",fontSize:"12px",lineHeight:"1.6",margin:0}}>{h.pitch}</p>
-          </div>
-        ))}
-      </div>
-    )}
   );
 }
 
