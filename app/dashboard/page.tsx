@@ -836,5 +836,3 @@ const generateContenu = async () => {
 </div>  </main>
   );
 }
-</div>
-  </div>
