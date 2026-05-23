@@ -34,7 +34,8 @@ const [tutorialStep, setTutorialStep] = useState(0);
     <div style={{display:'flex',minHeight:'100vh',background:'#000',color:'#fff',fontFamily:'sans-serif'}}>
 
       {/* SIDEBAR */}
-      <div style={{width:'220px',background:'#0d0020',minWidth:'220px',borderRight:'1px solid #2d1040',padding:'20px 0',position:'fixed',height:'100vh',overflowY:'auto',zIndex:50,display:'flex',flexDirection:'column',}} 
+      <div style={{width:'220px',background:'#0d0020',borderRight:'1px solid #2d1040',padding:'20px 0',position:'fixed',height:'100vh',overflowY:'auto',zIndex:50,display:'flex',flexDirection:'column'}}>
+        <div style={{padding:'0 15px 20px 15px',borderBottom:'1px solid #2d1040',marginBottom:'10px'}}>
           <div style={{display:'flex',alignItems:'center',gap:'8px'}}>
             <img src="/spotlift-icon.svg" alt="Logo" style={{width:'30px',height:'30px',borderRadius:'8px'}}/>
             <span style={{fontWeight:'bold',color:'#9B59B6',fontSize:'14px'}}>Spotlift</span>
