@@ -6,6 +6,7 @@ export default function Dashboard() {
   const [user, setUser] = useState<any>(null);
   const [activeSection, setActiveSection] = useState('pitch');
 const [showWelcome, setShowWelcome] = useState(true);
+  const [showToolsModal, setShowToolsModal] = useState(false);
 const [tutorialStep, setTutorialStep] = useState(0);
   useEffect(() => {
     const getUser = async () => {
@@ -77,7 +78,40 @@ const [tutorialStep, setTutorialStep] = useState(0);
 
       {/* CONTENU PRINCIPAL */}
       <div style={{marginLeft:'220px',flex:1,padding:'30px',maxWidth:'900px'}} className="dashboard-content">
-        {/* MODAL DE BIENVENUE */}
+        
+{showToolsModal && (
+  <div style={{position:"fixed",top:0,left:0,right:0,bottom:0,background:"rgba(0,0,0,0.85)",zIndex:1000,display:"flex",alignItems:"center",justifyContent:"center",padding:"20px"}} onClick={() => setShowToolsModal(false)}>
+      <div style={{background:"#0d0020",padding:"30px",borderRadius:"24px",maxWidth:"500px",width:"100%",border:"1px solid #9B59B6",maxHeight:"80vh",overflowY:"auto"}} onClick={e => e.stopPropagation()}>
+            <div style={{display:"flex",justifyContent:"space-between",alignItems:"center",marginBottom:"20px"}}>
+                    <h2 style={{margin:0,fontSize:"22px",fontWeight:"bold"}}> Les 11 outils IA</h2>
+                            <button onClick={() => setShowToolsModal(false)} style={{background:"none",border:"none",color:"#aaa",cursor:"pointer",fontSize:"20px"}}></button>
+                                  </div>
+                                        {[
+                                                {emoji:"",title:"Pitch Generator IA",desc:"Génère des pitches professionnels en 10 secondes.",section:"pitch"},
+                                                        {emoji:"",title:"Manager IA",desc:"Planifie ta sortie sur 44 jours automatiquement.",section:"manager"},
+                                                                {emoji:"",title:"Playlist Finder",desc:"Trouve les playlists parfaites avec score de match.",section:"playlists"},
+                                                                        {emoji:"",title:"Analytics IA",desc:"Recommandations actionnables sur tes stats.",section:"analytics"},
+                                                                                {emoji:"",title:"Growth Score",desc:"Calcule ton score de croissance sur 100 points.",section:"growth"},
+                                                                                        {emoji:"",title:"Viral Potentiel",desc:"Détecte le potentiel viral de ton track sur TikTok.",section:"viral"},
+                                                                                                {emoji:"",title:"Profil Artiste",desc:"Optimise chaque élément de ton profil Spotify.",section:"profil"},
+                                                                                                        {emoji:"",title:"Contenu Social",desc:"Génère du contenu pour Instagram, TikTok, Twitter.",section:"contenu"},
+                                                                                                                {emoji:"",title:"IA Assistant",desc:"Conseils pro instantanés de ton manager IA.",section:"ia"},
+                                                                                                                        {emoji:"",title:"Multi-Plateformes",desc:"Centralise tes stats Spotify, TikTok, YouTube.",section:"multi"},
+                                                                                                                                {emoji:"",title:"Feedback",desc:"Donne ton avis et aide à améliorer Spotlift.",section:"feedback"},
+                                                                                                                                      ].map((tool, i) => (
+                                                                                                                                              <div key={i} onClick={() => { setActiveSection(tool.section); setShowToolsModal(false); }}
+                                                                                                                                                        style={{background:"#1a0030",padding:"15px",borderRadius:"12px",marginBottom:"10px",border:"1px solid #2d1040",cursor:"pointer",display:"flex",gap:"12px",alignItems:"flex-start"}}>
+                                                                                                                                                                  <span style={{fontSize:"24px"}}>{tool.emoji}</span>
+                                                                                                                                                                            <div>
+                                                                                                                                                                                        <p style={{margin:"0 0 4px 0",fontWeight:"bold",fontSize:"14px"}}>{tool.title}</p>
+                                                                                                                                                                                                    <p style={{margin:0,color:"#aaa",fontSize:"12px",lineHeight:"1.5"}}>{tool.desc}</p>
+                                                                                                                                                                                                              </div>
+                                                                                                                                                                                                                      </div>
+                                                                                                                                                                                                                            ))}
+                                                                                                                                                                                                                                </div>
+                                                                                                                                                                                                                                  </div>
+                                                                                                                                                                                                                                  )}
+                                                                                                                                                                                                                                  {/* MODAL DE BIENVENUE */}
 {showWelcome && (
   <div style={{position:'fixed',top:0,left:0,right:0,bottom:0,background:'rgba(0,0,0,0.85)',zIndex:1000,display:'flex',alignItems:'center',justifyContent:'center'}}>
     <div style={{background:'#0d0020',padding:'40px',borderRadius:'24px',maxWidth:'500px',width:'90%',border:'1px solid #9B59B6',textAlign:'center'}}>
@@ -190,14 +224,14 @@ const [tutorialStep, setTutorialStep] = useState(0);
     <p style={{margin:'5px 0 0 0',color:'#aaa',fontSize:'14px'}}>Bienvenue sur ton dashboard Spotlift</p>
   </div>
   <div style={{display:'flex',gap:'10px'}}>
-    <div style={{background:'#0d0020',padding:'10px 15px',borderRadius:'10px',textAlign:'center',border:'1px solid #2d1040'}}>
+    <button onClick={() => setShowToolsModal(true)} style={{background:'#0d0020',padding:'10px 15px',borderRadius:'10px',textAlign:'center',border:'1px solid #9B59B6',cursor:'pointer'}}>
       <p style={{margin:0,color:'#9B59B6',fontWeight:'bold',fontSize:'18px'}}>11</p>
       <p style={{margin:0,color:'#555',fontSize:'11px'}}>Outils IA</p>
-    </div>
-    <div style={{background:'#0d0020',padding:'10px 15px',borderRadius:'10px',textAlign:'center',border:'1px solid #2d1040'}}>
+    </button>
+    <button onClick={() => window.location.href='/pricing'} style={{background:'#0d0020',padding:'10px 15px',borderRadius:'10px',textAlign:'center',border:'1px solid #2d1040',cursor:'pointer'}}>
       <p style={{margin:0,color:'#1DB954',fontWeight:'bold',fontSize:'18px'}}>Free</p>
       <p style={{margin:0,color:'#555',fontSize:'11px'}}>Plan actuel</p>
-    </div>
+    </button>
   </div>
 </div>
         {/* PITCH GENERATOR */}
