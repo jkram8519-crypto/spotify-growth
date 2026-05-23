@@ -78,3 +78,27 @@ body {
     display: none !important;
   }
 }
+
+/* BOTTOM NAV MOBILE */
+.mobile-bottom-nav {
+  display: none;
+}
+
+@media (max-width: 768px) {
+  .mobile-bottom-nav {
+    display: flex;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: #0d0020;
+    border-top: 1px solid #2d1040;
+    z-index: 100;
+    padding: 8px 0;
+    justify-content: space-around;
+    align-items: center;
+  }
+  .dashboard-content {
+    padding-bottom: 80px !important;
+  }
+}

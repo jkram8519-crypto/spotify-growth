@@ -144,6 +144,43 @@ const [tutorialStep, setTutorialStep] = useState(0);
     </div>
   </div>
 )}
+{/* BOTTOM NAV MOBILE */}
+<div className="mobile-bottom-nav">
+  {[
+    {id:'pitch',emoji:'🚀',label:'Pitch'},
+    {id:'manager',emoji:'🗓️',label:'Manager'},
+    {id:'playlists',emoji:'🎯',label:'Playlist'},
+    {id:'analytics',emoji:'📊',label:'Analytics'},
+    {id:'growth',emoji:'🎯',label:'Score'},
+  ].map((item) => (
+    <button key={item.id} onClick={() => setActiveSection(item.id)}
+      style={{
+        background:'none',
+        border:'none',
+        color: activeSection === item.id ? '#9B59B6' : '#555',
+        cursor:'pointer',
+        display:'flex',
+        flexDirection:'column',
+        alignItems:'center',
+        gap:'4px',
+        fontSize:'10px',
+        padding:'5px',
+      }}>
+      <span style={{fontSize:'20px'}}>{item.emoji}</span>
+      <span>{item.label}</span>
+    </button>
+  ))}
+  <button onClick={() => setActiveSection('ia')}
+    style={{background:'none',border:'none',color: activeSection === 'ia' ? '#9B59B6' : '#555',cursor:'pointer',display:'flex',flexDirection:'column',alignItems:'center',gap:'4px',fontSize:'10px',padding:'5px'}}>
+    <span style={{fontSize:'20px'}}>🤖</span>
+    <span>IA</span>
+  </button>
+  <button onClick={() => setActiveSection('multi')}
+    style={{background:'none',border:'none',color: activeSection === 'multi' ? '#9B59B6' : '#555',cursor:'pointer',display:'flex',flexDirection:'column',alignItems:'center',gap:'4px',fontSize:'10px',padding:'5px'}}>
+    <span style={{fontSize:'20px'}}>📊</span>
+    <span>Multi</span>
+  </button>
+</div>
 {/* HEADER DE BIENVENUE */}
 <div style={{background:'linear-gradient(135deg,#1a0030,#0d0020)',padding:'20px 25px',borderRadius:'15px',marginBottom:'25px',border:'1px solid #2d1040',display:'flex',justifyContent:'space-between',alignItems:'center'}}>
   <div>
