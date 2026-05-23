@@ -5,7 +5,6 @@ import { supabase } from '../../supabase';
 export default function Dashboard() {
   const [user, setUser] = useState<any>(null);
   const [activeSection, setActiveSection] = useState('pitch');
-  const [sidebarOpen, setSidebarOpen] = useState(false);
 const [showWelcome, setShowWelcome] = useState(true);
 const [tutorialStep, setTutorialStep] = useState(0);
   useEffect(() => {
@@ -35,20 +34,7 @@ const [tutorialStep, setTutorialStep] = useState(0);
     <div style={{display:'flex',minHeight:'100vh',background:'#000',color:'#fff',fontFamily:'sans-serif'}}>
 
       {/* SIDEBAR */}
-      <div style={{
-  width:'220px',
-  background:'#0d0020',
-  borderRight:'1px solid #2d1040',
-  padding:'20px 0',
-  position:'fixed',
-  height:'100vh',
-  overflowY:'auto',
-  zIndex:50,
-  display:'flex',
-  flexDirection:'column',
-  transition:'transform 0.3s ease',
-  transform: typeof window !== 'undefined' && window.innerWidth < 768 && !sidebarOpen ? 'translateX(-100%)' : 'translateX(0)',
-}}>
+      <div style={{width:'220px',background:'#0d0020',borderRight:'1px solid #2d1040',padding:'20px 0',position:'fixed',height:'100vh',overflowY:'auto',zIndex:50,display:'flex',flexDirection:'column'}}>
         <div style={{padding:'0 15px 20px 15px',borderBottom:'1px solid #2d1040',marginBottom:'10px'}}>
           <div style={{display:'flex',alignItems:'center',gap:'8px'}}>
             <img src="/spotlift-icon.svg" alt="Logo" style={{width:'30px',height:'30px',borderRadius:'8px'}}/>
@@ -90,11 +76,7 @@ const [tutorialStep, setTutorialStep] = useState(0);
       </div>
 
       {/* CONTENU PRINCIPAL */}
-      marginLeft: typeof window !== 'undefined' && window.innerWidth < 768 ? '0' : '220px',
-flex:1,
-padding:'20px',
-paddingTop: typeof window !== 'undefined' && window.innerWidth < 768 ? '60px' : '20px',
-maxWidth:'900px',
+      <div style={{marginLeft:'220px',flex:1,padding:'30px',maxWidth:'900px'}}>
         {/* MODAL DE BIENVENUE */}
 {showWelcome && (
   <div style={{position:'fixed',top:0,left:0,right:0,bottom:0,background:'rgba(0,0,0,0.85)',zIndex:1000,display:'flex',alignItems:'center',justifyContent:'center'}}>
@@ -162,25 +144,6 @@ maxWidth:'900px',
     </div>
   </div>
 )}
-{/* BOUTON HAMBURGER MOBILE */}
-<button
-  onClick={() => setSidebarOpen(!sidebarOpen)}
-  style={{
-    position:'fixed',
-    top:'15px',
-    left:'15px',
-    zIndex:100,
-    background:'#9B59B6',
-    border:'none',
-    color:'white',
-    padding:'8px 12px',
-    borderRadius:'8px',
-    cursor:'pointer',
-    fontSize:'18px',
-    display: typeof window !== 'undefined' && window.innerWidth < 768 ? 'block' : 'none',
-  }}>
-  {sidebarOpen ? '✕' : '☰'}
-</button>
 {/* HEADER DE BIENVENUE */}
 <div style={{background:'linear-gradient(135deg,#1a0030,#0d0020)',padding:'20px 25px',borderRadius:'15px',marginBottom:'25px',border:'1px solid #2d1040',display:'flex',justifyContent:'space-between',alignItems:'center'}}>
   <div>
