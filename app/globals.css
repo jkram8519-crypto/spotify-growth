@@ -64,3 +64,17 @@ body {
     max-width: 100% !important;
   }
 }
+
+/* MOBILE RESPONSIVE */
+@media (max-width: 768px) {
+  div[style*="marginLeft:'220px'"] {
+    margin-left: 0 !important;
+    width: 100vw !important;
+    max-width: 100vw !important;
+    padding: 10px !important;
+  }
+  div[style*="width:'220px'"][style*="position:'fixed'"] {
+    transform: translateX(-100%) !important;
+    display: none !important;
+  }
+}
