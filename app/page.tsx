@@ -70,10 +70,10 @@ export default function LandingPage() {
 
       <section style={{display:'flex',justifyContent:'center',gap:'30px',padding:'40px 20px',background:'#0d0020',flexWrap:'wrap'}}>
         {[
-          {value:'500+',label:'Artistes actifs'},
-          {value:'10k+',label:'Pitches générés'},
-          {value:'3x',label:'Plus de streams'},
-          {value:'11',label:'Fonctionnalités IA'},
+          {value:'Nouveau',label:'Artistes actifs'},
+          {value:'Gratuit',label:'Pour commencer'},
+          {value:'11',label:'Outils IA'},
+          {value:'100%',label:'Gratuit au départ'},
         ].map((s,i) => (
           <div key={i} style={{textAlign:'center',minWidth:'120px'}}>
             <p style={{fontSize:'36px',fontWeight:'bold',color:'#9B59B6',margin:'0 0 8px 0'}}>{s.value}</p>
