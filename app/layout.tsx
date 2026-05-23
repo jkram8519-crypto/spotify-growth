@@ -44,7 +44,12 @@ export default function RootLayout({
 }) {
   return (
     <html lang="fr">
-      <body>{children}</body>
+      <body>
+    <script dangerouslySetInnerHTML={{__html: `
+      const theme = localStorage.getItem('theme');
+        document.body.classList.add('light-theme');
+      }
+    `}} />{children}</body>
     </html>
   );
 }

@@ -69,6 +69,7 @@ const [tutorialStep, setTutorialStep] = useState(0);
         <div style={{marginTop:'auto',padding:'15px',borderTop:'1px solid #2d1040'}}>
           <a href="/profil" style={{color:'#aaa',fontSize:'12px',textDecoration:'none',display:'block',marginBottom:'10px'}}>👤 Mon profil</a>
           <a href="/pricing" style={{color:'#9B59B6',fontSize:'12px',textDecoration:'none',display:'block',marginBottom:'10px'}}>⭐ Upgrade Pro</a>
+          <button onClick={() => { document.body.classList.toggle('light-theme'); localStorage.setItem('theme', document.body.classList.contains('light-theme') ? 'light' : 'dark'); }} style={{color:'#aaa',background:'none',border:'1px solid #2d1040',cursor:'pointer',fontSize:'12px',padding:'5px 10px',borderRadius:'8px',marginBottom:'10px',width:'100%'}}>🌙 / ☀️ Thème</button>
           <button onClick={async () => { await supabase.auth.signOut(); window.location.href = '/login'; }}
             style={{color:'#555',background:'none',border:'none',cursor:'pointer',fontSize:'12px',padding:0}}>
             Déconnexion
