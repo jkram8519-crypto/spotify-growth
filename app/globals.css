@@ -53,3 +53,14 @@ body {
     width: 100% !important;
   }
 }
+
+@media (max-width: 768px) {
+  div[style*="width:220px"], div[style*="width: 220px"] {
+    display: none !important;
+  }
+  div[style*="marginLeft:220px"], div[style*="margin-left: 220px"] {
+    margin-left: 0 !important;
+    width: 100% !important;
+    max-width: 100% !important;
+  }
+}
