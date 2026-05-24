@@ -127,3 +127,42 @@ body {
   color: #000 !important;
   border-color: #ddd !important;
 }
+
+/* DASHBOARD DESIGN IMPROVEMENTS */
+.dashboard-content {
+  background: linear-gradient(180deg, #080010 0%, #000000 100%) !important;
+  min-height: 100vh !important;
+}
+
+/* Sidebar hover effects */
+.sidebar-desktop button:hover {
+  background: #2d1040 !important;
+  color: #fff !important;
+  transition: all 0.2s ease !important;
+}
+
+/* Better scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+}
+::-webkit-scrollbar-track {
+  background: #000;
+}
+::-webkit-scrollbar-thumb {
+  background: #9B59B6;
+  border-radius: 3px;
+}
+
+/* Input focus glow */
+input:focus, select:focus, textarea:focus {
+  outline: none !important;
+  border-color: #9B59B6 !important;
+  box-shadow: 0 0 0 2px rgba(155, 89, 182, 0.2) !important;
+}
+
+/* Button hover effects */
+button:hover {
+  opacity: 0.9 !important;
+  transform: translateY(-1px) !important;
+  transition: all 0.2s ease !important;
+}

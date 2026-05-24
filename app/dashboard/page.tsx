@@ -217,7 +217,7 @@ const [tutorialStep, setTutorialStep] = useState(0);
   </button>
 </div>
 {/* HEADER DE BIENVENUE */}
-<div style={{background:'linear-gradient(135deg,#1a0030,#0d0020)',padding:'20px 25px',borderRadius:'15px',marginBottom:'25px',border:'1px solid #2d1040',display:'flex',justifyContent:'space-between',alignItems:'center'}}>
+<div style={{background:'linear-gradient(135deg,#2d1040,#1a0030)',padding:'25px 30px',borderRadius:'20px',marginBottom:'25px',border:'1px solid #9B59B650',display:'flex',justifyContent:'space-between',alignItems:'center',boxShadow:'0 4px 20px rgba(155,89,182,0.15)'}}>
   <div>
     <h2 style={{margin:0,fontSize:'20px',fontWeight:'bold'}}>
       Bonjour 👋 {user?.user_metadata?.full_name?.split(' ')[0] || user?.email?.split('@')[0]}
