@@ -324,6 +324,19 @@ function PitchGenerator({ user }: { user: any }) {
         <input value={track} onChange={e => setTrack(e.target.value)}
           placeholder="ex: Midnight Vibes"
           style={{width:'100%',background:'#1a0030',border:'1px solid #2d1040',borderRadius:'10px',padding:'12px',color:'#fff',marginBottom:'15px',boxSizing:'border-box'}}/>
+        <label style={{color:'#aaa',fontSize:'14px',display:'block',marginBottom:'6px'}}>Statut du track</label>
+        <select value={releaseType} onChange={e => setReleaseType(e.target.value)}
+          style={{width:'100%',background:'#1a0030',border:'1px solid #2d1040',borderRadius:'10px',padding:'12px',color:'#fff',marginBottom:'15px',boxSizing:'border-box'}}>
+          <option value='upcoming'>A venir — pas encore sorti</option>
+          <option value='out'>Deja sorti sur Spotify</option>
+        </select>
+        {releaseType === 'upcoming' && (
+          <>
+            <label style={{color:'#aaa',fontSize:'14px',display:'block',marginBottom:'6px'}}>Date de sortie prevue</label>
+            <input type='date' value={releaseDate} onChange={e => setReleaseDate(e.target.value)}
+              style={{width:'100%',background:'#1a0030',border:'1px solid #2d1040',borderRadius:'10px',padding:'12px',color:'#fff',marginBottom:'15px',boxSizing:'border-box'}}/>
+          </>
+        )}
         <label style={{color:'#aaa',fontSize:'14px',display:'block',marginBottom:'6px'}}>Genre musical</label>
         <select value={genre} onChange={e => setGenre(e.target.value)}
           style={{width:'100%',background:'#1a0030',border:'1px solid #2d1040',borderRadius:'10px',padding:'12px',color:'#fff',marginBottom:'20px',boxSizing:'border-box'}}>
