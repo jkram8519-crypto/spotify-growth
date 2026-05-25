@@ -300,6 +300,8 @@ function PitchGenerator({ user }: { user: any }) {
   const [genre, setGenre] = useState('Electronic');
   const [pitch, setPitch] = useState('');
   const [loading, setLoading] = useState(false);
+  const [releaseDate, setReleaseDate] = useState("");
+  const [releaseType, setReleaseType] = useState("upcoming");
 
   const generatePitch = () => {
     if (!track) return;
