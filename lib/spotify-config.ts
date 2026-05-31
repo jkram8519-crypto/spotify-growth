@@ -6,26 +6,8 @@ export const SPOTIFY_CONFIG = {
   tokenUrl: "https://accounts.spotify.com/api/token",
   apiBaseUrl: "https://api.spotify.com/v1",
 };
-
-export const SPOTIFY_SCOPES = [
-  "user-read-private",
-  "user-read-email",
-  "user-top-read",
-  "user-library-read",
-  "playlist-read-private",
-  "playlist-read-collaborative",
-  "user-read-recently-played",
-  "user-follow-read",
-].join(" " );
-
+export const SPOTIFY_SCOPES = ["user-read-private","user-read-email","user-top-read","user-library-read","playlist-read-private","playlist-read-collaborative","user-read-recently-played","user-follow-read"].join(" " );
 export function getSpotifyAuthUrl(state: string): string {
-  const params = new URLSearchParams({
-    client_id: SPOTIFY_CONFIG.clientId,
-    response_type: "code",
-    redirect_uri: SPOTIFY_CONFIG.redirectUri,
-    scope: SPOTIFY_SCOPES,
-    state: state,
-    show_dialog: "true",
-  });
+  const params = new URLSearchParams({ client_id: SPOTIFY_CONFIG.clientId, response_type: "code", redirect_uri: SPOTIFY_CONFIG.redirectUri, scope: SPOTIFY_SCOPES, state: state, show_dialog: "true" });
   return `${SPOTIFY_CONFIG.authUrl}?${params.toString()}`;
 }
