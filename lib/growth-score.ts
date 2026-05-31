@@ -24,8 +24,8 @@ export function calculateGrowthScore(artist: SpotifyArtistProfile, topTracks: Sp
     popularity: popularityScore,
     followers: artist.followers.total,
     topTrackPopularity: Math.round(avgTrackPopularity),
-    genreRelevance: 85, // Score simulé
-    consistency: 70, // Score simulé
+    genreRelevance: 85,
+    consistency: 70,
     recommendations
   };
 }
