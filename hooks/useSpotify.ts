@@ -1,10 +1,17 @@
+"use client";
+
 import { useState, useEffect } from "react";
-import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
+import { createBrowserClient } from "@supabase/ssr";
 
 export function useSpotify() {
   const [isConnected, setIsConnected] = useState<boolean | null>(null);
   const [loading, setLoading] = useState(true);
-  const supabase = createClientComponentClient();
+  
+  // On utilise la nouvelle méthode recommandée par Supabase
+  const supabase = createBrowserClient(
+    process.env.NEXT_PUBLIC_SUPABASE_URL!,
+    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
+  );
 
   useEffect(() => {
     async function checkConnection() {
