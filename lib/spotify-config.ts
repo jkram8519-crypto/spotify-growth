@@ -2,6 +2,8 @@ export const SPOTIFY_CONFIG = {
   clientId: process.env.SPOTIFY_CLIENT_ID || "",
   clientSecret: process.env.SPOTIFY_CLIENT_SECRET || "",
   redirectUri: process.env.SPOTIFY_REDIRECT_URI || "https://getspotlift.vercel.app/api/spotify/callback",
+  tokenUrl: "https://accounts.spotify.com/api/token",
+  apiUrl: "https://api.spotify.com/v1",
 };
 
 export function getSpotifyAuthUrl(state?: string) {
