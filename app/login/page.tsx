@@ -18,7 +18,7 @@ export default function LoginPage() {
     if (error) {
       setMessage('Erreur : ' + error.message);
     } else {
-      setMessage('Connecté avec succès !');
+      window.location.href = '/dashboard';
     }
     setChargement(false);
   };
