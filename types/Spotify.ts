@@ -17,6 +17,10 @@ export interface SpotifyTrack {
 
 export interface GrowthScoreData {
   score: number;
-  label: string;
+  popularity: number;
+  followers: number;
+  topTrackPopularity: number;
+  genreRelevance: number;
+  consistency: number;
   recommendations: string[];
 }
