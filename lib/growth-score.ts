@@ -1,4 +1,4 @@
-import { SpotifyArtistProfile, SpotifyTrack, GrowthScoreData } from "@/types/spotify";
+import { SpotifyArtistProfile, SpotifyTrack, GrowthScoreData } from "../types/spotify";
 
 export function calculateGrowthScore(artist: SpotifyArtistProfile, topTracks: SpotifyTrack[]): GrowthScoreData {
   const popularityScore = artist.popularity;

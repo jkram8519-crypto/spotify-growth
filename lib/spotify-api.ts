@@ -1,5 +1,6 @@
 import { SPOTIFY_CONFIG } from "./spotify-config";
-import { SpotifyArtistProfile, SpotifyTrack, SpotifyAudioFeatures, SpotifyPlaylist } from "@/types/spotify";
+import { SpotifyArtistProfile, SpotifyTrack, SpotifyAudioFeatures, SpotifyPlaylist } from "../types/spotify";
+
 
 export class SpotifyAPI {
   private accessToken: string;
