@@ -5,6 +5,15 @@ import { supabase } from '../../supabase';
 export default function Dashboard() {
   const [user, setUser] = useState<any>(null);
   const [activeSection, setActiveSection] = useState('pitch');
+  const [plan, setPlan] = useState('Free');
+
+  useEffect(() => {
+    const checkPlan = async () => {
+      const { data } = await supabase.from('subscriptions').select('plan, status').eq('user_id', (await supabase.auth.getUser()).data.user?.id).eq('status', 'active').single();
+      if (data?.plan) setPlan(data.plan);
+    };
+    checkPlan();
+  }, []);
 const [showWelcome, setShowWelcome] = useState(true);
   const [showToolsModal, setShowToolsModal] = useState(false);
 const [tutorialStep, setTutorialStep] = useState(0);
@@ -230,7 +239,7 @@ const [tutorialStep, setTutorialStep] = useState(0);
       <p style={{margin:0,color:'#555',fontSize:'11px'}}>Outils IA</p>
     </button>
     <button onClick={() => window.location.href='/pricing'} style={{background:'#0d0020',padding:'10px 15px',borderRadius:'10px',textAlign:'center',border:'1px solid #2d1040',cursor:'pointer'}}>
-      <p style={{margin:0,color:'#1DB954',fontWeight:'bold',fontSize:'18px'}}>Free</p>
+      <p style={{margin:0,color:'#1DB954',fontWeight:'bold',fontSize:'18px'}}>{plan}</p>
       <p style={{margin:0,color:'#555',fontSize:'11px'}}>Plan actuel</p>
     </button>
   </div>
