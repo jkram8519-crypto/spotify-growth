@@ -23,20 +23,12 @@ export async function POST(req: NextRequest) {
     const email = session.customer_email || session.customer_details?.email;
     
     if (email) {
-      const { data: user } = await supabase
-        .from("auth.users")
-        .select("id")
-        .eq("email", email)
-        .single();
-
-      const priceId = session.line_items?.data?.[0]?.price?.id;
-      let plan = "Pro";
-      if (priceId === "price_1TZe1TEJZOJWQzK8rI39hcAv") plan = "Pro+";
-      if (priceId === "price_1TZdyqEJZOJWQzK8MHbox9HP") plan = "Pro";
-
       const { data: authUser } = await supabase.auth.admin.getUserByEmail(email);
       
       if (authUser?.user?.id) {
+        let plan = "Pro";
+        if (session.amount_total === 1999) plan = "Pro+";
+
         await supabase.from("subscriptions").upsert({
           user_id: authUser.user.id,
           status: "active",
@@ -50,10 +42,7 @@ export async function POST(req: NextRequest) {
 
   if (event.type === "customer.subscription.deleted") {
     const subscription = event.data.object as Stripe.Subscription;
-    await supabase
-      .from("subscriptions")
-      .update({ status: "cancelled" })
-      .eq("stripe_id", subscription.id);
+    await supabase.from("subscriptions").update({ status: "cancelled" }).eq("stripe_id", subscription.id);
   }
 
   return NextResponse.json({ received: true });
