@@ -3,10 +3,6 @@ import Stripe from 'stripe';
 import { createClient } from '@supabase/supabase-js';
 
 
-const supabase = createClient(
-  process.env.SUPABASE_SERVICE_ROLE_KEY!
-);
-
 export async function POST(req: NextRequest) {
   const body = await req.text();
   const sig = req.headers.get('stripe-signature')!;
@@ -17,6 +13,10 @@ export async function POST(req: NextRequest) {
   } catch (err: any) {
     return NextResponse.json({ error: err.message }, { status: 400 });
   }
+
+  const supabase = createClient(
+    process.env.SUPABASE_SERVICE_ROLE_KEY!
+  );
 
   if (event.type === "checkout.session.completed") {
     const session = event.data.object as Stripe.Checkout.Session;
