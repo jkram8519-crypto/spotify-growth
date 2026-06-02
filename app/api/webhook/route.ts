@@ -1,49 +1,15 @@
-import { NextRequest, NextResponse } from 'next/server';
-import Stripe from 'stripe';
-import { createClient } from '@supabase/supabase-js';
-
+import { NextRequest, NextResponse } from "next/server";
 
 export async function POST(req: NextRequest) {
-  const body = await req.text();
-  const sig = req.headers.get('stripe-signature')!;
-
-  let event;
   try {
-    event = stripe.webhooks.constructEvent(body, sig, process.env.STRIPE_WEBHOOK_SECRET!);
-  } catch (err: any) {
-    return NextResponse.json({ error: err.message }, { status: 400 });
-  }
-
-  const supabase = createClient(
-    process.env.SUPABASE_SERVICE_ROLE_KEY!
-  );
-
-  if (event.type === "checkout.session.completed") {
-    const session = event.data.object as Stripe.Checkout.Session;
-    const email = session.customer_email || session.customer_details?.email;
+    const body = await req.text();
+    const sig = req.headers.get("stripe-signature");
     
-    if (email) {
-      const { data: authUser } = await supabase.auth.admin.getUserByEmail(email);
-      
-      if (authUser?.user?.id) {
-        let plan = "Pro";
-        if (session.amount_total === 1999) plan = "Pro+";
-
-        await supabase.from("subscriptions").upsert({
-          user_id: authUser.user.id,
-          status: "active",
-          stripe_id: session.subscription as string,
-          plan: plan,
-          created_at: new Date().toISOString(),
-        }, { onConflict: "user_id" });
-      }
+      return NextResponse.json({ error: "No signature" }, { status: 400 });
     }
-  }
 
-  if (event.type === "customer.subscription.deleted") {
-    const subscription = event.data.object as Stripe.Subscription;
-    await supabase.from("subscriptions").update({ status: "cancelled" }).eq("stripe_id", subscription.id);
+    return NextResponse.json({ received: true });
+  } catch (err: any) {
+    return NextResponse.json({ error: err.message }, { status: 500 });
   }
-
-  return NextResponse.json({ received: true });
 }
