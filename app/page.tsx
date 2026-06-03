@@ -228,6 +228,7 @@ export default function LandingPage() {
           <a href="/a-propos" style={{color:'#aaa',textDecoration:'none',fontSize:'14px'}}>A propos</a>
           <a href="/confidentialité" style={{color:'#aaa',textDecoration:'none',fontSize:'14px'}}>Confidentialité</a>
           <a href="/faq" style={{color:'#aaa',textDecoration:'none',fontSize:'14px'}}>FAQ</a>
+          <a href="/case-studies" style={{color:'#aaa',textDecoration:'none',fontSize:'14px'}}>Temoignages</a>
         </div>
         <p style={{color:'#555',margin:0,fontSize:'14px'}}>2026 Spotlift. Tous droits réservés.</p>
       </footer>
