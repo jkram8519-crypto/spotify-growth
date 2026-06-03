@@ -48,7 +48,7 @@ const [tutorialStep, setTutorialStep] = useState(0);
         <div style={{padding:'0 15px 20px 15px',borderBottom:'1px solid #2d1040',marginBottom:'10px'}}>
           <div style={{display:'flex',alignItems:'center',gap:'8px'}}>
             <img src="/spotlift-icon.svg" alt="Logo" style={{width:'30px',height:'30px',borderRadius:'8px'}}/>
-            <span style={{fontWeight:'bold',color:'#9B59B6',fontSize:'14px'}}>Spotlift</span>
+            <a href="/" style={{fontWeight:"bold",color:"#9B59B6",fontSize:"14px",textDecoration:"none"}}>Spotlift</a>
           </div>
           <p style={{color:'#555',fontSize:'11px',margin:'6px 0 0 0'}}>{user?.email}</p>
         </div>
