@@ -7,7 +7,7 @@ export default function LandingPage() {
       <nav style={{display:'flex',justifyContent:'space-between',alignItems:'center',padding:'15px 20px',borderBottom:'1px solid #222',position:'sticky',top:0,background:'#000',zIndex:100}}>
         <div style={{display:'flex',alignItems:'center',gap:'10px'}}>
           <img src="/spotlift-icon.svg" alt="Logo" style={{width:'35px',height:'35px',borderRadius:'8px'}}/>
-          <h1 style={{fontSize:'16px',fontWeight:'bold',color:'#9B59B6',margin:0}}>Spotlift</h1>
+          <a href='/' style={{fontSize:'16px',fontWeight:'bold',color:'#9B59B6',margin:0,textDecoration:'none'}}>Spotlift</a>
         </div>
         <div style={{display:'flex',gap:'15px',alignItems:'center'}}>
           <a href="/case-studies" style={{color:'#aaa',textDecoration:'none',fontSize:'14px'}}>Résultats</a>
