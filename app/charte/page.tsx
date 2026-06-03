@@ -1,3 +1,10 @@
+import type { Metadata } from 'next';
+
+export const metadata: Metadata = {
+  title: 'Charte Éthique Spotlift — IA au service des artistes',
+  description: 'Découvrez les engagements éthiques de Spotlift : transparence, protection des données, lutte contre les fraudes et soutien aux artistes indépendants.',
+};
+
 export default function Charte() {
   return (
     <main style={{background:"#000",color:"#fff",fontFamily:"sans-serif",minHeight:"100vh",padding:"60px 20px"}}>

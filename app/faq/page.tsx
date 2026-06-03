@@ -1,3 +1,10 @@
+import type { Metadata } from 'next';
+
+export const metadata: Metadata = {
+  title: 'FAQ Spotlift — Questions fréquentes',
+  description: 'Toutes les réponses à vos questions sur Spotlift. Comment fonctionne le Pitch Generator ? Quel est le prix ? Comment annuler ?',
+};
+
 export default function FAQ() {
   return (
     <main style={{background:'#000',color:'#fff',padding:'60px 40px',maxWidth:'800px',margin:'0 auto',fontFamily:'sans-serif'}}>
