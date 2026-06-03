@@ -166,3 +166,15 @@ button:hover {
   transform: translateY(-1px) !important;
   transition: all 0.2s ease !important;
 }
+
+/* DASHBOARD BACKGROUND */
+.dashboard-content {
+  background: radial-gradient(ellipse at top left, #1a003020 0%, #000 50%) !important;
+}
+
+/* SIDEBAR ITEMS */
+.sidebar-desktop button:hover {
+  background: #2d104060 !important;
+  border-left-color: #9B59B6 !important;
+  color: #fff !important;
+}
