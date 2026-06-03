@@ -1,10 +1,3 @@
-import type { Metadata } from 'next';
-
-export const metadata: Metadata = {
-  title: 'Résultats Spotlift — Témoignages artistes indépendants',
-  description: 'Découvrez comment Alex M., Sarah K. et DJ Marco ont augmenté leurs streams Spotify grâce à Spotlift. +150% de playlists, +300% de pitches acceptés.',
-};
-
 'use client';
 
 export default function CaseStudiesPage() {

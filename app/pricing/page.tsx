@@ -1,10 +1,3 @@
-import type { Metadata } from 'next';
-
-export const metadata: Metadata = {
-  title: 'Tarifs Spotlift — Plans Free, Pro et Pro+',
-  description: 'Commencez gratuitement avec Spotlift. Plan Pro à 9.99€/mois, Plan Pro+ à 19.99€/mois. Annulation à tout moment. Aucune carte bancaire requise.',
-};
-
 'use client';
 import { useState } from 'react';
 
