@@ -313,6 +313,20 @@ function PitchGenerator({ user }: { user: any }) {
   const [loading, setLoading] = useState(false);
   const [releaseDate, setReleaseDate] = useState("");
   const [releaseType, setReleaseType] = useState("upcoming");
+  const [spotifyResults, setSpotifyResults] = useState<any[]>([]);
+  const [spotifyLoading, setSpotifyLoading] = useState(false);
+  const [selectedTrack, setSelectedTrack] = useState<any>(null);
+
+  const searchSpotify = async (query: string) => {
+    if (query.length < 2) { setSpotifyResults([]); return; }
+    setSpotifyLoading(true);
+    try {
+      const res = await fetch(`/api/spotify/search?q=${encodeURIComponent(query)}&type=track`);
+      const data = await res.json();
+      setSpotifyResults(data.tracks?.items || []);
+    } catch (e) { setSpotifyResults([]); }
+    setSpotifyLoading(false);
+  };
 
   const generatePitch = () => {
     if (!track) return;
@@ -335,7 +349,32 @@ function PitchGenerator({ user }: { user: any }) {
       <div style={{background:'#0d0020',padding:'30px',borderRadius:'20px',border:'1px solid #2d1040',marginBottom:'20px'}}>
         <label style={{color:'#aaa',fontSize:'14px',display:'block',marginBottom:'6px'}}>Nom du track</label>
         <input value={track} onChange={e => setTrack(e.target.value)}
-          placeholder="ex: Midnight Vibes"
+        placeholder="ex: Midnight Vibes"
+          style={{width:'100%',background:'#1a0030',border:'1px solid #2d1040',borderRadius:'10px',padding:'12px',color:'#fff',marginBottom:'5px',boxSizing:'border-box'}}/>
+        {spotifyLoading && <p style={{color:'#aaa',fontSize:'12px',marginBottom:'10px'}}>Recherche sur Spotify...</p>}
+        {spotifyResults.length > 0 && !selectedTrack && (
+          <div style={{background:'#0d0020',border:'1px solid #2d1040',borderRadius:'10px',marginBottom:'15px',maxHeight:'200px',overflowY:'auto'}}>
+            {spotifyResults.map((t: any) => (
+              <div key={t.id} onClick={() => { setSelectedTrack(t); setTrack(t.name); setArtistName(t.artists[0]?.name || ''); setSpotifyResults([]); }}
+                style={{padding:'10px 15px',cursor:'pointer',borderBottom:'1px solid #2d1040',display:'flex',alignItems:'center',gap:'10px'}}>
+                {t.album?.images?.[2]?.url && <img src={t.album.images[2].url} style={{width:'35px',height:'35px',borderRadius:'5px'}} alt="cover"/>}
+                <div>
+                  <p style={{margin:0,color:'#fff',fontSize:'13px',fontWeight:'bold'}}>{t.name}</p>
+                  <p style={{margin:0,color:'#aaa',fontSize:'11px'}}>{t.artists[0]?.name}</p>
+                </div>
+              </div>
+            ))}
+          </div>
+        )}
+        {selectedTrack && (
+          <div style={{background:'#1a0030',border:'1px solid #1DB954',borderRadius:'10px',padding:'10px 15px',marginBottom:'15px',display:'flex',alignItems:'center',gap:'10px'}}>
+            {selectedTrack.album?.images?.[2]?.url && <img src={selectedTrack.album.images[2].url} style={{width:'40px',height:'40px',borderRadius:'5px'}} alt="cover"/>}
+            <div>
+              <p style={{margin:0,color:'#1DB954',fontSize:'13px',fontWeight:'bold'}}>Track Spotify trouve !</p>
+              <p style={{margin:0,color:'#ccc',fontSize:'12px'}}>{selectedTrack.name} — {selectedTrack.artists[0]?.name}</p>
+            </div>
+          </div>
+        )}
           style={{width:'100%',background:'#1a0030',border:'1px solid #2d1040',borderRadius:'10px',padding:'12px',color:'#fff',marginBottom:'15px',boxSizing:'border-box'}}/>
         <label style={{color:'#aaa',fontSize:'14px',display:'block',marginBottom:'6px'}}>Statut du track</label>
         <select value={releaseType} onChange={e => setReleaseType(e.target.value)}
@@ -826,7 +865,7 @@ function ContenuSocial() {
       <h1 style={{fontSize:'28px',fontWeight:'bold',marginBottom:'8px'}}>📱 Générateur de Contenu</h1>
       <p style={{color:'#aaa',marginBottom:'30px'}}>Crée du contenu optimisé pour tes réseaux sociaux</p>
       <div style={{background:'#0d0020',padding:'30px',borderRadius:'20px',border:'1px solid #2d1040',marginBottom:'20px'}}>
-        <input value={track} onChange={e => setTrack(e.target.value)} placeholder="Nom du track"
+        <input value={track} onChange={e => { setTrack(e.target.value); setSelectedTrack(null); searchSpotify(e.target.value); }}
           style={{width:'100%',background:'#1a0030',border:'1px solid #2d1040',borderRadius:'10px',padding:'12px',color:'#fff',marginBottom:'15px',boxSizing:'border-box'}}/>
         <div style={{display:'flex',gap:'10px',marginBottom:'20px',flexWrap:'wrap'}}>
           {[{id:'instagram',label:'📸 Instagram'},{id:'tiktok',label:'🎵 TikTok'},{id:'twitter',label:'🐦 Twitter'},{id:'email',label:'📧 Email'}].map(p => (
