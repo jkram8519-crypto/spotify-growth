@@ -314,6 +314,23 @@ function PitchGenerator({ user }: { user: any }) {
   const [releaseDate, setReleaseDate] = useState("");
   const [releaseType, setReleaseType] = useState("upcoming");
   const [spotifyResults, setSpotifyResults] = useState<any[]>([]);
+const [spotifyLoading, setSpotifyLoading] = useState(false);
+const [selectedTrack, setSelectedTrack] = useState<any>(null);
+const [artistName, setArtistName] = useState('');
+
+const searchSpotify = async (query: string) => {
+  if (query.length < 2) { setSpotifyResults([]); return; }
+  setSpotifyLoading(true);
+  try {
+    const res = await fetch(`/api/spotify/search?q=${encodeURIComponent(query)}&type=track`);
+    const data = await res.json();
+    setSpotifyResults(data.tracks?.items || []);
+  } catch (e) {
+    setSpotifyResults([]);
+  }
+  setSpotifyLoading(false);
+};
+  const [spotifyResults, setSpotifyResults] = useState<any[]>([]);
   const [spotifyLoading, setSpotifyLoading] = useState(false);
   const [selectedTrack, setSelectedTrack] = useState<any>(null);
 
