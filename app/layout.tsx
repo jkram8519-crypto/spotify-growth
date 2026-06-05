@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import './globals.css';
+import Script from 'next/dist/client/script';
 
 export const metadata: Metadata = {
   title: 'Spotlift — L\'outil IA pour artistes indépendants',
@@ -43,7 +44,22 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
+    
     <html lang="fr">
+      import Script from 'next/script';
+      <Script
+  async
+  src="https://www.googletagmanager.com/gtag/js?id=AW-18217088729"
+  strategy="afterInteractive"
+/>
+<Script id="google-ads" strategy="afterInteractive">
+  {`
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'AW-18217088729');
+  `}
+</Script>
       <body>
     <script dangerouslySetInnerHTML={{__html: `
       const theme = localStorage.getItem('theme');
