@@ -331,19 +331,25 @@ const searchSpotify = async (query: string) => {
   setSpotifyLoading(false);
 };
  
-  const generatePitch = () => {
-    if (!track) return;
-    setLoading(true);
-    setTimeout(() => {
-      const pitches = [
-        `"${track}" est un titre ${genre} captivant qui fusionne émotion et énergie. Sa mélodie accrocheuse et sa production soignée en font un candidat idéal pour vos playlists ${genre}. Un son frais, authentique et parfaitement adapté à votre audience.`,
-        `Permettez-moi de vous présenter "${track}", un titre ${genre} qui se distingue par sa créativité et son originalité. Avec une production moderne et des arrangements travaillés, ce track a tout pour séduire les auditeurs de votre playlist.`,
-        `"${track}" représente une nouvelle vision du ${genre} contemporain. Ce titre allie des sonorités innovantes à une structure mémorable, créant une expérience d'écoute unique qui résonnera parfaitement avec votre audience.`,
-      ];
-      setPitch(pitches[Math.floor(Math.random() * pitches.length)]);
-      setLoading(false);
-    }, 1500);
-  };
+  const generatePitch = async () => {
+  if (!track) return;
+  setLoading(true);
+  setTimeout(() => {
+    const artistInfo = selectedTrack ? selectedTrack.artists[0]?.name : 'artiste indépendant';
+    const albumInfo = selectedTrack ? selectedTrack.album?.name : '';
+    const popularite = selectedTrack ? selectedTrack.popularity : null;
+    const dateInfo = releaseType === 'upcoming' && releaseDate ? `disponible le ${releaseDate}` : releaseType === 'out' ? `déjà disponible sur Spotify` : `à venir prochainement`;
+    const albumMention = albumInfo ? ` de l'album "${albumInfo}"` : '';
+    const popMention = popularite ? ` avec un score de popularité Spotify de ${popularite}/100` : '';
+    const pitches = [
+      `Je vous soumets "${track}"${albumMention} de ${artistInfo}, ${dateInfo}${popMention}. Ce titre ${genre} se distingue par sa créativité et son originalité. Avec une production moderne et des arrangements travaillés, ce track a tout pour séduire les auditeurs de votre playlist.`,
+      `Permettez-moi de vous présenter "${track}" de ${artistInfo}${albumMention}, ${dateInfo}. Ce titre ${genre}${popMention} allie des sonorités innovantes à une structure mémorable, créant une expérience d'écoute unique qui résonnera parfaitement avec votre audience.`,
+      `Je vous propose "${track}" de ${artistInfo}, ${dateInfo}${popMention}. Ce titre ${genre}${albumMention} fusionne émotion et énergie avec une mélodie accrocheuse et une production soignée — un candidat idéal pour vos playlists ${genre}.`,
+    ];
+    setPitch(pitches[Math.floor(Math.random() * pitches.length)]);
+    setLoading(false);
+  }, 1500);
+};
 
   return (
     <div>
