@@ -375,7 +375,6 @@ function PitchGenerator({ user }: { user: any }) {
             </div>
           </div>
         )}
-          style={{width:'100%',background:'#1a0030',border:'1px solid #2d1040',borderRadius:'10px',padding:'12px',color:'#fff',marginBottom:'15px',boxSizing:'border-box'}}/>
         <label style={{color:'#aaa',fontSize:'14px',display:'block',marginBottom:'6px'}}>Statut du track</label>
         <select value={releaseType} onChange={e => setReleaseType(e.target.value)}
           style={{width:'100%',background:'#1a0030',border:'1px solid #2d1040',borderRadius:'10px',padding:'12px',color:'#fff',marginBottom:'15px',boxSizing:'border-box'}}>
