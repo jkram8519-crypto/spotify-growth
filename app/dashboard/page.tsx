@@ -359,7 +359,9 @@ const searchSpotify = async (query: string) => {
         <label style={{color:'#aaa',fontSize:'14px',display:'block',marginBottom:'6px'}}>Nom du track</label>
         <input value={track} onChange={e => { setTrack(e.target.value); setSelectedTrack(null); searchSpotify(e.target.value); }}
         placeholder="ex: Midnight Vibes"
-          style={{width:'100%',background:'#1a0030',border:'1px solid #2d1040',borderRadius:'10px',padding:'12px',color:'#fff',marginBottom:'5px',boxSizing:'border-box'}}/>
+          style={{width:'100%',background:'#1a0030',border:'1px solid #2d1040',borderRadius:'10px',padding:'12px',color:'#fff',marginBottom:'5px',boxSizing:'border-box'}}/><p style={{color:'#555',fontSize:'12px',marginBottom:'10px',marginTop:'5px'}}>
+  💡 Tape le nom de ton track — si il n'apparaît pas dans les suggestions, entre-le manuellement et clique sur Générer.
+</p>
         {spotifyLoading && <p style={{color:'#aaa',fontSize:'12px',marginBottom:'10px'}}>Recherche sur Spotify...</p>}
         {spotifyResults.length > 0 && !selectedTrack && (
           <div style={{background:'#0d0020',border:'1px solid #2d1040',borderRadius:'10px',marginBottom:'15px',maxHeight:'200px',overflowY:'auto'}}>
