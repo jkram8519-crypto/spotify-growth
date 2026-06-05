@@ -867,7 +867,7 @@ function ContenuSocial() {
       <h1 style={{fontSize:'28px',fontWeight:'bold',marginBottom:'8px'}}>📱 Générateur de Contenu</h1>
       <p style={{color:'#aaa',marginBottom:'30px'}}>Crée du contenu optimisé pour tes réseaux sociaux</p>
       <div style={{background:'#0d0020',padding:'30px',borderRadius:'20px',border:'1px solid #2d1040',marginBottom:'20px'}}>
-        <input value={track} onChange={e => { setTrack(e.target.value); setSelectedTrack(null); searchSpotify(e.target.value); }}
+        <input value={track} onChange={e => setTrack(e.target.value)}
           style={{width:'100%',background:'#1a0030',border:'1px solid #2d1040',borderRadius:'10px',padding:'12px',color:'#fff',marginBottom:'15px',boxSizing:'border-box'}}/>
         <div style={{display:'flex',gap:'10px',marginBottom:'20px',flexWrap:'wrap'}}>
           {[{id:'instagram',label:'📸 Instagram'},{id:'tiktok',label:'🎵 TikTok'},{id:'twitter',label:'🐦 Twitter'},{id:'email',label:'📧 Email'}].map(p => (
