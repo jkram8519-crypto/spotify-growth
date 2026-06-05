@@ -351,7 +351,7 @@ const searchSpotify = async (query: string) => {
       <p style={{color:'#aaa',marginBottom:'30px'}}>Génère un pitch professionnel en 10 secondes</p>
       <div style={{background:'#0d0020',padding:'30px',borderRadius:'20px',border:'1px solid #2d1040',marginBottom:'20px'}}>
         <label style={{color:'#aaa',fontSize:'14px',display:'block',marginBottom:'6px'}}>Nom du track</label>
-        <input value={track} onChange={e => setTrack(e.target.value)}
+        <input value={track} onChange={e => { setTrack(e.target.value); setSelectedTrack(null); searchSpotify(e.target.value); }}
         placeholder="ex: Midnight Vibes"
           style={{width:'100%',background:'#1a0030',border:'1px solid #2d1040',borderRadius:'10px',padding:'12px',color:'#fff',marginBottom:'5px',boxSizing:'border-box'}}/>
         {spotifyLoading && <p style={{color:'#aaa',fontSize:'12px',marginBottom:'10px'}}>Recherche sur Spotify...</p>}
