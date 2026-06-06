@@ -31,7 +31,7 @@ export default function LandingPage() {
         
         {/* IMPROVED CTAs */}
         <div style={{display:'flex',gap:'15px',justifyContent:'center',flexWrap:'wrap',marginBottom:'20px'}}>
-          <a href="/login" style={{background:'#9B59B6',color:'#fff',padding:'16px 30px',borderRadius:'30px',textDecoration:'none',fontWeight:'bold',fontSize:'16px',border:'none',cursor:'pointer',boxShadow:'0 0 30px rgba(155,89,182,0.4)'}}>
+          <a href="/inscription" style={{background:'#9B59B6',color:'#fff',padding:'16px 30px',borderRadius:'30px',textDecoration:'none',fontWeight:'bold',fontSize:'16px',border:'none',cursor:'pointer',boxShadow:'0 0 30px rgba(155,89,182,0.4)'}}>
           <div style={{display:'flex',gap:'15px',justifyContent:'center',flexWrap:'wrap',marginBottom:'20px'}}>
   <a href="/inscription" style={{background:'#9B59B6',color:'#fff',padding:'18px 35px',borderRadius:'30px',textDecoration:'none',fontWeight:'bold',fontSize:'18px',border:'none',cursor:'pointer',boxShadow:'0 0 40px rgba(155,89,182,0.6)',animation:'pulse 2s infinite'}}>
     ✨ Commencer Gratuitement — 0€
@@ -221,20 +221,20 @@ export default function LandingPage() {
             <h3 style={{fontSize:'24px',marginBottom:'8px'}}>Free</h3>
             <p style={{fontSize:'40px',fontWeight:'bold',marginBottom:'5px'}}>€0</p>
             <p style={{color:'#ccc',marginBottom:'20px'}}>Pitch Generator, Bio Generator, Release Checklist</p>
-            <a href="/login" style={{display:'block',border:'1px solid #555',color:'#fff',padding:'14px',borderRadius:'12px',textDecoration:'none',textAlign:'center'}}>Commencer</a>
+            <a href="/inscription" style={{display:'block',border:'1px solid #555',color:'#fff',padding:'14px',borderRadius:'12px',textDecoration:'none',textAlign:'center'}}>Commencer</a>
           </div>
           <div style={{background:'linear-gradient(135deg,#6C3483,#9B59B6)',padding:'35px',borderRadius:'24px',textAlign:'left'}}>
             <p style={{background:'rgba(255,255,255,0.2)',borderRadius:'15px',padding:'4px 12px',display:'inline-block',marginBottom:'10px',fontSize:'12px',fontWeight:'bold'}}>POPULAIRE</p>
             <h3 style={{fontSize:'24px',marginBottom:'8px'}}>Pro</h3>
             <p style={{fontSize:'40px',fontWeight:'bold',marginBottom:'5px'}}>€9.99<span style={{fontSize:'16px'}}>/mois</span></p>
             <p style={{marginBottom:'20px'}}>Playlist Finder, Manager IA, Growth Score, AI avancée</p>
-            <a href="/login" style={{display:'block',background:'#fff',color:'#6C3483',padding:'14px',borderRadius:'12px',textDecoration:'none',textAlign:'center',fontWeight:'bold'}}>Commencer Pro</a>
+            <a href="/inscription" style={{display:'block',background:'#fff',color:'#6C3483',padding:'14px',borderRadius:'12px',textDecoration:'none',textAlign:'center',fontWeight:'bold'}}>Commencer Pro</a>
           </div>
           <div style={{background:'#0d0020',padding:'35px',borderRadius:'24px',border:'1px solid #2d1040',textAlign:'left'}}>
             <h3 style={{fontSize:'24px',marginBottom:'8px'}}>Pro+</h3>
             <p style={{fontSize:'40px',fontWeight:'bold',marginBottom:'5px'}}>€19.99<span style={{fontSize:'16px'}}>/mois</span></p>
             <p style={{color:'#ccc',marginBottom:'20px'}}>Viral Potentiel, Optimisation Profil, Analytics IA, Tout illimité</p>
-            <a href="/login" style={{display:'block',background:'#9B59B6',color:'#fff',padding:'14px',borderRadius:'12px',textDecoration:'none',textAlign:'center',fontWeight:'bold'}}>Commencer Pro+</a>
+            <a href="/inscription" style={{display:'block',background:'#9B59B6',color:'#fff',padding:'14px',borderRadius:'12px',textDecoration:'none',textAlign:'center',fontWeight:'bold'}}>Commencer Pro+</a>
           </div>
         </div>
 
@@ -243,7 +243,7 @@ export default function LandingPage() {
             <h3 style={{fontSize:'24px',marginBottom:'8px'}}>Free</h3>
             <p style={{fontSize:'40px',fontWeight:'bold',marginBottom:'5px'}}>€0</p>
             <p style={{color:'#ccc',marginBottom:'20px'}}>Pitch Generator, Bio Generator, Release Checklist</p>
-            <a href="/login" style={{display:'block',border:'1px solid #555',color:'#fff',padding:'14px',borderRadius:'12px',textDecoration:'none',textAlign:'center'}}>Commencer</a>
+            <a href="/inscription" style={{display:'block',border:'1px solid #555',color:'#fff',padding:'14px',borderRadius:'12px',textDecoration:'none',textAlign:'center'}}>Commencer</a>
           </div>
           <div style={{background:'linear-gradient(135deg,#6C3483,#9B59B6)',padding:'35px',borderRadius:'24px',textAlign:'left'}}>
             <div style={{background:'rgba(255,255,255,0.2)',borderRadius:'15px',padding:'4px 12px',display:'inline-block',marginBottom:'10px',fontSize:'12px',fontWeight:'bold'}}>POPULAIRE — ÉCONOMISEZ 20%</div>
@@ -251,7 +251,7 @@ export default function LandingPage() {
             <p style={{fontSize:'40px',fontWeight:'bold',marginBottom:'2px'}}>€7.99<span style={{fontSize:'16px'}}>/mois</span></p>
             <p style={{fontSize:'14px',marginBottom:'15px',opacity:0.8}}>soit €95.88/an — au lieu de €119.88</p>
             <p style={{marginBottom:'20px'}}>Playlist Finder, Manager IA, Growth Score, AI avancée</p>
-            <a href="/login" style={{display:'block',background:'#fff',color:'#6C3483',padding:'14px',borderRadius:'12px',textDecoration:'none',textAlign:'center',fontWeight:'bold'}}>Commencer Pro</a>
+            <a href="/inscription" style={{display:'block',background:'#fff',color:'#6C3483',padding:'14px',borderRadius:'12px',textDecoration:'none',textAlign:'center',fontWeight:'bold'}}>Commencer Pro</a>
           </div>
           <div style={{background:'#0d0020',padding:'35px',borderRadius:'24px',border:'1px solid #2d1040',textAlign:'left'}}>
             <div style={{background:'rgba(155,89,182,0.2)',borderRadius:'15px',padding:'4px 12px',display:'inline-block',marginBottom:'10px',fontSize:'12px',fontWeight:'bold'}}>ÉCONOMISEZ 20%</div>
@@ -259,7 +259,7 @@ export default function LandingPage() {
             <p style={{fontSize:'40px',fontWeight:'bold',marginBottom:'2px'}}>€15.99<span style={{fontSize:'16px'}}>/mois</span></p>
             <p style={{fontSize:'14px',marginBottom:'15px',opacity:0.8}}>soit €191.88/an — au lieu de €239.88</p>
             <p style={{color:'#ccc',marginBottom:'20px'}}>Viral Potentiel, Optimisation Profil, Analytics IA, Tout illimité</p>
-            <a href="/login" style={{display:'block',background:'#9B59B6',color:'#fff',padding:'14px',borderRadius:'12px',textDecoration:'none',textAlign:'center',fontWeight:'bold'}}>Commencer Pro+</a>
+            <a href="/inscription" style={{display:'block',background:'#9B59B6',color:'#fff',padding:'14px',borderRadius:'12px',textDecoration:'none',textAlign:'center',fontWeight:'bold'}}>Commencer Pro+</a>
           </div>
         </div>
       </section>
@@ -268,7 +268,7 @@ export default function LandingPage() {
       <section style={{padding:'80px 40px',textAlign:'center',background:'linear-gradient(135deg,#6C3483,#9B59B6)'}}>
         <h2 style={{fontSize:'36px',fontWeight:'bold',marginBottom:'20px'}}>Prêt à faire exploser ta musique ?</h2>
         <p style={{fontSize:'18px',marginBottom:'30px',opacity:0.9}}>Rejoins 500+ artistes qui utilisent Spotlift</p>
-        <a href="/login" style={{background:'#000',color:'#9B59B6',padding:'16px 40px',borderRadius:'30px',textDecoration:'none',fontWeight:'bold',fontSize:'16px',display:'inline-block'}}>Essayer Gratuitement →</a>
+        <a href="/inscription" style={{background:'#000',color:'#9B59B6',padding:'16px 40px',borderRadius:'30px',textDecoration:'none',fontWeight:'bold',fontSize:'16px',display:'inline-block'}}>Essayer Gratuitement →</a>
       </section>
 
       {/* FOOTER */}
