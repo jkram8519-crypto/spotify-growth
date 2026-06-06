@@ -22,7 +22,9 @@ export default function InscriptionPage() {
     body: JSON.stringify({ email, name: email.split('@')[0] })
   });
   setTimeout(() => { window.location.href = '/dashboard'; }, 1500);
-}
+  }
+  setChargement(false);
+  };
   return (
     <main style={{minHeight:'100vh',background:'#000',color:'#fff',display:'flex',alignItems:'center',justifyContent:'center'}}>
       <div style={{background:'#0d0020',padding:'40px',borderRadius:'20px',width:'100%',maxWidth:'400px',border:'1px solid #2d1040',margin:'20px'}}>
