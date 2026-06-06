@@ -46,7 +46,7 @@ export default function RootLayout({
   return (
     
     <html lang="fr">
-      import Script from 'next/script';
+   
       <Script
   async
   src="https://www.googletagmanager.com/gtag/js?id=AW-18217088729"
