@@ -46,6 +46,7 @@ export default function Pricing() {
             const data = await res.json();
             if(data.url) window.location.href = data.url;
           }} style={{display:'block',background:'#fff',color:'#6C3483',padding:'14px',borderRadius:'12px',textAlign:'center',fontWeight:'bold',fontSize:'15px',border:'none',cursor:'pointer',width:'100%'}}>
+            <a href="/pro" style={{display:'block',textAlign:'center',color:'#9B59B6',fontSize:'13px',marginBottom:'10px',textDecoration:'none'}}>📋 Voir ce qui est inclus →</a>
             {annual ? 'Commencer Pro Annuel' : 'Commencer Pro'}
           </button>
         </div>
@@ -64,6 +65,7 @@ export default function Pricing() {
             const data = await res.json();
             if(data.url) window.location.href = data.url;
           }} style={{display:'block',background:'#9B59B6',color:'#fff',padding:'14px',borderRadius:'12px',textAlign:'center',fontWeight:'bold',fontSize:'15px',border:'none',cursor:'pointer',width:'100%'}}>
+            <a href="/pro-plus" style={{display:'block',textAlign:'center',color:'#2980b9',fontSize:'13px',marginBottom:'10px',textDecoration:'none'}}>📋 Voir ce qui est inclus →</a>
             {annual ? 'Commencer Pro+ Annuel' : 'Commencer Pro+'}
           </button>
         </div>
