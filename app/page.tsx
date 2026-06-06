@@ -264,6 +264,7 @@ export default function LandingPage() {
           <a href="/cgv" style={{color:'#aaa',textDecoration:'none'}}>CGV</a>
           <a href="/mentions-legales" style={{color:'#aaa',textDecoration:'none'}}>Mentions légales</a>
           <a href="/confidentialite" style={{color:'#aaa',textDecoration:'none'}}>Confidentialité</a>
+          <a href="/charte" style={{color:'#aaa',textDecoration:'none'}}>Charte Éthique</a>
         </div>
         <div style={{display:'flex',gap:'15px',justifyContent:'center',marginBottom:'20px'}}>
           <a href="https://www.tiktok.com/@j.k.ra" target="_blank" rel="noopener noreferrer" style={{color:'#9B59B6',textDecoration:'none'}}>TikTok</a>

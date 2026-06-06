@@ -79,6 +79,7 @@ const [tutorialStep, setTutorialStep] = useState(0);
           <a href="/profil" style={{color:'#aaa',fontSize:'12px',textDecoration:'none',display:'block',marginBottom:'10px'}}>👤 Mon profil</a>
           <a href="/case-studies" style={{color:"#aaa",fontSize:"12px",textDecoration:"none",display:"block",marginBottom:"10px"}}>📊 Témoignages</a>
           <a href="/faq" style={{color:"#aaa",fontSize:"12px",textDecoration:"none",display:"block",marginBottom:"10px"}}>❓ FAQ</a>
+          <a href="/charte" style={{color:"#aaa",fontSize:"12px",textDecoration:"none",display:"block",marginBottom:"10px"}}>📜 Charte Éthique</a>
           <a href="/pricing" style={{color:'#9B59B6',fontSize:'12px',textDecoration:'none',display:'block',marginBottom:'10px'}}>⭐ Upgrade Pro</a>
 
           <button onClick={async () => { await supabase.auth.signOut(); window.location.href = '/login'; }}
