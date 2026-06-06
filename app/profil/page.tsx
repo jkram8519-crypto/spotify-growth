@@ -112,7 +112,11 @@ export default function Profil() {
         {sauvegarde && (
           <p style={{textAlign:'center',color:'#1DB954',fontWeight:'bold'}}>✅ Profil sauvegardé !</p>
         )}
-
+<div style={{background:'#0d0020',padding:'25px',borderRadius:'20px',border:'1px solid #e74c3c',marginBottom:'20px',textAlign:'center'}}>
+  <h3 style={{color:'#e74c3c',marginBottom:'10px',fontSize:'16px'}}>⚠️ Gérer mon abonnement</h3>
+  <p style={{color:'#aaa',fontSize:'13px',marginBottom:'15px'}}>Modifie ou annule ton abonnement en 1 clic</p>
+  <a href="https://billing.stripe.com/p/login/14A28reaL5DP8rt0NC1B600" target="_blank" style={{background:'#e74c3c',color:'#fff',padding:'12px 25px',borderRadius:'10px',textDecoration:'none',fontWeight:'bold',fontSize:'14px'}}>Gérer mon abonnement →</a>
+</div>
         <div style={{textAlign:'center',marginTop:'20px'}}>
           <a href="/dashboard" style={{color:'#9B59B6',textDecoration:'none',fontSize:'14px'}}>← Retour au dashboard</a>
         </div>
