@@ -13,13 +13,16 @@ export default function InscriptionPage() {
     const { error } = await supabase.auth.signUp({ email, password: motDePasse });
     if (error) {
       setMessage('Erreur : ' + error.message);
-    } else {
-      setMessage('Compte cree ! Redirection...');
-      setTimeout(() => { window.location.href = '/dashboard'; }, 1500);
-    }
-    setChargement(false);
-  };
-
+   } else {
+  setMessage('Compte créé ! Redirection...');
+  // Envoyer email de bienvenue
+  fetch('/api/welcome-email', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ email, name: email.split('@')[0] })
+  });
+  setTimeout(() => { window.location.href = '/dashboard'; }, 1500);
+}
   return (
     <main style={{minHeight:'100vh',background:'#000',color:'#fff',display:'flex',alignItems:'center',justifyContent:'center'}}>
       <div style={{background:'#0d0020',padding:'40px',borderRadius:'20px',width:'100%',maxWidth:'400px',border:'1px solid #2d1040',margin:'20px'}}>
