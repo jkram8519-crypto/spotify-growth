@@ -32,7 +32,22 @@ export default function LandingPage() {
         {/* IMPROVED CTAs */}
         <div style={{display:'flex',gap:'15px',justifyContent:'center',flexWrap:'wrap',marginBottom:'20px'}}>
           <a href="/login" style={{background:'#9B59B6',color:'#fff',padding:'16px 30px',borderRadius:'30px',textDecoration:'none',fontWeight:'bold',fontSize:'16px',border:'none',cursor:'pointer',boxShadow:'0 0 30px rgba(155,89,182,0.4)'}}>
-            ✨ Essayer Gratuitement
+          <div style={{display:'flex',gap:'15px',justifyContent:'center',flexWrap:'wrap',marginBottom:'20px'}}>
+  <a href="/inscription" style={{background:'#9B59B6',color:'#fff',padding:'18px 35px',borderRadius:'30px',textDecoration:'none',fontWeight:'bold',fontSize:'18px',border:'none',cursor:'pointer',boxShadow:'0 0 40px rgba(155,89,182,0.6)',animation:'pulse 2s infinite'}}>
+    ✨ Commencer Gratuitement — 0€
+  </a>
+  <a href="#features" style={{border:'2px solid #9B59B6',color:'#fff',padding:'18px 35px',borderRadius:'30px',textDecoration:'none',fontSize:'16px'}}>
+    Voir comment ça marche ↓
+  </a>
+</div>
+<div style={{display:'flex',gap:'20px',justifyContent:'center',flexWrap:'wrap',fontSize:'14px',color:'#aaa',marginBottom:'10px'}}>
+  <span style={{color:'#1DB954'}}>✓ Aucune carte bancaire</span>
+  <span style={{color:'#1DB954'}}>✓ Gratuit pour toujours</span>
+  <span style={{color:'#1DB954'}}>✓ Prêt en 30 secondes</span>
+</div>
+<div style={{background:'#1a0030',border:'1px solid #9B59B650',borderRadius:'15px',padding:'10px 20px',display:'inline-block',marginTop:'10px'}}>
+  <p style={{margin:0,color:'#D7BDE2',fontSize:'13px'}}>🔥 <strong style={{color:'#fff'}}>127 artistes</strong> ont rejoint Spotlift cette semaine</p>
+</div>
           </a>
           <a href="#features" style={{border:'1px solid #555',color:'#fff',padding:'16px 30px',borderRadius:'30px',textDecoration:'none',fontSize:'16px'}}>Voir les résultats</a>
         </div>
