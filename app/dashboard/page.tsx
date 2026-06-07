@@ -257,7 +257,7 @@ const [tutorialStep, setTutorialStep] = useState(0);
        {activeSection === 'manager' && (plan === 'Free' ? <ProGate plan={plan} feature="Manager IA — Planning 44 jours" /> : <ManagerIA />)}
 
         {/* PLAYLIST FINDER */}
-        {activeSection === 'playlist' && (plan === 'Free' ? <ProGate plan={plan} feature="Playlist Finder" /> : <PlaylistFinder />)}
+        {activeSection === 'playlists' && (plan === 'Free' ? <ProGate plan={plan} feature="Playlist Finder" /> : <PlaylistFinder />)}
         
         {/* ANALYTICS IA */}
         {activeSection === 'analytics' && (plan === 'Free' ? <ProGate plan={plan} feature="Analytics IA" /> : <AnalyticsIA />)}
