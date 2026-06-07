@@ -255,48 +255,48 @@ const [tutorialStep, setTutorialStep] = useState(0);
 
         {/* MANAGER IA */}
         {activeSection === 'manager' && (
-          <ManagerIA />
-        )}
+  plan === 'Free' ? <ProGate plan={plan} feature="Manager IA — Planning 44 jours" /> : <ManagerIA />
+)}
 
         {/* PLAYLIST FINDER */}
-        {activeSection === 'playlists' && (
-          <PlaylistFinder />
-        )}
+        {activeSection === 'playlist' && (
+  plan === 'Free' ? <ProGate plan={plan} feature="Playlist Finder" /> : <PlaylistFinder />
+)}
 
         {/* ANALYTICS IA */}
         {activeSection === 'analytics' && (
-          <AnalyticsIA />
-        )}
+  plan === 'Free' ? <ProGate plan={plan} feature="Analytics IA" /> : <AnalyticsIA />
+)}
 
         {/* GROWTH SCORE */}
         {activeSection === 'growth' && (
-          <GrowthScore />
-        )}
+  plan === 'Free' ? <ProGate plan={plan} feature="Growth Score" /> : <GrowthScore />
+)}
 
         {/* VIRAL POTENTIEL */}
         {activeSection === 'viral' && (
-          <ViralPotentiel />
-        )}
+  plan === 'Free' ? <ProGate plan={plan} feature="Viral Potentiel" /> : <ViralPotentiel />
+)}
 
         {/* PROFIL ARTISTE */}
         {activeSection === 'profil' && (
-          <ProfilArtiste />
-        )}
+  plan === 'Free' ? <ProGate plan={plan} feature="Optimisation Profil Artiste" /> : <ProfilArtiste user={user} />
+)}
 
         {/* CONTENU SOCIAL */}
         {activeSection === 'contenu' && (
-          <ContenuSocial />
-        )}
+  plan === 'Free' ? <ProGate plan={plan} feature="Générateur Contenu Social" /> : <ContenuSocial />
+)}
 
         {/* IA ASSISTANT */}
         {activeSection === 'ia' && (
-          <IAAssistant />
-        )}
+  plan === 'Free' ? <ProGate plan={plan} feature="IA Assistant Marketing" /> : <IAAssistant />
+)}
 
         {/* MULTI PLATEFORMES */}
         {activeSection === 'multi' && (
-          <MultiPlateformes />
-        )}
+  plan === 'Free' ? <ProGate plan={plan} feature="Dashboard Multi-Plateformes" /> : <MultiPlateformes />
+)}
 
         {/* FEEDBACK */}
         {activeSection === 'feedback' && (
@@ -307,7 +307,27 @@ const [tutorialStep, setTutorialStep] = useState(0);
     </div>
   );
 }
-
+function ProGate({ plan, feature }: { plan: string, feature: string }) {
+  if (plan === 'Pro' || plan === 'Pro+') return null;
+  return (
+    <div style={{textAlign:'center',padding:'60px 30px',background:'#0d0020',borderRadius:'20px',border:'2px solid #9B59B6'}}>
+      <p style={{fontSize:'48px',marginBottom:'20px'}}>🔒</p>
+      <h2 style={{fontSize:'24px',fontWeight:'bold',marginBottom:'10px'}}>Fonctionnalité Pro</h2>
+      <p style={{color:'#aaa',marginBottom:'25px',fontSize:'16px'}}>
+        <strong style={{color:'#fff'}}>{feature}</strong> est disponible uniquement dans le plan Pro.
+      </p>
+      <div style={{background:'#1a0030',padding:'20px',borderRadius:'15px',marginBottom:'25px',border:'1px solid #9B59B650'}}>
+        <p style={{color:'#9B59B6',fontWeight:'bold',margin:'0 0 5px 0'}}>🎁 Offre exclusive</p>
+        <p style={{color:'#fff',fontSize:'24px',fontWeight:'bold',margin:'0 0 5px 0'}}>Code EARLY10</p>
+        <p style={{color:'#aaa',fontSize:'13px',margin:0}}>1 mois Pro gratuit !</p>
+      </div>
+      <a href="/pricing" style={{background:'linear-gradient(135deg,#6C3483,#9B59B6)',color:'#fff',padding:'14px 40px',borderRadius:'30px',textDecoration:'none',fontWeight:'bold',fontSize:'16px',display:'inline-block',boxShadow:'0 0 20px rgba(155,89,182,0.4)'}}>
+        Passer en Pro — 9.99€/mois →
+      </a>
+      <p style={{color:'#555',fontSize:'12px',marginTop:'15px'}}>Sans engagement • Annulation en 1 clic</p>
+    </div>
+  );
+}
 function PitchGenerator({ user }: { user: any }) {
   const [track, setTrack] = useState('');
   const [genre, setGenre] = useState('Electronic');
