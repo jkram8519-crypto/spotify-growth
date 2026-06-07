@@ -1,4 +1,4 @@
-'use client';
+'use client';import { useState } from 'react';
 
 export default function LandingPage() {const [lang, setLang] = useState<'fr'|'en'>('fr');
 const t = {
