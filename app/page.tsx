@@ -3,7 +3,7 @@
 export default function LandingPage() {const [lang, setLang] = useState<'fr'|'en'>('fr');
 const t = {
   fr: {
-    badge: "{t[lang].badge}",
+    badge:"L'outil IA #1 pour artistes independants",
     title1: "{t[lang].title1}",
     title2: "{t[lang].title2}",
     subtitle: "{t[lang].subtitle}",
