@@ -1,6 +1,32 @@
 'use client';
 
-export default function LandingPage() {
+export default function LandingPage() {const [lang, setLang] = useState<'fr'|'en'>('fr');
+const t = {
+  fr: {
+    badge: "{t[lang].badge}",
+    title1: "{t[lang].title1}",
+    title2: "{t[lang].title2}",
+    subtitle: "{t[lang].subtitle}",
+    cta1: "{t[lang].cta1}",
+    cta2: "{t[lang].cta2}",
+    trust1: "{t[lang].trust1}",
+    trust2: "{t[lang].trust2}",
+    trust3: "{t[lang].trust3}",
+    social: "{t[lang].social}",
+  },
+  en: {
+    badge: "✨ The #1 AI tool for independent artists",
+    title1: "Explode your",
+    title2: "Spotify growth",
+    subtitle: "AI Pitches, Release Manager, Analytics and more. Save 1h per week and increase your streams.",
+    cta1: "✨ Try for Free",
+    cta2: "See results",
+    trust1: "✓ No credit card required",
+    trust2: "✓ Free forever",
+    trust3: "✓ Cancel in 1 click",
+    social: "🔥 artists joined Spotlift this week",
+  }
+};
   return (
     <main style={{background:'#000',color:'#fff',fontFamily:'sans-serif',margin:0,padding:0}}>
 
@@ -12,6 +38,9 @@ export default function LandingPage() {
         <div style={{display:'flex',gap:'15px',alignItems:'center'}}>
           <a href="/case-studies" style={{color:'#aaa',textDecoration:'none',fontSize:'14px'}}>Résultats</a>
           <a href="/faq" style={{color:'#aaa',textDecoration:'none',fontSize:'14px'}}>FAQ</a>
+          <button onClick={() => setLang(lang === 'fr' ? 'en' : 'fr')} style={{background:'#1a0030',color:'#9B59B6',border:'1px solid #9B59B6',padding:'6px 14px',borderRadius:'15px',cursor:'pointer',fontSize:'13px',fontWeight:'bold'}}>
+  {lang === 'fr' ? '🇬🇧 EN' : '🇫🇷 FR'}
+</button>
           <a href="/login" style={{background:'#9B59B6',color:'#fff',padding:'8px 16px',borderRadius:'20px',textDecoration:'none',fontWeight:'bold',fontSize:'14px'}}>Connexion</a>
         </div>
       </nav>
@@ -19,7 +48,7 @@ export default function LandingPage() {
       {/* HERO SECTION - OPTIMIZED */}
       <section style={{textAlign:'center',padding:'80px 20px 60px',background:'linear-gradient(135deg,#000,#0d0020)'}}>
         <div style={{display:'inline-block',background:'#1a0030',border:'1px solid #9B59B6',borderRadius:'25px',padding:'8px 20px',marginBottom:'30px'}}>
-          <p style={{margin:0,color:'#D7BDE2',fontSize:'14px'}}>✨ L'outil IA #1 pour artistes indépendants</p>
+          <p style={{margin:0,color:'#D7BDE2',fontSize:'14px'}}>{t[lang].badge}</p>
         </div>
         <h2 style={{fontSize:'48px',fontWeight:'bold',marginBottom:'20px',lineHeight:'1.1'}}>
           Fais exploser ta<br/>
