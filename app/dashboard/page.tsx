@@ -258,7 +258,7 @@ const [tutorialStep, setTutorialStep] = useState(0);
 
         {/* PLAYLIST FINDER */}
         {activeSection === 'playlist' && (plan === 'Free' ? <ProGate plan={plan} feature="Playlist Finder" /> : <PlaylistFinder />)}
-
+        
         {/* ANALYTICS IA */}
         {activeSection === 'analytics' && (plan === 'Free' ? <ProGate plan={plan} feature="Analytics IA" /> : <AnalyticsIA />)}
 
