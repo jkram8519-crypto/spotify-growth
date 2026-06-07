@@ -254,49 +254,32 @@ const [tutorialStep, setTutorialStep] = useState(0);
         )}
 
         {/* MANAGER IA */}
-        {activeSection === 'manager' && (
-  plan === 'Free' ? <ProGate plan={plan} feature="Manager IA — Planning 44 jours" /> : <ManagerIA />
-)}
+       {activeSection === 'manager' && (plan === 'Free' ? <ProGate plan={plan} feature="Manager IA — Planning 44 jours" /> : <ManagerIA />)}
 
         {/* PLAYLIST FINDER */}
-        {activeSection === 'playlist' && (
-  plan === 'Free' ? <ProGate plan={plan} feature="Playlist Finder" /> : <PlaylistFinder />
-)}
+        {activeSection === 'playlist' && (plan === 'Free' ? <ProGate plan={plan} feature="Playlist Finder" /> : <PlaylistFinder />)}
 
         {/* ANALYTICS IA */}
-        {activeSection === 'analytics' && (
-  plan === 'Free' ? <ProGate plan={plan} feature="Analytics IA" /> : <AnalyticsIA />
-)}
+        {activeSection === 'analytics' && (plan === 'Free' ? <ProGate plan={plan} feature="Analytics IA" /> : <AnalyticsIA />)}
 
         {/* GROWTH SCORE */}
-        {activeSection === 'growth' && (
-  plan === 'Free' ? <ProGate plan={plan} feature="Growth Score" /> : <GrowthScore />
-)}
+         {activeSection === 'growth' && (plan === 'Free' ? <ProGate plan={plan} feature="Growth Score" /> : <GrowthScore />)}
 
         {/* VIRAL POTENTIEL */}
-        {activeSection === 'viral' && (
-  plan === 'Free' ? <ProGate plan={plan} feature="Viral Potentiel" /> : <ViralPotentiel />
-)}
+        {activeSection === 'viral' && (plan === 'Free' ? <ProGate plan={plan} feature="Viral Potentiel" /> : <ViralPotentiel />)}
 
         {/* PROFIL ARTISTE */}
-        {activeSection === 'profil' && (
-  plan === 'Free' ? <ProGate plan={plan} feature="Optimisation Profil Artiste" /> :  ProfilArtiste
-)}
+        {activeSection === 'profil' && (plan === 'Free' ? <ProGate plan={plan} feature="Optimisation Profil Artiste" /> : <ProfilArtiste />)}
 
         {/* CONTENU SOCIAL */}
-        {activeSection === 'contenu' && (
-  plan === 'Free' ? <ProGate plan={plan} feature="Générateur Contenu Social" /> : <ContenuSocial />
-)}
+                {activeSection === 'contenu' && (plan === 'Free' ? <ProGate plan={plan} feature="Contenu Social" /> : <ContenuSocial />)}
+
 
         {/* IA ASSISTANT */}
-        {activeSection === 'ia' && (
-  plan === 'Free' ? <ProGate plan={plan} feature="IA Assistant Marketing" /> : <IAAssistant />
-)}
+        {activeSection === 'ia' && (plan === 'Free' ? <ProGate plan={plan} feature="IA Assistant" /> : <IAAssistant />)}
 
         {/* MULTI PLATEFORMES */}
-        {activeSection === 'multi' && (
-  plan === 'Free' ? <ProGate plan={plan} feature="Dashboard Multi-Plateformes" /> : <MultiPlateformes />
-)}
+        {activeSection === 'multi' && (plan === 'Free' ? <ProGate plan={plan} feature="Multi-Plateformes" /> : <MultiPlateformes />)}
 
         {/* FEEDBACK */}
         {activeSection === 'feedback' && (
