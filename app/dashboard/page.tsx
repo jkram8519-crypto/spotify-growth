@@ -280,7 +280,7 @@ const [tutorialStep, setTutorialStep] = useState(0);
 
         {/* PROFIL ARTISTE */}
         {activeSection === 'profil' && (
-  plan === 'Free' ? <ProGate plan={plan} feature="Optimisation Profil Artiste" /> : <ProfilArtiste user={user} />
+  plan === 'Free' ? <ProGate plan={plan} feature="Optimisation Profil Artiste" /> :  ProfilArtiste
 )}
 
         {/* CONTENU SOCIAL */}
