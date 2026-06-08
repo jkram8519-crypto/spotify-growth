@@ -36,8 +36,9 @@ const t = {
           <span style={{fontSize:"16px",fontWeight:"bold",color:"#9B59B6",margin:0}}>Spotlift</span>
         </a>
         <div style={{display:'flex',gap:'15px',alignItems:'center'}}>
-          <a href="/case-studies" style={{color:'#aaa',textDecoration:'none',fontSize:'14px'}}>Résultats</a>
-          <a href="/faq" style={{color:'#aaa',textDecoration:'none',fontSize:'14px'}}>FAQ</a>
+          <span style={{display:'flex',gap:'15px',alignItems:'center'}} className="desktop-only">
+  <a href="/case-studies" style={{color:'#aaa',textDecoration:'none',fontSize:'14px',display:'none'}} className="desktop-nav">Résultats</a>
+  <a href="/faq" style={{color:'#aaa',textDecoration:'none',fontSize:'14px',display:'none'}} className="desktop-nav">FAQ</a>
           <button onClick={() => setLang(lang === 'fr' ? 'en' : 'fr')} style={{background:'#1a0030',color:'#9B59B6',border:'1px solid #9B59B6',padding:'6px 14px',borderRadius:'15px',cursor:'pointer',fontSize:'13px',fontWeight:'bold'}}>
   {lang === 'fr' ? '🇬🇧 EN' : '🇫🇷 FR'}
 </button>
