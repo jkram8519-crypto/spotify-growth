@@ -44,28 +44,35 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    
-    <html lang="fr">
-   
+    <html lang="fr" suppressHydrationWarning>
       <Script
-  async
-  src="https://www.googletagmanager.com/gtag/js?id=AW-18217088729"
-  strategy="afterInteractive"
-/>
-<Script id="google-ads" strategy="afterInteractive">
-  {`
-    window.dataLayer = window.dataLayer || [];
-    function gtag(){dataLayer.push(arguments);}
-    gtag('js', new Date());
-    gtag('config', 'AW-18217088729');
-  `}
-</Script>
+        async
+        src="https://www.googletagmanager.com/gtag/js?id=AW-18217088729"
+        strategy="afterInteractive"
+      />
+      <Script id="google-ads" strategy="afterInteractive">
+        {`
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          gtag('js', new Date());
+          gtag('config', 'AW-18217088729');
+        `}
+      </Script>
       <body>
-    <script dangerouslySetInnerHTML={{__html: `
-      const theme = localStorage.getItem('theme');
-        document.body.classList.add('light-theme');
-      }
-    `}} />{children}</body>
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `
+              const theme = localStorage.getItem('theme');
+              if (theme) {
+                document.body.classList.add(theme);
+              } else {
+                document.body.classList.add('light-theme');
+              }
+            `,
+          }}
+        />
+        {children}
+      </body>
     </html>
   );
 }
