@@ -285,6 +285,7 @@ const [tutorialStep, setTutorialStep] = useState(0);
         {/* FEEDBACK */}
         {activeSection === 'feedback' && (
           <Feedback user={user} />
+        )}  
           {activeSection === 'search' && (
   <SearchSpotify />
 )}
