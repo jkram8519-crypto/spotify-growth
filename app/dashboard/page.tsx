@@ -362,11 +362,7 @@ function SearchSpotify() {
     </div>
   );
 }
-        )}
-
-      </div>
-    </div>
-  );
+        
 }
 function ProGate({ plan, feature }: { plan: string, feature: string }) {
   if (plan === 'Pro' || plan === 'Pro+') return null;
