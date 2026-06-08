@@ -288,8 +288,8 @@ const [tutorialStep, setTutorialStep] = useState(0);
         )}  
           {activeSection === 'search' && (
   <SearchSpotify />
-)}
-function SearchSpotify() {
+)}function SearchSpotify() {
+
   const [query, setQuery] = useState('');
   const [artists, setArtists] = useState<any[]>([]);
   const [tracks, setTracks] = useState<any[]>([]);
