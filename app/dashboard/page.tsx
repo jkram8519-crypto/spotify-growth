@@ -286,9 +286,8 @@ const [tutorialStep, setTutorialStep] = useState(0);
         {activeSection === 'feedback' && (
           <Feedback user={user} />
         )}  
-          {activeSection === 'search' && (
-  <SearchSpotify />
-)}
+          {activeSection === 'search' && <SearchSpotify />}>
+
   const [query, setQuery] = useState('');
   const [artists, setArtists] = useState<any[]>([]);
   const [tracks, setTracks] = useState<any[]>([]);
@@ -1188,6 +1187,76 @@ function Feedback({ user }: { user: any }) {
           </button>
         </div>
       )}
+    </div>
+  );
+}
+function SearchSpotify() {
+  const [query, setQuery] = useState('');
+  const [artists, setArtists] = useState<any[]>([]);
+  const [tracks, setTracks] = useState<any[]>([]);
+  const [loading, setLoading] = useState(false);
+  const [activeTab, setActiveTab] = useState<'artists'|'tracks'>('artists');
+
+  const search = async () => {
+    if (!query.trim()) return;
+    setLoading(true);
+    try {
+      const res = await fetch(`/api/spotify/search?q=${encodeURIComponent(query)}&type=artist,track`);
+      const data = await res.json();
+      setArtists(data.artists || []);
+      setTracks(data.tracks || []);
+    } catch(e) {}
+    setLoading(false);
+  };
+
+  return (
+    <div>
+      <h1 style={{fontSize:'28px',fontWeight:'bold',marginBottom:'8px'}}>🔍 Recherche Spotify</h1>
+      <p style={{color:'#aaa',marginBottom:'25px'}}>Cherche des artistes et tracks Spotify</p>
+      <div style={{background:'#0d0020',padding:'25px',borderRadius:'20px',border:'1px solid #2d1040',marginBottom:'20px'}}>
+        <div style={{display:'flex',gap:'10px',marginBottom:'15px'}}>
+          <input value={query} onChange={e => setQuery(e.target.value)}
+            onKeyPress={e => e.key === 'Enter' && search()}
+            placeholder="Ex: David Guetta..."
+            style={{flex:1,background:'#1a0030',border:'1px solid #2d1040',borderRadius:'10px',padding:'12px',color:'#fff'}}/>
+          <button onClick={search} disabled={loading}
+            style={{background:'#9B59B6',color:'#fff',padding:'12px 20px',borderRadius:'10px',border:'none',cursor:'pointer',fontWeight:'bold'}}>
+            {loading ? '...' : '🔍'}
+          </button>
+        </div>
+        <div style={{display:'flex',gap:'10px'}}>
+          <button onClick={() => setActiveTab('artists')}
+            style={{padding:'8px 16px',background:activeTab==='artists'?'#9B59B6':'#1a0030',color:'#fff',border:'none',borderRadius:'20px',cursor:'pointer'}}>
+            Artistes ({artists.length})
+          </button>
+          <button onClick={() => setActiveTab('tracks')}
+            style={{padding:'8px 16px',background:activeTab==='tracks'?'#9B59B6':'#1a0030',color:'#fff',border:'none',borderRadius:'20px',cursor:'pointer'}}>
+            Tracks ({tracks.length})
+          </button>
+        </div>
+      </div>
+      {activeTab === 'artists' && artists.map((a:any) => (
+        <div key={a.id} style={{background:'#0d0020',padding:'15px',borderRadius:'12px',marginBottom:'10px',border:'1px solid #2d1040',display:'flex',gap:'15px',alignItems:'center'}}>
+          {a.image && <img src={a.image} style={{width:'50px',height:'50px',borderRadius:'50%'}} alt={a.name}/>}
+          <div style={{flex:1}}>
+            <p style={{fontWeight:'bold',margin:'0 0 4px 0'}}>{a.name}</p>
+            <p style={{color:'#9B59B6',margin:'0 0 4px 0',fontSize:'13px'}}>👥 {a.followers?.toLocaleString()} followers</p>
+            <p style={{color:'#aaa',margin:0,fontSize:'12px'}}>⭐ {a.popularity}/100</p>
+          </div>
+          <a href={a.externalUrl} target="_blank" style={{background:'#1DB954',color:'#fff',padding:'8px 14px',borderRadius:'20px',textDecoration:'none',fontSize:'12px',fontWeight:'bold'}}>Spotify</a>
+        </div>
+      ))}
+      {activeTab === 'tracks' && tracks.map((t:any) => (
+        <div key={t.id} style={{background:'#0d0020',padding:'15px',borderRadius:'12px',marginBottom:'10px',border:'1px solid #2d1040',display:'flex',gap:'15px',alignItems:'center'}}>
+          {t.image && <img src={t.image} style={{width:'50px',height:'50px',borderRadius:'8px'}} alt={t.name}/>}
+          <div style={{flex:1}}>
+            <p style={{fontWeight:'bold',margin:'0 0 4px 0'}}>{t.name}</p>
+            <p style={{color:'#9B59B6',margin:'0 0 4px 0',fontSize:'13px'}}>{t.artist}</p>
+            <p style={{color:'#aaa',margin:0,fontSize:'12px'}}>⭐ {t.popularity}/100</p>
+          </div>
+          <a href={t.externalUrl} target="_blank" style={{background:'#1DB954',color:'#fff',padding:'8px 14px',borderRadius:'20px',textDecoration:'none',fontSize:'12px',fontWeight:'bold'}}>Spotify</a>
+        </div>
+      ))}
     </div>
   );
 }
