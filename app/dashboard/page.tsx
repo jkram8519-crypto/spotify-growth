@@ -309,7 +309,7 @@ function SearchSpotify() {
       setTracks(data.tracks || []);
     } catch(e) {}
     setLoading(false);
-  }function SearchSpotify() { ;
+  
 
   return (
     <div>
