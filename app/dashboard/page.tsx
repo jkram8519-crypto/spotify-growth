@@ -287,7 +287,12 @@ const [tutorialStep, setTutorialStep] = useState(0);
           <Feedback user={user} />
         )}  
           {activeSection === 'search' && <SearchSpotify />}
+        </div>
+      </div>
+    );
+  }
 
+function SearchSpotify() {
   const [query, setQuery] = useState('');
   const [artists, setArtists] = useState<any[]>([]);
   const [tracks, setTracks] = useState<any[]>([]);
