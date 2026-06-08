@@ -178,3 +178,10 @@ button:hover {
   border-left-color: #9B59B6 !important;
   color: #fff !important;
 }
+
+/* HIDE NAV LINKS ON MOBILE */
+@media (max-width: 640px) {
+  .desktop-only {
+    display: none !important;
+  }
+}
