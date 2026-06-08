@@ -286,7 +286,7 @@ const [tutorialStep, setTutorialStep] = useState(0);
         {activeSection === 'feedback' && (
           <Feedback user={user} />
         )}  
-          {activeSection === 'search' && <SearchSpotify />}>
+          {activeSection === 'search' && <SearchSpotify />}
 
   const [query, setQuery] = useState('');
   const [artists, setArtists] = useState<any[]>([]);
