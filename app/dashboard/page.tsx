@@ -288,8 +288,7 @@ const [tutorialStep, setTutorialStep] = useState(0);
         )}  
           {activeSection === 'search' && (
   <SearchSpotify />
-)}function SearchSpotify() {
-
+)}
   const [query, setQuery] = useState('');
   const [artists, setArtists] = useState<any[]>([]);
   const [tracks, setTracks] = useState<any[]>([]);
@@ -306,7 +305,7 @@ const [tutorialStep, setTutorialStep] = useState(0);
       setTracks(data.tracks || []);
     } catch(e) {}
     setLoading(false);
-  };
+  }function SearchSpotify() { ;
 
   return (
     <div>
