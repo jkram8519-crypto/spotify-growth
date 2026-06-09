@@ -1,6 +1,59 @@
 'use client';
 import { useState } from 'react';
 
+function EmailCapture() {
+  const [email, setEmail] = useState('');
+  const [sent, setSent] = useState(false);
+  const [loading, setLoading] = useState(false);
+
+  const submit = async () => {
+    if (!email.includes('@')) return;
+    setLoading(true);
+    await fetch('/api/capture-email', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ email })
+    });
+    setSent(true);
+    setLoading(false);
+  };
+
+  return (
+    <section style={{padding:'60px 20px',background:'#0d0020',textAlign:'center'}}>
+      <h2 style={{fontSize:'28px',fontWeight:'bold',marginBottom:'10px'}}>
+        🎵 3 conseils gratuits pour percer sur Spotify
+      </h2>
+      <p style={{color:'#aaa',marginBottom:'30px',fontSize:'16px'}}>
+        Reçois nos meilleures stratégies directement dans ta boîte mail
+      </p>
+      {sent ? (
+        <div style={{background:'#1a0030',padding:'20px',borderRadius:'15px',border:'1px solid #1DB954',display:'inline-block'}}>
+          <p style={{color:'#1DB954',fontWeight:'bold',fontSize:'18px',margin:0}}>
+            ✅ Merci ! Vérifie ta boîte mail 🎵
+          </p>
+        </div>
+      ) : (
+        <div style={{display:'flex',gap:'10px',justifyContent:'center',flexWrap:'wrap',maxWidth:'500px',margin:'0 auto'}}>
+          <input
+            type="email"
+            value={email}
+            onChange={e => setEmail(e.target.value)}
+            placeholder="ton@email.com"
+            style={{flex:1,minWidth:'200px',background:'#1a0030',border:'1px solid #2d1040',borderRadius:'10px',padding:'14px',color:'#fff',fontSize:'15px'}}
+          />
+          <button onClick={submit} disabled={loading}
+            style={{background:'#9B59B6',color:'#fff',padding:'14px 25px',borderRadius:'10px',border:'none',cursor:'pointer',fontWeight:'bold',fontSize:'15px',whiteSpace:'nowrap'}}>
+            {loading ? '...' : 'Recevoir les conseils →'}
+          </button>
+        </div>
+      )}
+      <p style={{color:'#555',fontSize:'12px',marginTop:'15px'}}>
+        Pas de spam. Désabonnement en 1 clic.
+      </p>
+    </section>
+  );
+}
+
 export default function LandingPage() {
   const [lang, setLang] = useState<'fr'|'en'>('fr');
 
@@ -222,7 +275,9 @@ export default function LandingPage() {
             <a href="/inscription" style={{display:'block',background:'#9B59B6',color:'#fff',padding:'14px',borderRadius:'12px',textDecoration:'none',textAlign:'center',fontWeight:'bold'}}>Commencer Pro+</a>
           </div>
         </div>
-      </section>
+      </section>  
+
+      <EmailCapture />
 
       <section style={{padding:'80px 40px',textAlign:'center',background:'linear-gradient(135deg,#6C3483,#9B59B6)'}}>
         <h2 style={{fontSize:'36px',fontWeight:'bold',marginBottom:'20px'}}>Pret a faire exploser ta musique ?</h2>
