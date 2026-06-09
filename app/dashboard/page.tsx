@@ -309,8 +309,8 @@ function SearchSpotify() {
       setTracks(data.tracks || []);
     } catch(e) {}
     setLoading(false);
+      };
   
-
   return (
     <div>
       <h1 style={{fontSize:'28px',fontWeight:'bold',marginBottom:'8px'}}>🔍 Recherche Spotify</h1>
