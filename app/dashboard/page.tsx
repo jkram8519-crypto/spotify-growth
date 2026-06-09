@@ -37,6 +37,7 @@ const [tutorialStep, setTutorialStep] = useState(0);
     {id:'contenu', emoji:'📱', label:'Contenu Social'},
     {id:'ia', emoji:'🤖', label:'IA Assistant'},
     {id:'multi', emoji:'📊', label:'Multi-Plateformes'},
+    {id:'referral', emoji:'🎁', label:'Parrainer un ami'},
     {id:'feedback', emoji:'💬', label:'Feedback'},
     {id:'search', emoji:'🔍', label:'Recherche Spotify'},
   ];
@@ -281,6 +282,8 @@ const [tutorialStep, setTutorialStep] = useState(0);
 
         {/* MULTI PLATEFORMES */}
         {activeSection === 'multi' && (plan === 'Free' ? <ProGate plan={plan} feature="Multi-Plateformes" /> : <MultiPlateformes />)}
+
+        {activeSection === 'referral' && <Referral user={user} plan={plan} />}
 
         {/* FEEDBACK */}
         {activeSection === 'feedback' && (
@@ -1188,6 +1191,105 @@ function Feedback({ user }: { user: any }) {
           </button>
         </div>
       )}
+    </div>
+  );
+}
+function Referral({ user, plan }: { user: any, plan: string }) {
+  const [code, setCode] = useState('');
+  const [copied, setCopied] = useState(false);
+  const [stats, setStats] = useState({ total: 0, accepted: 0 });
+
+  useEffect(() => {
+    const generateCode = async () => {
+      const { data } = await supabase
+        .from('referrals')
+        .select('code')
+        .eq('referrer_id', user?.id)
+        .limit(1)
+        .single();
+
+      if (data?.code) {
+        setCode(data.code);
+      } else {
+        const newCode = 'SPL-' + Math.random().toString(36).substring(2, 8).toUpperCase();
+        await supabase.from('referrals').insert({
+          referrer_id: user?.id,
+          code: newCode,
+          status: 'active'
+        });
+        setCode(newCode);
+      }
+
+      const { count } = await supabase
+        .from('referrals')
+        .select('*', { count: 'exact' })
+        .eq('referrer_id', user?.id);
+      setStats({ total: count || 0, accepted: 0 });
+    };
+
+    if (user?.id) generateCode();
+  }, [user]);
+
+  const referralLink = `https://getspotlift.vercel.app/inscription?ref=${code}`;
+
+  const copyLink = () => {
+    navigator.clipboard.writeText(referralLink);
+    setCopied(true);
+    setTimeout(() => setCopied(false), 2000);
+  };
+
+  return (
+    <div>
+      <h1 style={{fontSize:'28px',fontWeight:'bold',marginBottom:'8px'}}>🎁 Parrainer un ami</h1>
+      <p style={{color:'#aaa',marginBottom:'25px'}}>Invite tes amis artistes et gagnez tous les deux 1 mois Pro gratuit !</p>
+
+      <div style={{background:'linear-gradient(135deg,#1a0030,#0d0020)',padding:'30px',borderRadius:'20px',border:'1px solid #9B59B6',marginBottom:'20px',textAlign:'center'}}>
+        <p style={{fontSize:'48px',margin:'0 0 10px 0'}}>🎁</p>
+        <h2 style={{fontSize:'22px',fontWeight:'bold',marginBottom:'10px'}}>Toi + ton ami = 1 mois Pro gratuit chacun !</h2>
+        <p style={{color:'#aaa',fontSize:'14px',marginBottom:'20px'}}>
+          Pour chaque ami qui s'inscrit avec ton lien, vous recevez tous les deux 1 mois Pro gratuit.
+        </p>
+        <div style={{display:'grid',gridTemplateColumns:'1fr 1fr',gap:'15px',marginBottom:'20px'}}>
+          <div style={{background:'#0d0020',padding:'15px',borderRadius:'12px',border:'1px solid #2d1040'}}>
+            <p style={{color:'#9B59B6',fontWeight:'bold',fontSize:'24px',margin:'0 0 5px 0'}}>{stats.total}</p>
+            <p style={{color:'#aaa',fontSize:'13px',margin:0}}>Amis invités</p>
+          </div>
+          <div style={{background:'#0d0020',padding:'15px',borderRadius:'12px',border:'1px solid #2d1040'}}>
+            <p style={{color:'#1DB954',fontWeight:'bold',fontSize:'24px',margin:'0 0 5px 0'}}>{stats.accepted}</p>
+            <p style={{color:'#aaa',fontSize:'13px',margin:0}}>Mois Pro gagnés</p>
+          </div>
+        </div>
+      </div>
+
+      <div style={{background:'#0d0020',padding:'25px',borderRadius:'20px',border:'1px solid #2d1040',marginBottom:'20px'}}>
+        <h3 style={{fontSize:'16px',fontWeight:'bold',marginBottom:'15px'}}>Ton lien de parrainage unique</h3>
+        <div style={{display:'flex',gap:'10px',alignItems:'center'}}>
+          <input value={referralLink} readOnly
+            style={{flex:1,background:'#1a0030',border:'1px solid #2d1040',borderRadius:'10px',padding:'12px',color:'#9B59B6',fontSize:'13px'}}/>
+          <button onClick={copyLink}
+            style={{background: copied ? '#1DB954' : '#9B59B6',color:'#fff',padding:'12px 20px',borderRadius:'10px',border:'none',cursor:'pointer',fontWeight:'bold',whiteSpace:'nowrap'}}>
+            {copied ? '✅ Copié !' : '📋 Copier'}
+          </button>
+        </div>
+        <p style={{color:'#555',fontSize:'12px',marginTop:'10px'}}>Partage ce lien sur Instagram, TikTok, WhatsApp...</p>
+      </div>
+
+      <div style={{background:'#0d0020',padding:'25px',borderRadius:'20px',border:'1px solid #2d1040'}}>
+        <h3 style={{fontSize:'16px',fontWeight:'bold',marginBottom:'15px'}}>Comment ça marche ?</h3>
+        {[
+          {num:'1',text:'Copie ton lien unique ci-dessus'},
+          {num:'2',text:'Envoie-le à tes amis artistes'},
+          {num:'3',text:'Ils s\'inscrivent via ton lien'},
+          {num:'4',text:'Vous recevez tous les deux 1 mois Pro gratuit !'},
+        ].map((s,i) => (
+          <div key={i} style={{display:'flex',gap:'15px',alignItems:'center',marginBottom:'12px'}}>
+            <div style={{width:'32px',height:'32px',borderRadius:'50%',background:'#9B59B6',display:'flex',alignItems:'center',justifyContent:'center',fontWeight:'bold',flexShrink:0}}>
+              {s.num}
+            </div>
+            <p style={{color:'#ccc',margin:0,fontSize:'14px'}}>{s.text}</p>
+          </div>
+        ))}
+      </div>
     </div>
   );
 }
