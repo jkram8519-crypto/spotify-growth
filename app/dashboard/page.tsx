@@ -79,6 +79,7 @@ const [tutorialStep, setTutorialStep] = useState(0);
 
         <div style={{marginTop:'auto',padding:'15px',borderTop:'1px solid #2d1040'}}>
           <a href="/profil" style={{color:'#aaa',fontSize:'12px',textDecoration:'none',display:'block',marginBottom:'10px'}}>👤 Mon profil</a>
+          <a href="/blog" style={{color:"#aaa",fontSize:"12px",textDecoration:"none",display:"block",marginBottom:"10px"}}>📝 Blog</a>
         <a href="https://billing.stripe.com/p/login/14A28reaL5DP8rt0NC1B600" target="_blank" style={{color:"#e74c3c",fontSize:"12px",textDecoration:"none",display:"block",marginBottom:"10px"}}>❌ Gérer abonnement</a>  
           <a href="/case-studies" style={{color:"#aaa",fontSize:"12px",textDecoration:"none",display:"block",marginBottom:"10px"}}>📊 Témoignages</a>
           <a href="/faq" style={{color:"#aaa",fontSize:"12px",textDecoration:"none",display:"block",marginBottom:"10px"}}>❓ FAQ</a>
