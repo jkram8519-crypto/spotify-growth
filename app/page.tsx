@@ -91,6 +91,7 @@ export default function LandingPage() {
           <span style={{fontSize:'16px',fontWeight:'bold',color:'#9B59B6'}}>Spotlift</span>
         </a>
         <div style={{display:'flex',gap:'10px',alignItems:'center'}}>
+          <a href="/blog" style={{color:'#aaa',textDecoration:'none'}}>Blog</a>
           <a href="/case-studies" style={{color:'#aaa',textDecoration:'none',fontSize:'14px',display:'none'}} className="desktop-nav">Resultats</a>
           <a href="/faq" style={{color:'#aaa',textDecoration:'none',fontSize:'14px',display:'none'}} className="desktop-nav">FAQ</a>
           <button onClick={() => setLang(lang === 'fr' ? 'en' : 'fr')} style={{background:'#1a0030',color:'#9B59B6',border:'1px solid #9B59B6',padding:'6px 12px',borderRadius:'15px',cursor:'pointer',fontSize:'13px',fontWeight:'bold'}}>
