@@ -268,10 +268,10 @@ const [tutorialStep, setTutorialStep] = useState(0);
          {activeSection === 'growth' && (plan === 'Free' ? <ProGate plan={plan} feature="Growth Score" /> : <GrowthScore />)}
 
         {/* VIRAL POTENTIEL */}
-        {activeSection === 'viral' && (plan === 'Free' ? <ProGate plan={plan} feature="Viral Potentiel" /> : <ViralPotentiel />)}
+        {activeSection === 'viral' && (plan === 'Free' ? <ProGate plan={plan} feature="Viral Potentiel" /> : plan === 'Pro' ? <ProPlusGate plan={plan} feature="Viral Potentiel" /> : <ViralPotentiel />)}
 
         {/* PROFIL ARTISTE */}
-        {activeSection === 'profil' && (plan === 'Free' ? <ProGate plan={plan} feature="Optimisation Profil Artiste" /> : <ProfilArtiste />)}
+        {activeSection === 'profil' && (plan === 'Free' ? <ProGate plan={plan} feature="Optimisation Profil Artiste" /> : plan === 'Pro' ? <ProPlusGate plan={plan} feature="Optimisation Profil Artiste" /> : <ProfilArtiste />)}
 
         {/* CONTENU SOCIAL */}
                 {activeSection === 'contenu' && (plan === 'Free' ? <ProGate plan={plan} feature="Contenu Social" /> : <ContenuSocial />)}
@@ -388,6 +388,30 @@ function ProGate({ plan, feature }: { plan: string, feature: string }) {
     </div>
   );
 }
+
+
+function ProPlusGate({ plan, feature }: { plan: string, feature: string }) {
+  if (plan === 'Pro+') return null;
+  return (
+    <div style={{textAlign:'center',padding:'60px 30px',background:'#0a1628',borderRadius:'20px',border:'2px solid #2980b9'}}>
+      <p style={{fontSize:'48px',marginBottom:'20px'}}>🔒</p>
+      <h2 style={{fontSize:'24px',fontWeight:'bold',marginBottom:'10px'}}>Fonctionnalité Pro+</h2>
+      <p style={{color:'#aaa',marginBottom:'25px',fontSize:'16px'}}>
+        <strong style={{color:'#fff'}}>{feature}</strong> est disponible uniquement dans le plan Pro+.
+      </p>
+      <div style={{background:'#1a2a40',padding:'20px',borderRadius:'15px',marginBottom:'25px',border:'1px solid #2980b950'}}>
+        <p style={{color:'#2980b9',fontWeight:'bold',margin:'0 0 5px 0'}}>🎁 Offre exclusive</p>
+        <p style={{color:'#fff',fontSize:'24px',fontWeight:'bold',margin:'0 0 5px 0'}}>Code EARLY10</p>
+        <p style={{color:'#aaa',fontSize:'13px',margin:0}}>1 mois Pro+ gratuit !</p>
+      </div>
+      <a href="/pricing" style={{background:'linear-gradient(135deg,#1a5276,#2980b9)',color:'#fff',padding:'14px 40px',borderRadius:'30px',textDecoration:'none',fontWeight:'bold',fontSize:'16px',display:'inline-block',boxShadow:'0 0 20px rgba(41,128,185,0.4)'}}>
+        Passer en Pro+ — 19.99€/mois →
+      </a>
+      <p style={{color:'#555',fontSize:'12px',marginTop:'15px'}}>Sans engagement • Annulation en 1 clic</p>
+    </div>
+  );
+}
+
 function PitchGenerator({ user }: { user: any }) {
   const [track, setTrack] = useState('');
   const [genre, setGenre] = useState('Electronic');
