@@ -12,7 +12,7 @@ export default function Dashboard() {
       const { data } = await supabase.from('subscriptions').select('plan, status, trial_end').eq('user_id', (await supabase.auth.getUser()).data.user?.id).eq('status', 'active').single();
       if (data?.plan) {
   if (data.status === 'trial' && data.trial_end) {
-    const trialEnd = new Date(data.trial_end);
+  const trialEnd = new Date(data.trial_end);
     const now = new Date();
     if (now > trialEnd) {
       setPlan('Free');
@@ -23,7 +23,7 @@ export default function Dashboard() {
   } else {
     setPlan(data.plan);
   }
-}
+ }
     checkPlan();
   }, []);
 const [showWelcome, setShowWelcome] = useState(true);
