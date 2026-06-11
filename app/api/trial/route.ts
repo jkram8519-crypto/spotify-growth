@@ -1,16 +1,3 @@
-// Donner 3 jours Pro gratuits
-const trialEnd = new Date();
-trialEnd.setDate(trialEnd.getDate() + 3);
-
-const userEmail = email;
-await fetch('/api/trial', {
-  method: 'POST',
-  headers: { 'Content-Type': 'application/json' },
-  body: JSON.stringify({ email: userEmail })
-});
-
-window.location.href = '/dashboard';
-
 import { NextRequest, NextResponse } from 'next/server';
 import { createClient } from '@supabase/supabase-js';
 

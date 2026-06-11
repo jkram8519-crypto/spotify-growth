@@ -21,8 +21,14 @@ export default function InscriptionPage() {
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ email, name: email.split('@')[0] })
   });
+  // Donner 3 jours Pro gratuits
+const userEmail = email;
+  fetch('/api/trial', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ email: userEmail })
+  });
   setTimeout(() => { window.location.href = '/dashboard'; }, 1500);
-  }
   setChargement(false);
   };
   return (
