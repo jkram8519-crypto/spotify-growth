@@ -2,10 +2,11 @@
 const trialEnd = new Date();
 trialEnd.setDate(trialEnd.getDate() + 3);
 
+const userEmail = email;
 await fetch('/api/trial', {
   method: 'POST',
   headers: { 'Content-Type': 'application/json' },
-  body: JSON.stringify({ email })
+  body: JSON.stringify({ email: userEmail })
 });
 
 window.location.href = '/dashboard';
