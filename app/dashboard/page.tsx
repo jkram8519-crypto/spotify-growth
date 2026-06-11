@@ -11,19 +11,20 @@ export default function Dashboard() {
     const checkPlan = async () => {
       const { data } = await supabase.from('subscriptions').select('plan, status, trial_end').eq('user_id', (await supabase.auth.getUser()).data.user?.id).eq('status', 'active').single();
       if (data?.plan) {
-  if (data.status === 'trial' && data.trial_end) {
-  const trialEnd = new Date(data.trial_end);
-    const now = new Date();
-    if (now > trialEnd) {
-      setPlan('Free');
-    } else {
-      const daysLeft = Math.ceil((trialEnd.getTime() - now.getTime()) / (1000 * 60 * 60 * 24));
-      setPlan(`Pro (Trial - ${daysLeft}j restants)`);
-    }
-  } else {
-    setPlan(data.plan);
-  }
- }
+        if (data.status === 'trial' && data.trial_end) {
+          const trialEnd = new Date(data.trial_end);
+          const now = new Date();
+          if (now > trialEnd) {
+            setPlan('Free');
+          } else {
+            const daysLeft = Math.ceil((trialEnd.getTime() - now.getTime()) / (1000 * 60 * 60 * 24));
+            setPlan(`Pro (Trial - ${daysLeft}j restants)`);
+          }
+        } else {
+          setPlan(data.plan);
+        }
+      }
+    };
     checkPlan();
   }, []);
 const [showWelcome, setShowWelcome] = useState(true);
