@@ -10,14 +10,20 @@ export async function POST(req: NextRequest) {
   try {
     const { email } = await req.json();
 
-    const { data: authUser } = await supabase.auth.admin.getUserByEmail(email);
+    const { data: users } = await supabase
+      .from('profiles')
+      .select('id')
+      .eq('email', email)
+      .limit(1);
 
-    if (authUser?.user?.id) {
+    const userId = users?.[0]?.id;
+
+    if (userId) {
       const trialEnd = new Date();
       trialEnd.setDate(trialEnd.getDate() + 3);
 
       await supabase.from('subscriptions').upsert({
-        user_id: authUser.user.id,
+        user_id: userId,
         status: 'trial',
         stripe_id: 'trial_3days',
         plan: 'Pro',
