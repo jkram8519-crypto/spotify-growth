@@ -53,7 +53,7 @@ const [tutorialStep, setTutorialStep] = useState(0);
           </div>
           <p style={{color:'#555',fontSize:'11px',margin:'6px 0 0 0'}}>{user?.email}</p>
         </div>
-        
+
         {/* SECTION OUTILS IA */}
 <p style={{color:'#555',fontSize:'10px',fontWeight:'bold',padding:'0 15px',marginBottom:'5px',marginTop:'10px',textTransform:'uppercase',letterSpacing:'1px'}}>Outils IA</p>
 {[
@@ -279,11 +279,11 @@ const [tutorialStep, setTutorialStep] = useState(0);
          {activeSection === 'growth' && (plan === 'Free' ? <ProGate plan={plan} feature="Growth Score" /> : <GrowthScore />)}
 
         {/* VIRAL POTENTIEL */}
-        {activeSection === 'viral' && (plan === 'Free' ? <ProGate plan={plan} feature="Viral Potentiel" /> : plan === 'Pro' ? <ProPlusGate plan={plan} feature="Viral Potentiel" /> : <ViralPotentiel />)}
+        {activeSection === 'viral' && (plan === 'Pro+' ? <ViralPotentiel /> : <ProPlusGate plan={plan} feature="Viral Potentiel" />)}
 
         {/* PROFIL ARTISTE */}
-        {activeSection === 'profil' && (plan === 'Free' ? <ProGate plan={plan} feature="Optimisation Profil Artiste" /> : plan === 'Pro' ? <ProPlusGate plan={plan} feature="Optimisation Profil Artiste" /> : <ProfilArtiste />)}
-
+        {activeSection === 'profil' && (plan === 'Pro+' ? <ProfilArtiste /> : <ProPlusGate plan={plan} feature="Optimisation Profil Artiste" />)}
+        
         {/* CONTENU SOCIAL */}
                 {activeSection === 'contenu' && (plan === 'Free' ? <ProGate plan={plan} feature="Contenu Social" /> : <ContenuSocial />)}
 
