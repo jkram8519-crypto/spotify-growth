@@ -85,28 +85,6 @@ const [tutorialStep, setTutorialStep] = useState(0);
           <p style={{color:'#555',fontSize:'11px',margin:'6px 0 0 0'}}>{user?.email}</p>
         </div>
 
-        {menuItems.map((item) => (
-          <button key={item.id}
-            onClick={() => setActiveSection(item.id)}
-            style={{
-              width:'100%',
-              padding:'11px 15px',
-              background: activeSection === item.id ? '#1a0030' : 'transparent',
-              border:'none',
-              borderLeft: activeSection === item.id ? '3px solid #9B59B6' : '3px solid transparent',
-              color: activeSection === item.id ? '#fff' : '#aaa',
-              textAlign:'left',
-              cursor:'pointer',
-              fontSize:'13px',
-              display:'flex',
-              alignItems:'center',
-              gap:'10px',
-            }}>
-            <span>{item.emoji}</span>
-            <span>{item.label}</span>
-          </button>
-        ))}
-
         <div style={{marginTop:'auto',padding:'15px',borderTop:'1px solid #2d1040'}}>
           <a href="/profil" style={{color:'#aaa',fontSize:'12px',textDecoration:'none',display:'block',marginBottom:'10px'}}>👤 Mon profil</a>
           <a href="/blog" style={{color:"#aaa",fontSize:"12px",textDecoration:"none",display:"block",marginBottom:"10px"}}>📝 Blog</a>
