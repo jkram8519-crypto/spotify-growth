@@ -39,7 +39,22 @@ const [tutorialStep, setTutorialStep] = useState(0);
     getUser();
   }, []);
 
-  {/* SECTION OUTILS IA */}
+
+
+  return (
+    <div style={{display:'flex',minHeight:'100vh',background:'#000',color:'#fff',fontFamily:'sans-serif'}}>
+
+      {/* SIDEBAR */}
+      <div style={{width:'220px',background:'#0d0020',borderRight:'1px solid #2d1040',padding:'20px 0',position:'fixed',height:'100vh',overflowY:'auto',zIndex:50,display:'flex',flexDirection:'column'}}>
+        <div style={{padding:'0 15px 20px 15px',borderBottom:'1px solid #2d1040',marginBottom:'10px'}}>
+          <div style={{display:'flex',alignItems:'center',gap:'8px'}}>
+            <img src="/spotlift-icon.svg" alt="Logo" style={{width:'30px',height:'30px',borderRadius:'8px'}}/>
+            <a href="/" style={{fontWeight:"bold",color:"#9B59B6",fontSize:"14px",textDecoration:"none"}}>Spotlift</a>
+          </div>
+          <p style={{color:'#555',fontSize:'11px',margin:'6px 0 0 0'}}>{user?.email}</p>
+        </div>
+        
+        {/* SECTION OUTILS IA */}
 <p style={{color:'#555',fontSize:'10px',fontWeight:'bold',padding:'0 15px',marginBottom:'5px',marginTop:'10px',textTransform:'uppercase',letterSpacing:'1px'}}>Outils IA</p>
 {[
   {id:'pitch', emoji:'🚀', label:'Pitch Generator'},
@@ -71,19 +86,6 @@ const [tutorialStep, setTutorialStep] = useState(0);
     <span>{item.emoji}</span>{item.label}
   </button>
 ))}
-
-  return (
-    <div style={{display:'flex',minHeight:'100vh',background:'#000',color:'#fff',fontFamily:'sans-serif'}}>
-
-      {/* SIDEBAR */}
-      <div style={{width:'220px',background:'#0d0020',borderRight:'1px solid #2d1040',padding:'20px 0',position:'fixed',height:'100vh',overflowY:'auto',zIndex:50,display:'flex',flexDirection:'column'}}>
-        <div style={{padding:'0 15px 20px 15px',borderBottom:'1px solid #2d1040',marginBottom:'10px'}}>
-          <div style={{display:'flex',alignItems:'center',gap:'8px'}}>
-            <img src="/spotlift-icon.svg" alt="Logo" style={{width:'30px',height:'30px',borderRadius:'8px'}}/>
-            <a href="/" style={{fontWeight:"bold",color:"#9B59B6",fontSize:"14px",textDecoration:"none"}}>Spotlift</a>
-          </div>
-          <p style={{color:'#555',fontSize:'11px',margin:'6px 0 0 0'}}>{user?.email}</p>
-        </div>
 
         <div style={{marginTop:'auto',padding:'15px',borderTop:'1px solid #2d1040'}}>
           <a href="/profil" style={{color:'#aaa',fontSize:'12px',textDecoration:'none',display:'block',marginBottom:'10px'}}>👤 Mon profil</a>
