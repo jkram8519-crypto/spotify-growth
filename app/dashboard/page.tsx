@@ -39,21 +39,38 @@ const [tutorialStep, setTutorialStep] = useState(0);
     getUser();
   }, []);
 
-  const menuItems = [
-    {id:'pitch', emoji:'🚀', label:'Pitch Generator'},
-    {id:'manager', emoji:'🗓️', label:'Manager IA'},
-    {id:'playlists', emoji:'🎯', label:'Playlist Finder'},
-    {id:'analytics', emoji:'📊', label:'Analytics IA'},
-    {id:'growth', emoji:'🎯', label:'Growth Score'},
-    {id:'viral', emoji:'🔥', label:'Viral Potentiel'},
-    {id:'profil', emoji:'🎨', label:'Profil Artiste'},
-    {id:'contenu', emoji:'📱', label:'Contenu Social'},
-    {id:'ia', emoji:'🤖', label:'IA Assistant'},
-    {id:'multi', emoji:'📊', label:'Multi-Plateformes'},
-    {id:'referral', emoji:'🎁', label:'Parrainer un ami'},
-    {id:'feedback', emoji:'💬', label:'Feedback'},
-    {id:'search', emoji:'🔍', label:'Recherche Spotify'},
-  ];
+  {/* SECTION OUTILS IA */}
+<p style={{color:'#555',fontSize:'10px',fontWeight:'bold',padding:'0 15px',marginBottom:'5px',marginTop:'10px',textTransform:'uppercase',letterSpacing:'1px'}}>Outils IA</p>
+{[
+  {id:'pitch', emoji:'🚀', label:'Pitch Generator'},
+  {id:'manager', emoji:'🗓️', label:'Manager IA'},
+  {id:'playlists', emoji:'🎯', label:'Playlist Finder'},
+  {id:'analytics', emoji:'📊', label:'Analytics IA'},
+  {id:'growth', emoji:'🎯', label:'Growth Score'},
+  {id:'viral', emoji:'🔥', label:'Viral Potentiel'},
+  {id:'profil', emoji:'🎨', label:'Profil Artiste'},
+  {id:'contenu', emoji:'📱', label:'Contenu Social'},
+  {id:'ia', emoji:'🤖', label:'IA Assistant'},
+  {id:'multi', emoji:'📊', label:'Multi-Plateformes'},
+].map((item) => (
+  <button key={item.id} onClick={() => setActiveSection(item.id)}
+    style={{display:'flex',alignItems:'center',gap:'10px',padding:'10px 15px',background: activeSection === item.id ? '#2d1040' : 'transparent',border:'none',color: activeSection === item.id ? '#fff' : '#aaa',cursor:'pointer',width:'100%',textAlign:'left',borderRadius:'8px',fontSize:'13px',borderLeft: activeSection === item.id ? '3px solid #9B59B6' : '3px solid transparent'}}>
+    <span>{item.emoji}</span>{item.label}
+  </button>
+))}
+
+{/* SECTION COMMUNAUTÉ */}
+<p style={{color:'#555',fontSize:'10px',fontWeight:'bold',padding:'0 15px',marginBottom:'5px',marginTop:'15px',textTransform:'uppercase',letterSpacing:'1px'}}>Communauté</p>
+{[
+  {id:'referral', emoji:'🎁', label:'Parrainer un ami'},
+  {id:'feedback', emoji:'💬', label:'Feedback'},
+  {id:'search', emoji:'🔍', label:'Recherche Spotify'},
+].map((item) => (
+  <button key={item.id} onClick={() => setActiveSection(item.id)}
+    style={{display:'flex',alignItems:'center',gap:'10px',padding:'10px 15px',background: activeSection === item.id ? '#2d1040' : 'transparent',border:'none',color: activeSection === item.id ? '#fff' : '#aaa',cursor:'pointer',width:'100%',textAlign:'left',borderRadius:'8px',fontSize:'13px',borderLeft: activeSection === item.id ? '3px solid #9B59B6' : '3px solid transparent'}}>
+    <span>{item.emoji}</span>{item.label}
+  </button>
+))}
 
   return (
     <div style={{display:'flex',minHeight:'100vh',background:'#000',color:'#fff',fontFamily:'sans-serif'}}>
