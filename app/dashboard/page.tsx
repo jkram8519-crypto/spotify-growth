@@ -972,6 +972,7 @@ function ContenuSocial() {
   const [platform, setPlatform] = useState('instagram');
   const [contenu, setContenu] = useState('');
   const [loading, setLoading] = useState(false);
+  const [copiedContenu, setCopiedContenu] = useState(false);
 
   const generate = () => {
     if (!track) return;
@@ -1012,9 +1013,9 @@ function ContenuSocial() {
         <div style={{background:'#0d0020',padding:'25px',borderRadius:'20px',border:'1px solid #9B59B6'}}>
           <div style={{display:'flex',justifyContent:'space-between',alignItems:'center',marginBottom:'15px'}}>
             <p style={{color:'#9B59B6',fontWeight:'bold',margin:0}}>✅ Contenu généré :</p>
-            <button onClick={() => navigator.clipboard.writeText(contenu)}
-              style={{background:'#1a0030',color:'#aaa',border:'1px solid #2d1040',padding:'6px 12px',borderRadius:'8px',cursor:'pointer',fontSize:'12px'}}>
-              📋 Copier
+           <button onClick={() => { navigator.clipboard.writeText(contenu); setCopiedContenu(true); setTimeout(() => setCopiedContenu(false), 2000); }}
+              style={{background: copiedContenu ? '#1DB954' : '#1a0030',color: copiedContenu ? '#fff' : '#aaa',border:'1px solid #2d1040',padding:'6px 12px',borderRadius:'8px',cursor:'pointer',fontSize:'12px'}}>
+              {copiedContenu ? '✅ Copié !' : '📋 Copier'}
             </button>
           </div>
           <pre style={{color:'#ccc',whiteSpace:'pre-wrap',fontSize:'14px',lineHeight:'1.6',margin:0}}>{contenu}</pre>
