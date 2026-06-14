@@ -21,6 +21,7 @@ export async function POST(req: NextRequest) {
       const session = await stripe.checkout.sessions.create({
         payment_method_types: ['card'],
         mode: 'subscription',
+        allow_promotion_codes: true,
         line_items: [{ price: priceId, quantity: 1 }],
         success_url: 'https://getspotlift.vercel.app/dashboard',
         cancel_url: 'https://getspotlift.vercel.app/pricing',
@@ -34,6 +35,7 @@ export async function POST(req: NextRequest) {
     const session = await stripe.checkout.sessions.create({
       payment_method_types: ['card'],
       mode: 'subscription',
+      allow_promotion_codes: true,
       line_items: [{ price_data: { currency: 'eur', product_data: { name }, unit_amount: amount, recurring: { interval: 'month' } }, quantity: 1 }],
       success_url: 'https://getspotlift.vercel.app/dashboard',
       cancel_url: 'https://getspotlift.vercel.app/pricing',
