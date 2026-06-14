@@ -18,7 +18,7 @@ export default function Dashboard() {
 
   useEffect(() => {
     const checkPlan = async () => {
-      const { data } = await supabase.from('subscriptions').select('plan, status, trial_end').eq('user_id', (await supabase.auth.getUser()).data.user?.id).eq('status', 'active').single();
+      const { data } = await supabase.from('subscriptions').select('plan, status, trial_end').eq('user_id', (await supabase.auth.getUser()).data.user?.id).in('status', ['active', 'trial']).single();
       if (data?.plan) {
         if (data.status === 'trial' && data.trial_end) {
           const trialEnd = new Date(data.trial_end);
