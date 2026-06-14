@@ -329,6 +329,7 @@ function SearchSpotify() {
     <div>
       <h1 style={{fontSize:'28px',fontWeight:'bold',marginBottom:'8px'}}>🔍 Recherche Spotify</h1>
       <p style={{color:'#aaa',marginBottom:'25px'}}>Cherche des artistes et tracks Spotify</p>
+      <p style={{background:'#1a0030',color:'#9B59B6',fontSize:'13px',padding:'10px 14px',borderRadius:'10px',marginBottom:'20px',border:'1px solid #2d1040'}}>💡 Tape un nom d'artiste ou de track pour explorer les données Spotify.</p>
       <div style={{background:'#0d0020',padding:'25px',borderRadius:'20px',border:'1px solid #2d1040',marginBottom:'20px'}}>
         <div style={{display:'flex',gap:'10px',marginBottom:'15px'}}>
           <input value={query} onChange={e => setQuery(e.target.value)}
@@ -578,6 +579,7 @@ function ManagerIA() {
     <div>
       <h1 style={{fontSize:'28px',fontWeight:'bold',marginBottom:'8px'}}>🗓️ Manager IA</h1>
       <p style={{color:'#aaa',marginBottom:'30px'}}>Planifie automatiquement ta sortie sur 44 jours</p>
+      <p style={{background:'#1a0030',color:'#9B59B6',fontSize:'13px',padding:'10px 14px',borderRadius:'10px',marginBottom:'20px',border:'1px solid #2d1040'}}>💡 Renseigne ta date de sortie pour générer un planning complet jour par jour.</p>
       <div style={{background:'#0d0020',padding:'30px',borderRadius:'20px',border:'1px solid #2d1040',marginBottom:'20px'}}>
         <input value={trackName} onChange={e => setTrackName(e.target.value)}
           placeholder="Nom du track"
@@ -624,6 +626,7 @@ function PlaylistFinder() {
     <div>
       <h1 style={{fontSize:'28px',fontWeight:'bold',marginBottom:'8px'}}>🎯 Playlist Finder</h1>
       <p style={{color:'#aaa',marginBottom:'30px'}}>Trouve les playlists parfaites pour ton son</p>
+      <p style={{background:'#1a0030',color:'#9B59B6',fontSize:'13px',padding:'10px 14px',borderRadius:'10px',marginBottom:'20px',border:'1px solid #2d1040'}}>💡 Indique un genre + une ambiance pour des résultats plus ciblés.</p>
       <div style={{background:'#0d0020',padding:'30px',borderRadius:'20px',border:'1px solid #2d1040',marginBottom:'20px'}}>
         <input value={genre} onChange={e => setGenre(e.target.value)}
           placeholder="Genre (ex: Electronic, Hip-Hop...)"
@@ -684,6 +687,7 @@ function AnalyticsIA() {
     <div>
       <h1 style={{fontSize:'28px',fontWeight:'bold',marginBottom:'8px'}}>📊 Analytics IA</h1>
       <p style={{color:'#aaa',marginBottom:'30px'}}>Recommandations actionnables basées sur tes stats</p>
+      <p style={{background:'#1a0030',color:'#9B59B6',fontSize:'13px',padding:'10px 14px',borderRadius:'10px',marginBottom:'20px',border:'1px solid #2d1040'}}>💡 Récupère ces chiffres dans Spotify for Artists pour une analyse précise.</p>
       <div style={{background:'#0d0020',padding:'30px',borderRadius:'20px',border:'1px solid #2d1040',marginBottom:'20px'}}>
         <div style={{display:'grid',gridTemplateColumns:'1fr 1fr',gap:'15px',marginBottom:'20px'}}>
           {[
@@ -750,6 +754,7 @@ function GrowthScore() {
     <div>
       <h1 style={{fontSize:'28px',fontWeight:'bold',marginBottom:'8px'}}>🎯 Growth Score</h1>
       <p style={{color:'#aaa',marginBottom:'30px'}}>Calcule ton score de croissance Spotify sur 100</p>
+      <p style={{background:'#1a0030',color:'#9B59B6',fontSize:'13px',padding:'10px 14px',borderRadius:'10px',marginBottom:'20px',border:'1px solid #2d1040'}}>💡 Sois honnête sur tes chiffres : le score n'est utile que s'il est réaliste.</p>
       <div style={{background:'#0d0020',padding:'30px',borderRadius:'20px',border:'1px solid #2d1040',marginBottom:'20px'}}>
         <div style={{display:'grid',gridTemplateColumns:'1fr 1fr',gap:'15px',marginBottom:'20px'}}>
           {[
@@ -823,6 +828,7 @@ function ViralPotentiel() {
     <div>
       <h1 style={{fontSize:'28px',fontWeight:'bold',marginBottom:'8px'}}>🔥 Détection Viral Potentiel</h1>
       <p style={{color:'#aaa',marginBottom:'30px'}}>Analyse ton track et détecte son potentiel viral</p>
+      <p style={{background:'#1a0030',color:'#9B59B6',fontSize:'13px',padding:'10px 14px',borderRadius:'10px',marginBottom:'20px',border:'1px solid #2d1040'}}>💡 Une intro courte et un drop rapide augmentent fortement ton score.</p>
       <div style={{background:'#0d0020',padding:'30px',borderRadius:'20px',border:'1px solid #2d1040',marginBottom:'20px'}}>
         <div style={{display:'grid',gridTemplateColumns:'1fr 1fr',gap:'15px',marginBottom:'20px'}}>
           <div>
@@ -926,6 +932,7 @@ function ProfilArtiste() {
     <div>
       <h1 style={{fontSize:'28px',fontWeight:'bold',marginBottom:'8px'}}>🎨 Optimisation Profil Artiste</h1>
       <p style={{color:'#aaa',marginBottom:'30px'}}>Analyse ton profil Spotify et optimise chaque élément</p>
+      <p style={{background:'#1a0030',color:'#9B59B6',fontSize:'13px',padding:'10px 14px',borderRadius:'10px',marginBottom:'20px',border:'1px solid #2d1040'}}>💡 Réponds en regardant ton vrai profil Spotify ouvert à côté.</p>
       <div style={{background:'#0d0020',padding:'30px',borderRadius:'20px',border:'1px solid #2d1040',marginBottom:'20px'}}>
         <input value={nom} onChange={e => setNom(e.target.value)} placeholder="Nom d'artiste"
           style={{width:'100%',background:'#1a0030',border:'1px solid #2d1040',borderRadius:'8px',padding:'10px',color:'#fff',marginBottom:'15px',boxSizing:'border-box'}}/>
@@ -993,6 +1000,7 @@ function ContenuSocial() {
     <div>
       <h1 style={{fontSize:'28px',fontWeight:'bold',marginBottom:'8px'}}>📱 Générateur de Contenu</h1>
       <p style={{color:'#aaa',marginBottom:'30px'}}>Crée du contenu optimisé pour tes réseaux sociaux</p>
+      <p style={{background:'#1a0030',color:'#9B59B6',fontSize:'13px',padding:'10px 14px',borderRadius:'10px',marginBottom:'20px',border:'1px solid #2d1040'}}>💡 Choisis la plateforme avant de générer : chaque texte est optimisé pour elle.</p>
       <div style={{background:'#0d0020',padding:'30px',borderRadius:'20px',border:'1px solid #2d1040',marginBottom:'20px'}}>
         <input value={track} onChange={e => setTrack(e.target.value)}
           style={{width:'100%',background:'#1a0030',border:'1px solid #2d1040',borderRadius:'10px',padding:'12px',color:'#fff',marginBottom:'15px',boxSizing:'border-box'}}/>
@@ -1049,6 +1057,7 @@ function IAAssistant() {
     <div>
       <h1 style={{fontSize:'28px',fontWeight:'bold',marginBottom:'8px'}}>🤖 IA Assistant Marketing</h1>
       <p style={{color:'#aaa',marginBottom:'30px'}}>Pose tes questions à l'IA manager</p>
+      <p style={{background:'#1a0030',color:'#9B59B6',fontSize:'13px',padding:'10px 14px',borderRadius:'10px',marginBottom:'20px',border:'1px solid #2d1040'}}>💡 Pose des questions précises pour des réponses plus actionnables.</p>
       <div style={{background:'#0d0020',padding:'30px',borderRadius:'20px',border:'1px solid #2d1040',marginBottom:'20px'}}>
         <div style={{display:'flex',gap:'8px',flexWrap:'wrap',marginBottom:'15px'}}>
           {quickQuestions.map((q,i) => (
@@ -1117,6 +1126,7 @@ function MultiPlateformes() {
     <div>
       <h1 style={{fontSize:'28px',fontWeight:'bold',marginBottom:'8px'}}>📊 Dashboard Multi-Plateformes</h1>
       <p style={{color:'#aaa',marginBottom:'30px'}}>Centralise toutes tes stats en un seul endroit</p>
+      <p style={{background:'#1a0030',color:'#9B59B6',fontSize:'13px',padding:'10px 14px',borderRadius:'10px',marginBottom:'20px',border:'1px solid #2d1040'}}>💡 Remplis un maximum de plateformes pour une vue d'ensemble fiable.</p>
       <div style={{display:'grid',gridTemplateColumns:'1fr 1fr',gap:'15px',marginBottom:'20px'}}>
         {[
           {title:'🎵 Spotify',color:'#1DB954',fields:[{l:'Streams ce mois',v:spStreams,s:setSpStreams},{l:'Followers',v:spFollowers,s:setSpFollowers}]},
