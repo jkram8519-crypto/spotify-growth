@@ -434,6 +434,7 @@ function PitchGenerator({ user }: { user: any }) {
 const [spotifyLoading, setSpotifyLoading] = useState(false);
 const [selectedTrack, setSelectedTrack] = useState<any>(null);
 const [artistName, setArtistName] = useState('');
+  const [copied, setCopied] = useState(false);
 
 const searchSpotify = async (query: string) => {
   if (query.length < 2) { setSpotifyResults([]); return; }
@@ -532,9 +533,9 @@ const searchSpotify = async (query: string) => {
         <div style={{background:'#0d0020',padding:'25px',borderRadius:'20px',border:'1px solid #9B59B6'}}>
           <div style={{display:'flex',justifyContent:'space-between',alignItems:'center',marginBottom:'15px'}}>
             <p style={{color:'#9B59B6',fontWeight:'bold',margin:0}}>✅ Pitch généré :</p>
-            <button onClick={() => navigator.clipboard.writeText(pitch)}
-              style={{background:'#1a0030',color:'#aaa',border:'1px solid #2d1040',padding:'6px 12px',borderRadius:'8px',cursor:'pointer',fontSize:'12px'}}>
-              📋 Copier
+            <button onClick={() => { navigator.clipboard.writeText(pitch); setCopied(true); setTimeout(() => setCopied(false), 2000); }}
+              style={{background: copied ? '#1DB954' : '#1a0030',color: copied ? '#fff' : '#aaa',border:'1px solid #2d1040',padding:'6px 12px',borderRadius:'8px',cursor:'pointer',fontSize:'12px'}}>
+              {copied ? '✅ Copié !' : '📋 Copier'}
             </button>
           </div>
           <p style={{color:'#ccc',lineHeight:'1.8',margin:0}}>{pitch}</p>
