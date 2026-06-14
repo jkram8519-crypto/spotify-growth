@@ -25,7 +25,7 @@ export default function Pricing() {
   const currentRank = PLAN_RANK[currentPlan] ?? 0;
 
   const goToCheckout = async (plan: string) => {
-    const res = await fetch('/api/checkout', {method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({plan,billing:annual?'annual':'monthly'})});
+    const res = await fetch('/api/checkout', {method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({plan,billing:annual?'annual':'monthly',currentPlan})});
     const data = await res.json();
     if(data.url) window.location.href = data.url;
   };
