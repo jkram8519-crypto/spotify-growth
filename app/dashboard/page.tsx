@@ -2,6 +2,15 @@
 import { useState, useEffect } from 'react';
 import { supabase } from '../../supabase';
 
+function isValidInput(value: string): boolean {
+  if (!value || !value.trim()) return false;
+  const v = value.trim();
+  if (v.length < 2) return false;
+  if (!/[a-zA-Z0-9]/.test(v)) return false;
+  if (/^(.)\1+$/.test(v)) return false;
+  return true;
+}
+
 export default function Dashboard() {
   const [user, setUser] = useState<any>(null);
   const [activeSection, setActiveSection] = useState('pitch');
@@ -451,7 +460,7 @@ const searchSpotify = async (query: string) => {
 };
  
   const generatePitch = async () => {
-  if (!track) return;
+ if (!isValidInput(track)) { alert('Merci d\'entrer un nom de track valide.'); return; }
   setLoading(true);
   setTimeout(() => {
     const artistInfo = selectedTrack ? selectedTrack.artists[0]?.name : 'artiste indépendant';
@@ -552,7 +561,7 @@ function ManagerIA() {
   const [calendar, setCalendar] = useState<any[]>([]);
 
   const generateCalendar = () => {
-    if (!trackName || !releaseDate) return;
+    if (!isValidInput(trackName) || !releaseDate) { alert('Merci d\'entrer un nom de track valide et une date de sortie.'); return; }
     const release = new Date(releaseDate);
     const addDays = (d: Date, n: number) => { const r = new Date(d); r.setDate(r.getDate()+n); return r; };
     const format = (d: Date) => d.toLocaleDateString('fr-FR', {day:'numeric',month:'long'});
@@ -610,7 +619,7 @@ function PlaylistFinder() {
   const [results, setResults] = useState<any[]>([]);
 
   const findPlaylists = () => {
-    if (!genre) return;
+if (!isValidInput(genre)) { alert('Merci d\'entrer un genre valide.'); return; }
     const playlists = [
       {name:`${genre} Hits 2026`,followers:'125K',curator:'SpotifyEditor',match:'98%',type:'Editorial'},
       {name:`Best of ${genre}`,followers:'89K',curator:'MusicLover',match:'95%',type:'Indépendante'},
@@ -982,7 +991,7 @@ function ContenuSocial() {
   const [copiedContenu, setCopiedContenu] = useState(false);
 
   const generate = () => {
-    if (!track) return;
+    if (!isValidInput(track)) { alert('Merci d\'entrer un nom de track valide.'); return; }
     setLoading(true);
     setTimeout(() => {
       const templates: Record<string, string> = {
@@ -1041,7 +1050,7 @@ function IAAssistant() {
   const quickQuestions = ['Comment pitcher sur Spotify ?','Comment choisir ma date de sortie ?','Comment faire une campagne TikTok ?','Comment augmenter mes streams ?'];
 
   const ask = async () => {
-    if (!question) return;
+    if (!isValidInput(question)) { alert('Merci d\'entrer une question valide.'); return; }
     setLoading(true);
     try {
       const res = await fetch('/api/assistant', {method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({question})});
