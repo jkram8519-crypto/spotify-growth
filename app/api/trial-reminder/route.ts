@@ -5,7 +5,7 @@ export async function GET(req: NextRequest) {
   // Sécurité : vérifie le secret du cron
   const authHeader = req.headers.get('authorization');
   if (authHeader !== `Bearer ${process.env.CRON_SECRET}`) {
-    return NextResponse.json({ error: 'Non autorisé' }, { status: 401 });
+    return NextResponse.json({ error: 'Non autorisé', debug: { recu_longueur: (authHeader || '').length, attendu_existe: !!process.env.CRON_SECRET, attendu_longueur: (process.env.CRON_SECRET || '').length } }, { status: 401 });
   }
 
   try {
