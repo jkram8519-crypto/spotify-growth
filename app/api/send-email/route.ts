@@ -11,7 +11,7 @@ export async function POST(req: NextRequest) {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        from: 'Spotlift <onboarding@resend.dev>',
+        from: 'Spotlift <contact@getspotlift.com>',
         to,
         subject,
         html,
