@@ -54,7 +54,7 @@ export default function LoginPage() {
     await supabase.auth.signInWithOAuth({
       provider: 'google',
       options: {
-        redirectTo: 'https://getspotlift.vercel.app/dashboard'
+        redirectTo: 'https://getspotlift.com/dashboard'
       }
     });
   }}>

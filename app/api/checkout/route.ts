@@ -22,8 +22,8 @@ export async function POST(req: NextRequest) {
         mode: 'subscription',
         allow_promotion_codes: allowPromo,
         line_items: [{ price: priceId, quantity: 1 }],
-        success_url: 'https://getspotlift.vercel.app/dashboard',
-        cancel_url: 'https://getspotlift.vercel.app/pricing',
+        success_url: 'https://getspotlift.com/dashboard',
+        cancel_url: 'https://getspotlift.com/pricing',
       });
       return NextResponse.json({ url: session.url });
     }
@@ -34,8 +34,8 @@ export async function POST(req: NextRequest) {
       mode: 'subscription',
       allow_promotion_codes: allowPromo,
       line_items: [{ price_data: { currency: 'eur', product_data: { name }, unit_amount: amount, recurring: { interval: 'month' } }, quantity: 1 }],
-      success_url: 'https://getspotlift.vercel.app/dashboard',
-      cancel_url: 'https://getspotlift.vercel.app/pricing',
+      success_url: 'https://getspotlift.com/dashboard',
+      cancel_url: 'https://getspotlift.com/pricing',
     });
     return NextResponse.json({ url: session.url });
   } catch (err: any) {

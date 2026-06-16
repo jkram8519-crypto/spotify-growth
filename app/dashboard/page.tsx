@@ -1286,7 +1286,7 @@ function Referral({ user, plan }: { user: any, plan: string }) {
     if (user?.id) generateCode();
   }, [user]);
 
-  const referralLink = `https://getspotlift.vercel.app/inscription?ref=${code}`;
+  const referralLink = `https://getspotlift.com/inscription?ref=${code}`;
 
   const copyLink = () => {
     navigator.clipboard.writeText(referralLink);

@@ -10,11 +10,11 @@ export const metadata: Metadata = {
   openGraph: {
     title: 'Spotlift — L\'outil IA pour artistes indépendants',
     description: 'Génère des pitches Spotify pro en 10 secondes, planifie tes sorties avec l\'IA et analyse tes performances.',
-    url: 'https://getspotlift.vercel.app',
+    url: 'https://getspotlift.com',
     siteName: 'Spotlift',
     images: [
       {
-        url: 'https://getspotlift.vercel.app/spotlift-icon.svg',
+        url: 'https://getspotlift.com/spotlift-icon.svg',
         width: 400,
         height: 400,
         alt: 'Spotlift Logo',
@@ -27,7 +27,7 @@ export const metadata: Metadata = {
     card: 'summary_large_image',
     title: 'Spotlift — L\'outil IA pour artistes indépendants',
     description: 'Génère des pitches Spotify pro en 10 secondes grâce à l\'IA.',
-    images: ['https://getspotlift.vercel.app/spotlift-icon.svg'],
+    images: ['https://getspotlift.com/spotlift-icon.svg'],
   },
   robots: {
     index: true,

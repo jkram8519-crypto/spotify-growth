@@ -37,7 +37,7 @@ export async function GET(req: NextRequest) {
       if (!email) continue;
 
       const prenom = email.split('@')[0];
-      const html = `<div style="background:#000;color:#fff;padding:40px;font-family:sans-serif;max-width:600px;margin:0 auto;"><h1 style="color:#9B59B6;">Ton essai Pro se termine bientôt ⏰</h1><p>Bonjour ${prenom},</p><p style="color:#ccc;">Ton essai gratuit Spotlift Pro se termine dans moins de 48h. Ne perds pas l'accès à tes 11 outils IA !</p><div style="text-align:center;margin:30px 0;"><a href="https://getspotlift.vercel.app/pricing" style="background:#9B59B6;color:#fff;padding:14px 40px;border-radius:30px;text-decoration:none;font-weight:bold;">Continuer en Pro — 9.99€/mois</a></div><p style="color:#aaa;font-size:14px;">Sans engagement • Annulation en 1 clic</p><p style="color:#555;font-size:12px;">J.K. RAM — Fondateur Spotlift — getspotlift.vercel.app</p></div>`;
+      const html = `<div style="background:#000;color:#fff;padding:40px;font-family:sans-serif;max-width:600px;margin:0 auto;"><h1 style="color:#9B59B6;">Ton essai Pro se termine bientôt ⏰</h1><p>Bonjour ${prenom},</p><p style="color:#ccc;">Ton essai gratuit Spotlift Pro se termine dans moins de 48h. Ne perds pas l'accès à tes 11 outils IA !</p><div style="text-align:center;margin:30px 0;"><a href="https://getspotlift.com/pricing" style="background:#9B59B6;color:#fff;padding:14px 40px;border-radius:30px;text-decoration:none;font-weight:bold;">Continuer en Pro — 9.99€/mois</a></div><p style="color:#aaa;font-size:14px;">Sans engagement • Annulation en 1 clic</p><p style="color:#555;font-size:12px;">J.K. RAM — Fondateur Spotlift — getspotlift.com</p></div>`;
 
       const response = await fetch('https://api.resend.com/emails', {
         method: 'POST',
