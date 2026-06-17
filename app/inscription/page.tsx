@@ -40,7 +40,7 @@ export default function InscriptionPage() {
           placeholder="Mot de passe (min. 6 caracteres)" type="password" value={motDePasse} onChange={(e) => setMotDePasse(e.target.value)}/>
         <button style={{width:"100%",background:"#9B59B6",color:"#fff",padding:"14px",borderRadius:"10px",fontWeight:"bold",fontSize:"16px",cursor:"pointer",border:"none"}}
           onClick={handleInscription} disabled={chargement}>
-          {chargement ? "Chargement..." : "S inscrire"}
+          {chargement ? "Chargement..." : "S'inscrire"}
         </button>
         {message && <p style={{textAlign:"center",marginTop:"15px",color:"#9B59B6"}}>{message}</p>}
         <p style={{textAlign:"center",marginTop:"20px",color:"#aaa"}}>
