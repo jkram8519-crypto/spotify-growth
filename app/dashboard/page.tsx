@@ -438,6 +438,10 @@ function PitchGenerator({ user }: { user: any }) {
   const [genre, setGenre] = useState('Electronic');
   const [pitch, setPitch] = useState('');
   const [loading, setLoading] = useState(false);
+  const [ambiance, setAmbiance] = useState('');
+  const [description, setDescription] = useState('');
+  const [ambiance, setAmbiance] = useState('');
+  const [description, setDescription] = useState('');
   const [releaseDate, setReleaseDate] = useState("");
   const [releaseType, setReleaseType] = useState("upcoming");
   const [spotifyResults, setSpotifyResults] = useState<any[]>([]);
@@ -460,24 +464,28 @@ const searchSpotify = async (query: string) => {
 };
  
   const generatePitch = async () => {
- if (!isValidInput(track)) { alert('Merci d\'entrer un nom de track valide.'); return; }
-  setLoading(true);
-  setTimeout(() => {
-    const artistInfo = selectedTrack ? selectedTrack.artists[0]?.name : 'artiste indépendant';
-    const albumInfo = selectedTrack ? selectedTrack.album?.name : '';
-    const popularite = selectedTrack ? selectedTrack.popularity : null;
-    const dateInfo = releaseType === 'upcoming' && releaseDate ? `disponible le ${releaseDate}` : releaseType === 'out' ? `déjà disponible sur Spotify` : `à venir prochainement`;
-    const albumMention = albumInfo ? ` de l'album "${albumInfo}"` : '';
-    const popMention = popularite ? ` avec un score de popularité Spotify de ${popularite}/100` : '';
-    const pitches = [
-      `Je vous soumets "${track}"${albumMention} de ${artistInfo}, ${dateInfo}${popMention}. Ce titre ${genre} se distingue par sa créativité et son originalité. Avec une production moderne et des arrangements travaillés, ce track a tout pour séduire les auditeurs de votre playlist.`,
-      `Permettez-moi de vous présenter "${track}" de ${artistInfo}${albumMention}, ${dateInfo}. Ce titre ${genre}${popMention} allie des sonorités innovantes à une structure mémorable, créant une expérience d'écoute unique qui résonnera parfaitement avec votre audience.`,
-      `Je vous propose "${track}" de ${artistInfo}, ${dateInfo}${popMention}. Ce titre ${genre}${albumMention} fusionne émotion et énergie avec une mélodie accrocheuse et une production soignée — un candidat idéal pour vos playlists ${genre}.`,
-    ];
-    setPitch(pitches[Math.floor(Math.random() * pitches.length)]);
+    if (!isValidInput(track)) { alert('Merci d\'entrer un nom de track valide.'); return; }
+    if (!isValidInput(ambiance)) { alert('Merci de décrire l\'ambiance de ton morceau.'); return; }
+    if (!isValidInput(description)) { alert('Merci d\'ajouter une description de ton morceau.'); return; }
+    setLoading(true);
+    try {
+      const artistInfo = selectedTrack ? selectedTrack.artists[0]?.name : '';
+      const res = await fetch('/api/generate-pitch', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ track, genre, releaseType, releaseDate, ambiance, description, artistName: artistInfo }),
+      });
+      const data = await res.json();
+      if (data.pitch) {
+        setPitch(data.pitch);
+      } else {
+        setPitch('Erreur lors de la génération du pitch. Réessaie.');
+      }
+    } catch {
+      setPitch('Erreur de connexion. Réessaie.');
+    }
     setLoading(false);
-  }, 1500);
-};
+  };
 
   return (
     <div>
@@ -534,6 +542,30 @@ const searchSpotify = async (query: string) => {
             <option key={g} value={g}>{g}</option>
           ))}
         </select>
+        <div style={{marginBottom:'15px'}}>
+          <label style={{color:'#aaa',fontSize:'14px',display:'block',marginBottom:'6px'}}>Ambiance / émotion du morceau</label>
+          <select value={ambiance} onChange={e => setAmbiance(e.target.value)}
+            style={{width:'100%',background:'#1a0030',border:'1px solid #2d1040',borderRadius:'10px',padding:'12px',color:'#fff',marginBottom:'0',boxSizing:'border-box'}}>
+            <option value="">-- Choisis une ambiance --</option>
+            <option value="triste et mélancolique">😢 Triste et mélancolique</option>
+            <option value="joyeux et festif">🎉 Joyeux et festif</option>
+            <option value="énergique et puissant">⚡ Énergique et puissant</option>
+            <option value="romantique et sensuel">❤️ Romantique et sensuel</option>
+            <option value="sombre et introspectif">🌑 Sombre et introspectif</option>
+            <option value="motivant et inspirant">🚀 Motivant et inspirant</option>
+            <option value="nostalgique">🌅 Nostalgique</option>
+            <option value="calme et apaisant">🌊 Calme et apaisant</option>
+            <option value="agressif et intense">🔥 Agressif et intense</option>
+            <option value="mystérieux et envoûtant">🌙 Mystérieux et envoûtant</option>
+          </select>
+        </div>
+        <div style={{marginBottom:'20px'}}>
+          <label style={{color:'#aaa',fontSize:'14px',display:'block',marginBottom:'6px'}}>Décris ton morceau en quelques mots</label>
+          <textarea value={description} onChange={e => setDescription(e.target.value)}
+            placeholder="Ex: Une chanson sur une rupture amoureuse, inspirée par une nuit d'été. Le refrain parle de lâcher prise..."
+            rows={3}
+            style={{width:'100%',background:'#1a0030',border:'1px solid #2d1040',borderRadius:'10px',padding:'12px',color:'#fff',boxSizing:'border-box',resize:'none'}}/>
+        </div>
         <button onClick={generatePitch} disabled={loading || !track}
           style={{width:'100%',background:'#9B59B6',color:'#fff',padding:'14px',borderRadius:'10px',fontWeight:'bold',fontSize:'16px',cursor:'pointer',border:'none'}}>
           {loading ? '⏳ Génération...' : '🚀 Générer le Pitch'}
