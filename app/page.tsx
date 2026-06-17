@@ -83,7 +83,7 @@ export default function LandingPage() {
   };
 
   return (
-    <main style={{background:'#000',color:'#fff',fontFamily:'sans-serif',margin:0,padding:0,overflowX:'hidden'}}>
+    <main style={{background:'#0a0015',color:'#fff',fontFamily:'sans-serif',margin:0,padding:0,overflowX:'hidden'}}>
 
       <nav style={{display:'flex',justifyContent:'space-between',alignItems:'center',padding:'15px 20px',borderBottom:'1px solid #222',position:'sticky',top:0,background:'#000',zIndex:100}}>
         <a href="/" style={{display:'flex',alignItems:'center',gap:'10px',textDecoration:'none'}}>
