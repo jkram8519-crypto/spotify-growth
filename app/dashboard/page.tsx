@@ -440,8 +440,6 @@ function PitchGenerator({ user }: { user: any }) {
   const [loading, setLoading] = useState(false);
   const [ambiance, setAmbiance] = useState('');
   const [description, setDescription] = useState('');
-  const [ambiance, setAmbiance] = useState('');
-  const [description, setDescription] = useState('');
   const [releaseDate, setReleaseDate] = useState("");
   const [releaseType, setReleaseType] = useState("upcoming");
   const [spotifyResults, setSpotifyResults] = useState<any[]>([]);
