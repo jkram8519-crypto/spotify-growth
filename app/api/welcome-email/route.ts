@@ -16,6 +16,7 @@ export async function POST(req: NextRequest) {
       body: JSON.stringify({
         from: 'Spotlift <contact@getspotlift.com>',
         to: email,
+        reply_to: 'contact.spotlift@gmail.com',
       subject: `Bienvenue dans la famille Spotlift, ${prenom} 🎵`,
         html: html
       })

@@ -48,6 +48,7 @@ export async function GET(req: NextRequest) {
         body: JSON.stringify({
           from: 'Spotlift <contact@getspotlift.com>',
           to: email,
+        reply_to: 'contact.spotlift@gmail.com',
           subject: 'Ton essai Spotlift Pro se termine bientôt ⏰',
           html: html
         })
