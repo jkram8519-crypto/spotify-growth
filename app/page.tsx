@@ -19,7 +19,7 @@ function EmailCapture() {
   };
 
   return (
-    <section style={{padding:'60px 20px',background:'#0d0020',textAlign:'center'}}>
+    <section style={{padding:'60px 40px',background:'#0d0020',textAlign:'center'}}>
       <h2 style={{fontSize:'28px',fontWeight:'bold',marginBottom:'10px'}}>
         🎵 3 conseils gratuits pour percer sur Spotify
       </h2>
@@ -83,7 +83,7 @@ export default function LandingPage() {
   };
 
   return (
-    <main style={{background:'#000',color:'#fff',fontFamily:'sans-serif',margin:0,padding:0}}>
+    <main style={{background:'#000',color:'#fff',fontFamily:'sans-serif',margin:0,padding:0,overflowX:'hidden'}}>
 
       <nav style={{display:'flex',justifyContent:'space-between',alignItems:'center',padding:'15px 20px',borderBottom:'1px solid #222',position:'sticky',top:0,background:'#000',zIndex:100}}>
         <a href="/" style={{display:'flex',alignItems:'center',gap:'10px',textDecoration:'none'}}>
@@ -166,7 +166,7 @@ export default function LandingPage() {
         </div>
       </section>
 
-      <section style={{display:'flex',justifyContent:'center',gap:'30px',padding:'40px 20px',background:'#0d0020',flexWrap:'wrap'}}>
+      <section style={{display:'flex',justifyContent:'center',gap:'30px',padding:'40px 40px',background:'#0d0020',flexWrap:'wrap'}}>
         {[
           {value:'500+',label:'Artistes actifs',icon:'👥'},
           {value:'Gratuit',label:'Pour commencer',icon:'💰'},
@@ -181,7 +181,7 @@ export default function LandingPage() {
         ))}
       </section>
 
-      <section style={{padding:'80px 20px',background:'linear-gradient(135deg,#1a0030,#0d0020)',textAlign:'center'}}>
+      <section style={{padding:'80px 40px',background:'linear-gradient(135deg,#1a0030,#0d0020)',textAlign:'center'}}>
         <h2 style={{fontSize:'36px',fontWeight:'bold',marginBottom:'15px'}}>Resultats reels</h2>
         <p style={{color:'#aaa',marginBottom:'40px',fontSize:'16px'}}>Voir comment nos utilisateurs augmentent leurs streams</p>
         <div style={{display:'grid',gridTemplateColumns:'repeat(auto-fit, minmax(250px, 1fr))',gap:'20px',maxWidth:'1000px',margin:'0 auto'}}>
@@ -201,7 +201,7 @@ export default function LandingPage() {
         <a href="/case-studies" style={{marginTop:'30px',display:'inline-block',color:'#9B59B6',textDecoration:'none',fontWeight:'bold'}}>Voir tous les cas d etude →</a>
       </section>
 
-      <section id="features" style={{padding:'80px 20px'}}>
+      <section id="features" style={{padding:'80px 40px'}}>
         <h2 style={{textAlign:'center',fontSize:'36px',fontWeight:'bold',marginBottom:'20px'}}>11 outils IA puissants</h2>
         <p style={{textAlign:'center',color:'#aaa',marginBottom:'40px',fontSize:'16px'}}>Tout ce dont un artiste independant a besoin</p>
         <div style={{display:'grid',gridTemplateColumns:'repeat(auto-fit, minmax(280px, 1fr))',gap:'20px',maxWidth:'1100px',margin:'0 auto'}}>
@@ -228,7 +228,7 @@ export default function LandingPage() {
         </div>
       </section>
 
-      <section style={{background:'#0d0020',padding:'80px 20px'}}>
+      <section style={{background:'#0d0020',padding:'80px 40px'}}>
         <h2 style={{textAlign:'center',fontSize:'36px',fontWeight:'bold',marginBottom:'40px'}}>Ce qu ils en disent</h2>
         <div style={{display:'grid',gridTemplateColumns:'repeat(auto-fit, minmax(280px, 1fr))',gap:'20px',maxWidth:'1000px',margin:'0 auto'}}>
           {[
@@ -250,7 +250,7 @@ export default function LandingPage() {
         </div>
       </section>
 
-      <section style={{padding:'80px 20px',textAlign:'center'}}>
+      <section style={{padding:'80px 40px',textAlign:'center'}}>
         <h2 style={{fontSize:'36px',fontWeight:'bold',marginBottom:'15px'}}>Tarifs simples</h2>
         <p style={{color:'#aaa',marginBottom:'40px',fontSize:'16px'}}>Commence gratuitement, evolue quand tu es pret</p>
         <div style={{display:'flex',flexDirection:'column',gap:'20px',maxWidth:'400px',margin:'0 auto'}}>
@@ -286,7 +286,7 @@ export default function LandingPage() {
         <a href="/inscription" style={{background:'#000',color:'#9B59B6',padding:'16px 40px',borderRadius:'30px',textDecoration:'none',fontWeight:'bold',fontSize:'16px',display:'inline-block'}}>Essayer Gratuitement →</a>
       </section>
 
-      <footer style={{background:'#000',borderTop:'1px solid #222',padding:'40px 20px',textAlign:'center',color:'#aaa',fontSize:'14px'}}>
+      <footer style={{background:'#000',borderTop:'1px solid #222',padding:'40px 40px',textAlign:'center',color:'#aaa',fontSize:'14px'}}>
         <div style={{display:'flex',gap:'20px',justifyContent:'center',flexWrap:'wrap',marginBottom:'20px'}}>
           <a href="/case-studies" style={{color:'#aaa',textDecoration:'none'}}>Resultats</a>
           <a href="/faq" style={{color:'#aaa',textDecoration:'none'}}>FAQ</a>
