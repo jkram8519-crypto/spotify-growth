@@ -25,7 +25,18 @@ export default function InscriptionPage() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email })
       });
-      setTimeout(() => { window.location.href = "/dashboard"; }, 1500);
+      setTimeout(async () => {
+        const pendingPlan = localStorage.getItem('pendingPlan');
+        const pendingBilling = localStorage.getItem('pendingBilling') || 'monthly';
+        if (pendingPlan) {
+          localStorage.removeItem('pendingPlan');
+          localStorage.removeItem('pendingBilling');
+          const res = await fetch('/api/checkout', {method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({plan:pendingPlan,billing:pendingBilling,currentPlan:'Free'})});
+          const data = await res.json();
+          if(data.url) { window.location.href = data.url; return; }
+        }
+        window.location.href = "/dashboard";
+      }, 1500);
     }
     setChargement(false);
   };

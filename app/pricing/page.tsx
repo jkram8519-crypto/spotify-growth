@@ -24,12 +24,19 @@ export default function Pricing() {
 
   const currentRank = PLAN_RANK[currentPlan] ?? 0;
 
-  const goToCheckout = async (plan: string) => {
+ const goToCheckout = async (plan: string) => {
+    const { data: userData } = await supabase.auth.getUser();
+    if (!userData.user) {
+      localStorage.setItem('pendingPlan', plan);
+      localStorage.setItem('pendingBilling', annual ? 'annual' : 'monthly');
+      window.location.href = '/inscription';
+      return;
+    }
     const res = await fetch('/api/checkout', {method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({plan,billing:annual?'annual':'monthly',currentPlan})});
     const data = await res.json();
     if(data.url) window.location.href = data.url;
   };
-
+  
   return (
     <main style={{background:'#000',color:'#fff',fontFamily:'sans-serif',minHeight:'100vh',padding:'60px 20px'}}>
       <h1 style={{textAlign:'center',fontSize:'42px',fontWeight:'bold',marginBottom:'10px'}}>Tarifs simples</h1>
