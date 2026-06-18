@@ -65,9 +65,9 @@ export default function LandingPage() {
       subtitle: "Pitches IA, Manager de sortie, Analytics et bien plus. Economise 1h par semaine et augmente tes streams.",
       cta1: "Essayer Gratuitement",
       cta2: "Voir les resultats",
-      trust1: "Aucune carte bancaire",
-      trust2: "Gratuit pour toujours",
-      trust3: "Annulation en 1 clic",
+      trust1: "3 jours gratuits",
+      trust2: "Annulation en 1 clic",
+      trust3: "Sans engagement",
     },
     en: {
       badge: "The #1 AI tool for independent artists",
@@ -76,9 +76,9 @@ export default function LandingPage() {
       subtitle: "AI Pitches, Release Manager, Analytics and more. Save 1h per week and increase your streams.",
       cta1: "Try for Free",
       cta2: "See results",
-      trust1: "No credit card required",
-      trust2: "Free forever",
-      trust3: "Cancel in 1 click",
+      trust1: "3 days free trial",
+      trust2: "Cancel anytime",
+      trust3: "No commitment",
     }
   };
 
