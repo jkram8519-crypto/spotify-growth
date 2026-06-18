@@ -56,6 +56,9 @@ export default function InscriptionPage() {
           onClick={handleInscription} disabled={chargement}>
           {chargement ? "Chargement..." : "S'inscrire"}
         </button>
+        <p style={{color:'#555',fontSize:'12px',textAlign:'center',marginTop:'15px'}}>
+  🔒 Essai Pro gratuit 3 jours · Carte requise · Annulation en 1 clic
+</p>
         {message && <p style={{textAlign:"center",marginTop:"15px",color:"#9B59B6"}}>{message}</p>}
         <p style={{textAlign:"center",marginTop:"20px",color:"#aaa"}}>
           Deja un compte ?{" "}
