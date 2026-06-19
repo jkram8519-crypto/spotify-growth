@@ -217,6 +217,7 @@ export default function LandingPage() {
             {emoji:'🤖',title:'IA Assistant Marketing',desc:"Pose tes questions a l'IA manager.",badge:'NOUVEAU'},
             {emoji:'📊',title:'Dashboard Multi-Plateformes',desc:'Centralise tes stats Spotify, TikTok, Instagram.',badge:'NOUVEAU'},
             {emoji:'💬',title:'Feedback Artiste',desc:"Donne ton avis et aide a ameliorer l'app.",badge:''},
+          ].map((f,i) => (
             <div key={i} style={{background:'#0d0020',padding:'30px',borderRadius:'20px',border:f.badge?'2px solid #9B59B6':'1px solid #2d1040'}}>
               {f.badge && <div style={{background:'#9B59B6',color:'white',borderRadius:'10px',padding:'2px 10px',fontSize:'11px',fontWeight:'bold',display:'inline-block',marginBottom:'10px'}}>{f.badge}</div>}
               <p style={{fontSize:'40px',margin:'0 0 15px 0'}}>{f.emoji}</p>
