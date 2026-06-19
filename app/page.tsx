@@ -210,7 +210,7 @@ export default function LandingPage() {
             {emoji:'🗓️',title:'Manager IA',desc:'Planifie ta sortie sur 44 jours automatiquement.',badge:'NOUVEAU'},
             {emoji:'🎯',title:'Playlist Finder',desc:'Trouve les playlists parfaites avec un score de compatibilite.',badge:''},
             {emoji:'📊',title:'Analytics IA',desc:'Analyse tes stats et donne des actions concretes.',badge:''},
-            {emoji:'📱',title:'Contenu Reseaux Sociaux',desc:'Genere du contenu pour Instagram, TikTok, Twitter.',badge:''},
+            {emoji:'📱',title:'Contenu Reseaux Sociaux',desc:'Genere du contenu pour Instagram, TikTok.',badge:''},
             {emoji:'🎯',title:'Growth Score',desc:'Calcule ton score de croissance Spotify sur 100 points.',badge:'NOUVEAU'},
             {emoji:'🔥',title:'Detection Viral Potentiel',desc:'Analyse ton track et detecte son potentiel viral sur TikTok.',badge:'NOUVEAU'},
             {emoji:'🎨',title:'Optimisation Profil',desc:'Analyse ton profil Spotify et optimise chaque element.',badge:'NOUVEAU'},
@@ -299,7 +299,6 @@ export default function LandingPage() {
         <div style={{display:'flex',gap:'15px',justifyContent:'center',marginBottom:'20px'}}>
           <a href="https://www.tiktok.com/@j.k.ra" target="_blank" rel="noopener noreferrer" style={{color:'#9B59B6',textDecoration:'none'}}>TikTok</a>
           <a href="https://instagram.com/getspotlift" target="_blank" rel="noopener noreferrer" style={{color:'#9B59B6',textDecoration:'none'}}>Instagram</a>
-          <a href="https://twitter.com/getspotlift" target="_blank" rel="noopener noreferrer" style={{color:'#9B59B6',textDecoration:'none'}}>Twitter</a>
         </div>
         <p style={{margin:0}}>2026 Spotlift. Tous droits reserves.</p>
       </footer>
