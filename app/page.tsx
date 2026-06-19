@@ -229,7 +229,7 @@ export default function LandingPage() {
       </section>
 
       <section style={{background:'#0d0020',padding:'80px 40px'}}>
-        <h2 style={{textAlign:'center',fontSize:'36px',fontWeight:'bold',marginBottom:'40px'}}>Ce qu ils en disent</h2>
+        <h2 style={{textAlign:'center',fontSize:'36px',fontWeight:'bold',marginBottom:'40px'}}>Ce qu'ils en disent</h2>
         <div style={{display:'grid',gridTemplateColumns:'repeat(auto-fit, minmax(280px, 1fr))',gap:'20px',maxWidth:'1000px',margin:'0 auto'}}>
           {[
             {text:'"Le Pitch Generator m a vraiment aide a structurer mes messages aux curateurs."',name:'Alex M.',role:'Producteur'},
