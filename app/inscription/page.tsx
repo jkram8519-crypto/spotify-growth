@@ -20,11 +20,7 @@ export default function InscriptionPage() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email, name: email.split("@")[0] })
       });
-      fetch("/api/trial", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email })
-      });
+     
       setTimeout(async () => {
         const pendingPlan = localStorage.getItem('pendingPlan');
         const pendingBilling = localStorage.getItem('pendingBilling') || 'monthly';
