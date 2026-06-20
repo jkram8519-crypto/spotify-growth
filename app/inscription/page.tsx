@@ -15,12 +15,12 @@ export default function InscriptionPage() {
       setMessage("Erreur : " + error.message);
     } else {
       setMessage("Compte cree ! Redirection...");
-      fetch("/api/welcome-email", {
+      
+      await fetch("/api/welcome-email", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email, name: email.split("@")[0] })
-      });
-     
+      }).catch(() => {});
       setTimeout(async () => {
         const pendingPlan = localStorage.getItem('pendingPlan');
         const pendingBilling = localStorage.getItem('pendingBilling') || 'monthly';
