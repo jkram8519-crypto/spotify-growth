@@ -1075,6 +1075,7 @@ function ContenuSocial() {
 function IAAssistant() {
   const [question, setQuestion] = useState('');
   const [response, setResponse] = useState('');
+  const [copiedResponse, setCopiedResponse] = useState(false);
   const [loading, setLoading] = useState(false);
 
   const quickQuestions = ['Comment pitcher sur Spotify ?','Comment choisir ma date de sortie ?','Comment faire une campagne TikTok ?','Comment augmenter mes streams ?'];
@@ -1117,7 +1118,13 @@ function IAAssistant() {
       </div>
       {response && (
         <div style={{background:'#0d0020',padding:'25px',borderRadius:'20px',border:'1px solid #9B59B6'}}>
-          <p style={{color:'#9B59B6',fontWeight:'bold',marginBottom:'15px'}}>🤖 Spotlift IA Manager</p>
+          <div style={{display:'flex',justifyContent:'space-between',alignItems:'center',marginBottom:'15px'}}>
+            <p style={{color:'#9B59B6',fontWeight:'bold',margin:0}}>🤖 Spotlift IA Manager</p>
+            <button onClick={() => { navigator.clipboard.writeText(response); setCopiedResponse(true); setTimeout(() => setCopiedResponse(false), 2000); }}
+              style={{background: copiedResponse ? '#1DB954' : '#1a0030',color: copiedResponse ? '#fff' : '#aaa',border:'1px solid #2d1040',padding:'6px 12px',borderRadius:'8px',cursor:'pointer',fontSize:'12px'}}>
+              {copiedResponse ? '✅ Copié !' : '📋 Copier'}
+            </button>
+          </div>
           <p style={{color:'#ccc',lineHeight:'1.8',whiteSpace:'pre-wrap',margin:0}}>{response}</p>
         </div>
       )}
