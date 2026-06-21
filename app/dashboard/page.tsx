@@ -366,8 +366,8 @@ function SearchSpotify() {
           {a.image && <img src={a.image} style={{width:'50px',height:'50px',borderRadius:'50%'}} alt={a.name}/>}
           <div style={{flex:1}}>
             <p style={{fontWeight:'bold',margin:'0 0 4px 0'}}>{a.name}</p>
-            <p style={{color:'#9B59B6',margin:'0 0 4px 0',fontSize:'13px'}}>👥 {a.followers?.toLocaleString()} followers</p>
-            <p style={{color:'#aaa',margin:0,fontSize:'12px'}}>⭐ Popularité : {a.popularity}/100</p>
+            {a.followers > 0 && <p style={{color:'#9B59B6',margin:'0 0 4px 0',fontSize:'13px'}}>👥 {a.followers?.toLocaleString()} followers</p>}
+            {a.popularity > 0 && <p style={{color:'#aaa',margin:0,fontSize:'12px'}}>⭐ Popularité : {a.popularity}/100</p>}
           </div>
           <a href={a.externalUrl} target="_blank" style={{background:'#1DB954',color:'#fff',padding:'8px 14px',borderRadius:'20px',textDecoration:'none',fontSize:'12px',fontWeight:'bold'}}>Spotify</a>
         </div>
@@ -378,7 +378,7 @@ function SearchSpotify() {
           <div style={{flex:1}}>
             <p style={{fontWeight:'bold',margin:'0 0 4px 0'}}>{t.name}</p>
             <p style={{color:'#9B59B6',margin:'0 0 4px 0',fontSize:'13px'}}>{t.artist}</p>
-            <p style={{color:'#aaa',margin:0,fontSize:'12px'}}>⭐ {t.popularity}/100</p>
+            {t.popularity > 0 && <p style={{color:'#aaa',margin:0,fontSize:'12px'}}>⭐ {t.popularity}/100</p>}
           </div>
           <a href={t.externalUrl} target="_blank" style={{background:'#1DB954',color:'#fff',padding:'8px 14px',borderRadius:'20px',textDecoration:'none',fontSize:'12px',fontWeight:'bold'}}>Spotify</a>
         </div>
