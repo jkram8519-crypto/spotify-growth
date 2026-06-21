@@ -579,6 +579,10 @@ const searchSpotify = async (query: string) => {
             </button>
           </div>
           <p style={{color:'#ccc',lineHeight:'1.8',margin:0}}>{pitch}</p>
+          <div style={{marginTop:'15px',paddingTop:'15px',borderTop:'1px solid #2d1040',display:'flex',alignItems:'center',gap:'8px'}}>
+            <span style={{fontSize:'16px'}}>⏱️</span>
+            <p style={{color:'#1DB954',fontSize:'13px',margin:0,fontWeight:'bold'}}>Tu viens d'économiser environ 25 minutes !</p>
+          </div>
         </div>
       )}
     </div>
