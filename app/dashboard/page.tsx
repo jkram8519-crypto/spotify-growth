@@ -1083,7 +1083,7 @@ function IAAssistant() {
     if (!isValidInput(question)) { alert('Merci d\'entrer une question valide.'); return; }
     setLoading(true);
     try {
-      const res = await fetch('/api/assistant', {method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({question})});
+      const res = await fetch('/api/ai-assistant', {method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({question})});
       const data = await res.json();
       setResponse(data.response);
     } catch {
