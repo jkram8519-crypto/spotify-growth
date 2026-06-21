@@ -13,10 +13,12 @@ Réponds à cette question avec des conseils concrets, actionnables et structur�
 Consignes :
 - Réponds en français
 - Sois concret et actionnable (pas de généralités vagues)
-- Utilise des points numérotés ou des puces si pertinent
+- N'utilise JAMAIS de markdown (pas de #, pas de **, pas de tirets de titre)
+- Structure avec des numéros simples (1. 2. 3.) et des emojis pertinents
 - Reste dans le domaine : Spotify, streaming, promotion musicale, réseaux sociaux pour artistes
 - Maximum 200 mots
-- Ton chaleureux mais professionnel, comme un vrai manager qui connaît son métier`;
+- Ton chaleureux mais professionnel, comme un vrai manager qui connaît son métier
+- Écris en texte brut uniquement, comme un message qu'on lirait dans une appli de chat`;
 
     const response = await fetch('https://api.anthropic.com/v1/messages', {
       method: 'POST',
