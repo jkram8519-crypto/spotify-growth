@@ -476,6 +476,11 @@ const searchSpotify = async (query: string) => {
       const data = await res.json();
       if (data.pitch) {
         setPitch(data.pitch);
+        fetch('/api/track-usage', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ userId: user?.id, toolName: 'Pitch Generator' }),
+        }).catch(() => {});
       } else {
         setPitch('Erreur lors de la génération du pitch. Réessaie.');
       }
