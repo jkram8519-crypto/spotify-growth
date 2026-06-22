@@ -282,10 +282,10 @@ const [tutorialStep, setTutorialStep] = useState(0);
         {activeSection === 'playlists' && (plan === 'Free' ? <ProGate plan={plan} feature="Playlist Finder" /> : <PlaylistFinder user={user} />)}
 
         {/* ANALYTICS IA */}
-        {activeSection === 'analytics' && (plan === 'Free' ? <ProGate plan={plan} feature="Analytics IA" /> : <AnalyticsIA user={user} />
+        {activeSection === 'analytics' && (plan === 'Free' ? <ProGate plan={plan} feature="Analytics IA" /> : <AnalyticsIA user={user} />)}
 
         {/* GROWTH SCORE */}
-         {activeSection === 'growth' && (plan === 'Free' ? <ProGate plan={plan} feature="Growth Score" /> : <GrowthScore user={user} />
+         {activeSection === 'growth' && (plan === 'Free' ? <ProGate plan={plan} feature="Growth Score" /> : <GrowthScore user={user} />)}
 
         {/* VIRAL POTENTIEL */}
         {activeSection === 'viral' && (plan === 'Pro+' ? <ViralPotentiel /> : <ProPlusGate plan={plan} feature="Viral Potentiel" />)}
@@ -294,14 +294,14 @@ const [tutorialStep, setTutorialStep] = useState(0);
         {activeSection === 'profil' && (plan === 'Pro+' ? <ProfilArtiste user={user} />: <ProPlusGate plan={plan} feature="Optimisation Profil Artiste" />)}
         
         {/* CONTENU SOCIAL */}
-                {activeSection === 'contenu' && (plan === 'Free' ? <ProGate plan={plan} feature="Contenu Social" /> : <ContenuSocial user={user} />
+                {activeSection === 'contenu' && (plan === 'Free' ? <ProGate plan={plan} feature="Contenu Social" /> : <ContenuSocial user={user} />)}
 
 
         {/* IA ASSISTANT */}
-        {activeSection === 'ia' && (plan === 'Free' ? <ProGate plan={plan} feature="IA Assistant" /> : <IAAssistant user={user} />
+        {activeSection === 'ia' && (plan === 'Free' ? <ProGate plan={plan} feature="IA Assistant" /> : <IAAssistant user={user} />)}
 
         {/* MULTI PLATEFORMES */}
-        {activeSection === 'multi' && (plan === 'Free' ? <ProGate plan={plan} feature="Multi-Plateformes" /> : <MultiPlateformes user={user} />
+        {activeSection === 'multi' && (plan === 'Free' ? <ProGate plan={plan} feature="Multi-Plateformes" /> : <MultiPlateformes user={user} />)}
 
         {activeSection === 'referral' && <Referral user={user} plan={plan} />}
 
