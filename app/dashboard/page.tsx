@@ -279,29 +279,29 @@ const [tutorialStep, setTutorialStep] = useState(0);
        {activeSection === 'manager' && (plan === 'Free' ? <ProGate plan={plan} feature="Manager IA — Planning 44 jours" /> : <ManagerIA user={user} />)}
 
         {/* PLAYLIST FINDER */}
-        {activeSection === 'playlists' && (plan === 'Free' ? <ProGate plan={plan} feature="Playlist Finder" /> : <PlaylistFinder />)}
-        
+        {activeSection === 'playlists' && (plan === 'Free' ? <ProGate plan={plan} feature="Playlist Finder" /> : <PlaylistFinder user={user} />)}
+
         {/* ANALYTICS IA */}
-        {activeSection === 'analytics' && (plan === 'Free' ? <ProGate plan={plan} feature="Analytics IA" /> : <AnalyticsIA />)}
+        {activeSection === 'analytics' && (plan === 'Free' ? <ProGate plan={plan} feature="Analytics IA" /> : <AnalyticsIA user={user} />
 
         {/* GROWTH SCORE */}
-         {activeSection === 'growth' && (plan === 'Free' ? <ProGate plan={plan} feature="Growth Score" /> : <GrowthScore />)}
+         {activeSection === 'growth' && (plan === 'Free' ? <ProGate plan={plan} feature="Growth Score" /> : <GrowthScore user={user} />
 
         {/* VIRAL POTENTIEL */}
         {activeSection === 'viral' && (plan === 'Pro+' ? <ViralPotentiel /> : <ProPlusGate plan={plan} feature="Viral Potentiel" />)}
 
         {/* PROFIL ARTISTE */}
-        {activeSection === 'profil' && (plan === 'Pro+' ? <ProfilArtiste /> : <ProPlusGate plan={plan} feature="Optimisation Profil Artiste" />)}
+        {activeSection === 'profil' && (plan === 'Pro+' ? <ProfilArtiste user={user} />: <ProPlusGate plan={plan} feature="Optimisation Profil Artiste" />)}
         
         {/* CONTENU SOCIAL */}
-                {activeSection === 'contenu' && (plan === 'Free' ? <ProGate plan={plan} feature="Contenu Social" /> : <ContenuSocial />)}
+                {activeSection === 'contenu' && (plan === 'Free' ? <ProGate plan={plan} feature="Contenu Social" /> : <ContenuSocial user={user} />
 
 
         {/* IA ASSISTANT */}
-        {activeSection === 'ia' && (plan === 'Free' ? <ProGate plan={plan} feature="IA Assistant" /> : <IAAssistant />)}
+        {activeSection === 'ia' && (plan === 'Free' ? <ProGate plan={plan} feature="IA Assistant" /> : <IAAssistant user={user} />
 
         {/* MULTI PLATEFORMES */}
-        {activeSection === 'multi' && (plan === 'Free' ? <ProGate plan={plan} feature="Multi-Plateformes" /> : <MultiPlateformes />)}
+        {activeSection === 'multi' && (plan === 'Free' ? <ProGate plan={plan} feature="Multi-Plateformes" /> : <MultiPlateformes user={user} />
 
         {activeSection === 'referral' && <Referral user={user} plan={plan} />}
 
@@ -657,11 +657,10 @@ function ManagerIA({ user }: { user: any }) {
   );
 }
 
-function PlaylistFinder() {
+function PlaylistFinder({ user }: { user: any }) {
   const [genre, setGenre] = useState('');
   const [mood, setMood] = useState('');
   const [results, setResults] = useState<any[]>([]);
-
   const findPlaylists = () => {
 if (!isValidInput(genre)) { alert('Merci d\'entrer un genre valide.'); return; }
     const playlists = [
@@ -673,6 +672,11 @@ if (!isValidInput(genre)) { alert('Merci d\'entrer un genre valide.'); return; }
       {name:`${genre} France`,followers:'56K',curator:'FrenchMusic',match:'79%',type:'Indépendante'},
     ];
     setResults(playlists);
+    fetch('/api/track-usage', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ userId: user?.id, toolName: 'Playlist Finder' }),
+    }).catch(() => {});
   };
 
   return (
@@ -709,7 +713,7 @@ if (!isValidInput(genre)) { alert('Merci d\'entrer un genre valide.'); return; }
   );
 }
 
-function AnalyticsIA() {
+function AnalyticsIA({ user }: { user: any }) {
   const [saveRate, setSaveRate] = useState('');
   const [skipRate, setSkipRate] = useState('');
   const [replayRate, setReplayRate] = useState('');
@@ -734,6 +738,11 @@ function AnalyticsIA() {
     if (listen < dur * 0.3) results.push({type:'🔴',title:'Écoute trop courte',desc:`Les auditeurs écoutent seulement ${listen}s sur ${dur}s.`,action:`Place ton drop avant ${Math.round(dur * 0.2)}s.`});
     if (country && country.toLowerCase() !== 'france') results.push({type:'🟡',title:`Audience : ${country}`,desc:`Ton audience principale est en ${country}.`,action:`Cible les playlists de ${country} et lance des ads géolocalisées.`});
     setRecs(results);
+    fetch('/api/track-usage', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ userId: user?.id, toolName: 'Analytics IA' }),
+    }).catch(() => {});
   };
 
   return (
@@ -774,7 +783,7 @@ function AnalyticsIA() {
   );
 }
 
-function GrowthScore() {
+function GrowthScore({ user }: { user: any }) {
   const [streams, setStreams] = useState('');
   const [followers, setFollowers] = useState('');
   const [playlists, setPlaylists] = useState('');
@@ -798,6 +807,11 @@ function GrowthScore() {
     if (re >= 2) s+=10; else if (re === 1) s+=7;
     s+=Math.min(so,10);
     setScore(s);
+    fetch('/api/track-usage', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ userId: user?.id, toolName: 'Growth Score' }),
+    }).catch(() => {});
   };
 
   const color = score !== null ? (score >= 70 ? '#1DB954' : score >= 40 ? '#f39c12' : '#e74c3c') : '#9B59B6';
@@ -951,7 +965,7 @@ function ViralPotentiel() {
   );
 }
 
-function ProfilArtiste() {
+function ProfilArtiste({ user }: { user: any }) {
   const [nom, setNom] = useState('');
   const [photo, setPhoto] = useState('yes');
   const [bio, setBio] = useState('yes');
@@ -976,9 +990,14 @@ function ProfilArtiste() {
     else{score+=0;recs.push({e:'🔴',t:'Active l\'Artist Pick maintenant'});}
     if (claimed==='yes'){score+=15;recs.push({e:'🟢',t:'Profil revendiqué — accès complet Spotify for Artists'});}
     else{score+=0;recs.push({e:'🔴',t:'URGENT : Revendique ton profil sur artists.spotify.com'});}
-    const color = score>=75?'#1DB954':score>=50?'#f39c12':'#e74c3c';
+   const color = score>=75?'#1DB954':score>=50?'#f39c12':'#e74c3c';
     const label = score>=75 ? 'Profil Optimise' : score>=50 ? 'Profil Correct' : 'Profil a Ameliorer';
     setResult({score,recs,color,label:`${label} — ${nom||'Artiste'}`});
+    fetch('/api/track-usage', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ userId: user?.id, toolName: 'Optimisation Profil' }),
+    }).catch(() => {});
   };
 
   return (
@@ -1027,7 +1046,7 @@ function ProfilArtiste() {
   );
 }
 
-function ContenuSocial() {
+function ContenuSocial({ user }: { user: any }) {
   const [track, setTrack] = useState('');
   const [platform, setPlatform] = useState('instagram');
   const [contenu, setContenu] = useState('');
@@ -1046,6 +1065,11 @@ function ContenuSocial() {
       };
       setContenu(templates[platform] || templates.instagram);
       setLoading(false);
+      fetch('/api/track-usage', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ userId: user?.id, toolName: 'Contenu Social' }),
+      }).catch(() => {});
     }, 1000);
   };
 
@@ -1086,7 +1110,7 @@ function ContenuSocial() {
   );
 }
 
-function IAAssistant() {
+function IAAssistant({ user }: { user: any }) {
   const [question, setQuestion] = useState('');
   const [response, setResponse] = useState('');
   const [copiedResponse, setCopiedResponse] = useState(false);
@@ -1101,6 +1125,11 @@ function IAAssistant() {
       const res = await fetch('/api/ai-assistant', {method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({question})});
       const data = await res.json();
       setResponse(data.response);
+      fetch('/api/track-usage', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ userId: user?.id, toolName: 'IA Assistant' }),
+      }).catch(() => {});
     } catch {
       setResponse('Erreur de connexion. Réessaie.');
     }
@@ -1146,7 +1175,7 @@ function IAAssistant() {
   );
 }
 
-function MultiPlateformes() {
+function MultiPlateformes({ user }: { user: any }) {
   const [spStreams, setSpStreams] = useState('');
   const [spFollowers, setSpFollowers] = useState('');
   const [ttViews, setTtViews] = useState('');
@@ -1180,6 +1209,11 @@ function MultiPlateformes() {
       best.name === 'Instagram' ? 'Instagram est fort — convertis ton audience en auditeurs Spotify.' :
       'YouTube performe — crée des clips pour booster tes autres plateformes.';
     setResult({totalF, totalV, platforms, best, tip});
+    fetch('/api/track-usage', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ userId: user?.id, toolName: 'Multi-Plateformes' }),
+    }).catch(() => {});
   };
 
   return (
