@@ -1088,7 +1088,7 @@ function ContenuSocial({ user }: { user: any }) {
         <input value={track} onChange={e => setTrack(e.target.value)}
           style={{width:'100%',background:'#1a0030',border:'1px solid #2d1040',borderRadius:'10px',padding:'12px',color:'#fff',marginBottom:'15px',boxSizing:'border-box'}}/>
         <div style={{display:'flex',gap:'10px',marginBottom:'20px',flexWrap:'wrap'}}>
-          {[{id:'instagram',label:'📸 Instagram'},{id:'tiktok',label:'🎵 TikTok'},{id:'twitter',label:'🐦 Twitter'},{id:'email',label:'📧 Email'}].map(p => (
+          {[{id:'instagram',label:'📸 Instagram'},{id:'tiktok',label:'🎵 TikTok'},{id:'x',label:'✖️ X'},{id:'snapchat',label:'👻 Snapchat'},{id:'discord',label:'🎮 Discord'},{id:'email',label:'📧 Email'}].map(p => (
             <button key={p.id} onClick={() => setPlatform(p.id)}
               style={{padding:'8px 16px',borderRadius:'20px',border:'none',background: platform===p.id ? '#9B59B6' : '#1a0030',color: platform===p.id ? 'white' : '#aaa',cursor:'pointer',fontSize:'13px'}}>
               {p.label}

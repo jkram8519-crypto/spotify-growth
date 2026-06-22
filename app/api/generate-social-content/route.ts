@@ -7,7 +7,9 @@ export async function POST(req: NextRequest) {
     const platformGuides: Record<string, string> = {
       instagram: "Instagram (post ou story) : ton chaleureux, emojis pertinents, hashtags à la fin (5-7 maximum), peut être un peu plus long",
       tiktok: "TikTok : ton direct et accrocheur façon 'POV' ou hook immédiat, court, dynamique, hashtags type #FYP",
-      twitter: "Twitter/X : très court et percutant, 1-2 phrases maximum, un call-to-action clair",
+      x: "X (anciennement Twitter) : très court et percutant, 1-2 phrases maximum, un call-to-action clair",
+      snapchat: "Snapchat : ton très décontracté et personnel, comme un message à un ami proche, court et spontané",
+      discord: "Discord (message à une communauté/serveur musical) : ton chaleureux et communautaire, peut inclure un emoji de réaction, invite à la discussion",
       email: "Email à des fans ou contacts : ton professionnel mais chaleureux, avec un objet, une formule de politesse, et une signature",
     };
 
