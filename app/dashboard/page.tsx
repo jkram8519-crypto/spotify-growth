@@ -276,7 +276,7 @@ const [tutorialStep, setTutorialStep] = useState(0);
         )}
 
         {/* MANAGER IA */}
-       {activeSection === 'manager' && (plan === 'Free' ? <ProGate plan={plan} feature="Manager IA — Planning 44 jours" /> : <ManagerIA />)}
+       {activeSection === 'manager' && (plan === 'Free' ? <ProGate plan={plan} feature="Manager IA — Planning 44 jours" /> : <ManagerIA user={user} />)}
 
         {/* PLAYLIST FINDER */}
         {activeSection === 'playlists' && (plan === 'Free' ? <ProGate plan={plan} feature="Playlist Finder" /> : <PlaylistFinder />)}
@@ -594,7 +594,7 @@ const searchSpotify = async (query: string) => {
   );
 }
 
-function ManagerIA() {
+function ManagerIA({ user }: { user: any }) {
   const [trackName, setTrackName] = useState('');
   const [releaseDate, setReleaseDate] = useState('');
   const [calendar, setCalendar] = useState<any[]>([]);
@@ -621,6 +621,11 @@ function ManagerIA() {
       {day:14,emoji:'🔄',action:`Relance avec nouveau contenu`},
     ];
     setCalendar(items.map(item => ({...item, date: format(addDays(release, item.day)), label: item.day === 0 ? 'JOUR J' : item.day > 0 ? `J+${item.day}` : `J${item.day}`})));
+    fetch('/api/track-usage', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ userId: user?.id, toolName: 'Manager IA' }),
+    }).catch(() => {});
   };
 
   return (
