@@ -10,8 +10,19 @@ export async function POST(req: NextRequest) {
     if (!email || !email.includes('@')) {
       return NextResponse.json({ error: 'Email invalide' }, { status: 400 });
     }
-    await supabase.from('email_leads').insert({ email, source: 'landing' });
 
+    const { data: existing } = await supabase
+      .from('email_leads')
+      .select('id')
+      .eq('email', email)
+      .eq('source', 'landing')
+      .maybeSingle();
+
+    if (existing) {
+      return NextResponse.json({ success: true, alreadySent: true });
+    }
+
+    await supabase.from('email_leads').insert({ email, source: 'landing' });
     await fetch(`${req.nextUrl.origin}/api/send-tips-email`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
