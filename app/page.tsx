@@ -301,6 +301,9 @@ export default function LandingPage() {
           <a href="https://instagram.com/getspotlift" target="_blank" rel="noopener noreferrer" style={{color:'#9B59B6',textDecoration:'none'}}>Instagram</a>
         </div>
         <p style={{margin:0}}>2026 Spotlift. Tous droits reserves.</p>
+        <p style={{margin:'10px 0 0 0',fontSize:'11px',opacity:0.5}}>
+          <a href="https://www.aitoolzdir.com" target="_blank" rel="noopener noreferrer" style={{color:'#666',textDecoration:'none'}}>AI Toolz Dir</a>
+        </p>
       </footer>
 
     </main>
