@@ -1053,24 +1053,30 @@ function ContenuSocial({ user }: { user: any }) {
   const [loading, setLoading] = useState(false);
   const [copiedContenu, setCopiedContenu] = useState(false);
 
-  const generate = () => {
+  const generate = async () => {
     if (!isValidInput(track)) { alert('Merci d\'entrer un nom de track valide.'); return; }
     setLoading(true);
-    setTimeout(() => {
-      const templates: Record<string, string> = {
-        instagram: `🎵 Nouvelle musique disponible !\n\n"${track}" est enfin là ! Un son qui va vous transporter dans un univers unique.\n\nDisponible maintenant sur toutes les plateformes 🎧\n\n#NouvelleMusique #Spotify #Music #NewRelease #ArtisteIndependant`,
-        tiktok: `POV : Tu écoutes "${track}" pour la première fois 👀🎵\n\nCe son va rester dans ta tête toute la journée 🔁\n\nDisponible sur Spotify ⚡\n\n#NewMusic #Spotify #FYP #MusiqueFR`,
-        twitter: `🚀 "${track}" est maintenant disponible sur toutes les plateformes !\n\nLien en bio 👆\n\n#NewMusic #Spotify #ArtisteIndependant`,
-        email: `Sujet: "${track}" est maintenant disponible !\n\nBonjour,\n\nJ'ai le plaisir de vous annoncer la sortie de mon nouveau titre "${track}".\n\nVous pouvez l'écouter dès maintenant sur Spotify et toutes les plateformes de streaming.\n\nMerci pour votre soutien !\n\nCordialement`,
-      };
-      setContenu(templates[platform] || templates.instagram);
-      setLoading(false);
-      fetch('/api/track-usage', {
+    try {
+      const res = await fetch('/api/generate-social-content', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ userId: user?.id, toolName: 'Contenu Social' }),
-      }).catch(() => {});
-    }, 1000);
+        body: JSON.stringify({ track, platform }),
+      });
+      const data = await res.json();
+      if (data.content) {
+        setContenu(data.content);
+        fetch('/api/track-usage', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ userId: user?.id, toolName: 'Contenu Social' }),
+        }).catch(() => {});
+      } else {
+        setContenu('Erreur lors de la génération. Réessaie.');
+      }
+    } catch {
+      setContenu('Erreur de connexion. Réessaie.');
+    }
+    setLoading(false);
   };
 
   return (
