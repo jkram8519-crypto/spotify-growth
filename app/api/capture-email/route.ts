@@ -12,7 +12,7 @@ export async function POST(req: NextRequest) {
     }
     await supabase.from('email_leads').insert({ email, source: 'landing' });
 
-    fetch(`${req.nextUrl.origin}/api/send-tips-email`, {
+    await fetch(`${req.nextUrl.origin}/api/send-tips-email`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ email }),
