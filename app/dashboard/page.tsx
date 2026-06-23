@@ -1004,7 +1004,7 @@ function ProfilArtiste({ user }: { user: any }) {
     <div>
       <h1 style={{fontSize:'28px',fontWeight:'bold',marginBottom:'8px'}}>🎨 Optimisation Profil Artiste</h1>
       <p style={{color:'#aaa',marginBottom:'30px'}}>Analyse ton profil Spotify et optimise chaque élément</p>
-      <p style={{background:'#1a0030',color:'#9B59B6',fontSize:'13px',padding:'10px 14px',borderRadius:'10px',marginBottom:'20px',border:'1px solid #2d1040'}}>💡 Réponds en regardant ton vrai profil Spotify ouvert à côté.</p>
+      <p style={{background:'#1a0030',color:'#9B59B6',fontSize:'13px',padding:'10px 14px',borderRadius:'10px',marginBottom:'20px',border:'1px solid #2d1040'}}>💡 Réponds en regardant ton vrai profil Spotify ouvert à côté. L'IA analyse les informations que tu fournis ci-dessous, pas ton profil en temps réel.</p>
       <div style={{background:'#0d0020',padding:'30px',borderRadius:'20px',border:'1px solid #2d1040',marginBottom:'20px'}}>
         <input value={nom} onChange={e => setNom(e.target.value)} placeholder="Nom d'artiste"
           style={{width:'100%',background:'#1a0030',border:'1px solid #2d1040',borderRadius:'8px',padding:'10px',color:'#fff',marginBottom:'15px',boxSizing:'border-box'}}/>
