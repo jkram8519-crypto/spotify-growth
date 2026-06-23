@@ -973,31 +973,31 @@ function ProfilArtiste({ user }: { user: any }) {
   const [pick, setPick] = useState('yes');
   const [claimed, setClaimed] = useState('yes');
   const [result, setResult] = useState<any>(null);
+  const [loading, setLoading] = useState(false);
 
-  const analyze = () => {
-    let score = 0;
-    const recs = [];
-    if (photo==='yes'){score+=25;recs.push({e:'🟢',t:'Super photo de profil'});}
-    else if (photo==='ok'){score+=15;recs.push({e:'🟡',t:'Investis dans une séance photo pro'});}
-    else{score+=0;recs.push({e:'🔴',t:'URGENT : Ajoute une photo professionnelle'});}
-    if (bio==='yes'){score+=25;recs.push({e:'🟢',t:'Bio complète — excellent !'});}
-    else if (bio==='short'){score+=15;recs.push({e:'🟡',t:'Bio trop courte — ajoute tes influences'});}
-    else{score+=0;recs.push({e:'🔴',t:'URGENT : Écris une bio Spotify'});}
-    if (links==='all'){score+=20;recs.push({e:'🟢',t:'Tous les liens réseaux — parfait !'});}
-    else if (links==='some'){score+=10;recs.push({e:'🟡',t:'Ajoute tous tes liens réseaux'});}
-    else{score+=0;recs.push({e:'🔴',t:'Ajoute tes liens Instagram, TikTok sur Spotify'});}
-    if (pick==='yes'){score+=15;recs.push({e:'🟢',t:'Artist Pick active — bien !'});}
-    else{score+=0;recs.push({e:'🔴',t:'Active l\'Artist Pick maintenant'});}
-    if (claimed==='yes'){score+=15;recs.push({e:'🟢',t:'Profil revendiqué — accès complet Spotify for Artists'});}
-    else{score+=0;recs.push({e:'🔴',t:'URGENT : Revendique ton profil sur artists.spotify.com'});}
-   const color = score>=75?'#1DB954':score>=50?'#f39c12':'#e74c3c';
-    const label = score>=75 ? 'Profil Optimise' : score>=50 ? 'Profil Correct' : 'Profil a Ameliorer';
-    setResult({score,recs,color,label:`${label} — ${nom||'Artiste'}`});
-    fetch('/api/track-usage', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ userId: user?.id, toolName: 'Optimisation Profil' }),
-    }).catch(() => {});
+  const analyze = async () => {
+    setLoading(true);
+    try {
+      const res = await fetch('/api/analyze-profile', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ nom, photo, bio, links, pick, claimed }),
+      });
+      const data = await res.json();
+      if (data.analysis) {
+        setResult({ analysis: data.analysis });
+        fetch('/api/track-usage', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ userId: user?.id, toolName: 'Optimisation Profil' }),
+        }).catch(() => {});
+      } else {
+        setResult({ analysis: 'Erreur lors de l\'analyse. Réessaie.' });
+      }
+    } catch {
+      setResult({ analysis: 'Erreur de connexion. Réessaie.' });
+    }
+    setLoading(false);
   };
 
   return (
@@ -1023,28 +1023,17 @@ function ProfilArtiste({ user }: { user: any }) {
             </select>
           </div>
         ))}
-        <button onClick={analyze}
+        <button onClick={analyze} disabled={loading}
           style={{width:'100%',background:'#9B59B6',color:'#fff',padding:'14px',borderRadius:'10px',fontWeight:'bold',fontSize:'16px',cursor:'pointer',border:'none'}}>
-          🎨 Analyser mon profil
+          {loading ? '⏳ Analyse en cours...' : '🎨 Analyser mon profil'}
         </button>
       </div>
       {result && (
-        <div style={{background:'#0d0020',padding:'25px',borderRadius:'20px',border:'1px solid #2d1040'}}>
-          <div style={{textAlign:'center',marginBottom:'20px'}}>
-            <div style={{fontSize:'60px',fontWeight:'bold',color:result.color}}>{result.score}/100</div>
-            <div style={{fontSize:'16px',color:result.color,fontWeight:'bold'}}>{result.label}</div>
-          </div>
-          {result.recs.map((r:any,i:number) => (
-            <div key={i} style={{background:'#1a0030',padding:'12px',borderRadius:'10px',marginBottom:'8px',display:'flex',gap:'10px',alignItems:'center'}}>
-              <span>{r.e}</span>
-              <span style={{color:'#ccc',fontSize:'13px'}}>{r.t}</span>
-            </div>
-          ))}
+        <div style={{background:'#0d0020',padding:'25px',borderRadius:'20px',border:'1px solid #9B59B6'}}>
+          <p style={{color:'#9B59B6',fontWeight:'bold',marginBottom:'15px'}}>🎨 Analyse de ton profil :</p>
+          <p style={{color:'#ccc',lineHeight:'1.8',whiteSpace:'pre-wrap',margin:0}}>{result.analysis}</p>
         </div>
       )}
-    </div>
-  );
-}
 
 function ContenuSocial({ user }: { user: any }) {
   const [track, setTrack] = useState('');
