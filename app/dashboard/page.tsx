@@ -974,6 +974,7 @@ function ProfilArtiste({ user }: { user: any }) {
   const [claimed, setClaimed] = useState('yes');
   const [result, setResult] = useState<any>(null);
   const [loading, setLoading] = useState(false);
+  const [copiedAnalysis, setCopiedAnalysis] = useState(false);
 
   const analyze = async () => {
     setLoading(true);
@@ -1030,7 +1031,13 @@ function ProfilArtiste({ user }: { user: any }) {
       </div>
       {result && (
         <div style={{background:'#0d0020',padding:'25px',borderRadius:'20px',border:'1px solid #9B59B6'}}>
-          <p style={{color:'#9B59B6',fontWeight:'bold',marginBottom:'15px'}}>🎨 Analyse de ton profil :</p>
+          <div style={{display:'flex',justifyContent:'space-between',alignItems:'center',marginBottom:'15px'}}>
+            <p style={{color:'#9B59B6',fontWeight:'bold',margin:0}}>🎨 Analyse de ton profil :</p>
+            <button onClick={() => { navigator.clipboard.writeText(result.analysis); setCopiedAnalysis(true); setTimeout(() => setCopiedAnalysis(false), 2000); }}
+              style={{background: copiedAnalysis ? '#1DB954' : '#1a0030',color: copiedAnalysis ? '#fff' : '#aaa',border:'1px solid #2d1040',padding:'6px 12px',borderRadius:'8px',cursor:'pointer',fontSize:'12px'}}>
+              {copiedAnalysis ? '✅ Copié !' : '📋 Copier'}
+            </button>
+          </div>
           <p style={{color:'#ccc',lineHeight:'1.8',whiteSpace:'pre-wrap',margin:0}}>{result.analysis}</p>
         </div>
       )}
