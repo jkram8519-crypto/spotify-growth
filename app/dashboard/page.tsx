@@ -1034,6 +1034,9 @@ function ProfilArtiste({ user }: { user: any }) {
           <p style={{color:'#ccc',lineHeight:'1.8',whiteSpace:'pre-wrap',margin:0}}>{result.analysis}</p>
         </div>
       )}
+    </div>
+  );
+}
 
 function ContenuSocial({ user }: { user: any }) {
   const [track, setTrack] = useState('');
