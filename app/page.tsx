@@ -59,10 +59,8 @@ export default function LandingPage() {
  useEffect(() => {
     const params = new URLSearchParams(window.location.search);
     const ref = params.get('ref');
-    alert('DEBUG ref capturé: ' + ref);
     if (ref) {
       localStorage.setItem('signupSource', ref);
-      alert('DEBUG localStorage sauvegardé: ' + localStorage.getItem('signupSource'));
     }
   }, []);
   const t = {
