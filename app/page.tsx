@@ -56,14 +56,15 @@ function EmailCapture() {
 
 export default function LandingPage() {
   const [lang, setLang] = useState<'fr'|'en'>('fr');
-  useEffect(() => {
+ useEffect(() => {
     const params = new URLSearchParams(window.location.search);
     const ref = params.get('ref');
+    alert('DEBUG ref capturé: ' + ref);
     if (ref) {
       localStorage.setItem('signupSource', ref);
+      alert('DEBUG localStorage sauvegardé: ' + localStorage.getItem('signupSource'));
     }
   }, []);
-
   const t = {
     fr: {
       badge: "L'outil IA #1 pour artistes independants",
