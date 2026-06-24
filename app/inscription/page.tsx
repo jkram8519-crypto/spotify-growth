@@ -33,7 +33,7 @@ export default function InscriptionPage() {
           const data = await res.json();
           if(data.url) { window.location.href = data.url; return; }
         }
-        const trialRes = await fetch('/api/checkout-trial', {method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({email})});
+        const trialRes = await fetch('/api/checkout-trial', {method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({email, source: signupSource})});
         const trialData = await trialRes.json();
         if(trialData.url) { window.location.href = trialData.url; return; }
         window.location.href = "/dashboard";
