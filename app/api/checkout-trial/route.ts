@@ -3,7 +3,7 @@ import Stripe from 'stripe';
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, { apiVersion: '2026-04-22.dahlia' });
 export async function POST(req: NextRequest) {
   try {
-    const { email } = await req.json();
+    const { email, source } = await req.json();
     const session = await stripe.checkout.sessions.create({
       payment_method_types: ['card'],
       mode: 'subscription',
@@ -19,6 +19,7 @@ export async function POST(req: NextRequest) {
       }],
       subscription_data: {
         trial_period_days: 3,
+        metadata: { source: source || 'direct' },
       },
       success_url: 'https://getspotlift.com/dashboard',
       cancel_url: 'https://getspotlift.com/inscription',

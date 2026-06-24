@@ -1,5 +1,5 @@
 'use client';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
 function EmailCapture() {
   const [email, setEmail] = useState('');
@@ -56,6 +56,13 @@ function EmailCapture() {
 
 export default function LandingPage() {
   const [lang, setLang] = useState<'fr'|'en'>('fr');
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    const ref = params.get('ref');
+    if (ref) {
+      localStorage.setItem('signupSource', ref);
+    }
+  }, []);
 
   const t = {
     fr: {
