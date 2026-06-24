@@ -10,7 +10,8 @@ export default function InscriptionPage() {
 
   const handleInscription = async () => {
     setChargement(true);
-    const signupSource = localStorage.getItem('signupSource') || 'direct';
+  const signupSource = localStorage.getItem('signupSource') || 'direct';
+    alert('DEBUG signupSource lu: ' + signupSource);
     const { error } = await supabase.auth.signUp({ email, password: motDePasse });
     if (error) {
       setMessage("Erreur : " + error.message);
