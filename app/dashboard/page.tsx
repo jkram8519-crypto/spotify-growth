@@ -397,11 +397,7 @@ function ProGate({ plan, feature }: { plan: string, feature: string }) {
       <p style={{color:'#aaa',marginBottom:'25px',fontSize:'16px'}}>
         <strong style={{color:'#fff'}}>{feature}</strong> est disponible uniquement dans le plan Pro.
       </p>
-      <div style={{background:'#1a0030',padding:'20px',borderRadius:'15px',marginBottom:'25px',border:'1px solid #9B59B650'}}>
-        <p style={{color:'#9B59B6',fontWeight:'bold',margin:'0 0 5px 0'}}>🎁 Offre exclusive</p>
-        <p style={{color:'#fff',fontSize:'24px',fontWeight:'bold',margin:'0 0 5px 0'}}>Code EARLY10</p>
-        <p style={{color:'#aaa',fontSize:'13px',margin:0}}>1 mois Pro gratuit !</p>
-      </div>
+      
       <a href="/pricing" style={{background:'linear-gradient(135deg,#6C3483,#9B59B6)',color:'#fff',padding:'14px 40px',borderRadius:'30px',textDecoration:'none',fontWeight:'bold',fontSize:'16px',display:'inline-block',boxShadow:'0 0 20px rgba(155,89,182,0.4)'}}>
         Passer en Pro — 9.99€/mois →
       </a>
