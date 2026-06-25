@@ -31,6 +31,14 @@ export default function Blog() {
       temps: '12 min',
       date: 'Bientôt',
     },
+    {
+      slug: 'musique-jeux-video-gta',
+      titre: 'Ce que les bandes sons de jeux vidéo nous apprennent sur la production musicale',
+      description: 'Les licences de jeux en monde ouvert ont marqué la culture musicale. Quelles leçons pour ta stratégie Spotify.',
+      categorie: 'CULTURE MUSICALE',
+      temps: '6 min',
+      date: '25 Juin 2026',
+    },
   ];
 
   return (
