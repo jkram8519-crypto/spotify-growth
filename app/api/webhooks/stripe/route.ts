@@ -45,7 +45,7 @@ export async function POST(req: NextRequest) {
       const customer = await stripe.customers.retrieve(subscription.customer as string) as Stripe.Customer;
       const email = customer.email;
       if (email) {
-        const { data: userData } = await supabase.auth.admin.listUsers();
+        const { data: userData } = await supabase.auth.admin.listUsers({ page: 1, perPage: 1000 });
         const user = userData.users.find(u => u.email === email);
         if (user) {
           await supabase.from('subscriptions').upsert({
