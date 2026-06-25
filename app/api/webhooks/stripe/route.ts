@@ -22,7 +22,7 @@ export async function POST(req: NextRequest) {
       const email = customer.email;
       const source = subscription.metadata?.source || 'direct';
       if (email) {
-        const { data: userData } = await supabase.auth.admin.listUsers();
+        const { data: userData } = await supabase.auth.admin.listUsers({ page: 1, perPage: 1000 });
         const user = userData.users.find(u => u.email === email);
         if (user) {
           const isTrialing = subscription.status === 'trialing';
