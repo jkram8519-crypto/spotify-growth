@@ -716,29 +716,33 @@ function AnalyticsIA({ user }: { user: any }) {
   const [listenTime, setListenTime] = useState('');
   const [country, setCountry] = useState('');
   const [duration, setDuration] = useState('');
-  const [recs, setRecs] = useState<any[]>([]);
+  const [analysis, setAnalysis] = useState('');
+  const [loading, setLoading] = useState(false);
+  const [copiedAnalysis, setCopiedAnalysis] = useState(false);
 
-  const analyze = () => {
-    const save = parseInt(saveRate) || 0;
-    const skip = parseInt(skipRate) || 0;
-    const replay = parseInt(replayRate) || 0;
-    const listen = parseInt(listenTime) || 0;
-    const dur = parseInt(duration) || 180;
-    const results = [];
-    if (save < 10) results.push({type:'🔴',title:'Taux de save trop bas',desc:`${save}% de saves. Rends ton hook plus mémorable dans les 30 premières secondes.`,action:'Raccourcis ton intro et place ton meilleur moment avant 30 secondes.'});
-    else if (save >= 20) results.push({type:'🟢',title:'Excellent taux de save !',desc:`${save}% de saves — tu as un vrai fan base.`,action:'Lance une campagne de pré-save pour ton prochain track.'});
-    else results.push({type:'🟡',title:'Taux de save correct',desc:`${save}% de saves — dans la moyenne.`,action:'Ajoute un call-to-action dans tes posts : "Sauvegarde ce track !"'});
-    if (skip > 50) results.push({type:'🔴',title:'Skip rate élevé',desc:`${skip}% des auditeurs skippent ton track.`,action:'Analyse où ils quittent et raccourcis cette partie.'});
-    else if (skip < 20) results.push({type:'🟢',title:'Excellent engagement !',desc:`Seulement ${skip}% de skips.`,action:'Ce track est parfait pour les playlists algorithmiques Spotify.'});
-    if (replay > 30) results.push({type:'🟢',title:'Moment viral détecté !',desc:`${replay}% de replay rate.`,action:'Identifie ce moment exact et utilise-le comme extrait TikTok.'});
-    if (listen < dur * 0.3) results.push({type:'🔴',title:'Écoute trop courte',desc:`Les auditeurs écoutent seulement ${listen}s sur ${dur}s.`,action:`Place ton drop avant ${Math.round(dur * 0.2)}s.`});
-    if (country && country.toLowerCase() !== 'france') results.push({type:'🟡',title:`Audience : ${country}`,desc:`Ton audience principale est en ${country}.`,action:`Cible les playlists de ${country} et lance des ads géolocalisées.`});
-    setRecs(results);
-    fetch('/api/track-usage', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ userId: user?.id, toolName: 'Analytics IA' }),
-    }).catch(() => {});
+  const analyze = async () => {
+    setLoading(true);
+    try {
+      const res = await fetch('/api/analyze-stats', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ saveRate, skipRate, replayRate, listenTime, country, duration }),
+      });
+      const data = await res.json();
+      if (data.analysis) {
+        setAnalysis(data.analysis);
+        fetch('/api/track-usage', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ userId: user?.id, toolName: 'Analytics IA' }),
+        }).catch(() => {});
+      } else {
+        setAnalysis('Erreur lors de l\'analyse. Réessaie.');
+      }
+    } catch {
+      setAnalysis('Erreur de connexion. Réessaie.');
+    }
+    setLoading(false);
   };
 
   return (
@@ -763,21 +767,27 @@ function AnalyticsIA({ user }: { user: any }) {
             </div>
           ))}
         </div>
-        <button onClick={analyze}
+        <button onClick={analyze} disabled={loading}
           style={{width:'100%',background:'#9B59B6',color:'#fff',padding:'14px',borderRadius:'10px',fontWeight:'bold',fontSize:'16px',cursor:'pointer',border:'none'}}>
-          🔍 Analyser mes performances
+          {loading ? '⏳ Analyse en cours...' : '🔍 Analyser mes performances'}
         </button>
       </div>
-      {recs.map((r,i) => (
-        <div key={i} style={{background:'#0d0020',padding:'15px',borderRadius:'12px',marginBottom:'10px',borderLeft:`4px solid ${r.type==='🔴'?'#e74c3c':r.type==='🟢'?'#1DB954':'#f39c12'}`}}>
-          <p style={{fontWeight:'bold',margin:'0 0 5px 0'}}>{r.type} {r.title}</p>
-          <p style={{color:'#aaa',fontSize:'13px',margin:'0 0 5px 0'}}>{r.desc}</p>
-          <p style={{color:'#3498db',fontSize:'13px',margin:0}}>✅ Action : {r.action}</p>
+      {analysis && (
+        <div style={{background:'#0d0020',padding:'25px',borderRadius:'20px',border:'1px solid #9B59B6'}}>
+          <div style={{display:'flex',justifyContent:'space-between',alignItems:'center',marginBottom:'15px'}}>
+            <p style={{color:'#9B59B6',fontWeight:'bold',margin:0}}>📊 Analyse de tes performances :</p>
+            <button onClick={() => { navigator.clipboard.writeText(analysis); setCopiedAnalysis(true); setTimeout(() => setCopiedAnalysis(false), 2000); }}
+              style={{background: copiedAnalysis ? '#1DB954' : '#1a0030',color: copiedAnalysis ? '#fff' : '#aaa',border:'1px solid #2d1040',padding:'6px 12px',borderRadius:'8px',cursor:'pointer',fontSize:'12px'}}>
+              {copiedAnalysis ? '✅ Copié !' : '📋 Copier'}
+            </button>
+          </div>
+          <p style={{color:'#ccc',lineHeight:'1.8',whiteSpace:'pre-wrap',margin:0}}>{analysis}</p>
         </div>
-      ))}
+      )}
     </div>
   );
 }
+
 
 function GrowthScore({ user }: { user: any }) {
   const [streams, setStreams] = useState('');
@@ -1116,9 +1126,8 @@ function IAAssistant({ user }: { user: any }) {
   const [response, setResponse] = useState('');
   const [copiedResponse, setCopiedResponse] = useState(false);
   const [loading, setLoading] = useState(false);
-
+  
   const quickQuestions = ['Comment pitcher sur Spotify ?','Comment choisir ma date de sortie ?','Comment faire une campagne TikTok ?','Comment augmenter mes streams ?'];
-
   const ask = async () => {
     if (!isValidInput(question)) { alert('Merci d\'entrer une question valide.'); return; }
     setLoading(true);
