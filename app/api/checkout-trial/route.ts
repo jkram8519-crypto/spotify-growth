@@ -21,7 +21,7 @@ export async function POST(req: NextRequest) {
         trial_period_days: 3,
         metadata: { source: source || 'direct' },
       },
-      success_url: 'https://getspotlift.com/dashboard',
+      success_url: 'https://getspotlift.com/dashboard?conversion=1',
       cancel_url: 'https://getspotlift.com/inscription',
     });
     return NextResponse.json({ url: session.url });

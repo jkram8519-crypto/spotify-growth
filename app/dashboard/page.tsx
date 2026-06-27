@@ -17,6 +17,18 @@ export default function Dashboard() {
   const [plan, setPlan] = useState('Free');
 
   useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    if (params.get('conversion') === '1') {
+      if (typeof (window as any).gtag === 'function') {
+        (window as any).gtag('event', 'conversion', { send_to: 'AW-18217088729/F6v1COPGy8YcENntyu5D' });
+      }
+      params.delete('conversion');
+      const newUrl = window.location.pathname + (params.toString() ? '?' + params.toString() : '');
+      window.history.replaceState({}, '', newUrl);
+    }
+  }, []);
+
+  useEffect(() => {
     const checkPlan = async () => {
       const { data } = await supabase.from('subscriptions').select('plan, status, trial_end').eq('user_id', (await supabase.auth.getUser()).data.user?.id).in('status', ['active', 'trial']).single();
       if (data?.plan) {
