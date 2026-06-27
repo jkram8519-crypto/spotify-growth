@@ -18,9 +18,13 @@ export default function Dashboard() {
 
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
+    alert('DEBUG param conversion: ' + params.get('conversion'));
     if (params.get('conversion') === '1') {
       if (typeof (window as any).gtag === 'function') {
         (window as any).gtag('event', 'conversion', { send_to: 'AW-18217088729/F6v1COPGy8YcENntyu5D' });
+        alert('DEBUG conversion envoyee a Google Ads !');
+      } else {
+        alert('DEBUG gtag non disponible !');
       }
       params.delete('conversion');
       const newUrl = window.location.pathname + (params.toString() ? '?' + params.toString() : '');
