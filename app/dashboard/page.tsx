@@ -288,8 +288,8 @@ const [tutorialStep, setTutorialStep] = useState(0);
          {activeSection === 'growth' && (plan === 'Free' ? <ProGate plan={plan} feature="Growth Score" /> : <GrowthScore user={user} />)}
 
         {/* VIRAL POTENTIEL */}
-        {activeSection === 'viral' && (plan === 'Pro+' ? <ViralPotentiel /> : <ProPlusGate plan={plan} feature="Viral Potentiel" />)}
-
+        {activeSection === 'viral' && (plan === 'Pro+' ? <ViralPotentiel user={user} /> : <ProPlusGate plan={plan} feature="Viral Potentiel" />)}
+        
         {/* PROFIL ARTISTE */}
         {activeSection === 'profil' && (plan === 'Pro+' ? <ProfilArtiste user={user} />: <ProPlusGate plan={plan} feature="Optimisation Profil Artiste" />)}
         
@@ -866,35 +866,39 @@ function GrowthScore({ user }: { user: any }) {
   );
 }
 
-function ViralPotentiel() {
+function ViralPotentiel({ user }: { user: any }) {
   const [intro, setIntro] = useState('');
   const [drop, setDrop] = useState('');
   const [bpm, setBpm] = useState('');
   const [genre, setGenre] = useState('electronic');
   const [hook, setHook] = useState('yes');
   const [dance, setDance] = useState('yes');
-  const [result, setResult] = useState<any>(null);
-
-  const analyze = () => {
-    let score = 0;
-    const signals = [];
-    const i = parseInt(intro)||0;
-    const d = parseInt(drop)||0;
-    const b = parseInt(bpm)||0;
-    if (i <= 10) { score+=25; signals.push({e:'🟢',t:'Intro courte — parfait pour TikTok'}); }
-    else if (i <= 20) { score+=15; signals.push({e:'🟡',t:'Intro correcte — essaie de la raccourcir'}); }
-    else { score+=0; signals.push({e:'🔴',t:'Intro trop longue — les auditeurs vont skipper'}); }
-    if (d <= 20) { score+=25; signals.push({e:'🟢',t:'Drop très rapide — potentiel viral élevé'}); }
-    else if (d <= 35) { score+=15; signals.push({e:'🟡',t:'Drop correct — essaie de le placer avant 20s'}); }
-    else { score+=5; signals.push({e:'🔴',t:'Drop trop tardif — 70% partent avant 30s sur TikTok'}); }
-    if (b >= 120 && b <= 140) { score+=20; signals.push({e:'🟢',t:'BPM idéal pour les playlists Dance et TikTok'}); }
-    else { score+=10; signals.push({e:'🟡',t:'BPM correct pour le streaming Spotify'}); }
-    if (hook === 'yes') { score+=20; signals.push({e:'🟢',t:'Hook mémorable — clé du succès viral'}); }
-    else if (hook === 'maybe') { score+=10; signals.push({e:'🟡',t:'Hook à améliorer'}); }
-    else { score+=0; signals.push({e:'🔴',t:'Pas de hook — difficile de percer sans élément mémorable'}); }
-    if (dance === 'yes') { score+=10; signals.push({e:'🟢',t:'Partie dansable — parfait pour les challenges TikTok'}); }
-    else { score+=5; signals.push({e:'🟡',t:'Mise sur l\'émotion pour les Reels'}); }
-    setResult({score, signals, label: score >= 75 ? 'VIRAL POTENTIEL ÉLEVÉ 🔥' : score >= 50 ? 'BON POTENTIEL 📈' : 'POTENTIEL LIMITÉ ⚠️', color: score >= 75 ? '#1DB954' : score >= 50 ? '#f39c12' : '#e74c3c'});
+  const [analysis, setAnalysis] = useState('');
+  const [loading, setLoading] = useState(false);
+  const [copiedViral, setCopiedViral] = useState(false);
+  const analyze = async () => {
+    setLoading(true);
+    try {
+      const res = await fetch('/api/analyze-viral', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ intro, drop, bpm, genre, hook, dance }),
+      });
+      const data = await res.json();
+      if (data.analysis) {
+        setAnalysis(data.analysis);
+        fetch('/api/track-usage', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ userId: user?.id, toolName: 'Viral Potentiel' }),
+        }).catch(() => {});
+      } else {
+        setAnalysis('Erreur lors de l\'analyse. Réessaie.');
+      }
+    } catch {
+      setAnalysis('Erreur de connexion. Réessaie.');
+    }
+    setLoading(false);
   };
 
   return (
@@ -948,23 +952,21 @@ function ViralPotentiel() {
             </select>
           </div>
         </div>
-        <button onClick={analyze}
+        <button onClick={analyze} disabled={loading}
           style={{width:'100%',background:'#e74c3c',color:'#fff',padding:'14px',borderRadius:'10px',fontWeight:'bold',fontSize:'16px',cursor:'pointer',border:'none'}}>
-          🔥 Analyser le potentiel viral
+          {loading ? '⏳ Analyse en cours...' : '🔥 Analyser le potentiel viral'}
         </button>
       </div>
-      {result && (
-        <div style={{background:'#0d0020',padding:'25px',borderRadius:'20px',border:'1px solid #2d1040'}}>
-          <div style={{textAlign:'center',marginBottom:'20px'}}>
-            <div style={{fontSize:'60px',fontWeight:'bold',color:result.color}}>{result.score}%</div>
-            <div style={{fontSize:'18px',fontWeight:'bold',color:result.color}}>{result.label}</div>
+      {analysis && (
+        <div style={{background:'#0d0020',padding:'25px',borderRadius:'20px',border:'1px solid #e74c3c'}}>
+          <div style={{display:'flex',justifyContent:'space-between',alignItems:'center',marginBottom:'15px'}}>
+            <p style={{color:'#e74c3c',fontWeight:'bold',margin:0}}>🔥 Analyse de potentiel viral :</p>
+            <button onClick={() => { navigator.clipboard.writeText(analysis); setCopiedViral(true); setTimeout(() => setCopiedViral(false), 2000); }}
+              style={{background: copiedViral ? '#1DB954' : '#1a0030',color: copiedViral ? '#fff' : '#aaa',border:'1px solid #2d1040',padding:'6px 12px',borderRadius:'8px',cursor:'pointer',fontSize:'12px'}}>
+              {copiedViral ? '✅ Copié !' : '📋 Copier'}
+            </button>
           </div>
-          {result.signals.map((s:any,i:number) => (
-            <div key={i} style={{background:'#1a0030',padding:'12px',borderRadius:'10px',marginBottom:'8px',display:'flex',gap:'10px',alignItems:'center'}}>
-              <span style={{fontSize:'18px'}}>{s.e}</span>
-              <span style={{color:'#ccc',fontSize:'13px'}}>{s.t}</span>
-            </div>
-          ))}
+          <p style={{color:'#ccc',lineHeight:'1.8',whiteSpace:'pre-wrap',margin:0}}>{analysis}</p>
         </div>
       )}
     </div>
