@@ -55,7 +55,7 @@ useEffect(() => {
     };
     checkPlan();
   }, []);
-const [showWelcome, setShowWelcome] = useState(true);
+const [showWelcome, setShowWelcome] = useState(false);
   const [showToolsModal, setShowToolsModal] = useState(false);
 const [tutorialStep, setTutorialStep] = useState(0);
   useEffect(() => {
@@ -65,6 +65,11 @@ const [tutorialStep, setTutorialStep] = useState(0);
       else window.location.href = '/login';
     };
     getUser();
+    const tutoDejaVu = localStorage.getItem('spotlift_tutoriel_vu');
+    if (!tutoDejaVu) {
+      setShowWelcome(true);
+      localStorage.setItem('spotlift_tutoriel_vu', 'true');
+    }
   }, []);
 
 
