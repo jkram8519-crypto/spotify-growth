@@ -72,7 +72,7 @@ export default function LandingPage() {
       cta1: "Essayer Gratuitement",
       cta2: "Voir les resultats",
       trust1: "3 jours gratuits",
-      trust2: "Carte requise",
+      trust2: "Sans carte bancaire",
       trust3: "Sans engagement",
     },
     en: {
@@ -83,7 +83,7 @@ export default function LandingPage() {
       cta1: "Try for Free",
       cta2: "See results",
       trust1: "3 days free trial",
-      trust2: "Card required",
+      trust2: "No card required",
       trust3: "No commitment",
     }
   };
