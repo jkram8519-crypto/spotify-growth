@@ -156,7 +156,7 @@ export default function BlogMeilleursOutils() {
 
         <div style={{background:'linear-gradient(135deg,#6C3483,#9B59B6)',padding:'30px',borderRadius:'20px',textAlign:'center',marginTop:'40px'}}>
           <h2 style={{fontSize:'24px',fontWeight:'bold',marginBottom:'10px'}}>Essaie Spotlift gratuitement</h2>
-          <p style={{marginBottom:'20px',opacity:0.9}}>11 outils IA pour artistes indépendants en un seul dashboard</p>
+          <p style={{marginBottom:'20px',opacity:0.9}}>12 outils IA pour artistes indépendants en un seul dashboard</p>
           <a href="/inscription" style={{background:'#fff',color:'#6C3483',padding:'14px 30px',borderRadius:'30px',textDecoration:'none',fontWeight:'bold',fontSize:'16px',display:'inline-block'}}>
             Commencer gratuitement →
           </a>

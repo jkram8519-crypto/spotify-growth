@@ -208,7 +208,7 @@ export default function LandingPage() {
       </section>
 
       <section id="features" style={{padding:'80px 40px'}}>
-        <h2 style={{textAlign:'center',fontSize:'36px',fontWeight:'bold',marginBottom:'20px'}}>11 outils IA puissants</h2>
+        <h2 style={{textAlign:'center',fontSize:'36px',fontWeight:'bold',marginBottom:'20px'}}>12 outils IA puissants</h2>
         <p style={{textAlign:'center',color:'#aaa',marginBottom:'40px',fontSize:'16px'}}>Tout ce dont un artiste independant a besoin</p>
         <div style={{display:'grid',gridTemplateColumns:'repeat(auto-fit, minmax(280px, 1fr))',gap:'20px',maxWidth:'1100px',margin:'0 auto'}}>
           {[
@@ -222,6 +222,7 @@ export default function LandingPage() {
             {emoji:'🎨',title:'Optimisation Profil',desc:'Analyse ton profil Spotify et optimise chaque element.',badge:'NOUVEAU'},
             {emoji:'🤖',title:'IA Assistant Marketing',desc:"Pose tes questions a l'IA manager.",badge:'NOUVEAU'},
             {emoji:'📊',title:'Dashboard Multi-Plateformes',desc:'Centralise tes stats Spotify, TikTok, Instagram.',badge:'NOUVEAU'},
+            {emoji:'🎬',title:'Script Vidéo IA',desc:'Génère un script complet pour tes vidéos TikTok et Reels.',badge:'NOUVEAU'},
             {emoji:'💬',title:'Feedback Artiste',desc:"Donne ton avis et aide a ameliorer l'app.",badge:''},
           ].map((f,i) => (
             <div key={i} style={{background:'#0d0020',padding:'30px',borderRadius:'20px',border:f.badge?'2px solid #9B59B6':'1px solid #2d1040'}}>

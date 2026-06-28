@@ -139,7 +139,7 @@ const [tutorialStep, setTutorialStep] = useState(0);
   <div style={{position:"fixed",top:0,left:0,right:0,bottom:0,background:"rgba(0,0,0,0.85)",zIndex:1000,display:"flex",alignItems:"center",justifyContent:"center",padding:"20px"}} onClick={() => setShowToolsModal(false)}>
       <div style={{background:"#0d0020",padding:"30px",borderRadius:"24px",maxWidth:"500px",width:"100%",border:"1px solid #9B59B6",maxHeight:"80vh",overflowY:"auto"}} onClick={e => e.stopPropagation()}>
             <div style={{display:"flex",justifyContent:"space-between",alignItems:"center",marginBottom:"20px"}}>
-                    <h2 style={{margin:0,fontSize:"22px",fontWeight:"bold"}}> Les 11 outils IA</h2>
+                    <h2 style={{margin:0,fontSize:"22px",fontWeight:"bold"}}> Les 12 outils IA</h2>
                             <button onClick={() => setShowToolsModal(false)} style={{background:"none",border:"none",color:"#aaa",cursor:"pointer",fontSize:"20px"}}></button>
                                   </div>
                                         {[
@@ -281,7 +281,7 @@ const [tutorialStep, setTutorialStep] = useState(0);
   </div>
   <div style={{display:'flex',gap:'10px'}}>
     <button onClick={() => setShowToolsModal(true)} style={{background:'#0d0020',padding:'10px 15px',borderRadius:'10px',textAlign:'center',border:'1px solid #9B59B6',cursor:'pointer'}}>
-      <p style={{margin:0,color:'#9B59B6',fontWeight:'bold',fontSize:'18px'}}>11</p>
+      <p style={{margin:0,color:'#9B59B6',fontWeight:'bold',fontSize:'18px'}}>12</p>
       <p style={{margin:0,color:'#555',fontSize:'11px'}}>Outils IA</p>
     </button>
     <button onClick={() => window.location.href='/pricing'} style={{background:'#0d0020',padding:'10px 15px',borderRadius:'10px',textAlign:'center',border:'1px solid #2d1040',cursor:'pointer'}}>
