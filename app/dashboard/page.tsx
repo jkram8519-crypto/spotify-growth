@@ -95,6 +95,7 @@ const [tutorialStep, setTutorialStep] = useState(0);
   {id:'contenu', emoji:'📱', label:'Contenu Social'},
   {id:'ia', emoji:'🤖', label:'IA Assistant'},
   {id:'multi', emoji:'📊', label:'Multi-Plateformes'},
+  {id:'script', emoji:'🎬', label:'Script Vidéo IA'},
 ].map((item) => (
   <button key={item.id} onClick={() => setActiveSection(item.id)}
     style={{display:'flex',alignItems:'center',gap:'10px',padding:'10px 15px',background: activeSection === item.id ? '#2d1040' : 'transparent',border:'none',color: activeSection === item.id ? '#fff' : '#aaa',cursor:'pointer',width:'100%',textAlign:'left',borderRadius:'8px',fontSize:'13px',borderLeft: activeSection === item.id ? '3px solid #9B59B6' : '3px solid transparent'}}>
@@ -321,6 +322,8 @@ const [tutorialStep, setTutorialStep] = useState(0);
 
         {/* MULTI PLATEFORMES */}
         {activeSection === 'multi' && (plan === 'Free' ? <ProGate plan={plan} feature="Multi-Plateformes" /> : <MultiPlateformes user={user} />)}
+
+         {activeSection === 'script' && (plan === 'Free' ? <ProGate plan={plan} feature="Script Video IA" /> : <ScriptVideo user={user} />)}
 
         {activeSection === 'referral' && <Referral user={user} plan={plan} />}
 
@@ -1361,6 +1364,87 @@ function Feedback({ user }: { user: any }) {
             style={{width:'100%',background:'#9B59B6',color:'#fff',padding:'14px',borderRadius:'10px',fontWeight:'bold',fontSize:'16px',cursor:'pointer',border:'none'}}>
             {loading ? '⏳ Envoi...' : '💬 Envoyer le feedback'}
           </button>
+        </div>
+      )}
+    </div>
+  );
+}
+function ScriptVideo({ user }: { user: any }) {
+  const [track, setTrack] = useState('');
+  const [genre, setGenre] = useState('Electronic');
+  const [ambiance, setAmbiance] = useState('');
+  const [platform, setPlatform] = useState('tiktok');
+  const [script, setScript] = useState('');
+  const [loading, setLoading] = useState(false);
+  const [copiedScript, setCopiedScript] = useState(false);
+
+  const generate = async () => {
+    if (!isValidInput(track)) { alert('Merci d\'entrer un nom de track valide.'); return; }
+    setLoading(true);
+    try {
+      const res = await fetch('/api/generate-video-script', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ track, genre, ambiance, platform }),
+      });
+      const data = await res.json();
+      if (data.script) {
+        setScript(data.script);
+        fetch('/api/track-usage', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ userId: user?.id, toolName: 'Script Video' }),
+        }).catch(() => {});
+      } else {
+        setScript('Erreur lors de la génération. Réessaie.');
+      }
+    } catch {
+      setScript('Erreur de connexion. Réessaie.');
+    }
+    setLoading(false);
+  };
+
+  return (
+    <div>
+      <h1 style={{fontSize:'28px',fontWeight:'bold',marginBottom:'8px'}}>🎬 Générateur de Script Vidéo IA</h1>
+      <p style={{color:'#aaa',marginBottom:'30px'}}>Crée un script complet pour ta prochaine vidéo TikTok/Reels</p>
+      <p style={{background:'#1a0030',color:'#9B59B6',fontSize:'13px',padding:'10px 14px',borderRadius:'10px',marginBottom:'20px',border:'1px solid #2d1040'}}>💡 Décris l'ambiance de ton morceau pour un script vraiment adapté.</p>
+      <div style={{background:'#0d0020',padding:'30px',borderRadius:'20px',border:'1px solid #2d1040',marginBottom:'20px'}}>
+        <input value={track} onChange={e => setTrack(e.target.value)}
+          placeholder="Nom du track"
+          style={{width:'100%',background:'#1a0030',border:'1px solid #2d1040',borderRadius:'10px',padding:'12px',color:'#fff',marginBottom:'15px',boxSizing:'border-box'}}/>
+        <select value={genre} onChange={e => setGenre(e.target.value)}
+          style={{width:'100%',background:'#1a0030',border:'1px solid #2d1040',borderRadius:'10px',padding:'12px',color:'#fff',marginBottom:'15px',boxSizing:'border-box'}}>
+          {['Electronic','Hip-Hop','Pop','R&B','Rock','Latin','Jazz','Autre'].map(g => (
+            <option key={g} value={g}>{g}</option>
+          ))}
+        </select>
+        <input value={ambiance} onChange={e => setAmbiance(e.target.value)}
+          placeholder="Ambiance du morceau (ex: énergique, mélancolique...)"
+          style={{width:'100%',background:'#1a0030',border:'1px solid #2d1040',borderRadius:'10px',padding:'12px',color:'#fff',marginBottom:'15px',boxSizing:'border-box'}}/>
+        <div style={{display:'flex',gap:'10px',marginBottom:'20px',flexWrap:'wrap'}}>
+          {[{id:'tiktok',label:'🎵 TikTok'},{id:'reels',label:'📸 Reels'},{id:'shorts',label:'▶️ Shorts'}].map(p => (
+            <button key={p.id} onClick={() => setPlatform(p.id)}
+              style={{padding:'8px 16px',borderRadius:'20px',border:'none',background: platform===p.id ? '#9B59B6' : '#1a0030',color: platform===p.id ? 'white' : '#aaa',cursor:'pointer',fontSize:'13px'}}>
+              {p.label}
+            </button>
+          ))}
+        </div>
+        <button onClick={generate} disabled={loading}
+          style={{width:'100%',background:'#9B59B6',color:'#fff',padding:'14px',borderRadius:'10px',fontWeight:'bold',fontSize:'16px',cursor:'pointer',border:'none'}}>
+          {loading ? '⏳ Génération...' : '🎬 Générer le script'}
+        </button>
+      </div>
+      {script && (
+        <div style={{background:'#0d0020',padding:'25px',borderRadius:'20px',border:'1px solid #9B59B6'}}>
+          <div style={{display:'flex',justifyContent:'space-between',alignItems:'center',marginBottom:'15px'}}>
+            <p style={{color:'#9B59B6',fontWeight:'bold',margin:0}}>🎬 Script généré :</p>
+            <button onClick={() => { navigator.clipboard.writeText(script); setCopiedScript(true); setTimeout(() => setCopiedScript(false), 2000); }}
+              style={{background: copiedScript ? '#1DB954' : '#1a0030',color: copiedScript ? '#fff' : '#aaa',border:'1px solid #2d1040',padding:'6px 12px',borderRadius:'8px',cursor:'pointer',fontSize:'12px'}}>
+              {copiedScript ? '✅ Copié !' : '📋 Copier'}
+            </button>
+          </div>
+          <p style={{color:'#ccc',lineHeight:'1.8',whiteSpace:'pre-wrap',margin:0}}>{script}</p>
         </div>
       )}
     </div>
