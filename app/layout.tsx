@@ -4,6 +4,7 @@ import Script from 'next/dist/client/script';
 
 export const metadata: Metadata = {
   title: 'Spotlift — L\'outil IA pour artistes indépendants',
+  manifest: '/manifest.json',
   description: 'Génère des pitches Spotify pro en 10 secondes, planifie tes sorties avec l\'IA et analyse tes performances. 12 outils IA pour artistes indépendants.',
   keywords: 'Spotify, artiste indépendant, pitch generator, playlist, music marketing, IA, croissance Spotify, curateur playlist, promotion musicale, pitch Spotify gratuit, outil musique IA, manager musical IA, analytics Spotify, growth score Spotify, viral TikTok musique, beatmaker, producteur indépendant, sortie musicale, streaming musique',
   authors: [{ name: 'Spotlift' }],
@@ -36,6 +37,10 @@ export const metadata: Metadata = {
   verification: {
     google: 'zV9gBgseiPFnk20Gu70XCFt0CsGQ5W7PA-u0vFS2Dp8',
   },
+};
+
+export const viewport = {
+  themeColor: '#9B59B6',
 };
 
 export default function RootLayout({
