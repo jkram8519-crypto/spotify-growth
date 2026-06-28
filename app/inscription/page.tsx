@@ -1,26 +1,27 @@
 "use client";
 import { useState } from "react";
 import { supabase } from "../../supabase";
-
 export default function InscriptionPage() {
   const [email, setEmail] = useState("");
   const [motDePasse, setMotDePasse] = useState("");
   const [chargement, setChargement] = useState(false);
   const [message, setMessage] = useState("");
-
   const handleInscription = async () => {
     setChargement(true);
-  const signupSource = localStorage.getItem('signupSource') || 'direct';
     const { error } = await supabase.auth.signUp({ email, password: motDePasse });
     if (error) {
       setMessage("Erreur : " + error.message);
     } else {
       setMessage("Compte cree ! Redirection...");
-      
       await fetch("/api/welcome-email", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email, name: email.split("@")[0] })
+      }).catch(() => {});
+      await fetch("/api/trial", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email })
       }).catch(() => {});
       setTimeout(async () => {
         const pendingPlan = localStorage.getItem('pendingPlan');
@@ -32,15 +33,11 @@ export default function InscriptionPage() {
           const data = await res.json();
           if(data.url) { window.location.href = data.url; return; }
         }
-        const trialRes = await fetch('/api/checkout-trial', {method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({email, source: signupSource})});
-        const trialData = await trialRes.json();
-        if(trialData.url) { window.location.href = trialData.url; return; }
         window.location.href = "/dashboard";
       }, 1500);
     }
     setChargement(false);
   };
-
   return (
     <main style={{minHeight:"100vh",background:"#000",color:"#fff",display:"flex",alignItems:"center",justifyContent:"center"}}>
       <div style={{background:"#0d0020",padding:"40px",borderRadius:"20px",width:"100%",maxWidth:"400px",border:"1px solid #2d1040",margin:"20px"}}>
@@ -54,7 +51,7 @@ export default function InscriptionPage() {
           {chargement ? "Chargement..." : "S'inscrire"}
         </button>
         <p style={{color:'#555',fontSize:'12px',textAlign:'center',marginTop:'15px'}}>
-  🔒 Essai Pro gratuit 3 jours · Carte requise · Annulation en 1 clic
+  🔒 Essai Pro gratuit 3 jours · Sans carte bancaire · Sans engagement
 </p>
         {message && <p style={{textAlign:"center",marginTop:"15px",color:"#9B59B6"}}>{message}</p>}
         <p style={{textAlign:"center",marginTop:"20px",color:"#aaa"}}>
