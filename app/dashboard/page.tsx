@@ -56,6 +56,7 @@ useEffect(() => {
     checkPlan();
   }, []);
 const [showWelcome, setShowWelcome] = useState(false);
+const [showMoreMenu, setShowMoreMenu] = useState(false);
   const [showToolsModal, setShowToolsModal] = useState(false);
 const [tutorialStep, setTutorialStep] = useState(0);
   useEffect(() => {
@@ -270,12 +271,40 @@ const [tutorialStep, setTutorialStep] = useState(0);
     <span style={{fontSize:'20px'}}>🤖</span>
     <span>IA</span>
   </button>
-  <button onClick={() => setActiveSection('multi')}
-    style={{background:'none',border:'none',color: activeSection === 'multi' ? '#9B59B6' : '#555',cursor:'pointer',display:'flex',flexDirection:'column',alignItems:'center',gap:'4px',fontSize:'10px',padding:'5px'}}>
-    <span style={{fontSize:'20px'}}>📊</span>
-    <span>Multi</span>
+  <button onClick={() => setShowMoreMenu(true)}
+    style={{background:'none',border:'none',color: '#555',cursor:'pointer',display:'flex',flexDirection:'column',alignItems:'center',gap:'4px',fontSize:'10px',padding:'5px'}}>
+    <span style={{fontSize:'20px'}}>☰</span>
+    <span>Plus</span>
   </button>
 </div>
+{showMoreMenu && (
+  <div style={{position:'fixed',top:0,left:0,right:0,bottom:0,background:'rgba(0,0,0,0.85)',zIndex:200,display:'flex',alignItems:'flex-end'}} onClick={() => setShowMoreMenu(false)}>
+    <div style={{background:'#0d0020',width:'100%',borderRadius:'20px 20px 0 0',padding:'25px',maxHeight:'70vh',overflowY:'auto'}} onClick={e => e.stopPropagation()}>
+      <h3 style={{margin:'0 0 20px 0'}}>Tous les outils</h3>
+      {[
+        {id:'viral',emoji:'🔥',label:'Viral Potentiel'},
+        {id:'profil',emoji:'🎨',label:'Profil Artiste'},
+        {id:'contenu',emoji:'📱',label:'Contenu Social'},
+        {id:'script',emoji:'🎬',label:'Script Vidéo IA'},
+        {id:'referral',emoji:'🎁',label:'Parrainer un ami'},
+        {id:'feedback',emoji:'💬',label:'Feedback'},
+        {id:'search',emoji:'🔍',label:'Recherche Spotify'},
+      ].map(item => (
+        <button key={item.id} onClick={() => { setActiveSection(item.id); setShowMoreMenu(false); }}
+          style={{display:'flex',alignItems:'center',gap:'12px',padding:'12px',width:'100%',background:'none',border:'none',color:'#fff',textAlign:'left',fontSize:'15px',borderBottom:'1px solid #2d1040'}}>
+          <span style={{fontSize:'20px'}}>{item.emoji}</span>{item.label}
+        </button>
+      ))}
+      <a href="/profil" style={{display:'flex',alignItems:'center',gap:'12px',padding:'12px',color:'#aaa',textDecoration:'none',fontSize:'15px',borderBottom:'1px solid #2d1040'}}>👤 Mon profil</a>
+      <a href="https://billing.stripe.com/p/login/14A28reaL5DP8rt0NC1B600" target="_blank" style={{display:'flex',alignItems:'center',gap:'12px',padding:'12px',color:'#e74c3c',textDecoration:'none',fontSize:'15px',borderBottom:'1px solid #2d1040'}}>❌ Gérer abonnement</a>
+      <button onClick={async () => { await supabase.auth.signOut(); window.location.href = '/login'; }}
+        style={{display:'flex',alignItems:'center',gap:'12px',padding:'12px',width:'100%',background:'none',border:'none',color:'#555',textAlign:'left',fontSize:'15px'}}>
+        Déconnexion
+      </button>
+    </div>
+  </div>
+)}
+
 {/* HEADER DE BIENVENUE */}
 <div style={{background:'linear-gradient(135deg,#2d1040,#1a0030)',padding:'25px 30px',borderRadius:'20px',marginBottom:'25px',border:'1px solid #9B59B650',display:'flex',justifyContent:'space-between',alignItems:'center',boxShadow:'0 4px 20px rgba(155,89,182,0.15)'}}>
   <div>
