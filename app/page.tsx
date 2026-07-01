@@ -65,23 +65,23 @@ export default function LandingPage() {
   }, []);
   const t = {
     fr: {
-      badge: "L'outil IA #1 pour artistes independants",
-      title1: "Fais exploser ta",
+      badge: "L'outil IA pour artistes indépendants",
+      title1: "Developpe ta",
       title2: "croissance Spotify",
-      subtitle: "Pitches IA, Manager de sortie, Analytics et bien plus. Economise 1h par semaine et augmente tes streams.",
+      subtitle: "Pitches IA, Manager de sortie, Analytics et bien plus. Gagne du temps sur tes taches marketing et concentre-toi sur ta musique.",
       cta1: "Essayer Gratuitement",
-      cta2: "Voir les resultats",
+      cta2: "Voir les temoignages clients",
       trust1: "3 jours gratuits",
       trust2: "Sans carte bancaire",
       trust3: "Sans engagement",
     },
     en: {
-      badge: "The #1 AI tool for independent artists",
-      title1: "Explode your",
-      title2: "Spotify growth",
-      subtitle: "AI Pitches, Release Manager, Analytics and more. Save 1h per week and increase your streams.",
+      badge: "The AI tool for independent artists",
+      title1: "Grow your",
+      title2: "Spotify presence",
+      subtitle: "AI Pitches, Release Manager, Analytics and more. Save time on marketing tasks and focus on your music.",
       cta1: "Try for Free",
-      cta2: "See results",
+      cta2: "See customer stories",
       trust1: "3 days free trial",
       trust2: "No card required",
       trust3: "No commitment",
@@ -98,7 +98,7 @@ export default function LandingPage() {
         </a>
         <div style={{display:'flex',gap:'10px',alignItems:'center'}}>
           <a href="/blog" style={{color:'#aaa',textDecoration:'none'}}>Blog</a>
-          <a href="/case-studies" style={{color:'#aaa',textDecoration:'none',fontSize:'14px',display:'none'}} className="desktop-nav">Resultats</a>
+          <a href="/case-studies" style={{color:'#aaa',textDecoration:'none',fontSize:'14px',display:'none'}} className="desktop-nav">Temoignages</a>
           <a href="/faq" style={{color:'#aaa',textDecoration:'none',fontSize:'14px',display:'none'}} className="desktop-nav">FAQ</a>
           <button onClick={() => setLang(lang === 'fr' ? 'en' : 'fr')} style={{background:'#1a0030',color:'#9B59B6',border:'1px solid #9B59B6',padding:'6px 12px',borderRadius:'15px',cursor:'pointer',fontSize:'13px',fontWeight:'bold'}}>
             {lang === 'fr' ? 'EN' : 'FR'}
@@ -160,8 +160,8 @@ export default function LandingPage() {
                 <p style={{color:'#555',fontSize:'10px',margin:0}}>Match playlist</p>
               </div>
               <div style={{background:'#1a0030',padding:'12px',borderRadius:'10px',textAlign:'center',border:'1px solid #2d1040'}}>
-                <p style={{color:'#1DB954',fontWeight:'bold',fontSize:'18px',margin:0}}>3x</p>
-                <p style={{color:'#555',fontSize:'10px',margin:0}}>Plus de streams</p>
+                <p style={{color:'#1DB954',fontWeight:'bold',fontSize:'18px',margin:0}}>IA</p>
+                <p style={{color:'#555',fontSize:'10px',margin:0}}>Suivi streams</p>
               </div>
               <div style={{background:'#1a0030',padding:'12px',borderRadius:'10px',textAlign:'center',border:'1px solid #2d1040'}}>
                 <p style={{color:'#f39c12',fontWeight:'bold',fontSize:'18px',margin:0}}>10s</p>
@@ -175,9 +175,9 @@ export default function LandingPage() {
       <section style={{display:'flex',justifyContent:'center',gap:'30px',padding:'40px 40px',background:'#0d0020',flexWrap:'wrap'}}>
         {[
           {value:'500+',label:'Artistes actifs',icon:'👥'},
-          {value:'Gratuit',label:'Pour commencer',icon:'💰'},
+          {value:'Gratuit',label:'Pour commencer',icon:'🎁'},
           {value:'11',label:'Outils IA',icon:'🤖'},
-          {value:'+10%',label:'Streams en moyenne',icon:'📈'},
+          {value:'Temps reel',label:'Suivi de tes streams',icon:'📈'},
         ].map((s,i) => (
           <div key={i} style={{textAlign:'center',minWidth:'120px'}}>
             <p style={{fontSize:'28px',margin:'0 0 5px 0'}}>{s.icon}</p>
@@ -188,23 +188,26 @@ export default function LandingPage() {
       </section>
 
       <section style={{padding:'80px 40px',background:'linear-gradient(135deg,#1a0030,#0d0020)',textAlign:'center'}}>
-        <h2 style={{fontSize:'36px',fontWeight:'bold',marginBottom:'15px'}}>Resultats reels</h2>
-        <p style={{color:'#aaa',marginBottom:'40px',fontSize:'16px'}}>Voir comment nos utilisateurs augmentent leurs streams</p>
+        <h2 style={{fontSize:'36px',fontWeight:'bold',marginBottom:'15px'}}>Temoignages clients</h2>
+        <p style={{color:'#aaa',marginBottom:'40px',fontSize:'16px'}}>Ce que nos utilisateurs disent de leur experience avec Spotlift</p>
         <div style={{display:'grid',gridTemplateColumns:'repeat(auto-fit, minmax(250px, 1fr))',gap:'20px',maxWidth:'1000px',margin:'0 auto'}}>
           {[
-            {name:'Alex M.',result:'+150% de pitches acceptes',time:'3 mois',icon:'🎵'},
-            {name:'Sarah K.',result:'+150% de playlists',time:'1 sortie',icon:'🎤'},
-            {name:'DJ Marco',result:'+300% de playlists trouvees',time:'2 mois',icon:'🎧'},
+            {name:'Alex M.',result:"J'ai constate une nette progression de mes pitches acceptes",time:'en 3 mois',icon:'🎵'},
+            {name:'Sarah K.',result:'Mes playlists ont clairement augmente',time:'apres 1 sortie',icon:'🎤'},
+            {name:'DJ Marco',result:'J\'ai trouve bien plus de playlists pertinentes',time:'en 2 mois',icon:'🎧'},
           ].map((r,i) => (
             <div key={i} style={{background:'#000',padding:'25px',borderRadius:'16px',border:'1px solid #2d1040'}}>
               <p style={{fontSize:'32px',margin:'0 0 10px 0'}}>{r.icon}</p>
               <p style={{color:'#1DB954',fontWeight:'bold',fontSize:'16px',margin:'0 0 5px 0'}}>{r.result}</p>
-              <p style={{color:'#aaa',fontSize:'13px',margin:'0 0 10px 0'}}>en {r.time}</p>
+              <p style={{color:'#aaa',fontSize:'13px',margin:'0 0 10px 0'}}>{r.time}</p>
               <p style={{color:'#ccc',fontSize:'13px',margin:0}}>{r.name}</p>
             </div>
           ))}
         </div>
-        <a href="/case-studies" style={{marginTop:'30px',display:'inline-block',color:'#9B59B6',textDecoration:'none',fontWeight:'bold'}}>Voir tous les cas d&apos;etude →</a>
+        <p style={{color:'#666',fontSize:'12px',marginTop:'25px',fontStyle:'italic'}}>
+          Temoignages bases sur l&apos;experience individuelle de nos utilisateurs. Les resultats peuvent varier.
+        </p>
+        <a href="/case-studies" style={{marginTop:'20px',display:'inline-block',color:'#9B59B6',textDecoration:'none',fontWeight:'bold'}}>Voir tous les cas d&apos;etude →</a>
       </section>
 
       <section id="features" style={{padding:'80px 40px'}}>
@@ -241,7 +244,7 @@ export default function LandingPage() {
           {[
             {text:'"Le Pitch Generator m a vraiment aide a structurer mes messages aux curateurs."',name:'Alex M.',role:'Producteur'},
             {text:'"Le Manager IA m a permis de planifier ma sortie sans stress."',name:'Sarah K.',role:'Artiste'},
-            {text:'"L Analytics IA m a montre que mon intro etait trop longue. Mes streams ont augmente."',name:'DJ Marco',role:'DJ'},
+            {text:'"L Analytics IA m a montre que mon intro etait trop longue. J\'ai ajuste et ca a paye."',name:'DJ Marco',role:'DJ'},
           ].map((t,i) => (
             <div key={i} style={{background:'#000',padding:'30px',borderRadius:'20px',border:'1px solid #2d1040'}}>
               <p style={{color:'#ccc',lineHeight:'1.7',margin:'0 0 20px 0',fontStyle:'italic'}}>{t.text}</p>
@@ -288,20 +291,19 @@ export default function LandingPage() {
       <EmailCapture />
 
       <section style={{padding:'80px 40px',textAlign:'center',background:'linear-gradient(135deg,#6C3483,#9B59B6)'}}>
-        <h2 style={{fontSize:'36px',fontWeight:'bold',marginBottom:'20px'}}>Pret a faire exploser ta musique ?</h2>
+        <h2 style={{fontSize:'36px',fontWeight:'bold',marginBottom:'20px'}}>Pret a developper ta presence sur Spotify ?</h2>
         <p style={{fontSize:'18px',marginBottom:'30px',opacity:0.9}}>Rejoins 500+ artistes qui utilisent Spotlift</p>
         <a href="/inscription" style={{background:'#000',color:'#9B59B6',padding:'16px 40px',borderRadius:'30px',textDecoration:'none',fontWeight:'bold',fontSize:'16px',display:'inline-block'}}>Essayer Gratuitement →</a>
       </section>
 
       <footer style={{background:'#000',borderTop:'1px solid #222',padding:'40px 40px',textAlign:'center',color:'#aaa',fontSize:'14px'}}>
         <div style={{display:'flex',gap:'20px',justifyContent:'center',flexWrap:'wrap',marginBottom:'20px'}}>
-          <a href="/case-studies" style={{color:'#aaa',textDecoration:'none'}}>Resultats</a>
+          <a href="/case-studies" style={{color:'#aaa',textDecoration:'none'}}>Temoignages</a>
           <a href="/faq" style={{color:'#aaa',textDecoration:'none'}}>FAQ</a>
           <a href="/cgv" style={{color:'#aaa',textDecoration:'none'}}>CGV</a>
           <a href="/mentions-legales" style={{color:'#aaa',textDecoration:'none'}}>Mentions legales</a>
           <a href="/confidentialite" style={{color:'#aaa',textDecoration:'none'}}>Confidentialite</a>
           <a href="/charte" style={{color:'#aaa',textDecoration:'none'}}>Charte Ethique</a>
-          <a href="/case-studies" style={{color:'#aaa',textDecoration:'none'}}>Temoignages</a>
         </div>
         <div style={{display:'flex',gap:'15px',justifyContent:'center',marginBottom:'20px'}}>
           <a href="https://www.tiktok.com/@j.k.ra" target="_blank" rel="noopener noreferrer" style={{color:'#9B59B6',textDecoration:'none'}}>TikTok</a>
