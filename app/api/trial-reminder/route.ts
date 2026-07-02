@@ -1,6 +1,14 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { createClient } from '@supabase/supabase-js';
 
+function cleanPrenom(email: string): string {
+  const raw = email.split('@')[0];
+  const noNumbers = raw.replace(/[0-9]/g, '');
+  const firstPart = noNumbers.split(/[._+-]/)[0];
+  if (!firstPart) return 'toi';
+  return firstPart.charAt(0).toUpperCase() + firstPart.slice(1).toLowerCase();
+}
+
 export async function GET(req: NextRequest) {
   // Sécurité : vérifie le secret du cron
   const authHeader = req.headers.get('authorization');
@@ -36,7 +44,7 @@ export async function GET(req: NextRequest) {
       const email = userData?.user?.email;
       if (!email) continue;
 
-      const prenom = email.split('@')[0];
+      const prenom = cleanPrenom(email);
       const html = `<div style="background:#000;color:#fff;padding:40px;font-family:sans-serif;max-width:600px;margin:0 auto;">
 <h1 style="color:#9B59B6;">Ton essai Pro se termine bientôt ⏰</h1>
 <p>Bonjour ${prenom},</p>
