@@ -1,8 +1,12 @@
 import { NextRequest, NextResponse } from 'next/server';
+import { isClean } from '@/lib/moderation';
 
 export async function POST(req: NextRequest) {
   try {
     const { track, genre } = await req.json();
+    if (!isClean(String(track) + ' ' + String(genre || ''))) {
+      return NextResponse.json({ error: 'Propos inappropries. Merci de reformuler.' }, { status: 400 });
+    }
 
     const pitches = [
       `"${track}" est un titre ${genre || 'musical'} captivant qui fusionne émotion et énergie. Avec une production soignée et une atmosphère unique, ce track est parfait pour les playlists de découverte. Son son distinctif saura toucher un large public et créer une connexion immédiate avec l'auditeur.`,
