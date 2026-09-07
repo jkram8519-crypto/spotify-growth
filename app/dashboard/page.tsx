@@ -1,6 +1,7 @@
 'use client';
 import { useState, useEffect } from 'react';
 import { supabase } from '../../supabase';
+import SpotifyEmbedPlayer from '@/components/SpotifyEmbedPlayer';
 
 function isValidInput(value: string): boolean {
   if (!value || !value.trim()) return false;
@@ -506,7 +507,7 @@ const searchSpotify = async (query: string) => {
   try {
     const res = await fetch(`/api/spotify/search?q=${encodeURIComponent(query)}&type=track`);
     const data = await res.json();
-    setSpotifyResults(data.tracks?.items || []);
+    setSpotifyResults(data.tracks || []);
   } catch (e) {
     setSpotifyResults([]);
   }
@@ -519,7 +520,7 @@ const searchSpotify = async (query: string) => {
     if (!isValidInput(description)) { alert('Merci d\'ajouter une description de ton morceau.'); return; }
     setLoading(true);
     try {
-      const artistInfo = selectedTrack ? selectedTrack.artists[0]?.name : '';
+      const artistInfo = selectedTrack ? selectedTrack.artist : '';
       const res = await fetch('/api/generate-pitch', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -557,24 +558,29 @@ const searchSpotify = async (query: string) => {
         {spotifyResults.length > 0 && !selectedTrack && (
           <div style={{background:'#0d0020',border:'1px solid #2d1040',borderRadius:'10px',marginBottom:'15px',maxHeight:'200px',overflowY:'auto'}}>
             {spotifyResults.map((t: any) => (
-              <div key={t.id} onClick={() => { setSelectedTrack(t); setTrack(t.name); setArtistName(t.artists[0]?.name || ''); setSpotifyResults([]); }}
+              <div key={t.id} onClick={() => { setSelectedTrack(t); setTrack(t.name); setArtistName(t.artist || ''); setSpotifyResults([]); }}
                 style={{padding:'10px 15px',cursor:'pointer',borderBottom:'1px solid #2d1040',display:'flex',alignItems:'center',gap:'10px'}}>
-                {t.album?.images?.[2]?.url && <img src={t.album.images[2].url} style={{width:'35px',height:'35px',borderRadius:'5px'}} alt="cover"/>}
+                {t.image && <img src={t.image} style={{width:'35px',height:'35px',borderRadius:'5px'}} alt="cover"/>}
                 <div>
                   <p style={{margin:0,color:'#fff',fontSize:'13px',fontWeight:'bold'}}>{t.name}</p>
-                  <p style={{margin:0,color:'#aaa',fontSize:'11px'}}>{t.artists[0]?.name}</p>
+                  <p style={{margin:0,color:'#aaa',fontSize:'11px'}}>{t.artist}</p>
                 </div>
               </div>
             ))}
           </div>
         )}
         {selectedTrack && (
-          <div style={{background:'#1a0030',border:'1px solid #1DB954',borderRadius:'10px',padding:'10px 15px',marginBottom:'15px',display:'flex',alignItems:'center',gap:'10px'}}>
-            {selectedTrack.album?.images?.[2]?.url && <img src={selectedTrack.album.images[2].url} style={{width:'40px',height:'40px',borderRadius:'5px'}} alt="cover"/>}
-            <div>
-              <p style={{margin:0,color:'#1DB954',fontSize:'13px',fontWeight:'bold'}}>Track Spotify trouve !</p>
-              <p style={{margin:0,color:'#ccc',fontSize:'12px'}}>{selectedTrack.name} — {selectedTrack.artists[0]?.name}</p>
+          <div style={{marginBottom:'15px'}}>
+            <div style={{background:'#1a0030',border:'1px solid #1DB954',borderRadius:'10px',padding:'10px 15px',marginBottom:'10px',display:'flex',alignItems:'center',gap:'10px'}}>
+              {selectedTrack.image && <img src={selectedTrack.image} style={{width:'40px',height:'40px',borderRadius:'5px'}} alt="cover"/>}
+              <div>
+                <p style={{margin:0,color:'#1DB954',fontSize:'13px',fontWeight:'bold'}}>Track Spotify trouve !</p>
+                <p style={{margin:0,color:'#ccc',fontSize:'12px'}}>{selectedTrack.name} — {selectedTrack.artist}</p>
+              </div>
             </div>
+            {selectedTrack.externalUrl && (
+              <SpotifyEmbedPlayer url={selectedTrack.externalUrl} compact />
+            )}
           </div>
         )}
         <label style={{color:'#aaa',fontSize:'14px',display:'block',marginBottom:'6px'}}>Statut du track</label>

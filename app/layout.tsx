@@ -3,6 +3,7 @@ import './globals.css';
 import Script from 'next/dist/client/script';
 
 export const metadata: Metadata = {
+  verification: { google: 'w17B4UcOtxx0p-Ii0l56PIKEtxE1zQB9m0V-_lKToD8' },
   title: 'Spotlift — L\'outil IA pour artistes indépendants',
   manifest: '/manifest.json',
   description: 'Génère des pitches Spotify pro en 10 secondes, planifie tes sorties avec l\'IA et analyse tes performances. 12 outils IA pour artistes indépendants.',
