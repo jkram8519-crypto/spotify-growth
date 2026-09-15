@@ -1,4 +1,5 @@
 'use client';
+import SpotliftLogo3D from './components/SpotliftLogo3D';
 import { useState, useEffect } from 'react';
 
 function EmailCapture() {
@@ -93,7 +94,7 @@ export default function LandingPage() {
 
       <nav style={{display:'flex',justifyContent:'space-between',alignItems:'center',padding:'15px 20px',borderBottom:'1px solid #222',position:'sticky',top:0,background:'#000',zIndex:100}}>
         <a href="/" style={{display:'flex',alignItems:'center',gap:'10px',textDecoration:'none'}}>
-          <img src="/spotlift-icon.svg" alt="Logo" style={{width:'35px',height:'35px',borderRadius:'8px'}}/>
+          <SpotliftLogo3D size={40} parallax={false} className="" style={{}} />
           <span style={{fontSize:'16px',fontWeight:'bold',color:'#9B59B6'}}>Spotlift</span>
         </a>
         <div style={{display:'flex',gap:'10px',alignItems:'center'}}>
