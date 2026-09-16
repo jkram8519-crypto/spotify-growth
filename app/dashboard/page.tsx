@@ -1,6 +1,7 @@
 'use client';
 import { useState, useEffect } from 'react';
 import { supabase } from '../../supabase';
+import GrowthOrb3D from '../components/GrowthOrb3D';
 import SpotifyEmbedPlayer from '@/components/SpotifyEmbedPlayer';
 
 function isValidInput(value: string): boolean {
@@ -914,7 +915,7 @@ function GrowthScore({ user }: { user: any }) {
       </div>
       {score !== null && (
         <div style={{background:'#0d0020',padding:'30px',borderRadius:'20px',border:'1px solid #2d1040',textAlign:'center'}}>
-          <div style={{fontSize:'80px',fontWeight:'bold',color}}>{score}</div>
+          <div style={{display:'flex',flexDirection:'column',alignItems:'center',gap:'10px'}}><GrowthOrb3D score={score} size={220} className="" style={{}} /><div style={{fontSize:'56px',fontWeight:'bold',color}}>{score}</div></div>
           <div style={{color:'#aaa',fontSize:'18px'}}>/100</div>
           <div style={{fontSize:'22px',marginTop:'10px'}}>{label}</div>
           <div style={{background:'#1a0030',padding:'15px',borderRadius:'12px',marginTop:'20px',textAlign:'left'}}>
