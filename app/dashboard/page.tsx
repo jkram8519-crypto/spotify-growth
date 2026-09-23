@@ -341,7 +341,7 @@ const [tutorialStep, setTutorialStep] = useState(0);
         {activeSection === 'analytics' && (plan === 'Free' ? <ProGate plan={plan} feature="Analytics IA" /> : <AnalyticsIA user={user} />)}
 
         {/* GROWTH SCORE */}
-         {activeSection === 'growth' && (plan === 'Free' ? <ProGate plan={plan} feature="Growth Score" /> : <GrowthScore user={user} />)}
+         {activeSection === 'growth' && <GrowthScore user={user} plan={plan} />}
 
         {/* VIRAL POTENTIEL */}
         {activeSection === 'viral' && (plan === 'Pro+' ? <ViralPotentiel user={user} /> : <ProPlusGate plan={plan} feature="Viral Potentiel" />)}
@@ -852,7 +852,7 @@ function AnalyticsIA({ user }: { user: any }) {
 }
 
 
-function GrowthScore({ user }: { user: any }) {
+function GrowthScore({ user, plan }: { user: any; plan: string }) {
   const [streams, setStreams] = useState('');
   const [followers, setFollowers] = useState('');
   const [playlists, setPlaylists] = useState('');
@@ -923,6 +923,13 @@ function GrowthScore({ user }: { user: any }) {
               {score < 70 ? '💡 Soumets ton track aux curateurs et améliore ta présence sur les réseaux.' : '💡 Continue comme ça, tu es sur la bonne voie !'}
             </p>
           </div>
+        </div>
+      )}
+            {score !== null && plan === 'Free' && (
+        <div style={{background:'linear-gradient(135deg,#6C3483,#9B59B6)',padding:'20px',borderRadius:'16px',marginTop:'15px',textAlign:'center'}}>
+          <p style={{color:'#fff',fontWeight:'bold',margin:'0 0 10px 0'}}>🔓 Passe Pro pour suivre ton évolution dans le temps</p>
+          <p style={{color:'rgba(255,255,255,0.85)',fontSize:'14px',margin:'0 0 15px 0'}}>Historique de ton score, 11 autres outils IA, plan de sortie guidé.</p>
+          <a href="/pro" style={{background:'#fff',color:'#6C3483',padding:'10px 20px',borderRadius:'10px',textDecoration:'none',fontWeight:'bold',display:'inline-block'}}>Voir l'offre Pro</a>
         </div>
       )}
     </div>
