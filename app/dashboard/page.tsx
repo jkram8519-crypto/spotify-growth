@@ -13,6 +13,16 @@ function isValidInput(value: string): boolean {
   return true;
 }
 
+// Appelle une route IA en joignant le jeton de session : le serveur vérifie le compte et le plan.
+async function authFetch(url: string, init: RequestInit = {}) {
+  const { data } = await supabase.auth.getSession();
+  const token = data.session?.access_token;
+  return fetch(url, {
+    ...init,
+    headers: { ...(init.headers || {}), ...(token ? { Authorization: `Bearer ${token}` } : {}) },
+  });
+}
+
 // Les outils regroupés en 3 piliers : l'ordre suit une sortie, de la préparation à l'analyse.
 const TOOL_PILLARS = [
   {
@@ -550,7 +560,7 @@ const searchSpotify = async (query: string) => {
     setLoading(true);
     try {
       const artistInfo = selectedTrack ? selectedTrack.artist : '';
-      const res = await fetch('/api/generate-pitch', {
+      const res = await authFetch('/api/generate-pitch', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ track, genre, releaseType, releaseDate, ambiance, description, artistName: artistInfo }),
@@ -564,7 +574,7 @@ const searchSpotify = async (query: string) => {
           body: JSON.stringify({ userId: user?.id, toolName: 'Pitch Generator' }),
         }).catch(() => {});
       } else {
-        setPitch('Erreur lors de la génération du pitch. Réessaie.');
+        setPitch(data.error || 'Erreur lors de la génération du pitch. Réessaie.');
       }
     } catch {
       setPitch('Erreur de connexion. Réessaie.');
@@ -845,7 +855,7 @@ function AnalyticsIA({ user }: { user: any }) {
   const analyze = async () => {
     setLoading(true);
     try {
-      const res = await fetch('/api/analyze-stats', {
+      const res = await authFetch('/api/analyze-stats', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ saveRate, skipRate, replayRate, listenTime, country, duration }),
@@ -859,7 +869,7 @@ function AnalyticsIA({ user }: { user: any }) {
           body: JSON.stringify({ userId: user?.id, toolName: 'Analytics IA' }),
         }).catch(() => {});
       } else {
-        setAnalysis('Erreur lors de l\'analyse. Réessaie.');
+        setAnalysis(data.error || 'Erreur lors de l\'analyse. Réessaie.');
       }
     } catch {
       setAnalysis('Erreur de connexion. Réessaie.');
@@ -1008,7 +1018,7 @@ function ViralPotentiel({ user }: { user: any }) {
   const analyze = async () => {
     setLoading(true);
     try {
-      const res = await fetch('/api/analyze-viral', {
+      const res = await authFetch('/api/analyze-viral', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ intro, drop, bpm, genre, hook, dance }),
@@ -1022,7 +1032,7 @@ function ViralPotentiel({ user }: { user: any }) {
           body: JSON.stringify({ userId: user?.id, toolName: 'Viral Potentiel' }),
         }).catch(() => {});
       } else {
-        setAnalysis('Erreur lors de l\'analyse. Réessaie.');
+        setAnalysis(data.error || 'Erreur lors de l\'analyse. Réessaie.');
       }
     } catch {
       setAnalysis('Erreur de connexion. Réessaie.');
@@ -1116,7 +1126,7 @@ function ProfilArtiste({ user }: { user: any }) {
   const analyze = async () => {
     setLoading(true);
     try {
-      const res = await fetch('/api/analyze-profile', {
+      const res = await authFetch('/api/analyze-profile', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ nom, photo, bio, links, pick, claimed }),
@@ -1130,7 +1140,7 @@ function ProfilArtiste({ user }: { user: any }) {
           body: JSON.stringify({ userId: user?.id, toolName: 'Optimisation Profil' }),
         }).catch(() => {});
       } else {
-        setResult({ analysis: 'Erreur lors de l\'analyse. Réessaie.' });
+        setResult({ analysis: data.error || 'Erreur lors de l\'analyse. Réessaie.' });
       }
     } catch {
       setResult({ analysis: 'Erreur de connexion. Réessaie.' });
@@ -1193,7 +1203,7 @@ function ContenuSocial({ user }: { user: any }) {
     if (!isValidInput(track)) { alert('Merci d\'entrer un nom de track valide.'); return; }
     setLoading(true);
     try {
-      const res = await fetch('/api/generate-social-content', {
+      const res = await authFetch('/api/generate-social-content', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ track, platform }),
@@ -1207,7 +1217,7 @@ function ContenuSocial({ user }: { user: any }) {
           body: JSON.stringify({ userId: user?.id, toolName: 'Contenu Social' }),
         }).catch(() => {});
       } else {
-        setContenu('Erreur lors de la génération. Réessaie.');
+        setContenu(data.error || 'Erreur lors de la génération. Réessaie.');
       }
     } catch {
       setContenu('Erreur de connexion. Réessaie.');
@@ -1263,9 +1273,9 @@ function IAAssistant({ user }: { user: any }) {
     if (!isValidInput(question)) { alert('Merci d\'entrer une question valide.'); return; }
     setLoading(true);
     try {
-      const res = await fetch('/api/ai-assistant', {method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({question})});
+      const res = await authFetch('/api/ai-assistant', {method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({question})});
       const data = await res.json();
-      setResponse(data.response);
+      setResponse(data.response || data.error || 'Erreur lors de la réponse. Réessaie.');
       fetch('/api/track-usage', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -1489,7 +1499,7 @@ function ScriptVideo({ user }: { user: any }) {
     if (!isValidInput(track)) { alert('Merci d\'entrer un nom de track valide.'); return; }
     setLoading(true);
     try {
-      const res = await fetch('/api/generate-video-script', {
+      const res = await authFetch('/api/generate-video-script', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ track, genre, ambiance, platform }),
@@ -1503,7 +1513,7 @@ function ScriptVideo({ user }: { user: any }) {
           body: JSON.stringify({ userId: user?.id, toolName: 'Script Video' }),
         }).catch(() => {});
       } else {
-        setScript('Erreur lors de la génération. Réessaie.');
+        setScript(data.error || 'Erreur lors de la génération. Réessaie.');
       }
     } catch {
       setScript('Erreur de connexion. Réessaie.');
