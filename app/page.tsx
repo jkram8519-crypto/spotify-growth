@@ -158,8 +158,8 @@ export default function LandingPage() {
             </div>
             <div style={{display:'grid',gridTemplateColumns:'1fr 1fr 1fr',gap:'10px'}}>
               <div style={{background:'#1a0030',padding:'12px',borderRadius:'10px',textAlign:'center',border:'1px solid #2d1040'}}>
-                <p style={{color:'#9B59B6',fontWeight:'bold',fontSize:'18px',margin:0}}>98%</p>
-                <p style={{color:'#555',fontSize:'10px',margin:0}}>Match playlist</p>
+                <p style={{color:'#9B59B6',fontWeight:'bold',fontSize:'18px',margin:0}}>44j</p>
+                <p style={{color:'#555',fontSize:'10px',margin:0}}>Plan de sortie</p>
               </div>
               <div style={{background:'#1a0030',padding:'12px',borderRadius:'10px',textAlign:'center',border:'1px solid #2d1040'}}>
                 <p style={{color:'#1DB954',fontWeight:'bold',fontSize:'18px',margin:0}}>IA</p>
@@ -219,7 +219,7 @@ export default function LandingPage() {
           {[
             {emoji:'🚀',title:'Pitch Generator IA',desc:'Génère des pitches professionnels en 10 secondes.',badge:''},
             {emoji:'🗓️',title:'Manager IA',desc:'Planifie ta sortie sur 44 jours automatiquement.',badge:'NOUVEAU'},
-            {emoji:'🎯',title:'Playlist Finder',desc:'Trouve les playlists parfaites avec un score de compatibilité.',badge:''},
+            {emoji:'🎯',title:'Playlist Finder',desc:'Trouve de vraies playlists Spotify pour ton genre et ton ambiance.',badge:''},
             {emoji:'📊',title:'Analytics IA',desc:'Analyse tes stats et donne des actions concrètes.',badge:''},
             {emoji:'📱',title:'Contenu Réseaux Sociaux',desc:'Génère du contenu pour Instagram, TikTok.',badge:''},
             {emoji:'🎯',title:'Growth Score',desc:'Calcule ton score de croissance Spotify sur 100 points.',badge:'NOUVEAU'},

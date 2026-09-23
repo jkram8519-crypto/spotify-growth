@@ -153,7 +153,7 @@ const [tutorialStep, setTutorialStep] = useState(0);
                                         {[
                                                 {emoji:"",title:"Pitch Generator IA",desc:"Génère des pitches professionnels en 10 secondes.",section:"pitch"},
                                                         {emoji:"",title:"Manager IA",desc:"Planifie ta sortie sur 44 jours automatiquement.",section:"manager"},
-                                                                {emoji:"",title:"Playlist Finder",desc:"Trouve les playlists parfaites avec score de match.",section:"playlists"},
+                                                                {emoji:"",title:"Playlist Finder",desc:"Trouve de vraies playlists Spotify pour ton son.",section:"playlists"},
                                                                         {emoji:"",title:"Analytics IA",desc:"Recommandations actionnables sur tes stats.",section:"analytics"},
                                                                                 {emoji:"",title:"Growth Score",desc:"Calcule ton score de croissance sur 100 points.",section:"growth"},
                                                                                         {emoji:"",title:"Viral Potentiel",desc:"Détecte le potentiel viral de ton track sur TikTok.",section:"viral"},
@@ -229,9 +229,9 @@ const [tutorialStep, setTutorialStep] = useState(0);
           <p style={{fontSize:'50px',margin:'0 0 15px 0'}}>🎯</p>
           <p style={{color:'#9B59B6',fontSize:'13px',marginBottom:'5px'}}>ÉTAPE 3 SUR 3</p>
           <h2 style={{fontSize:'22px',fontWeight:'bold',marginBottom:'10px'}}>Trouve tes playlists</h2>
-          <p style={{color:'#aaa',marginBottom:'25px',lineHeight:'1.6'}}>Le <strong style={{color:'white'}}>"Playlist Finder"</strong> analyse ton genre musical et trouve les playlists parfaites avec un score de compatibilité !</p>
+          <p style={{color:'#aaa',marginBottom:'25px',lineHeight:'1.6'}}>Le <strong style={{color:'white'}}>"Playlist Finder"</strong> cherche de vraies playlists Spotify qui correspondent à ton genre et à ton ambiance.</p>
           <div style={{background:'#1a0030',padding:'15px',borderRadius:'12px',marginBottom:'25px',textAlign:'left'}}>
-            <p style={{color:'#ccc',fontSize:'13px',margin:0}}>💡 Astuce : Plus ton score de match est élevé, plus tu as de chances d'être placé !</p>
+            <p style={{color:'#ccc',fontSize:'13px',margin:0}}>💡 Astuce : écoute chaque playlist avant de pitcher, et fuis celles qui promettent des streams contre paiement.</p>
           </div>
           <button onClick={() => setShowWelcome(false)}
             style={{background:'linear-gradient(135deg,#9B59B6,#1DB954)',color:'#fff',padding:'12px 30px',borderRadius:'25px',border:'none',cursor:'pointer',fontWeight:'bold',fontSize:'16px'}}>
@@ -720,54 +720,85 @@ function PlaylistFinder({ user }: { user: any }) {
   const [genre, setGenre] = useState('');
   const [mood, setMood] = useState('');
   const [results, setResults] = useState<any[]>([]);
-  const findPlaylists = () => {
-if (!isValidInput(genre)) { alert('Merci d\'entrer un genre valide.'); return; }
-    const playlists = [
-      {name:`${genre} Hits 2026`,followers:'125K',curator:'SpotifyEditor',match:'98%',type:'Editorial'},
-      {name:`Best of ${genre}`,followers:'89K',curator:'MusicLover',match:'95%',type:'Indépendante'},
-      {name:`${mood || 'Chill'} ${genre} Vibes`,followers:'67K',curator:'PlaylistPro',match:'92%',type:'Indépendante'},
-      {name:`${genre} Underground`,followers:'45K',curator:'Underground_FR',match:'88%',type:'Indépendante'},
-      {name:`New ${genre} Music`,followers:'234K',curator:'NewMusicFinder',match:'85%',type:'Editorial'},
-      {name:`${genre} France`,followers:'56K',curator:'FrenchMusic',match:'79%',type:'Indépendante'},
-    ];
-    setResults(playlists);
-    fetch('/api/track-usage', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ userId: user?.id, toolName: 'Playlist Finder' }),
-    }).catch(() => {});
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState('');
+  const [searched, setSearched] = useState(false);
+
+  const findPlaylists = async () => {
+    if (!isValidInput(genre)) { alert('Merci d\'entrer un genre valide.'); return; }
+    setLoading(true);
+    setError('');
+    try {
+      const query = [genre, mood].filter(Boolean).join(' ').trim();
+      const res = await fetch(`/api/spotify/search?q=${encodeURIComponent(query)}&type=playlist`);
+      if (!res.ok) throw new Error('search_failed');
+      const data = await res.json();
+      setResults(data.playlists || []);
+      setSearched(true);
+      fetch('/api/track-usage', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ userId: user?.id, toolName: 'Playlist Finder' }),
+      }).catch(() => {});
+    } catch {
+      setError('La recherche Spotify n\'a pas fonctionné. Réessaie dans un instant.');
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
     <div>
       <h1 style={{fontSize:'28px',fontWeight:'bold',marginBottom:'8px'}}>🎯 Playlist Finder</h1>
-      <p style={{color:'#aaa',marginBottom:'30px'}}>Trouve les playlists parfaites pour ton son</p>
-      <p style={{background:'#1a0030',color:'#9B59B6',fontSize:'13px',padding:'10px 14px',borderRadius:'10px',marginBottom:'20px',border:'1px solid #2d1040'}}>💡 Indique un genre + une ambiance pour des résultats plus ciblés.</p>
+      <p style={{color:'#aaa',marginBottom:'30px'}}>Trouve de vraies playlists Spotify qui correspondent à ton son</p>
+      <p style={{background:'#1a0030',color:'#9B59B6',fontSize:'13px',padding:'10px 14px',borderRadius:'10px',marginBottom:'20px',border:'1px solid #2d1040'}}>💡 Les résultats viennent directement de la recherche Spotify. Écoute chaque playlist avant de contacter son curateur.</p>
       <div style={{background:'#0d0020',padding:'30px',borderRadius:'20px',border:'1px solid #2d1040',marginBottom:'20px'}}>
         <input value={genre} onChange={e => setGenre(e.target.value)}
-          placeholder="Genre (ex: Electronic, Hip-Hop...)"
+          placeholder="Genre (ex: Electronic, Rap FR...)"
           style={{width:'100%',background:'#1a0030',border:'1px solid #2d1040',borderRadius:'10px',padding:'12px',color:'#fff',marginBottom:'15px',boxSizing:'border-box'}}/>
         <input value={mood} onChange={e => setMood(e.target.value)}
-          placeholder="Ambiance (ex: Chill, Energetic...)"
+          placeholder="Ambiance (ex: Chill, Night drive...)"
           style={{width:'100%',background:'#1a0030',border:'1px solid #2d1040',borderRadius:'10px',padding:'12px',color:'#fff',marginBottom:'20px',boxSizing:'border-box'}}/>
-        <button onClick={findPlaylists}
-          style={{width:'100%',background:'#9B59B6',color:'#fff',padding:'14px',borderRadius:'10px',fontWeight:'bold',fontSize:'16px',cursor:'pointer',border:'none'}}>
-          🔍 Trouver des playlists
+        <button onClick={findPlaylists} disabled={loading}
+          style={{width:'100%',background:'#9B59B6',color:'#fff',padding:'14px',borderRadius:'10px',fontWeight:'bold',fontSize:'16px',cursor:'pointer',border:'none',opacity: loading ? 0.6 : 1}}>
+          {loading ? 'Recherche en cours...' : '🔍 Trouver des playlists'}
         </button>
       </div>
-      {results.map((p, i) => (
-        <div key={i} style={{background:'#0d0020',padding:'15px',borderRadius:'12px',marginBottom:'10px',border:'1px solid #2d1040',display:'flex',justifyContent:'space-between',alignItems:'center'}}>
-          <div>
+      {error && <p style={{color:'#e74c3c',marginBottom:'15px'}}>{error}</p>}
+      {searched && !error && results.length === 0 && (
+        <p style={{color:'#aaa',marginBottom:'15px'}}>Aucune playlist trouvée. Essaie un genre plus large ou une autre ambiance.</p>
+      )}
+      {results.map((p) => (
+        <div key={p.id} style={{background:'#0d0020',padding:'15px',borderRadius:'12px',marginBottom:'10px',border:'1px solid #2d1040',display:'flex',gap:'15px',alignItems:'center'}}>
+          {p.image && <img src={p.image} alt="" style={{width:'56px',height:'56px',borderRadius:'8px',objectFit:'cover',flexShrink:0}}/>}
+          <div style={{flex:1,minWidth:0}}>
             <p style={{fontWeight:'bold',margin:'0 0 4px 0'}}>{p.name}</p>
-            <p style={{color:'#aaa',fontSize:'13px',margin:'0 0 4px 0'}}>👤 {p.curator} • 👥 {p.followers}</p>
-            <span style={{fontSize:'11px',padding:'2px 8px',borderRadius:'8px',background: p.type === 'Editorial' ? '#1DB95433' : '#2d1040',color: p.type === 'Editorial' ? '#1DB954' : '#aaa'}}>{p.type}</span>
+            <p style={{color:'#aaa',fontSize:'13px',margin:'0 0 4px 0'}}>
+              👤 {p.owner || 'Curateur inconnu'}{p.trackCount !== null ? ` • ${p.trackCount} titres` : ''}
+            </p>
+            {p.isSpotifyEditorial ? (
+              <span style={{fontSize:'11px',padding:'2px 8px',borderRadius:'8px',background:'#1DB95433',color:'#1DB954'}}>Éditoriale Spotify : pitch uniquement via Spotify for Artists</span>
+            ) : (
+              <span style={{fontSize:'11px',padding:'2px 8px',borderRadius:'8px',background:'#2d1040',color:'#aaa'}}>Playlist de curateur</span>
+            )}
           </div>
-          <div style={{textAlign:'right'}}>
-            <p style={{color:'#1DB954',fontWeight:'bold',fontSize:'20px',margin:0}}>{p.match}</p>
-            <p style={{color:'#555',fontSize:'12px',margin:0}}>match</p>
-          </div>
+          {p.externalUrl && (
+            <a href={p.externalUrl} target="_blank" rel="noopener noreferrer"
+              style={{color:'#1DB954',fontSize:'13px',fontWeight:'bold',textDecoration:'none',flexShrink:0}}>Écouter ↗</a>
+          )}
         </div>
       ))}
+      {results.length > 0 && (
+        <div style={{background:'#0d0020',padding:'20px',borderRadius:'12px',border:'1px solid #2d1040',marginTop:'20px'}}>
+          <p style={{fontWeight:'bold',margin:'0 0 10px 0'}}>⚠️ Avant de contacter un curateur</p>
+          <ul style={{color:'#aaa',fontSize:'13px',lineHeight:'1.8',margin:0,paddingLeft:'18px'}}>
+            <li>Refuse toute playlist qui promet un placement ou un nombre de streams contre paiement.</li>
+            <li>Méfie-toi des playlists énormes sans cohérence de genre : c'est souvent un signe de faux streams.</li>
+            <li>Spotify facture des pénalités quand les streams d'un titre sont jugés artificiels : ça retombe sur toi.</li>
+            <li>Vérifie que la playlist est mise à jour régulièrement et que ton titre colle vraiment à son ambiance.</li>
+          </ul>
+        </div>
+      )}
     </div>
   );
 }
