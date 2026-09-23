@@ -13,6 +13,35 @@ function isValidInput(value: string): boolean {
   return true;
 }
 
+// Les outils regroupés en 3 piliers : l'ordre suit une sortie, de la préparation à l'analyse.
+const TOOL_PILLARS = [
+  {
+    title: 'Préparer',
+    items: [
+      {id:'profil', emoji:'🎨', label:'Profil Artiste'},
+      {id:'pitch', emoji:'🚀', label:'Pitch Generator'},
+      {id:'playlists', emoji:'🎯', label:'Playlist Finder'},
+    ],
+  },
+  {
+    title: 'Lancer',
+    items: [
+      {id:'manager', emoji:'🗓️', label:'Manager IA (44 jours)'},
+      {id:'contenu', emoji:'📱', label:'Contenu Social'},
+      {id:'script', emoji:'🎬', label:'Script Vidéo IA'},
+      {id:'viral', emoji:'🔥', label:'Viral Potentiel'},
+    ],
+  },
+  {
+    title: 'Analyser',
+    items: [
+      {id:'growth', emoji:'📈', label:'Growth Score'},
+      {id:'analytics', emoji:'📊', label:'Analytics IA'},
+      {id:'multi', emoji:'🌐', label:'Multi-Plateformes'},
+    ],
+  },
+];
+
 export default function Dashboard() {
   const [user, setUser] = useState<any>(null);
   const [activeSection, setActiveSection] = useState('pitch');
@@ -90,25 +119,21 @@ const [tutorialStep, setTutorialStep] = useState(0);
           <p style={{color:'#555',fontSize:'11px',margin:'6px 0 0 0'}}>{user?.email}</p>
         </div>
 
-        {/* SECTION OUTILS IA */}
-<p style={{color:'#555',fontSize:'10px',fontWeight:'bold',padding:'0 15px',marginBottom:'5px',marginTop:'10px',textTransform:'uppercase',letterSpacing:'1px'}}>Outils IA</p>
-{[
-  {id:'pitch', emoji:'🚀', label:'Pitch Generator'},
-  {id:'manager', emoji:'🗓️', label:'Manager IA'},
-  {id:'playlists', emoji:'🎯', label:'Playlist Finder'},
-  {id:'analytics', emoji:'📊', label:'Analytics IA'},
-  {id:'growth', emoji:'🎯', label:'Growth Score'},
-  {id:'viral', emoji:'🔥', label:'Viral Potentiel'},
-  {id:'profil', emoji:'🎨', label:'Profil Artiste'},
-  {id:'contenu', emoji:'📱', label:'Contenu Social'},
-  {id:'ia', emoji:'🤖', label:'IA Assistant'},
-  {id:'multi', emoji:'📊', label:'Multi-Plateformes'},
-  {id:'script', emoji:'🎬', label:'Script Vidéo IA'},
-].map((item) => (
-  <button key={item.id} onClick={() => setActiveSection(item.id)}
-    style={{display:'flex',alignItems:'center',gap:'10px',padding:'10px 15px',background: activeSection === item.id ? '#2d1040' : 'transparent',border:'none',color: activeSection === item.id ? '#fff' : '#aaa',cursor:'pointer',width:'100%',textAlign:'left',borderRadius:'8px',fontSize:'13px',borderLeft: activeSection === item.id ? '3px solid #9B59B6' : '3px solid transparent'}}>
-    <span>{item.emoji}</span>{item.label}
-  </button>
+        {/* OUTILS, GROUPÉS EN 3 PILIERS */}
+<button onClick={() => setActiveSection('ia')}
+  style={{display:'flex',alignItems:'center',gap:'10px',padding:'10px 15px',background: activeSection === 'ia' ? '#2d1040' : 'transparent',border:'none',color: activeSection === 'ia' ? '#fff' : '#aaa',cursor:'pointer',width:'100%',textAlign:'left',borderRadius:'8px',fontSize:'13px',borderLeft: activeSection === 'ia' ? '3px solid #9B59B6' : '3px solid transparent'}}>
+  <span>🤖</span>IA Assistant
+</button>
+{TOOL_PILLARS.map((pillar) => (
+  <div key={pillar.title}>
+    <p style={{color:'#555',fontSize:'10px',fontWeight:'bold',padding:'0 15px',marginBottom:'5px',marginTop:'15px',textTransform:'uppercase',letterSpacing:'1px'}}>{pillar.title}</p>
+    {pillar.items.map((item) => (
+      <button key={item.id} onClick={() => setActiveSection(item.id)}
+        style={{display:'flex',alignItems:'center',gap:'10px',padding:'10px 15px',background: activeSection === item.id ? '#2d1040' : 'transparent',border:'none',color: activeSection === item.id ? '#fff' : '#aaa',cursor:'pointer',width:'100%',textAlign:'left',borderRadius:'8px',fontSize:'13px',borderLeft: activeSection === item.id ? '3px solid #9B59B6' : '3px solid transparent'}}>
+        <span>{item.emoji}</span>{item.label}
+      </button>
+    ))}
+  </div>
 ))}
 
 {/* SECTION COMMUNAUTÉ */}
@@ -281,20 +306,24 @@ const [tutorialStep, setTutorialStep] = useState(0);
 {showMoreMenu && (
   <div style={{position:'fixed',top:0,left:0,right:0,bottom:0,background:'rgba(0,0,0,0.85)',zIndex:200,display:'flex',alignItems:'flex-end'}} onClick={() => setShowMoreMenu(false)}>
     <div style={{background:'#0d0020',width:'100%',borderRadius:'20px 20px 0 0',padding:'25px',maxHeight:'70vh',overflowY:'auto'}} onClick={e => e.stopPropagation()}>
-      <h3 style={{margin:'0 0 20px 0'}}>Tous les outils</h3>
+      <h3 style={{margin:'0 0 10px 0'}}>Tous les outils</h3>
       {[
-        {id:'viral',emoji:'🔥',label:'Viral Potentiel'},
-        {id:'profil',emoji:'🎨',label:'Profil Artiste'},
-        {id:'contenu',emoji:'📱',label:'Contenu Social'},
-        {id:'script',emoji:'🎬',label:'Script Vidéo IA'},
-        {id:'referral',emoji:'🎁',label:'Parrainer un ami'},
-        {id:'feedback',emoji:'💬',label:'Feedback'},
-        {id:'search',emoji:'🔍',label:'Recherche Spotify'},
-      ].map(item => (
-        <button key={item.id} onClick={() => { setActiveSection(item.id); setShowMoreMenu(false); }}
-          style={{display:'flex',alignItems:'center',gap:'12px',padding:'12px',width:'100%',background:'none',border:'none',color:'#fff',textAlign:'left',fontSize:'15px',borderBottom:'1px solid #2d1040'}}>
-          <span style={{fontSize:'20px'}}>{item.emoji}</span>{item.label}
-        </button>
+        ...TOOL_PILLARS,
+        {title:'Communauté', items:[
+          {id:'referral',emoji:'🎁',label:'Parrainer un ami'},
+          {id:'feedback',emoji:'💬',label:'Feedback'},
+          {id:'search',emoji:'🔍',label:'Recherche Spotify'},
+        ]},
+      ].map(group => (
+        <div key={group.title}>
+          <p style={{color:'#555',fontSize:'11px',fontWeight:'bold',margin:'15px 0 5px 0',textTransform:'uppercase',letterSpacing:'1px'}}>{group.title}</p>
+          {group.items.map(item => (
+            <button key={item.id} onClick={() => { setActiveSection(item.id); setShowMoreMenu(false); }}
+              style={{display:'flex',alignItems:'center',gap:'12px',padding:'12px',width:'100%',background:'none',border:'none',color:'#fff',textAlign:'left',fontSize:'15px',borderBottom:'1px solid #2d1040',cursor:'pointer'}}>
+              <span style={{fontSize:'20px'}}>{item.emoji}</span>{item.label}
+            </button>
+          ))}
+        </div>
       ))}
       <a href="/profil" style={{display:'flex',alignItems:'center',gap:'12px',padding:'12px',color:'#aaa',textDecoration:'none',fontSize:'15px',borderBottom:'1px solid #2d1040'}}>👤 Mon profil</a>
       <a href="https://billing.stripe.com/p/login/14A28reaL5DP8rt0NC1B600" target="_blank" style={{display:'flex',alignItems:'center',gap:'12px',padding:'12px',color:'#e74c3c',textDecoration:'none',fontSize:'15px',borderBottom:'1px solid #2d1040'}}>❌ Gérer abonnement</a>
