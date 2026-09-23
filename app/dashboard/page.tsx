@@ -13,6 +13,45 @@ function isValidInput(value: string): boolean {
   return true;
 }
 
+// Appelle une route IA en joignant le jeton de session : le serveur vérifie le compte et le plan.
+async function authFetch(url: string, init: RequestInit = {}) {
+  const { data } = await supabase.auth.getSession();
+  const token = data.session?.access_token;
+  return fetch(url, {
+    ...init,
+    headers: { ...(init.headers || {}), ...(token ? { Authorization: `Bearer ${token}` } : {}) },
+  });
+}
+
+// Les outils regroupés en 3 piliers : l'ordre suit une sortie, de la préparation à l'analyse.
+const TOOL_PILLARS = [
+  {
+    title: 'Préparer',
+    items: [
+      {id:'profil', emoji:'🎨', label:'Profil Artiste'},
+      {id:'pitch', emoji:'🚀', label:'Pitch Generator'},
+      {id:'playlists', emoji:'🎯', label:'Playlist Finder'},
+    ],
+  },
+  {
+    title: 'Lancer',
+    items: [
+      {id:'manager', emoji:'🗓️', label:'Manager IA (44 jours)'},
+      {id:'contenu', emoji:'📱', label:'Contenu Social'},
+      {id:'script', emoji:'🎬', label:'Script Vidéo IA'},
+      {id:'viral', emoji:'🔥', label:'Viral Potentiel'},
+    ],
+  },
+  {
+    title: 'Analyser',
+    items: [
+      {id:'growth', emoji:'📈', label:'Growth Score'},
+      {id:'analytics', emoji:'📊', label:'Analytics IA'},
+      {id:'multi', emoji:'🌐', label:'Multi-Plateformes'},
+    ],
+  },
+];
+
 export default function Dashboard() {
   const [user, setUser] = useState<any>(null);
   const [activeSection, setActiveSection] = useState('pitch');
@@ -90,25 +129,21 @@ const [tutorialStep, setTutorialStep] = useState(0);
           <p style={{color:'#555',fontSize:'11px',margin:'6px 0 0 0'}}>{user?.email}</p>
         </div>
 
-        {/* SECTION OUTILS IA */}
-<p style={{color:'#555',fontSize:'10px',fontWeight:'bold',padding:'0 15px',marginBottom:'5px',marginTop:'10px',textTransform:'uppercase',letterSpacing:'1px'}}>Outils IA</p>
-{[
-  {id:'pitch', emoji:'🚀', label:'Pitch Generator'},
-  {id:'manager', emoji:'🗓️', label:'Manager IA'},
-  {id:'playlists', emoji:'🎯', label:'Playlist Finder'},
-  {id:'analytics', emoji:'📊', label:'Analytics IA'},
-  {id:'growth', emoji:'🎯', label:'Growth Score'},
-  {id:'viral', emoji:'🔥', label:'Viral Potentiel'},
-  {id:'profil', emoji:'🎨', label:'Profil Artiste'},
-  {id:'contenu', emoji:'📱', label:'Contenu Social'},
-  {id:'ia', emoji:'🤖', label:'IA Assistant'},
-  {id:'multi', emoji:'📊', label:'Multi-Plateformes'},
-  {id:'script', emoji:'🎬', label:'Script Vidéo IA'},
-].map((item) => (
-  <button key={item.id} onClick={() => setActiveSection(item.id)}
-    style={{display:'flex',alignItems:'center',gap:'10px',padding:'10px 15px',background: activeSection === item.id ? '#2d1040' : 'transparent',border:'none',color: activeSection === item.id ? '#fff' : '#aaa',cursor:'pointer',width:'100%',textAlign:'left',borderRadius:'8px',fontSize:'13px',borderLeft: activeSection === item.id ? '3px solid #9B59B6' : '3px solid transparent'}}>
-    <span>{item.emoji}</span>{item.label}
-  </button>
+        {/* OUTILS, GROUPÉS EN 3 PILIERS */}
+<button onClick={() => setActiveSection('ia')}
+  style={{display:'flex',alignItems:'center',gap:'10px',padding:'10px 15px',background: activeSection === 'ia' ? '#2d1040' : 'transparent',border:'none',color: activeSection === 'ia' ? '#fff' : '#aaa',cursor:'pointer',width:'100%',textAlign:'left',borderRadius:'8px',fontSize:'13px',borderLeft: activeSection === 'ia' ? '3px solid #9B59B6' : '3px solid transparent'}}>
+  <span>🤖</span>IA Assistant
+</button>
+{TOOL_PILLARS.map((pillar) => (
+  <div key={pillar.title}>
+    <p style={{color:'#555',fontSize:'10px',fontWeight:'bold',padding:'0 15px',marginBottom:'5px',marginTop:'15px',textTransform:'uppercase',letterSpacing:'1px'}}>{pillar.title}</p>
+    {pillar.items.map((item) => (
+      <button key={item.id} onClick={() => setActiveSection(item.id)}
+        style={{display:'flex',alignItems:'center',gap:'10px',padding:'10px 15px',background: activeSection === item.id ? '#2d1040' : 'transparent',border:'none',color: activeSection === item.id ? '#fff' : '#aaa',cursor:'pointer',width:'100%',textAlign:'left',borderRadius:'8px',fontSize:'13px',borderLeft: activeSection === item.id ? '3px solid #9B59B6' : '3px solid transparent'}}>
+        <span>{item.emoji}</span>{item.label}
+      </button>
+    ))}
+  </div>
 ))}
 
 {/* SECTION COMMUNAUTÉ */}
@@ -128,7 +163,6 @@ const [tutorialStep, setTutorialStep] = useState(0);
           <a href="/profil" style={{color:'#aaa',fontSize:'12px',textDecoration:'none',display:'block',marginBottom:'10px'}}>👤 Mon profil</a>
           <a href="/blog" style={{color:"#aaa",fontSize:"12px",textDecoration:"none",display:"block",marginBottom:"10px"}}>📝 Blog</a>
         <a href="https://billing.stripe.com/p/login/14A28reaL5DP8rt0NC1B600" target="_blank" style={{color:"#e74c3c",fontSize:"12px",textDecoration:"none",display:"block",marginBottom:"10px"}}>❌ Gérer abonnement</a>  
-          <a href="/case-studies" style={{color:"#aaa",fontSize:"12px",textDecoration:"none",display:"block",marginBottom:"10px"}}>📊 Témoignages</a>
           <a href="/faq" style={{color:"#aaa",fontSize:"12px",textDecoration:"none",display:"block",marginBottom:"10px"}}>❓ FAQ</a>
           <a href="/charte" style={{color:"#aaa",fontSize:"12px",textDecoration:"none",display:"block",marginBottom:"10px"}}>📜 Charte Éthique</a>
           <a href="/pricing" style={{color:'#9B59B6',fontSize:'12px',textDecoration:'none',display:'block',marginBottom:'10px'}}>⭐ Upgrade Pro</a>
@@ -153,7 +187,7 @@ const [tutorialStep, setTutorialStep] = useState(0);
                                         {[
                                                 {emoji:"",title:"Pitch Generator IA",desc:"Génère des pitches professionnels en 10 secondes.",section:"pitch"},
                                                         {emoji:"",title:"Manager IA",desc:"Planifie ta sortie sur 44 jours automatiquement.",section:"manager"},
-                                                                {emoji:"",title:"Playlist Finder",desc:"Trouve les playlists parfaites avec score de match.",section:"playlists"},
+                                                                {emoji:"",title:"Playlist Finder",desc:"Trouve de vraies playlists Spotify pour ton son.",section:"playlists"},
                                                                         {emoji:"",title:"Analytics IA",desc:"Recommandations actionnables sur tes stats.",section:"analytics"},
                                                                                 {emoji:"",title:"Growth Score",desc:"Calcule ton score de croissance sur 100 points.",section:"growth"},
                                                                                         {emoji:"",title:"Viral Potentiel",desc:"Détecte le potentiel viral de ton track sur TikTok.",section:"viral"},
@@ -229,9 +263,9 @@ const [tutorialStep, setTutorialStep] = useState(0);
           <p style={{fontSize:'50px',margin:'0 0 15px 0'}}>🎯</p>
           <p style={{color:'#9B59B6',fontSize:'13px',marginBottom:'5px'}}>ÉTAPE 3 SUR 3</p>
           <h2 style={{fontSize:'22px',fontWeight:'bold',marginBottom:'10px'}}>Trouve tes playlists</h2>
-          <p style={{color:'#aaa',marginBottom:'25px',lineHeight:'1.6'}}>Le <strong style={{color:'white'}}>"Playlist Finder"</strong> analyse ton genre musical et trouve les playlists parfaites avec un score de compatibilité !</p>
+          <p style={{color:'#aaa',marginBottom:'25px',lineHeight:'1.6'}}>Le <strong style={{color:'white'}}>"Playlist Finder"</strong> cherche de vraies playlists Spotify qui correspondent à ton genre et à ton ambiance.</p>
           <div style={{background:'#1a0030',padding:'15px',borderRadius:'12px',marginBottom:'25px',textAlign:'left'}}>
-            <p style={{color:'#ccc',fontSize:'13px',margin:0}}>💡 Astuce : Plus ton score de match est élevé, plus tu as de chances d'être placé !</p>
+            <p style={{color:'#ccc',fontSize:'13px',margin:0}}>💡 Astuce : écoute chaque playlist avant de pitcher, et fuis celles qui promettent des streams contre paiement.</p>
           </div>
           <button onClick={() => setShowWelcome(false)}
             style={{background:'linear-gradient(135deg,#9B59B6,#1DB954)',color:'#fff',padding:'12px 30px',borderRadius:'25px',border:'none',cursor:'pointer',fontWeight:'bold',fontSize:'16px'}}>
@@ -282,20 +316,24 @@ const [tutorialStep, setTutorialStep] = useState(0);
 {showMoreMenu && (
   <div style={{position:'fixed',top:0,left:0,right:0,bottom:0,background:'rgba(0,0,0,0.85)',zIndex:200,display:'flex',alignItems:'flex-end'}} onClick={() => setShowMoreMenu(false)}>
     <div style={{background:'#0d0020',width:'100%',borderRadius:'20px 20px 0 0',padding:'25px',maxHeight:'70vh',overflowY:'auto'}} onClick={e => e.stopPropagation()}>
-      <h3 style={{margin:'0 0 20px 0'}}>Tous les outils</h3>
+      <h3 style={{margin:'0 0 10px 0'}}>Tous les outils</h3>
       {[
-        {id:'viral',emoji:'🔥',label:'Viral Potentiel'},
-        {id:'profil',emoji:'🎨',label:'Profil Artiste'},
-        {id:'contenu',emoji:'📱',label:'Contenu Social'},
-        {id:'script',emoji:'🎬',label:'Script Vidéo IA'},
-        {id:'referral',emoji:'🎁',label:'Parrainer un ami'},
-        {id:'feedback',emoji:'💬',label:'Feedback'},
-        {id:'search',emoji:'🔍',label:'Recherche Spotify'},
-      ].map(item => (
-        <button key={item.id} onClick={() => { setActiveSection(item.id); setShowMoreMenu(false); }}
-          style={{display:'flex',alignItems:'center',gap:'12px',padding:'12px',width:'100%',background:'none',border:'none',color:'#fff',textAlign:'left',fontSize:'15px',borderBottom:'1px solid #2d1040'}}>
-          <span style={{fontSize:'20px'}}>{item.emoji}</span>{item.label}
-        </button>
+        ...TOOL_PILLARS,
+        {title:'Communauté', items:[
+          {id:'referral',emoji:'🎁',label:'Parrainer un ami'},
+          {id:'feedback',emoji:'💬',label:'Feedback'},
+          {id:'search',emoji:'🔍',label:'Recherche Spotify'},
+        ]},
+      ].map(group => (
+        <div key={group.title}>
+          <p style={{color:'#555',fontSize:'11px',fontWeight:'bold',margin:'15px 0 5px 0',textTransform:'uppercase',letterSpacing:'1px'}}>{group.title}</p>
+          {group.items.map(item => (
+            <button key={item.id} onClick={() => { setActiveSection(item.id); setShowMoreMenu(false); }}
+              style={{display:'flex',alignItems:'center',gap:'12px',padding:'12px',width:'100%',background:'none',border:'none',color:'#fff',textAlign:'left',fontSize:'15px',borderBottom:'1px solid #2d1040',cursor:'pointer'}}>
+              <span style={{fontSize:'20px'}}>{item.emoji}</span>{item.label}
+            </button>
+          ))}
+        </div>
       ))}
       <a href="/profil" style={{display:'flex',alignItems:'center',gap:'12px',padding:'12px',color:'#aaa',textDecoration:'none',fontSize:'15px',borderBottom:'1px solid #2d1040'}}>👤 Mon profil</a>
       <a href="https://billing.stripe.com/p/login/14A28reaL5DP8rt0NC1B600" target="_blank" style={{display:'flex',alignItems:'center',gap:'12px',padding:'12px',color:'#e74c3c',textDecoration:'none',fontSize:'15px',borderBottom:'1px solid #2d1040'}}>❌ Gérer abonnement</a>
@@ -522,7 +560,7 @@ const searchSpotify = async (query: string) => {
     setLoading(true);
     try {
       const artistInfo = selectedTrack ? selectedTrack.artist : '';
-      const res = await fetch('/api/generate-pitch', {
+      const res = await authFetch('/api/generate-pitch', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ track, genre, releaseType, releaseDate, ambiance, description, artistName: artistInfo }),
@@ -536,7 +574,7 @@ const searchSpotify = async (query: string) => {
           body: JSON.stringify({ userId: user?.id, toolName: 'Pitch Generator' }),
         }).catch(() => {});
       } else {
-        setPitch('Erreur lors de la génération du pitch. Réessaie.');
+        setPitch(data.error || 'Erreur lors de la génération du pitch. Réessaie.');
       }
     } catch {
       setPitch('Erreur de connexion. Réessaie.');
@@ -720,54 +758,85 @@ function PlaylistFinder({ user }: { user: any }) {
   const [genre, setGenre] = useState('');
   const [mood, setMood] = useState('');
   const [results, setResults] = useState<any[]>([]);
-  const findPlaylists = () => {
-if (!isValidInput(genre)) { alert('Merci d\'entrer un genre valide.'); return; }
-    const playlists = [
-      {name:`${genre} Hits 2026`,followers:'125K',curator:'SpotifyEditor',match:'98%',type:'Editorial'},
-      {name:`Best of ${genre}`,followers:'89K',curator:'MusicLover',match:'95%',type:'Indépendante'},
-      {name:`${mood || 'Chill'} ${genre} Vibes`,followers:'67K',curator:'PlaylistPro',match:'92%',type:'Indépendante'},
-      {name:`${genre} Underground`,followers:'45K',curator:'Underground_FR',match:'88%',type:'Indépendante'},
-      {name:`New ${genre} Music`,followers:'234K',curator:'NewMusicFinder',match:'85%',type:'Editorial'},
-      {name:`${genre} France`,followers:'56K',curator:'FrenchMusic',match:'79%',type:'Indépendante'},
-    ];
-    setResults(playlists);
-    fetch('/api/track-usage', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ userId: user?.id, toolName: 'Playlist Finder' }),
-    }).catch(() => {});
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState('');
+  const [searched, setSearched] = useState(false);
+
+  const findPlaylists = async () => {
+    if (!isValidInput(genre)) { alert('Merci d\'entrer un genre valide.'); return; }
+    setLoading(true);
+    setError('');
+    try {
+      const query = [genre, mood].filter(Boolean).join(' ').trim();
+      const res = await fetch(`/api/spotify/search?q=${encodeURIComponent(query)}&type=playlist`);
+      if (!res.ok) throw new Error('search_failed');
+      const data = await res.json();
+      setResults(data.playlists || []);
+      setSearched(true);
+      fetch('/api/track-usage', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ userId: user?.id, toolName: 'Playlist Finder' }),
+      }).catch(() => {});
+    } catch {
+      setError('La recherche Spotify n\'a pas fonctionné. Réessaie dans un instant.');
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
     <div>
       <h1 style={{fontSize:'28px',fontWeight:'bold',marginBottom:'8px'}}>🎯 Playlist Finder</h1>
-      <p style={{color:'#aaa',marginBottom:'30px'}}>Trouve les playlists parfaites pour ton son</p>
-      <p style={{background:'#1a0030',color:'#9B59B6',fontSize:'13px',padding:'10px 14px',borderRadius:'10px',marginBottom:'20px',border:'1px solid #2d1040'}}>💡 Indique un genre + une ambiance pour des résultats plus ciblés.</p>
+      <p style={{color:'#aaa',marginBottom:'30px'}}>Trouve de vraies playlists Spotify qui correspondent à ton son</p>
+      <p style={{background:'#1a0030',color:'#9B59B6',fontSize:'13px',padding:'10px 14px',borderRadius:'10px',marginBottom:'20px',border:'1px solid #2d1040'}}>💡 Les résultats viennent directement de la recherche Spotify. Écoute chaque playlist avant de contacter son curateur.</p>
       <div style={{background:'#0d0020',padding:'30px',borderRadius:'20px',border:'1px solid #2d1040',marginBottom:'20px'}}>
         <input value={genre} onChange={e => setGenre(e.target.value)}
-          placeholder="Genre (ex: Electronic, Hip-Hop...)"
+          placeholder="Genre (ex: Electronic, Rap FR...)"
           style={{width:'100%',background:'#1a0030',border:'1px solid #2d1040',borderRadius:'10px',padding:'12px',color:'#fff',marginBottom:'15px',boxSizing:'border-box'}}/>
         <input value={mood} onChange={e => setMood(e.target.value)}
-          placeholder="Ambiance (ex: Chill, Energetic...)"
+          placeholder="Ambiance (ex: Chill, Night drive...)"
           style={{width:'100%',background:'#1a0030',border:'1px solid #2d1040',borderRadius:'10px',padding:'12px',color:'#fff',marginBottom:'20px',boxSizing:'border-box'}}/>
-        <button onClick={findPlaylists}
-          style={{width:'100%',background:'#9B59B6',color:'#fff',padding:'14px',borderRadius:'10px',fontWeight:'bold',fontSize:'16px',cursor:'pointer',border:'none'}}>
-          🔍 Trouver des playlists
+        <button onClick={findPlaylists} disabled={loading}
+          style={{width:'100%',background:'#9B59B6',color:'#fff',padding:'14px',borderRadius:'10px',fontWeight:'bold',fontSize:'16px',cursor:'pointer',border:'none',opacity: loading ? 0.6 : 1}}>
+          {loading ? 'Recherche en cours...' : '🔍 Trouver des playlists'}
         </button>
       </div>
-      {results.map((p, i) => (
-        <div key={i} style={{background:'#0d0020',padding:'15px',borderRadius:'12px',marginBottom:'10px',border:'1px solid #2d1040',display:'flex',justifyContent:'space-between',alignItems:'center'}}>
-          <div>
+      {error && <p style={{color:'#e74c3c',marginBottom:'15px'}}>{error}</p>}
+      {searched && !error && results.length === 0 && (
+        <p style={{color:'#aaa',marginBottom:'15px'}}>Aucune playlist trouvée. Essaie un genre plus large ou une autre ambiance.</p>
+      )}
+      {results.map((p) => (
+        <div key={p.id} style={{background:'#0d0020',padding:'15px',borderRadius:'12px',marginBottom:'10px',border:'1px solid #2d1040',display:'flex',gap:'15px',alignItems:'center'}}>
+          {p.image && <img src={p.image} alt="" style={{width:'56px',height:'56px',borderRadius:'8px',objectFit:'cover',flexShrink:0}}/>}
+          <div style={{flex:1,minWidth:0}}>
             <p style={{fontWeight:'bold',margin:'0 0 4px 0'}}>{p.name}</p>
-            <p style={{color:'#aaa',fontSize:'13px',margin:'0 0 4px 0'}}>👤 {p.curator} • 👥 {p.followers}</p>
-            <span style={{fontSize:'11px',padding:'2px 8px',borderRadius:'8px',background: p.type === 'Editorial' ? '#1DB95433' : '#2d1040',color: p.type === 'Editorial' ? '#1DB954' : '#aaa'}}>{p.type}</span>
+            <p style={{color:'#aaa',fontSize:'13px',margin:'0 0 4px 0'}}>
+              👤 {p.owner || 'Curateur inconnu'}{p.trackCount !== null ? ` • ${p.trackCount} titres` : ''}
+            </p>
+            {p.isSpotifyEditorial ? (
+              <span style={{fontSize:'11px',padding:'2px 8px',borderRadius:'8px',background:'#1DB95433',color:'#1DB954'}}>Éditoriale Spotify : pitch uniquement via Spotify for Artists</span>
+            ) : (
+              <span style={{fontSize:'11px',padding:'2px 8px',borderRadius:'8px',background:'#2d1040',color:'#aaa'}}>Playlist de curateur</span>
+            )}
           </div>
-          <div style={{textAlign:'right'}}>
-            <p style={{color:'#1DB954',fontWeight:'bold',fontSize:'20px',margin:0}}>{p.match}</p>
-            <p style={{color:'#555',fontSize:'12px',margin:0}}>match</p>
-          </div>
+          {p.externalUrl && (
+            <a href={p.externalUrl} target="_blank" rel="noopener noreferrer"
+              style={{color:'#1DB954',fontSize:'13px',fontWeight:'bold',textDecoration:'none',flexShrink:0}}>Écouter ↗</a>
+          )}
         </div>
       ))}
+      {results.length > 0 && (
+        <div style={{background:'#0d0020',padding:'20px',borderRadius:'12px',border:'1px solid #2d1040',marginTop:'20px'}}>
+          <p style={{fontWeight:'bold',margin:'0 0 10px 0'}}>⚠️ Avant de contacter un curateur</p>
+          <ul style={{color:'#aaa',fontSize:'13px',lineHeight:'1.8',margin:0,paddingLeft:'18px'}}>
+            <li>Refuse toute playlist qui promet un placement ou un nombre de streams contre paiement.</li>
+            <li>Méfie-toi des playlists énormes sans cohérence de genre : c'est souvent un signe de faux streams.</li>
+            <li>Spotify facture des pénalités quand les streams d'un titre sont jugés artificiels : ça retombe sur toi.</li>
+            <li>Vérifie que la playlist est mise à jour régulièrement et que ton titre colle vraiment à son ambiance.</li>
+          </ul>
+        </div>
+      )}
     </div>
   );
 }
@@ -786,7 +855,7 @@ function AnalyticsIA({ user }: { user: any }) {
   const analyze = async () => {
     setLoading(true);
     try {
-      const res = await fetch('/api/analyze-stats', {
+      const res = await authFetch('/api/analyze-stats', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ saveRate, skipRate, replayRate, listenTime, country, duration }),
@@ -800,7 +869,7 @@ function AnalyticsIA({ user }: { user: any }) {
           body: JSON.stringify({ userId: user?.id, toolName: 'Analytics IA' }),
         }).catch(() => {});
       } else {
-        setAnalysis('Erreur lors de l\'analyse. Réessaie.');
+        setAnalysis(data.error || 'Erreur lors de l\'analyse. Réessaie.');
       }
     } catch {
       setAnalysis('Erreur de connexion. Réessaie.');
@@ -949,7 +1018,7 @@ function ViralPotentiel({ user }: { user: any }) {
   const analyze = async () => {
     setLoading(true);
     try {
-      const res = await fetch('/api/analyze-viral', {
+      const res = await authFetch('/api/analyze-viral', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ intro, drop, bpm, genre, hook, dance }),
@@ -963,7 +1032,7 @@ function ViralPotentiel({ user }: { user: any }) {
           body: JSON.stringify({ userId: user?.id, toolName: 'Viral Potentiel' }),
         }).catch(() => {});
       } else {
-        setAnalysis('Erreur lors de l\'analyse. Réessaie.');
+        setAnalysis(data.error || 'Erreur lors de l\'analyse. Réessaie.');
       }
     } catch {
       setAnalysis('Erreur de connexion. Réessaie.');
@@ -1057,7 +1126,7 @@ function ProfilArtiste({ user }: { user: any }) {
   const analyze = async () => {
     setLoading(true);
     try {
-      const res = await fetch('/api/analyze-profile', {
+      const res = await authFetch('/api/analyze-profile', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ nom, photo, bio, links, pick, claimed }),
@@ -1071,7 +1140,7 @@ function ProfilArtiste({ user }: { user: any }) {
           body: JSON.stringify({ userId: user?.id, toolName: 'Optimisation Profil' }),
         }).catch(() => {});
       } else {
-        setResult({ analysis: 'Erreur lors de l\'analyse. Réessaie.' });
+        setResult({ analysis: data.error || 'Erreur lors de l\'analyse. Réessaie.' });
       }
     } catch {
       setResult({ analysis: 'Erreur de connexion. Réessaie.' });
@@ -1134,7 +1203,7 @@ function ContenuSocial({ user }: { user: any }) {
     if (!isValidInput(track)) { alert('Merci d\'entrer un nom de track valide.'); return; }
     setLoading(true);
     try {
-      const res = await fetch('/api/generate-social-content', {
+      const res = await authFetch('/api/generate-social-content', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ track, platform }),
@@ -1148,7 +1217,7 @@ function ContenuSocial({ user }: { user: any }) {
           body: JSON.stringify({ userId: user?.id, toolName: 'Contenu Social' }),
         }).catch(() => {});
       } else {
-        setContenu('Erreur lors de la génération. Réessaie.');
+        setContenu(data.error || 'Erreur lors de la génération. Réessaie.');
       }
     } catch {
       setContenu('Erreur de connexion. Réessaie.');
@@ -1204,9 +1273,9 @@ function IAAssistant({ user }: { user: any }) {
     if (!isValidInput(question)) { alert('Merci d\'entrer une question valide.'); return; }
     setLoading(true);
     try {
-      const res = await fetch('/api/ai-assistant', {method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({question})});
+      const res = await authFetch('/api/ai-assistant', {method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({question})});
       const data = await res.json();
-      setResponse(data.response);
+      setResponse(data.response || data.error || 'Erreur lors de la réponse. Réessaie.');
       fetch('/api/track-usage', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -1430,7 +1499,7 @@ function ScriptVideo({ user }: { user: any }) {
     if (!isValidInput(track)) { alert('Merci d\'entrer un nom de track valide.'); return; }
     setLoading(true);
     try {
-      const res = await fetch('/api/generate-video-script', {
+      const res = await authFetch('/api/generate-video-script', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ track, genre, ambiance, platform }),
@@ -1444,7 +1513,7 @@ function ScriptVideo({ user }: { user: any }) {
           body: JSON.stringify({ userId: user?.id, toolName: 'Script Video' }),
         }).catch(() => {});
       } else {
-        setScript('Erreur lors de la génération. Réessaie.');
+        setScript(data.error || 'Erreur lors de la génération. Réessaie.');
       }
     } catch {
       setScript('Erreur de connexion. Réessaie.');

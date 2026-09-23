@@ -1,7 +1,11 @@
 import { NextRequest, NextResponse } from 'next/server';
+import { requirePlan } from '@/lib/require-plan';
 import { isClean } from '@/lib/moderation';
 
 export async function POST(req: NextRequest) {
+  const auth = await requirePlan(req, 'free');
+  if (auth instanceof NextResponse) return auth;
+
   try {
     const { track, genre, releaseType, releaseDate, ambiance, description, artistName } = await req.json();
 

@@ -3,7 +3,11 @@ import { NextRequest, NextResponse } from 'next/server';
 export async function GET(req: NextRequest) {
   const { searchParams } = new URL(req.url);
   const query = searchParams.get('q');
-  const type = searchParams.get('type') || 'track';
+  const allowedTypes = ['artist', 'track', 'playlist'];
+  const type = (searchParams.get('type') || 'track')
+    .split(',')
+    .filter((t) => allowedTypes.includes(t))
+    .join(',') || 'track';
 
   if (!query) {
     return NextResponse.json({ error: 'Query required' }, { status: 400 });
@@ -53,7 +57,24 @@ export async function GET(req: NextRequest) {
       externalUrl: t.external_urls?.spotify || '',
     }));
 
-    return NextResponse.json({ artists, tracks });
+    // Playlists : l'API peut renvoyer des entrées null, on les filtre.
+    // Depuis février 2026, les champs followers/popularity ne sont plus fournis en mode développement :
+    // on n'affiche que des données réellement renvoyées par Spotify.
+    const playlists = (data.playlists?.items || [])
+      .filter((p: any) => p && p.id)
+      .map((p: any) => ({
+        id: p.id,
+        name: p.name,
+        description: (p.description || '').replace(/<[^>]*>/g, ''),
+        owner: p.owner?.display_name || p.owner?.id || '',
+        ownerId: p.owner?.id || '',
+        isSpotifyEditorial: p.owner?.id === 'spotify',
+        trackCount: p.tracks?.total ?? p.items?.total ?? null,
+        image: p.images?.[0]?.url || null,
+        externalUrl: p.external_urls?.spotify || '',
+      }));
+
+    return NextResponse.json({ artists, tracks, playlists });
 
   } catch (error: any) {
     return NextResponse.json({ error: error.message }, { status: 500 });

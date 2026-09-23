@@ -11,7 +11,7 @@ const responses: Record<string, string> = {
 2. CONTACTE les curateurs independants
 - Utilise le Playlist Finder de Spotlift pour trouver les playlists compatibles
 - Envoie un pitch personnalise via SubmitHub ou directement sur Instagram
-- Mentionne le % de match avec leur playlist
+- Explique en une phrase pourquoi ton titre colle a leur playlist
 
 3. OPTIMISE ton track
 - Intro courte (moins de 15 secondes)
