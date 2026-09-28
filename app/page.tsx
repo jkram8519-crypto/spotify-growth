@@ -198,6 +198,29 @@ export default function LandingPage() {
           Pas de faux streams, pas de placement promis : juste un plan clair et des outils pour bien faire les choses.
         </p>
       </section>
+      <section style={{padding:'70px 40px',background:'#0d0020'}}>
+        <h2 style={{textAlign:'center',fontSize:'32px',fontWeight:'bold',marginBottom:'10px'}}>Ce qu&apos;on te promet vraiment</h2>
+        <p style={{textAlign:'center',color:'#aaa',maxWidth:'600px',margin:'0 auto 40px',fontSize:'15px'}}>Aucun outil ne peut te rendre viral. On te le dit clairement plutôt que de te le vendre.</p>
+        <div style={{display:'grid',gridTemplateColumns:'repeat(auto-fit, minmax(280px, 1fr))',gap:'20px',maxWidth:'900px',margin:'0 auto'}}>
+          <div style={{background:'#1a0030',padding:'25px',borderRadius:'16px',border:'1px solid #e74c3c'}}>
+            <p style={{color:'#e74c3c',fontWeight:'bold',fontSize:'16px',marginBottom:'15px'}}>❌ Ce qu&apos;on ne te promet pas</p>
+            <ul style={{color:'#aaa',fontSize:'14px',lineHeight:'2',paddingLeft:'20px',margin:0}}>
+              <li>Des milliers de streams garantis</li>
+              <li>&quot;Percer&quot; l&apos;algorithme Spotify</li>
+              <li>Une visibilité instantanée</li>
+            </ul>
+          </div>
+          <div style={{background:'#1a0030',padding:'25px',borderRadius:'16px',border:'1px solid #1DB954'}}>
+            <p style={{color:'#1DB954',fontWeight:'bold',fontSize:'16px',marginBottom:'15px'}}>✅ Ce qu&apos;on fait vraiment</p>
+            <ul style={{color:'#aaa',fontSize:'14px',lineHeight:'2',paddingLeft:'20px',margin:0}}>
+              <li>On te protège des fausses playlists et arnaques anti-artiste</li>
+              <li>On t&apos;aide à ne pas gâcher les opportunités que tu as déjà</li>
+              <li>On te libère du temps pour le remettre dans ta musique</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
 
       <section id="features" style={{padding:'80px 40px'}}>
         <h2 style={{textAlign:'center',fontSize:'36px',fontWeight:'bold',marginBottom:'20px'}}>12 outils IA puissants</h2>
