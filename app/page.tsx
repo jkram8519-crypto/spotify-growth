@@ -67,9 +67,9 @@ export default function LandingPage() {
   const t = {
     fr: {
       badge: "L'outil IA pour artistes indépendants",
-      title1: "Développe ta",
-      title2: "croissance Spotify",
-      subtitle: "Pitches IA, Manager de sortie, Analytics et bien plus. Gagne du temps sur tes tâches marketing et concentre-toi sur ta musique.",
+      title1: "Ta croissance",
+      title2: "Spotify stagne ?",
+      subtitle: "Découvre ce qui bloque et reçois le plan complet de ta prochaine sortie. Pensé pour les artistes indépendants qui plafonnent.",
       cta1: "Essayer Gratuitement",
       cta2: "Voir les témoignages clients",
       trust1: "3 jours gratuits",
