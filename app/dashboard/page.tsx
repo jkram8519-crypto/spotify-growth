@@ -30,7 +30,7 @@ const TOOL_PILLARS = [
     items: [
       {id:'profil', emoji:'🎨', label:'Profil Artiste'},
       {id:'pitch', emoji:'🚀', label:'Pitch Generator'},
-      {id:'playlists', emoji:'🎯', label:'Playlist Finder'},
+      {id:'playlists', emoji:'🎧', label:'Playlist Finder'},
     ],
   },
   {
@@ -45,7 +45,7 @@ const TOOL_PILLARS = [
   {
     title: 'Analyser',
     items: [
-      {id:'growth', emoji:'📈', label:'Growth Score'},
+      {id:'growth', emoji:'🎯', label:'Growth Score'},
       {id:'analytics', emoji:'📊', label:'Analytics IA'},
       {id:'multi', emoji:'🌐', label:'Multi-Plateformes'},
     ],
@@ -281,7 +281,7 @@ const [tutorialStep, setTutorialStep] = useState(0);
   {[
     {id:'pitch',emoji:'🚀',label:'Pitch'},
     {id:'manager',emoji:'🗓️',label:'Manager'},
-    {id:'playlists',emoji:'🎯',label:'Playlist'},
+    {id:'playlists',emoji:'🎧',label:'Playlist'},
     {id:'analytics',emoji:'📊',label:'Analytics'},
     {id:'growth',emoji:'🎯',label:'Score'},
   ].map((item) => (
@@ -787,7 +787,7 @@ function PlaylistFinder({ user }: { user: any }) {
 
   return (
     <div>
-      <h1 style={{fontSize:'28px',fontWeight:'bold',marginBottom:'8px'}}>🎯 Playlist Finder</h1>
+      <h1 style={{fontSize:'28px',fontWeight:'bold',marginBottom:'8px'}}>🎧 Playlist Finder</h1>
       <p style={{color:'#aaa',marginBottom:'30px'}}>Trouve de vraies playlists Spotify qui correspondent à ton son</p>
       <p style={{background:'#1a0030',color:'#9B59B6',fontSize:'13px',padding:'10px 14px',borderRadius:'10px',marginBottom:'20px',border:'1px solid #2d1040'}}>💡 Les résultats viennent directement de la recherche Spotify. Écoute chaque playlist avant de contacter son curateur.</p>
       <div style={{background:'#0d0020',padding:'30px',borderRadius:'20px',border:'1px solid #2d1040',marginBottom:'20px'}}>
