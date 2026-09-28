@@ -42,7 +42,7 @@ export default function Profil() {
         </div>
         <div style={{display:'flex',gap:'15px',alignItems:'center'}}>
           <a href="/dashboard" style={{color:'#aaa',textDecoration:'none',fontSize:'14px'}}>Dashboard</a>
-          <button onClick={async () => { await supabase.auth.signOut(); window.location.href = '/login'; }}
+          <button onClick={async () => { await supabase.auth.signOut(); window.location.href = '/'; }}
             style={{color:'#555',background:'none',border:'none',cursor:'pointer',fontSize:'14px'}}>Déconnexion</button>
         </div>
       </nav>

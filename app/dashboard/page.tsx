@@ -167,7 +167,7 @@ const [tutorialStep, setTutorialStep] = useState(0);
           <a href="/charte" style={{color:"#aaa",fontSize:"12px",textDecoration:"none",display:"block",marginBottom:"10px"}}>📜 Charte Éthique</a>
           <a href="/pricing" style={{color:'#9B59B6',fontSize:'12px',textDecoration:'none',display:'block',marginBottom:'10px'}}>⭐ Upgrade Pro</a>
 
-          <button onClick={async () => { await supabase.auth.signOut(); window.location.href = '/login'; }}
+          <button onClick={async () => { await supabase.auth.signOut(); window.location.href = '/'; }}
             style={{color:'#555',background:'none',border:'none',cursor:'pointer',fontSize:'12px',padding:0}}>
             Déconnexion
           </button>
@@ -337,7 +337,7 @@ const [tutorialStep, setTutorialStep] = useState(0);
       ))}
       <a href="/profil" style={{display:'flex',alignItems:'center',gap:'12px',padding:'12px',color:'#aaa',textDecoration:'none',fontSize:'15px',borderBottom:'1px solid #2d1040'}}>👤 Mon profil</a>
       <a href="https://billing.stripe.com/p/login/14A28reaL5DP8rt0NC1B600" target="_blank" style={{display:'flex',alignItems:'center',gap:'12px',padding:'12px',color:'#e74c3c',textDecoration:'none',fontSize:'15px',borderBottom:'1px solid #2d1040'}}>❌ Gérer abonnement</a>
-      <button onClick={async () => { await supabase.auth.signOut(); window.location.href = '/login'; }}
+      <button onClick={async () => { await supabase.auth.signOut(); window.location.href = '/'; }}
         style={{display:'flex',alignItems:'center',gap:'12px',padding:'12px',width:'100%',background:'none',border:'none',color:'#555',textAlign:'left',fontSize:'15px'}}>
         Déconnexion
       </button>
