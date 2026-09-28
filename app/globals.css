@@ -165,3 +165,5 @@ button:hover {
     display: inline !important;
   }
 }
+
+@media (max-width: 640px) { .nav-extra { display: none !important; } }
