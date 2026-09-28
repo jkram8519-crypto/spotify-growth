@@ -789,7 +789,15 @@ function PlaylistFinder({ user }: { user: any }) {
     <div>
       <h1 style={{fontSize:'28px',fontWeight:'bold',marginBottom:'8px'}}>🎧 Playlist Finder</h1>
       <p style={{color:'#aaa',marginBottom:'30px'}}>Trouve de vraies playlists Spotify qui correspondent à ton son</p>
-      <p style={{background:'#1a0030',color:'#9B59B6',fontSize:'13px',padding:'10px 14px',borderRadius:'10px',marginBottom:'20px',border:'1px solid #2d1040'}}>💡 Les résultats viennent directement de la recherche Spotify. Écoute chaque playlist avant de contacter son curateur.</p>
+      <div style={{background:'#1a0030',borderRadius:'16px',padding:'20px',marginBottom:'20px',border:'1px solid #9B59B6'}}>
+        <p style={{color:'#9B59B6',fontWeight:'bold',fontSize:'15px',margin:'0 0 12px 0'}}>🛡️ Checklist anti-arnaque avant de contacter un curateur</p>
+        <ul style={{color:'#ccc',fontSize:'13px',lineHeight:'1.9',paddingLeft:'20px',margin:0}}>
+          <li>Écoute au moins 3-4 titres en entier, pas juste les 10 premières secondes</li>
+          <li>Vérifie que la playlist a été mise à jour récemment (pas abandonnée)</li>
+          <li style={{color:'#e74c3c'}}>Ne jamais payer pour &quot;garantir&quot; un ajout — un vrai curateur ne le demande pas</li>
+          <li style={{color:'#e74c3c'}}>Méfie-toi des promesses de streams ou followers garantis</li>
+        </ul>
+      </div>
       <div style={{background:'#0d0020',padding:'30px',borderRadius:'20px',border:'1px solid #2d1040',marginBottom:'20px'}}>
         <input value={genre} onChange={e => setGenre(e.target.value)}
           placeholder="Genre (ex: Electronic, Rap FR...)"
