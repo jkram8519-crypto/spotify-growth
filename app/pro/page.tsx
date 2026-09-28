@@ -26,7 +26,7 @@ export default function ProPage() {
           {emoji:'📊',titre:'Dashboard Multi-Plateformes',desc:'Rassemble tes chiffres Spotify, TikTok, Instagram et YouTube sur un seul écran pour voir où ta musique prend le mieux.',badge:''},
           {emoji:'💬',titre:'Feedback Prioritaire',desc:'Ton feedback est traité en priorité pour améliorer l\'app. Tu influences directement les nouvelles fonctionnalités de Spotlift.',badge:''},
         ].map((f,i) => (
-          <div key={i} style={{background:'#0d0020',padding:'25px',borderRadius:'16px',marginBottom:'15px',border:'1px solid #2d1040',display:'flex',gap:'20px',alignItems:'flex-start'}}>
+          <div key={i} className="feat-card" style={{background:'#0d0020',padding:'25px',borderRadius:'16px',marginBottom:'15px',border:'1px solid #2d1040',display:'flex',gap:'20px',alignItems:'flex-start'}}>
             <span style={{fontSize:'36px',flexShrink:0}}>{f.emoji}</span>
             <div style={{flex:1}}>
               <div style={{display:'flex',alignItems:'center',gap:'10px',marginBottom:'8px',flexWrap:'wrap'}}>
@@ -35,7 +35,7 @@ export default function ProPage() {
               </div>
               <p style={{color:'#aaa',margin:0,lineHeight:'1.7',fontSize:'14px'}}>{f.desc}</p>
             </div>
-            <span style={{color:'#1DB954',fontSize:'24px',flexShrink:0}}>✓</span>
+            <span className="feat-check" style={{color:'#1DB954',fontSize:'24px',flexShrink:0}}>✓</span>
           </div>
         ))}
 

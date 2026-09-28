@@ -167,3 +167,8 @@ button:hover {
 }
 
 @media (max-width: 640px) { .nav-extra { display: none !important; } }
+
+@media (max-width: 640px) {
+  .feat-card { flex-direction: column !important; align-items: stretch !important; gap: 10px !important; padding: 18px !important; position: relative !important; }
+  .feat-check { position: absolute !important; top: 16px; right: 16px; }
+}

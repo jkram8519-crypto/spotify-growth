@@ -30,7 +30,7 @@ export default function ProPlusPage() {
           {emoji:'⚡',titre:'Support Prioritaire',desc:'Support par email avec réponse garantie en moins de 4 heures. Accès à des sessions de consultation individuelle avec l\'équipe Spotlift.',badge:'PRIORITAIRE'},
           {emoji:'🔮',titre:'Accès Anticipé aux Nouvelles Fonctionnalités',desc:'Tu es le premier à tester toutes les nouvelles fonctionnalités de Spotlift avant leur sortie officielle. Tu influences directement le développement du produit.',badge:'EXCLUSIF'},
         ].map((f,i) => (
-          <div key={i} style={{background:'#0a1628',padding:'25px',borderRadius:'16px',marginBottom:'15px',border:'1px solid #1a5276',display:'flex',gap:'20px',alignItems:'flex-start'}}>
+          <div key={i} className="feat-card" style={{background:'#0a1628',padding:'25px',borderRadius:'16px',marginBottom:'15px',border:'1px solid #1a5276',display:'flex',gap:'20px',alignItems:'flex-start'}}>
             <span style={{fontSize:'36px',flexShrink:0}}>{f.emoji}</span>
             <div style={{flex:1}}>
               <div style={{display:'flex',alignItems:'center',gap:'10px',marginBottom:'8px',flexWrap:'wrap'}}>
@@ -39,7 +39,7 @@ export default function ProPlusPage() {
               </div>
               <p style={{color:'#aaa',margin:0,lineHeight:'1.7',fontSize:'14px'}}>{f.desc}</p>
             </div>
-            <span style={{color:'#1DB954',fontSize:'24px',flexShrink:0}}>✓</span>
+            <span className="feat-check" style={{color:'#1DB954',fontSize:'24px',flexShrink:0}}>✓</span>
           </div>
         ))}
 
