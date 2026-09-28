@@ -265,6 +265,8 @@ export default function LandingPage() {
 
       <footer style={{background:'#000',borderTop:'1px solid #222',padding:'40px 40px',textAlign:'center',color:'#aaa',fontSize:'14px'}}>
         <div style={{display:'flex',gap:'20px',justifyContent:'center',flexWrap:'wrap',marginBottom:'20px'}}>
+          <a href="/blog" style={{color:'#aaa',textDecoration:'none'}}>Blog</a>
+          <a href="/quiz" style={{color:'#aaa',textDecoration:'none'}}>Quiz</a>
           <a href="/faq" style={{color:'#aaa',textDecoration:'none'}}>FAQ</a>
           <a href="/cgv" style={{color:'#aaa',textDecoration:'none'}}>CGV</a>
           <a href="/mentions-legales" style={{color:'#aaa',textDecoration:'none'}}>Mentions légales</a>
