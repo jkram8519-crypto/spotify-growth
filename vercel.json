@@ -7,6 +7,10 @@
     {
       "path": "/api/trial-sequence",
       "schedule": "0 11 * * *"
+    },
+    {
+      "path": "/api/trial-winback",
+      "schedule": "0 12 * * *"
     }
   ]
 }
