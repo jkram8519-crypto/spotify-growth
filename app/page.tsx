@@ -197,6 +197,18 @@ export default function LandingPage() {
         <p style={{color:'#aaa',maxWidth:'700px',margin:'0 auto',fontSize:'14px',lineHeight:'1.7'}}>
           Pas de faux streams, pas de placement promis : juste un plan clair et des outils pour bien faire les choses.
         </p>
+        <div style={{maxWidth:'560px',margin:'40px auto 0 auto'}}>
+          <p style={{color:'#9B59B6',fontWeight:'bold',fontSize:'15px',marginBottom:'12px'}}>🎧 Le dernier titre de J.K. RAM</p>
+          <iframe
+            title="Dernier titre de J.K. RAM sur Spotify"
+            src="https://open.spotify.com/embed/track/6b7Yi4XQ0GLgxiFkkToeiK?utm_source=generator&theme=0"
+            width="100%"
+            height="152"
+            style={{border:0,borderRadius:'12px'}}
+            allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
+            loading="lazy"
+          />
+        </div>
       </section>
 
       <section id="features" style={{padding:'80px 40px'}}>
