@@ -21,7 +21,7 @@ export default function InscriptionPage() {
       await fetch("/api/trial", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email })
+        body: JSON.stringify({ email, source: (() => { try { return localStorage.getItem('spotlift_source') || 'direct'; } catch { return 'direct'; } })() })
       }).catch(() => {});
       setTimeout(async () => {
         const pendingPlan = localStorage.getItem('pendingPlan');

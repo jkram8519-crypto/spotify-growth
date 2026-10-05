@@ -9,6 +9,12 @@ export default function sitemap(): MetadataRoute.Sitemap {
       priority: 1,
     },
     {
+      url: 'https://getspotlift.com/pitch-gratuit',
+      lastModified: new Date(),
+      changeFrequency: 'monthly',
+      priority: 0.9,
+    },
+    {
       url: 'https://getspotlift.com/login',
       lastModified: new Date(),
       changeFrequency: 'monthly',
