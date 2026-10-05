@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import './globals.css';
 import Script from 'next/dist/client/script';
+import TrackSource from './components/TrackSource';
 
 export const metadata: Metadata = {
   verification: { google: 'w17B4UcOtxx0p-Ii0l56PIKEtxE1zQB9m0V-_lKToD8' },
@@ -75,6 +76,7 @@ export default function RootLayout({
             `,
           }}
         />
+        <TrackSource />
         {children}
       </body>
     </html>

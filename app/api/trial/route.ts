@@ -6,7 +6,8 @@ const supabase = createClient(
 );
 export async function POST(req: NextRequest) {
   try {
-    const { email } = await req.json();
+    const { email, source } = await req.json();
+    const cleanSource = typeof source === 'string' && source.trim() ? source.trim().slice(0, 120) : 'direct';
     const { data: userData } = await supabase.auth.admin.listUsers({ page: 1, perPage: 1000 });
     const user = userData.users.find(u => u.email === email);
     // Garde-fous : cette route n'est pas authentifiée (appelée juste après l'inscription).
@@ -25,6 +26,7 @@ export async function POST(req: NextRequest) {
         stripe_id: 'trial_3days',
         plan: 'Pro',
         trial_end: trialEnd.toISOString(),
+        source: cleanSource,
         created_at: new Date().toISOString(),
       });
     }
