@@ -1,33 +1,29 @@
 import { NextRequest, NextResponse } from 'next/server';
+import { createClient } from '@supabase/supabase-js';
+import { sendWelcome } from '@/lib/emails';
+
+// Appelée par la page d'inscription. Garde-fou : on n'envoie qu'à un compte créé
+// il y a moins de 15 minutes, pour que personne ne puisse utiliser cette route
+// pour envoyer des emails Spotlift à n'importe quelle adresse.
+const admin = createClient(process.env.NEXT_PUBLIC_SUPABASE_URL!, process.env.SUPABASE_SERVICE_ROLE_KEY!);
 
 export async function POST(req: NextRequest) {
   try {
-    const { email, name } = await req.json();
-    const prenom = name || email.split('@')[0];
-
-    const html = `<div style="background:#0a0015;color:#fff;padding:0;font-family:sans-serif;max-width:600px;margin:0 auto;border-radius:16px;overflow:hidden;"><div style="background:linear-gradient(135deg,#6C3483,#9B59B6);padding:35px 40px;"><h1 style="margin:0;font-size:26px;">Content de t'avoir ici 🎵</h1></div><div style="padding:35px 40px;"><p style="font-size:16px;margin:0 0 20px 0;">Salut ${prenom},</p><p style="color:#ccc;line-height:1.7;margin:0 0 20px 0;">Moi c'est <strong style="color:#fff;">J.K. RAM</strong>, artiste comme toi — et fondateur de Spotlift. Si j'ai créé cet outil, c'est parce que je sais à quel point c'est dur de se faire entendre quand on est indépendant. Spotlift, c'est tout ce que j'aurais aimé avoir à mes débuts.</p><h3 style="color:#9B59B6;margin:30px 0 15px 0;">Voici comment démarrer en 3 minutes :</h3><p style="color:#ccc;line-height:1.8;margin:0 0 8px 0;">🚀 <strong style="color:#fff;">Génère ton premier pitch</strong> — décris ton morceau, l'IA t'écrit un pitch pro pour les curateurs</p><p style="color:#ccc;line-height:1.8;margin:0 0 8px 0;">🗓️ <strong style="color:#fff;">Planifie ta sortie</strong> — le Manager IA te crée un plan jour par jour</p><p style="color:#ccc;line-height:1.8;margin:0 0 8px 0;">🎯 <strong style="color:#fff;">Trouve tes playlists</strong> — repère celles qui collent à ton son</p><div style="text-align:center;margin:30px 0;"><a href="https://getspotlift.com/dashboard" style="background:#9B59B6;color:#fff;padding:15px 45px;border-radius:30px;text-decoration:none;font-weight:bold;font-size:15px;display:inline-block;">Accéder à mon dashboard</a></div><div style="background:#1a0030;border:1px solid #9B59B6;border-radius:12px;padding:20px;margin:25px 0;text-align:center;"><p style="margin:0;color:#fff;line-height:1.6;">🎁 🎁 <strong>Tu as déjà ton cadeau de bienvenue :</strong> 3 jours d'essai Pro gratuits, accès à tous les outils. C'est ma façon de te remercier de faire partie des premiers.>`;
-
-    const response = await fetch('https://api.resend.com/emails', {
-      method: 'POST',
-      headers: {
-        'Authorization': `Bearer ${process.env.RESEND_API_KEY}`,
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        from: 'Spotlift <contact@getspotlift.com>',
-        to: email,
-        reply_to: 'contact.spotlift@gmail.com',
-      subject: `Bienvenue dans la famille Spotlift, ${prenom} 🎵`,
-        html: html
-      })
-    });
-
-    if (response.ok) {
-      return NextResponse.json({ success: true });
-    } else {
-      const error = await response.json();
-      return NextResponse.json({ error }, { status: 400 });
+    const { email } = await req.json();
+    if (typeof email !== 'string' || !email.includes('@')) {
+      return NextResponse.json({ error: 'Email invalide' }, { status: 400 });
     }
+    const since = new Date(Date.now() - 15 * 60 * 1000).toISOString();
+    const { data: profile } = await admin
+      .from('profiles')
+      .select('id')
+      .eq('email', email.trim().toLowerCase())
+      .gte('created_at', since)
+      .maybeSingle();
+    if (!profile) return NextResponse.json({ success: true, skipped: true });
+
+    const ok = await sendWelcome(email.trim());
+    return NextResponse.json({ success: ok });
   } catch (error: any) {
     return NextResponse.json({ error: error.message }, { status: 500 });
   }
