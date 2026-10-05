@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { requirePlan } from '@/lib/require-plan';
 import { isClean } from '@/lib/moderation';
+import { cleanPitch } from '@/lib/clean-pitch';
 
 export async function POST(req: NextRequest) {
   const auth = await requirePlan(req, 'free');
@@ -39,7 +40,7 @@ Le pitch doit :
 - Se terminer par une phrase d'accroche pour le curateur
 - Être en français
 - Ne pas utiliser de termes génériques comme "unique" ou "innovant"
-Réponds uniquement avec le texte du pitch, sans introduction ni commentaire.`;
+Réponds uniquement avec le texte du pitch, sans titre, sans introduction ni commentaire, et sans mise en forme Markdown (pas de #, pas de **).`;
     const response = await fetch('https://api.anthropic.com/v1/messages', {
       method: 'POST',
       headers: {
@@ -57,7 +58,7 @@ Réponds uniquement avec le texte du pitch, sans introduction ni commentaire.`;
     if (!response.ok) {
       return NextResponse.json({ error: data.error?.message || 'Erreur API' }, { status: 500 });
     }
-    const pitch = data.content[0]?.text || '';
+    const pitch = cleanPitch(data.content[0]?.text || '');
 
     // ---- MODÉRATION DE LA SORTIE ----
     if (!isClean(pitch)) {

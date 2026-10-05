@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { createClient } from '@supabase/supabase-js';
 import { createHash } from 'crypto';
 import { isClean } from '@/lib/moderation';
+import { cleanPitch } from '@/lib/clean-pitch';
 
 // Générateur de pitch accessible SANS compte (page /pitch-gratuit).
 // Garde-fous pour protéger les crédits Anthropic :
@@ -68,7 +69,7 @@ Le pitch doit :
 - Se terminer par une phrase d'accroche pour le curateur
 - Être en français
 - Ne pas utiliser de termes génériques comme "unique" ou "innovant"
-Réponds uniquement avec le texte du pitch, sans introduction ni commentaire.`;
+Réponds uniquement avec le texte du pitch, sans titre, sans introduction ni commentaire, et sans mise en forme Markdown (pas de #, pas de **).`;
 
     const response = await fetch('https://api.anthropic.com/v1/messages', {
       method: 'POST',
@@ -88,7 +89,7 @@ Réponds uniquement avec le texte du pitch, sans introduction ni commentaire.`;
       console.error('public-pitch anthropic error', data);
       return NextResponse.json({ error: 'La génération a échoué. Réessaie dans un instant.' }, { status: 500 });
     }
-    const pitch: string = data.content?.[0]?.text || '';
+    const pitch: string = cleanPitch(data.content?.[0]?.text || '');
     if (!pitch || !isClean(pitch)) {
       return NextResponse.json({ error: 'La génération a échoué. Réessaie dans un instant.' }, { status: 500 });
     }
