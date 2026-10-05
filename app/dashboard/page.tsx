@@ -209,72 +209,13 @@ const [tutorialStep, setTutorialStep] = useState(0);
                                                                                                                                                                                                                                 </div>
                                                                                                                                                                                                                                   </div>
                                                                                                                                                                                                                                   )}
-                                                                                                                                                                                                                                  {/* MODAL DE BIENVENUE */}
+                                                                                                                                                                                                                                  {/* MODAL DE BIENVENUE : premier pitch guidé */}
 {showWelcome && (
-  <div style={{position:'fixed',top:0,left:0,right:0,bottom:0,background:'rgba(0,0,0,0.85)',zIndex:1000,display:'flex',alignItems:'center',justifyContent:'center'}}>
-    <div style={{background:'#0d0020',padding:'40px',borderRadius:'24px',maxWidth:'500px',width:'90%',border:'1px solid #9B59B6',textAlign:'center'}}>
-      {tutorialStep === 0 && (
-        <>
-          <p style={{fontSize:'50px',margin:'0 0 15px 0'}}>👋</p>
-          <h2 style={{fontSize:'24px',fontWeight:'bold',marginBottom:'10px'}}>Bienvenue sur Spotlift !</h2>
-          <p style={{color:'#aaa',marginBottom:'25px',lineHeight:'1.6'}}>L'outil IA numéro 1 pour artistes indépendants sur Spotify. Laisse-nous te guider en 3 étapes rapides !</p>
-          <button onClick={() => setTutorialStep(1)}
-            style={{background:'#9B59B6',color:'#fff',padding:'12px 30px',borderRadius:'25px',border:'none',cursor:'pointer',fontWeight:'bold',fontSize:'16px',marginRight:'10px'}}>
-            Commencer le tour 🚀
-          </button>
-          <button onClick={() => setShowWelcome(false)}
-            style={{background:'transparent',color:'#555',padding:'12px 20px',borderRadius:'25px',border:'none',cursor:'pointer',fontSize:'14px'}}>
-            Passer
-          </button>
-        </>
-      )}
-      {tutorialStep === 1 && (
-        <>
-          <p style={{fontSize:'50px',margin:'0 0 15px 0'}}>🚀</p>
-          <p style={{color:'#9B59B6',fontSize:'13px',marginBottom:'5px'}}>ÉTAPE 1 SUR 3</p>
-          <h2 style={{fontSize:'22px',fontWeight:'bold',marginBottom:'10px'}}>Génère ton premier pitch</h2>
-          <p style={{color:'#aaa',marginBottom:'25px',lineHeight:'1.6'}}>Clique sur <strong style={{color:'white'}}>"Pitch Generator"</strong> dans le menu à gauche, entre le nom de ton track et génère un pitch pro en 10 secondes !</p>
-          <div style={{background:'#1a0030',padding:'15px',borderRadius:'12px',marginBottom:'25px',textAlign:'left'}}>
-            <p style={{color:'#ccc',fontSize:'13px',margin:0}}>💡 Astuce : Plus ta description est précise, meilleur sera le pitch généré !</p>
-          </div>
-          <button onClick={() => setTutorialStep(2)}
-            style={{background:'#9B59B6',color:'#fff',padding:'12px 30px',borderRadius:'25px',border:'none',cursor:'pointer',fontWeight:'bold',fontSize:'16px'}}>
-            Suivant →
-          </button>
-        </>
-      )}
-      {tutorialStep === 2 && (
-        <>
-          <p style={{fontSize:'50px',margin:'0 0 15px 0'}}>🗓️</p>
-          <p style={{color:'#9B59B6',fontSize:'13px',marginBottom:'5px'}}>ÉTAPE 2 SUR 3</p>
-          <h2 style={{fontSize:'22px',fontWeight:'bold',marginBottom:'10px'}}>Planifie ta sortie</h2>
-          <p style={{color:'#aaa',marginBottom:'25px',lineHeight:'1.6'}}>Utilise le <strong style={{color:'white'}}>"Manager IA"</strong> pour générer automatiquement ton calendrier de sortie sur 44 jours. De J-30 jusqu'à J+14 !</p>
-          <div style={{background:'#1a0030',padding:'15px',borderRadius:'12px',marginBottom:'25px',textAlign:'left'}}>
-            <p style={{color:'#ccc',fontSize:'13px',margin:0}}>💡 Astuce : Entre ta date de sortie et laisse l'IA planifier tout pour toi !</p>
-          </div>
-          <button onClick={() => setTutorialStep(3)}
-            style={{background:'#9B59B6',color:'#fff',padding:'12px 30px',borderRadius:'25px',border:'none',cursor:'pointer',fontWeight:'bold',fontSize:'16px'}}>
-            Suivant →
-          </button>
-        </>
-      )}
-      {tutorialStep === 3 && (
-        <>
-          <p style={{fontSize:'50px',margin:'0 0 15px 0'}}>🎯</p>
-          <p style={{color:'#9B59B6',fontSize:'13px',marginBottom:'5px'}}>ÉTAPE 3 SUR 3</p>
-          <h2 style={{fontSize:'22px',fontWeight:'bold',marginBottom:'10px'}}>Trouve tes playlists</h2>
-          <p style={{color:'#aaa',marginBottom:'25px',lineHeight:'1.6'}}>Le <strong style={{color:'white'}}>"Playlist Finder"</strong> cherche de vraies playlists Spotify qui correspondent à ton genre et à ton ambiance.</p>
-          <div style={{background:'#1a0030',padding:'15px',borderRadius:'12px',marginBottom:'25px',textAlign:'left'}}>
-            <p style={{color:'#ccc',fontSize:'13px',margin:0}}>💡 Astuce : écoute chaque playlist avant de pitcher, et fuis celles qui promettent des streams contre paiement.</p>
-          </div>
-          <button onClick={() => setShowWelcome(false)}
-            style={{background:'linear-gradient(135deg,#9B59B6,#1DB954)',color:'#fff',padding:'12px 30px',borderRadius:'25px',border:'none',cursor:'pointer',fontWeight:'bold',fontSize:'16px'}}>
-            C'est parti ! 🚀
-          </button>
-        </>
-      )}
-    </div>
-  </div>
+  <FirstPitchOnboarding
+    user={user}
+    onClose={() => setShowWelcome(false)}
+    onGoTo={(section: string) => { setActiveSection(section); setShowWelcome(false); }}
+  />
 )}
 {/* BOTTOM NAV MOBILE */}
 <div className="mobile-bottom-nav">
@@ -410,6 +351,131 @@ const [tutorialStep, setTutorialStep] = useState(0);
       </div>
     );
   }
+
+// Premier écran après l'inscription : une seule action, générer son premier pitch.
+// Si le visiteur a déjà fait un pitch sur /pitch-gratuit avant de s'inscrire, on le lui redonne.
+function FirstPitchOnboarding({ user, onClose, onGoTo }: { user: any; onClose: () => void; onGoTo: (section: string) => void }) {
+  const [saved, setSaved] = useState<{ track: string; pitch: string } | null>(null);
+  const [track, setTrack] = useState('');
+  const [ambiance, setAmbiance] = useState('');
+  const [description, setDescription] = useState('');
+  const [pitch, setPitch] = useState('');
+  const [error, setError] = useState('');
+  const [loading, setLoading] = useState(false);
+  const [copied, setCopied] = useState(false);
+
+  useEffect(() => {
+    try {
+      const raw = localStorage.getItem('spotlift_last_pitch');
+      if (raw) {
+        const parsed = JSON.parse(raw);
+        if (parsed?.pitch && parsed?.track) setSaved({ track: String(parsed.track), pitch: String(parsed.pitch) });
+      }
+    } catch {}
+  }, []);
+
+  const generate = async () => {
+    setError('');
+    if (!isValidInput(track) || !isValidInput(ambiance) || description.trim().length < 10) {
+      setError('Indique le titre, l\'ambiance et une phrase pour décrire ton morceau.');
+      return;
+    }
+    setLoading(true);
+    try {
+      const res = await authFetch('/api/generate-pitch', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ track, genre: '', releaseType: 'upcoming', releaseDate: '', ambiance, description, artistName: '' }),
+      });
+      const data = await res.json();
+      if (data.pitch) {
+        setPitch(data.pitch);
+        fetch('/api/track-usage', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ userId: user?.id, toolName: 'Pitch Generator (onboarding)' }),
+        }).catch(() => {});
+      } else {
+        setError(data.error || 'La génération a échoué. Réessaie.');
+      }
+    } catch {
+      setError('Erreur de connexion. Réessaie.');
+    }
+    setLoading(false);
+  };
+
+  const shownPitch = pitch || (saved ? saved.pitch : '');
+  const shownTrack = pitch ? track : (saved ? saved.track : '');
+
+  const copy = async () => {
+    try { await navigator.clipboard.writeText(shownPitch); setCopied(true); setTimeout(() => setCopied(false), 2000); } catch {}
+  };
+
+  const field: React.CSSProperties = { width: '100%', background: '#1a0030', border: '1px solid #2d1040', borderRadius: '10px', padding: '12px', color: '#fff', marginBottom: '12px', boxSizing: 'border-box', fontSize: '15px' };
+  const primary: React.CSSProperties = { background: '#9B59B6', color: '#fff', padding: '13px 24px', borderRadius: '25px', border: 'none', cursor: 'pointer', fontWeight: 'bold', fontSize: '15px' };
+  const ghost: React.CSSProperties = { background: 'transparent', color: '#aaa', padding: '13px 18px', borderRadius: '25px', border: '1px solid #444', cursor: 'pointer', fontSize: '14px' };
+
+  return (
+    <div style={{ position: 'fixed', inset: 0, background: 'rgba(0,0,0,0.88)', zIndex: 1000, display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '16px', overflowY: 'auto' }}>
+      <div style={{ background: '#0d0020', padding: '30px', borderRadius: '24px', maxWidth: '520px', width: '100%', border: '1px solid #9B59B6', maxHeight: '92vh', overflowY: 'auto' }}>
+        {!shownPitch ? (
+          <>
+            <p style={{ fontSize: '42px', margin: '0 0 8px 0', textAlign: 'center' }}>🎵</p>
+            <h2 style={{ fontSize: '23px', fontWeight: 'bold', margin: '0 0 8px 0', textAlign: 'center' }}>Quel est ton prochain titre ?</h2>
+            <p style={{ color: '#aaa', margin: '0 0 22px 0', lineHeight: 1.6, textAlign: 'center' }}>
+              On commence par ton pitch pour les curateurs Spotify. 3 infos, 10 secondes.
+            </p>
+            <input style={field} value={track} onChange={e => setTrack(e.target.value)} placeholder="Titre du morceau" maxLength={80} />
+            <select style={field} value={ambiance} onChange={e => setAmbiance(e.target.value)}>
+              <option value="">Ambiance du morceau</option>
+              <option value="triste et mélancolique">😢 Triste et mélancolique</option>
+              <option value="joyeux et festif">🎉 Joyeux et festif</option>
+              <option value="énergique et puissant">⚡ Énergique et puissant</option>
+              <option value="romantique et sensuel">❤️ Romantique et sensuel</option>
+              <option value="sombre et introspectif">🌑 Sombre et introspectif</option>
+              <option value="motivant et inspirant">🚀 Motivant et inspirant</option>
+              <option value="nostalgique">🌅 Nostalgique</option>
+              <option value="calme et apaisant">🌊 Calme et apaisant</option>
+              <option value="agressif et intense">🔥 Agressif et intense</option>
+              <option value="mystérieux et envoûtant">🌙 Mystérieux et envoûtant</option>
+            </select>
+            <textarea style={{ ...field, minHeight: '80px', resize: 'vertical' }} value={description} onChange={e => setDescription(e.target.value)}
+              placeholder="En une phrase : de quoi parle ton morceau, quel son ?" maxLength={400} />
+            {error && <p style={{ color: '#e67e80', margin: '0 0 12px 0', fontSize: '14px' }}>{error}</p>}
+            <button onClick={generate} disabled={loading} style={{ ...primary, width: '100%' }}>
+              {loading ? '⏳ Génération…' : '✨ Générer mon pitch'}
+            </button>
+            <button onClick={onClose} style={{ background: 'none', border: 'none', color: '#666', marginTop: '14px', width: '100%', cursor: 'pointer', fontSize: '13px' }}>
+              Je découvrirai plus tard
+            </button>
+          </>
+        ) : (
+          <>
+            <p style={{ color: '#1DB954', fontWeight: 'bold', fontSize: '13px', margin: '0 0 6px 0' }}>
+              {pitch ? '✅ TON PREMIER PITCH EST PRÊT' : '✅ ON A GARDÉ TON PITCH'}
+            </p>
+            <h2 style={{ fontSize: '21px', fontWeight: 'bold', margin: '0 0 14px 0' }}>« {shownTrack} »</h2>
+            <div style={{ background: '#1a0030', padding: '16px', borderRadius: '14px', border: '1px solid #2d1040', marginBottom: '14px' }}>
+              <p style={{ color: '#ddd', lineHeight: 1.7, margin: 0, whiteSpace: 'pre-line', fontSize: '14px' }}>{shownPitch}</p>
+            </div>
+            <button onClick={copy} style={{ ...ghost, marginBottom: '22px' }}>{copied ? '✓ Copié' : '📋 Copier le pitch'}</button>
+            <p style={{ color: '#fff', fontWeight: 'bold', margin: '0 0 6px 0' }}>Prochaine étape : planifier ta sortie</p>
+            <p style={{ color: '#aaa', margin: '0 0 18px 0', lineHeight: 1.6, fontSize: '14px' }}>
+              Le Manager IA te donne quoi faire, jour par jour, jusqu&apos;à la sortie : soumission Spotify, curateurs, contenus.
+            </p>
+            <div style={{ display: 'flex', gap: '10px', flexWrap: 'wrap' }}>
+              <button onClick={() => onGoTo('manager')} style={primary}>🗓️ Planifier ma sortie</button>
+              <button onClick={() => onGoTo('pitch')} style={ghost}>Faire un autre pitch</button>
+            </div>
+            <button onClick={onClose} style={{ background: 'none', border: 'none', color: '#666', marginTop: '16px', cursor: 'pointer', fontSize: '13px', padding: 0 }}>
+              Explorer les outils
+            </button>
+          </>
+        )}
+      </div>
+    </div>
+  );
+}
 
 function SearchSpotify() {
   const [query, setQuery] = useState('');
