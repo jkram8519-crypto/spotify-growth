@@ -31,15 +31,17 @@ export async function GET(req: NextRequest) {
       const { data: userData } = await supabase.auth.admin.getUserById(trial.user_id);
       const email = userData?.user?.email;
       if (!email) continue;
+      const meta = userData?.user?.user_metadata || {};
+      const name: string | null = meta.full_name || meta.name || null;
 
       if (hours < 44) {
         const { count } = await supabase
           .from('tool_usage')
           .select('id', { count: 'exact', head: true })
           .eq('user_id', trial.user_id);
-        if (await sendDay1(email, (count ?? 0) > 0)) sentJ1++;
+        if (await sendDay1(email, (count ?? 0) > 0, name)) sentJ1++;
       } else {
-        if (await sendDay2(email)) sentJ2++;
+        if (await sendDay2(email, name)) sentJ2++;
       }
     }
 

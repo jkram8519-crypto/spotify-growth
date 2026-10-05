@@ -4,11 +4,12 @@
 const FROM = 'J.K. RAM de Spotlift <contact@getspotlift.com>';
 const REPLY_TO = 'contact.spotlift@gmail.com';
 
-export function cleanPrenom(email: string): string {
-  const raw = (email || '').split('@')[0];
-  const firstPart = raw.replace(/[0-9]/g, '').split(/[._+-]/)[0];
-  if (!firstPart || firstPart.length < 2) return '';
-  return firstPart.charAt(0).toUpperCase() + firstPart.slice(1).toLowerCase();
+// On ne devine plus le prénom depuis l'adresse email (ça donnait "Salut Leupreweutrapra").
+// On l'utilise seulement s'il est connu (nom saisi ou compte Google), sinon simple "Salut,".
+export function firstName(name?: string | null): string {
+  const first = (name || '').trim().split(/\s+/)[0] || '';
+  if (!/^[A-Za-zÀ-ÖØ-öø-ÿ'-]{2,20}$/.test(first)) return '';
+  return first.charAt(0).toUpperCase() + first.slice(1).toLowerCase();
 }
 
 function hello(prenom: string): string {
@@ -51,8 +52,8 @@ async function send(to: string, m: Mail): Promise<boolean> {
 }
 
 // J0 : juste après l'inscription
-export function sendWelcome(email: string) {
-  const prenom = cleanPrenom(email);
+export function sendWelcome(email: string, name?: string | null) {
+  const prenom = firstName(name);
   return send(email, {
     subject: prenom ? `Bienvenue ${prenom}, c'est J.K. RAM` : `Bienvenue sur Spotlift, c'est J.K. RAM`,
     paragraphs: [
@@ -67,8 +68,8 @@ export function sendWelcome(email: string) {
 }
 
 // J+1 : adapté selon que la personne a déjà utilisé un outil ou non
-export function sendDay1(email: string, hasUsedTool: boolean) {
-  const prenom = cleanPrenom(email);
+export function sendDay1(email: string, hasUsedTool: boolean, name?: string | null) {
+  const prenom = firstName(name);
   if (!hasUsedTool) {
     return send(email, {
       subject: 'Tu as pu faire ton pitch ?',
@@ -94,8 +95,8 @@ export function sendDay1(email: string, hasUsedTool: boolean) {
 }
 
 // J+2 : la veille de la fin de l'essai
-export function sendDay2(email: string) {
-  const prenom = cleanPrenom(email);
+export function sendDay2(email: string, name?: string | null) {
+  const prenom = firstName(name);
   return send(email, {
     subject: 'Ton essai se termine demain',
     paragraphs: [
