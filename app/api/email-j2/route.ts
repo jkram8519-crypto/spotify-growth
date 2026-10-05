@@ -8,8 +8,8 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: 'Non autorisé' }, { status: 401 });
   }
   try {
-    const { email } = await req.json();
-    const ok = await sendDay2(email);
+    const { email, name } = await req.json();
+    const ok = await sendDay2(email, name);
     return NextResponse.json({ success: ok });
   } catch (error: any) {
     return NextResponse.json({ error: error.message }, { status: 500 });

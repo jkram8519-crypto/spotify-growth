@@ -16,13 +16,13 @@ export async function POST(req: NextRequest) {
     const since = new Date(Date.now() - 15 * 60 * 1000).toISOString();
     const { data: profile } = await admin
       .from('profiles')
-      .select('id')
+      .select('id, name')
       .eq('email', email.trim().toLowerCase())
       .gte('created_at', since)
       .maybeSingle();
     if (!profile) return NextResponse.json({ success: true, skipped: true });
 
-    const ok = await sendWelcome(email.trim());
+    const ok = await sendWelcome(email.trim(), profile.name);
     return NextResponse.json({ success: ok });
   } catch (error: any) {
     return NextResponse.json({ error: error.message }, { status: 500 });
