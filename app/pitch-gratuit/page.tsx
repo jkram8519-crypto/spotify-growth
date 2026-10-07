@@ -42,6 +42,8 @@ export default function PitchGratuit() {
         setPitch(data.pitch);
         try { localStorage.setItem('spotlift_last_pitch', JSON.stringify({ track, pitch: data.pitch })); } catch {}
         try { (window as any).gtag?.('event', 'public_pitch_generated'); } catch {}
+        // Conversion Google Ads "Pitch gratuit généré" (action secondaire, pour mesurer la qualité du trafic)
+        try { (window as any).gtag?.('event', 'conversion', { send_to: 'AW-18217088729/cA5wCLGe3pQdENntyu5D' }); } catch {}
       } else {
         setError(data.error || 'La génération a échoué. Réessaie.');
       }
