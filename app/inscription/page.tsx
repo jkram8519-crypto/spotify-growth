@@ -33,7 +33,8 @@ export default function InscriptionPage() {
           const data = await res.json();
           if(data.url) { window.location.href = data.url; return; }
         }
-        window.location.href = "/dashboard";
+        // ?conversion=1 déclenche la conversion Google Ads "Inscription" sur le dashboard
+        window.location.href = "/dashboard?conversion=1";
       }, 1500);
     }
     setChargement(false);
