@@ -1,7 +1,7 @@
 // Emails du parcours d'essai, écrits comme des messages perso du fondateur :
 // texte court, une seule action, et une vraie invitation à répondre.
 
-const FROM = 'J.K. RAM de Spotlift <contact@getspotlift.com>';
+const FROM = 'Spotlift <contact@getspotlift.com>';
 const REPLY_TO = 'contact.spotlift@gmail.com';
 
 // On ne devine plus le prénom depuis l'adresse email (ça donnait "Salut Leupreweutrapra").
