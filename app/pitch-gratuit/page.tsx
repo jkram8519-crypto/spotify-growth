@@ -20,6 +20,37 @@ export default function PitchGratuit() {
   const [limitReached, setLimitReached] = useState(false);
   const [loading, setLoading] = useState(false);
   const [copied, setCopied] = useState(false);
+  const [email, setEmail] = useState('');
+  const [releaseDate, setReleaseDate] = useState('');
+  const [planStatus, setPlanStatus] = useState<'idle' | 'sending' | 'sent' | 'error'>('idle');
+  const [planError, setPlanError] = useState('');
+
+  const sendPlan = async () => {
+    setPlanError('');
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(email.trim())) {
+      setPlanError('Entre une adresse email valide.');
+      return;
+    }
+    setPlanStatus('sending');
+    try {
+      const res = await fetch('/api/release-plan', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email: email.trim(), track, pitch, releaseDate }),
+      });
+      const data = await res.json();
+      if (res.ok && data.success) {
+        setPlanStatus('sent');
+        try { (window as any).gtag?.('event', 'release_plan_requested'); } catch {}
+      } else {
+        setPlanStatus('error');
+        setPlanError(data.error || 'L\'envoi a échoué. Réessaie.');
+      }
+    } catch {
+      setPlanStatus('error');
+      setPlanError('Erreur de connexion. Réessaie.');
+    }
+  };
 
   const generate = async () => {
     setError('');
@@ -104,6 +135,35 @@ export default function PitchGratuit() {
             <button onClick={copy} style={{ background: 'transparent', color: '#fff', border: '1px solid #555', padding: '10px 18px', borderRadius: '20px', cursor: 'pointer' }}>
               {copied ? '✓ Copié' : 'Copier le pitch'}
             </button>
+          </div>
+        )}
+
+        {pitch && (
+          <div style={{ background: '#0d0020', padding: '24px', borderRadius: '20px', border: '1px solid #2d1040', marginBottom: '24px' }}>
+            <p style={{ fontSize: '19px', fontWeight: 'bold', margin: '0 0 6px' }}>Reçois ton plan de sortie complet par email</p>
+            <p style={{ color: '#aaa', margin: '0 0 16px', lineHeight: 1.6, fontSize: '15px' }}>
+              Ton pitch + toutes les étapes de J-28 à J+14 (distributeur, Spotify for Artists, curateurs, réseaux), datées selon ta sortie.
+            </p>
+            {planStatus === 'sent' ? (
+              <p style={{ color: '#7dd3a0', margin: 0, lineHeight: 1.6 }}>
+                ✓ C&apos;est envoyé ! Regarde ta boîte mail dans une minute (et tes spams si besoin).
+              </p>
+            ) : (
+              <>
+                <label style={label} htmlFor="plan-email">Ton email *</label>
+                <input id="plan-email" type="email" style={input} value={email} onChange={e => setEmail(e.target.value)} placeholder="ton@email.com" maxLength={120} />
+                <label style={label} htmlFor="plan-date">Date de sortie prévue (facultatif)</label>
+                <input id="plan-date" type="date" style={input} value={releaseDate} onChange={e => setReleaseDate(e.target.value)} />
+                <button onClick={sendPlan} disabled={planStatus === 'sending'}
+                  style={{ width: '100%', background: '#9B59B6', color: '#fff', padding: '14px', borderRadius: '12px', fontWeight: 'bold', fontSize: '16px', border: 'none', cursor: planStatus === 'sending' ? 'default' : 'pointer' }}>
+                  {planStatus === 'sending' ? 'Envoi…' : '📩 Recevoir mon plan de sortie'}
+                </button>
+                {planError && <p style={{ color: '#e67e80', marginTop: '12px', marginBottom: 0 }}>{planError}</p>}
+                <p style={{ color: '#777', fontSize: '12px', margin: '12px 0 0', lineHeight: 1.5 }}>
+                  Tu recevras ce plan et, de temps en temps, un conseil de J.K. RAM pour tes sorties. Pas de spam : réponds « stop » pour ne plus rien recevoir.
+                </p>
+              </>
+            )}
           </div>
         )}
 

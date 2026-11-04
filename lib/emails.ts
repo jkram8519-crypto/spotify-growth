@@ -108,3 +108,43 @@ export function sendDay2(email: string, name?: string | null) {
     after: ['Et si Spotlift ne t\'a pas convaincu, j\'aimerais vraiment savoir pourquoi. Réponds à ce mail, même pour me dire ce qui manque.'],
   });
 }
+
+// Plan de sortie envoyé depuis /pitch-gratuit (visiteur sans compte)
+const esc = (t: string) => t.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+
+const PLAN_STEPS: { day: number; text: string }[] = [
+  { day: -28, text: 'Finalise le master et la pochette (3000 × 3000 px), puis fixe ta date de sortie.' },
+  { day: -21, text: 'Envoie le titre à ton distributeur (DistroKid, TuneCore…). Dès qu\'il apparaît dans Spotify for Artists, soumets-le avec ton pitch : au moins 7 jours avant la sortie.' },
+  { day: -14, text: 'Contacte 10 à 20 curateurs de playlists indépendants avec ton pitch. Crée ton lien pre-save et annonce la sortie sur tes réseaux.' },
+  { day: -10, text: 'Publie 3 contenus par semaine jusqu\'à la sortie : un teaser de 15 s, les coulisses, un extrait du refrain ou du drop.' },
+  { day: -3, text: 'Rappelle le pre-save, mets à jour ta photo et ta bio dans Spotify for Artists.' },
+  { day: 0, text: 'Jour J : partage le lien partout, story, message à tes proches, remercie ceux qui écoutent.' },
+  { day: 2, text: 'Relance les curateurs qui n\'ont pas répondu et partage les playlists qui t\'ont ajouté.' },
+  { day: 7, text: 'Analyse tes stats dans Spotify for Artists : sources d\'écoute, saves, playlists.' },
+  { day: 14, text: 'Fais le bilan et prépare le prochain single : sortir régulièrement nourrit ton Release Radar.' },
+];
+
+function planDate(release: Date | null, day: number): string {
+  if (!release) return day === 0 ? 'Jour J' : day < 0 ? `J${day}` : `J+${day}`;
+  const d = new Date(release.getTime() + day * 86400000);
+  const label = d.toLocaleDateString('fr-FR', { weekday: 'short', day: 'numeric', month: 'short', timeZone: 'Europe/Paris' });
+  return `${day === 0 ? 'Jour J' : day < 0 ? `J${day}` : `J+${day}`} · ${label}`;
+}
+
+export function sendReleasePlan(email: string, track: string, pitch: string, release: Date | null) {
+  const t = esc(track);
+  return send(email, {
+    subject: `Ton plan de sortie pour « ${track} »`,
+    paragraphs: [
+      'Salut,',
+      `C'est J.K. RAM, le créateur de Spotlift. Comme promis, voici ton plan de sortie pour <b>${t}</b>, étape par étape.`,
+      '<b>Ton pitch</b> (à coller dans Spotify for Artists et à envoyer aux curateurs) :',
+      `<span style="display:block;background:#f6f0fa;border-left:3px solid #9B59B6;padding:12px 14px;white-space:pre-line;">${esc(pitch)}</span>`,
+      '<b>Ton plan</b> :',
+      ...PLAN_STEPS.map(s => `<b>${planDate(release, s.day)}</b> — ${s.text}`),
+      'Dans Spotlift, ce plan se suit jour par jour, avec les messages aux curateurs, les idées de posts TikTok et l\'analyse de tes stats. L\'essai est gratuit pendant 3 jours.',
+    ],
+    cta: { label: 'Créer mon compte gratuit', url: 'https://getspotlift.com/inscription?utm_source=email&utm_medium=plan-sortie' },
+    after: ['Une question sur ta sortie ? Réponds à ce mail, c\'est moi qui lis. Tu ne veux plus recevoir de mails de ma part ? Réponds simplement « stop ».'],
+  });
+}
