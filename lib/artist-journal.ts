@@ -54,17 +54,17 @@ export const RELEASES: Release[] = [
   {
     slug: 'nobody-sleeps-tonight',
     title: 'Nobody Sleeps Tonight',
-    status: 'Titre électro d\'Halloween',
+    status: 'Sorti le 31 octobre 2026',
     intro: "Un voyage électro sur la nuit d'Halloween : des revenants qui ne cherchent plus à faire peur, mais à danser jusqu'à l'aube.",
     links: [
-      { label: 'Écouter ou pré-enregistrer le titre', url: 'https://distrokid.com/hyperfollow/jkram/nobody-sleeps-tonight' },
+      { label: 'Écouter le titre', url: 'https://distrokid.com/hyperfollow/jkram/nobody-sleeps-tonight' },
     ],
     videos: [
       { title: 'La vidéo Halloween', youtubeId: 'UogPW4eWZUI' },
     ],
     steps: [
       { date: 'Fin octobre 2026', title: 'Préparation', text: 'Titre finalisé sous le nom « Nobody Sleeps Tonight », pochette choisie et envoi sur DistroKid.' },
-      { date: '31 octobre 2026', title: 'Vidéo Halloween', text: 'Vidéo de danse publiée le soir d\'Halloween sur YouTube, Instagram et TikTok.' },
+      { date: '31 octobre 2026', title: 'Sortie et vidéo Halloween', text: 'Sortie du titre sur Spotify et toutes les plateformes, le soir d\'Halloween, avec une vidéo de danse publiée sur YouTube, Instagram et TikTok.' },
     ],
     results: ['Les chiffres seront ajoutés ici dès qu\'ils seront disponibles.'],
   },
