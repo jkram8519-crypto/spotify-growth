@@ -211,6 +211,9 @@ export default function LandingPage() {
             allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
             loading="lazy"
           />
+          <a href="/artistes/jk-ram" style={{display:'inline-block',marginTop:'18px',color:'#c38be0',fontWeight:'bold',textDecoration:'none'}}>
+            Suivre ses sorties étape par étape, avec les vrais chiffres →
+          </a>
         </div>
       </section>
       <section style={{padding:'70px 40px',background:'#0d0020'}}>
