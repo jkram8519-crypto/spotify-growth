@@ -27,6 +27,12 @@ async function authFetch(url: string, init: RequestInit = {}) {
 // Les outils regroupés en 3 piliers : l'ordre suit une sortie, de la préparation à l'analyse.
 const TOOL_PILLARS = [
   {
+    title: 'Ma sortie',
+    items: [
+      {id:'manager', emoji:'🗓️', label:'Mon plan de sortie'},
+    ],
+  },
+  {
     title: 'Préparer',
     items: [
       {id:'profil', emoji:'🎨', label:'Profil Artiste'},
@@ -37,7 +43,6 @@ const TOOL_PILLARS = [
   {
     title: 'Lancer',
     items: [
-      {id:'manager', emoji:'🗓️', label:'Mon plan de sortie'},
       {id:'contenu', emoji:'📱', label:'Contenu Social'},
       {id:'script', emoji:'🎬', label:'Script Vidéo IA'},
       {id:'viral', emoji:'🔥', label:'Viral Potentiel'},
@@ -55,7 +60,8 @@ const TOOL_PILLARS = [
 
 export default function Dashboard() {
   const [user, setUser] = useState<any>(null);
-  const [activeSection, setActiveSection] = useState('pitch');
+  // Le plan de sortie est l'accueil du tableau de bord : c'est la promesse de la page d'accueil.
+  const [activeSection, setActiveSection] = useState('manager');
   const [plan, setPlan] = useState('Free');
 
 useEffect(() => {
@@ -104,15 +110,14 @@ const [tutorialStep, setTutorialStep] = useState(0);
   useEffect(() => {
     // Après un rechargement, on revient sur l'outil où l'artiste se trouvait.
     let stored: string | null = null;
-    try { stored = sessionStorage.getItem('spotlift_section'); } catch {}
+    try { stored = sessionStorage.getItem('spotlift_section_v2'); } catch {}
     if (stored) setActiveSection(stored);
     const getUser = async () => {
       const { data } = await supabase.auth.getUser();
       if (data.user) {
         setUser(data.user);
         // Un artiste qui a déjà un plan de sortie retombe directement dessus.
-        authFetch('/api/plan').then(r => r.json()).then(d => { if (d.plan && !stored) setActiveSection('manager'); }).catch(() => {});
-        authFetch('/api/event', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ name: 'dashboard_opened' }) }).catch(() => {});
+                authFetch('/api/event', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ name: 'dashboard_opened' }) }).catch(() => {});
       }
       else window.location.href = '/login';
     };
@@ -124,7 +129,7 @@ const [tutorialStep, setTutorialStep] = useState(0);
     }
   }, []);
   useEffect(() => {
-    try { sessionStorage.setItem('spotlift_section', activeSection); } catch {}
+    try { sessionStorage.setItem('spotlift_section_v2', activeSection); } catch {}
   }, [activeSection]);
 
 
@@ -233,8 +238,8 @@ const [tutorialStep, setTutorialStep] = useState(0);
 {/* BOTTOM NAV MOBILE */}
 <div className="mobile-bottom-nav">
   {[
-    {id:'pitch',emoji:'🚀',label:'Pitch'},
     {id:'manager',emoji:'🗓️',label:'Mon plan'},
+    {id:'pitch',emoji:'🚀',label:'Pitch'},
     {id:'playlists',emoji:'🎧',label:'Playlist'},
     {id:'analytics',emoji:'📊',label:'Analytics'},
     {id:'growth',emoji:'🎯',label:'Score'},
