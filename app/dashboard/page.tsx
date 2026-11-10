@@ -296,7 +296,7 @@ const [tutorialStep, setTutorialStep] = useState(0);
 <div style={{background:'linear-gradient(135deg,#2d1040,#1a0030)',padding:'25px 30px',borderRadius:'20px',marginBottom:'25px',border:'1px solid #9B59B650',display:'flex',justifyContent:'space-between',alignItems:'center',boxShadow:'0 4px 20px rgba(155,89,182,0.15)'}}>
   <div>
     <h2 style={{margin:0,fontSize:'20px',fontWeight:'bold'}}>
-      Bonjour 👋 {user?.user_metadata?.full_name?.split(' ')[0] || user?.email?.split('@')[0]}
+      Bonjour 👋 {user?.user_metadata?.full_name?.split(' ')[0] || ''}
     </h2>
     <p style={{margin:'5px 0 0 0',color:'#aaa',fontSize:'14px'}}>Bienvenue sur ton dashboard Spotlift</p>
   </div>

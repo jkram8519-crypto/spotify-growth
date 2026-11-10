@@ -232,7 +232,7 @@ export default function ReleasePlan({ onGoTo }: { onGoTo: (section: string) => v
               style={{ width: '22px', height: '22px', marginTop: '2px', accentColor: '#1DB954', cursor: 'pointer', flexShrink: 0 }} />
             <div style={{ minWidth: 0 }}>
               <p style={{ color: task.late && !task.done ? '#f39c12' : '#9B59B6', fontSize: '12px', margin: '0 0 4px 0', fontWeight: 'bold' }}>
-                {dayLabel(task.day)} · {task.late && !task.done ? 'à faire dès maintenant' : frDate(task.date)}{isNext ? ' · prochaine étape' : ''}
+                {task.late ? (task.done ? 'Rattrapé' : 'À rattraper dès maintenant') : `${dayLabel(task.day)} · ${frDate(task.date)}`}{isNext ? ' · prochaine étape' : ''}
               </p>
               <p style={{ color: '#fff', fontSize: '16px', margin: '0 0 6px 0', fontWeight: 'bold', textDecoration: task.done ? 'line-through' : 'none' }}>{task.title}</p>
               <p style={{ color: '#bbb', fontSize: '14px', margin: 0, lineHeight: 1.6 }}>{task.detail}</p>

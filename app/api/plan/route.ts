@@ -16,13 +16,15 @@ const logEvent = (userId: string, name: string, meta: Record<string, unknown> = 
   admin.from('events').insert({ user_id: userId, name, meta }).then(() => {}, () => {});
 
 // Un conseil d'une phrase par étape clé, adapté au genre. Si l'IA échoue, le plan reste complet sans conseil.
-const TIP_IDS = ['pitch', 'playlists', 'annonce', 'curateurs', 'extrait1', 'coulisses', 'jourj', 'bilan'];
+const TIP_IDS = ['pitch', 'playlists', 'annonce', 'curateurs', 'extrait1', 'coulisses', 'bilan'];
 
-async function addTips(tasks: PlanTask[], track: string, genre: string): Promise<PlanTask[]> {
+async function addTips(tasks: PlanTask[], track: string, genre: string, daysLeft: number): Promise<PlanTask[]> {
   try {
     const targets = tasks.filter(t => TIP_IDS.includes(t.id));
-    const prompt = `Tu conseilles un artiste indépendant francophone qui sort le titre "${track}" (genre : ${genre}).
+    const prompt = `Tu conseilles un artiste indépendant francophone débutant qui sort le titre "${track}" (genre : ${genre}) dans ${daysLeft} jour${daysLeft > 1 ? 's' : ''}.
 Pour chaque étape ci-dessous, écris UN conseil concret et spécifique à ce genre musical, en une phrase de 25 mots maximum, en tutoyant.
+Dis comment bien faire l'étape, jamais quand la faire : ne mentionne aucun délai, aucune date, aucun nombre de jours ou de semaines.
+Français simple, sans jargon du métier ni anglicisme (pas de "DSP", "teaser", "asset").
 Pas de promesse de résultat, pas de chiffres inventés, pas de noms de playlists ou de marques.
 Format strict : une ligne par étape, sous la forme identifiant | conseil. Aucun autre texte.
 
@@ -89,7 +91,7 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: 'La date de sortie doit être entre aujourd\'hui et dans un an.' }, { status: 400 });
     }
 
-    const tasks = await addTips(buildPlan(track, releaseDate, answers, today), track, answers.genre);
+    const tasks = await addTips(buildPlan(track, releaseDate, answers, today), track, answers.genre, daysLeft);
     const row = {
       user_id: auth.userId,
       track_name: track,

@@ -63,8 +63,11 @@ export function buildPlan(track: string, releaseDate: string, a: PlanAnswers, to
   const steps: Omit<PlanTask, 'date' | 'done' | 'late'>[] = [];
   const add = (id: string, day: number, title: string, detail: string, tool?: string) => steps.push({ id, day, title, detail, tool });
 
-  add('master', -44, 'Valider le master et la pochette',
-    `Écoute « ${track} » sur trois supports (casque, téléphone, voiture). Exporte le master final en WAV et prépare une pochette carrée de 3000 × 3000 px.`);
+  // Titre déjà chez le distributeur : le master et la pochette sont forcément validés.
+  if (a.distributor !== 'sent') {
+    add('master', -44, 'Valider le master et la pochette',
+      `Écoute « ${track} » sur trois supports (casque, téléphone, voiture). Exporte le master final en WAV et prépare une pochette carrée de 3000 × 3000 px.`);
+  }
 
   if (a.distributor === 'none') {
     add('distrib-choix', -42, 'Choisir un distributeur',
@@ -139,9 +142,23 @@ export function buildPlan(track: string, releaseDate: string, a: PlanAnswers, to
   add('bilan', 14, 'Faire le bilan et fixer la prochaine sortie',
     'Écris trois choses à refaire et une à changer. Puis choisis la date de ton prochain titre : sortir régulièrement nourrit ton Release Radar.');
 
-  return steps.map(s => {
+  const tasks: PlanTask[] = steps.map(s => {
     const planned = addDays(releaseDate, s.day);
     const late = planned < today;
     return { ...s, date: late ? today : planned, late: late || undefined, done: false };
   });
+
+  // Sortie proche : le pitch éditorial a une vraie date limite (J-7). S'il est à rattraper,
+  // il passe en tête du plan avec sa date butoir, pour ne pas se perdre parmi les autres rattrapages.
+  const editorial = tasks.find(t => t.id === 'editorial');
+  if (editorial && editorial.late && daysLeft >= 7) {
+    const limit = new Date(addDays(releaseDate, -7) + 'T12:00:00Z')
+      .toLocaleDateString('fr-FR', { weekday: 'long', day: 'numeric', month: 'long', timeZone: 'UTC' });
+    editorial.title = `Urgent : pitcher les playlists éditoriales de Spotify avant ${limit}`;
+    editorial.detail = `Spotify n'accepte plus le pitch à moins de 7 jours de la sortie : il te reste ${daysLeft - 7 === 0 ? 'aujourd\'hui seulement' : daysLeft - 7 === 1 ? 'jusqu\'à demain' : (daysLeft - 7) + ' jours'}. Dans Spotify for Artists, rubrique « À venir », soumets le titre avec ton pitch.`;
+    const pitch = tasks.find(t => t.id === 'pitch');
+    const rest = tasks.filter(t => t.id !== 'editorial' && t.id !== 'pitch');
+    return [...(pitch ? [pitch] : []), editorial, ...rest];
+  }
+  return tasks;
 }
