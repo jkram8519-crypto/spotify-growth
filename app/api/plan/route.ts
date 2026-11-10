@@ -12,8 +12,10 @@ const admin = createClient(
   process.env.SUPABASE_SERVICE_ROLE_KEY!
 );
 
-const logEvent = (userId: string, name: string, meta: Record<string, unknown> = {}) =>
-  admin.from('events').insert({ user_id: userId, name, meta }).then(() => {}, () => {});
+// Toujours attendu (await) : sur Vercel, une écriture lancée sans attendre est coupée dès que la réponse part.
+async function logEvent(userId: string, name: string, meta: Record<string, unknown> = {}) {
+  try { await admin.from('events').insert({ user_id: userId, name, meta }); } catch {}
+}
 
 // Un conseil d'une phrase par étape clé, adapté au genre. Si l'IA échoue, le plan reste complet sans conseil.
 const TIP_IDS = ['pitch', 'playlists', 'annonce', 'curateurs', 'extrait1', 'coulisses', 'bilan'];
@@ -107,7 +109,7 @@ export async function POST(req: NextRequest) {
       console.error('release_plans upsert', error.message);
       return NextResponse.json({ error: 'Impossible d\'enregistrer ton plan. Réessaie.' }, { status: 500 });
     }
-    logEvent(auth.userId, 'plan_created', { genre: answers.genre, days_left: daysLeft, distributor: answers.distributor });
+    await logEvent(auth.userId, 'plan_created', { genre: answers.genre, days_left: daysLeft, distributor: answers.distributor });
     return NextResponse.json({
       plan: { track_name: track, release_date: releaseDate, answers, tasks, reminders: true },
       today,
@@ -133,11 +135,11 @@ export async function PATCH(req: NextRequest) {
     if (typeof body.taskId === 'string' && typeof body.done === 'boolean') {
       const tasks = (plan.tasks as PlanTask[]).map(t => (t.id === body.taskId ? { ...t, done: body.done } : t));
       update.tasks = tasks;
-      if (body.done) logEvent(auth.userId, 'task_done', { task: body.taskId, done_count: tasks.filter(t => t.done).length });
+      if (body.done) await logEvent(auth.userId, 'task_done', { task: body.taskId, done_count: tasks.filter(t => t.done).length });
     }
     if (typeof body.reminders === 'boolean') {
       update.reminders = body.reminders;
-      logEvent(auth.userId, body.reminders ? 'reminders_on' : 'reminders_off');
+      await logEvent(auth.userId, body.reminders ? 'reminders_on' : 'reminders_off');
     }
     const { error } = await admin.from('release_plans').update(update).eq('user_id', auth.userId);
     if (error) return NextResponse.json({ error: 'Enregistrement impossible. Réessaie.' }, { status: 500 });

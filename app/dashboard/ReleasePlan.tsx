@@ -216,6 +216,7 @@ export default function ReleasePlan({ onGoTo }: { onGoTo: (section: string) => v
         <div role="progressbar" aria-valuenow={percent} aria-valuemin={0} aria-valuemax={100} style={{ background: '#1a0030', borderRadius: '8px', height: '10px', overflow: 'hidden' }}>
           <div style={{ width: `${percent}%`, height: '100%', background: '#1DB954', transition: 'width .3s' }} />
         </div>
+        <p style={{ margin: '12px 0 0 0', color: '#aaa', fontSize: '13px' }}>Touche le carré à gauche d&apos;une étape quand elle est faite. Ton avancement est enregistré.</p>
         <label style={{ display: 'flex', alignItems: 'center', gap: '10px', marginTop: '16px', color: '#ccc', fontSize: '14px', cursor: 'pointer' }}>
           <input type="checkbox" checked={plan.reminders} onChange={toggleReminders} style={{ width: '18px', height: '18px', accentColor: '#9B59B6' }} />
           Me rappeler par email les jours où une étape est prévue
@@ -228,8 +229,11 @@ export default function ReleasePlan({ onGoTo }: { onGoTo: (section: string) => v
         const isNext = next?.id === task.id;
         return (
           <div key={task.id} style={{ display: 'flex', gap: '14px', padding: '16px', borderRadius: '14px', marginBottom: '10px', background: isNext ? '#1a0030' : '#0d0020', border: isNext ? '1px solid #9B59B6' : '1px solid #2d1040', opacity: task.done ? 0.55 : 1 }}>
-            <input type="checkbox" checked={task.done} onChange={() => toggle(task)} aria-label={`Étape faite : ${task.title}`}
-              style={{ width: '22px', height: '22px', marginTop: '2px', accentColor: '#1DB954', cursor: 'pointer', flexShrink: 0 }} />
+            <button type="button" onClick={() => toggle(task)} aria-pressed={task.done}
+              aria-label={task.done ? `Marquer comme à faire : ${task.title}` : `Marquer comme faite : ${task.title}`}
+              style={{ width: '36px', height: '36px', borderRadius: '10px', border: task.done ? '2px solid #1DB954' : '2px solid #9B59B6', background: task.done ? '#1DB954' : 'transparent', color: '#000', fontWeight: 'bold', fontSize: '20px', lineHeight: 1, cursor: 'pointer', flexShrink: 0, padding: 0 }}>
+              {task.done ? '✓' : ''}
+            </button>
             <div style={{ minWidth: 0 }}>
               <p style={{ color: task.late && !task.done ? '#f39c12' : '#9B59B6', fontSize: '12px', margin: '0 0 4px 0', fontWeight: 'bold' }}>
                 {task.late ? (task.done ? 'Rattrapé' : 'À rattraper dès maintenant') : `${dayLabel(task.day)} · ${frDate(task.date)}`}{isNext ? ' · prochaine étape' : ''}
