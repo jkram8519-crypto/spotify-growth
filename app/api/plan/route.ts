@@ -124,25 +124,26 @@ export async function PATCH(req: NextRequest) {
   if (auth instanceof NextResponse) return auth;
   try {
     const body = await req.json();
-    const { data: plan } = await admin
-      .from('release_plans')
-      .select('tasks, reminders')
-      .eq('user_id', auth.userId)
-      .maybeSingle();
-    if (!plan) return NextResponse.json({ error: 'Aucun plan enregistré.' }, { status: 404 });
-
-    const update: Record<string, unknown> = { updated_at: new Date().toISOString() };
+    // Cocher une étape : une seule requête SQL atomique (fonction set_plan_task_done).
+    // Lire puis réécrire toute la liste faisait perdre des coches quand on en touchait plusieurs à la suite.
     if (typeof body.taskId === 'string' && typeof body.done === 'boolean') {
-      const tasks = (plan.tasks as PlanTask[]).map(t => (t.id === body.taskId ? { ...t, done: body.done } : t));
-      update.tasks = tasks;
-      if (body.done) await logEvent(auth.userId, 'task_done', { task: body.taskId, done_count: tasks.filter(t => t.done).length });
+      const { data: doneCount, error } = await admin.rpc('set_plan_task_done', {
+        p_user: auth.userId,
+        p_task: body.taskId.slice(0, 40),
+        p_done: body.done,
+      });
+      if (error) return NextResponse.json({ error: 'Enregistrement impossible. Réessaie.' }, { status: 500 });
+      if (doneCount === null) return NextResponse.json({ error: 'Aucun plan enregistré.' }, { status: 404 });
+      if (body.done) await logEvent(auth.userId, 'task_done', { task: body.taskId.slice(0, 40), done_count: doneCount });
     }
     if (typeof body.reminders === 'boolean') {
-      update.reminders = body.reminders;
+      const { error } = await admin
+        .from('release_plans')
+        .update({ reminders: body.reminders, updated_at: new Date().toISOString() })
+        .eq('user_id', auth.userId);
+      if (error) return NextResponse.json({ error: 'Enregistrement impossible. Réessaie.' }, { status: 500 });
       await logEvent(auth.userId, body.reminders ? 'reminders_on' : 'reminders_off');
     }
-    const { error } = await admin.from('release_plans').update(update).eq('user_id', auth.userId);
-    if (error) return NextResponse.json({ error: 'Enregistrement impossible. Réessaie.' }, { status: 500 });
     return NextResponse.json({ success: true });
   } catch {
     return NextResponse.json({ error: 'Erreur serveur. Réessaie.' }, { status: 500 });
