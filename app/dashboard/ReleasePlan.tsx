@@ -66,6 +66,28 @@ export default function ReleasePlan({ onGoTo }: { onGoTo: (section: string) => v
   const [networks, setNetworks] = useState<string[]>(['instagram']);
   const [sacem, setSacem] = useState('unknown');
   const [adsBudget, setAdsBudget] = useState('no');
+  const [draftLoaded, setDraftLoaded] = useState(false);
+
+  // Brouillon du formulaire : un rechargement ne fait pas perdre les réponses.
+  useEffect(() => {
+    try {
+      const d = JSON.parse(localStorage.getItem('spotlift_plan_draft') || 'null');
+      if (d) {
+        if (typeof d.trackName === 'string') setTrackName(d.trackName);
+        if (typeof d.releaseDate === 'string') setReleaseDate(d.releaseDate);
+        if (typeof d.genre === 'string') setGenre(d.genre);
+        if (typeof d.distributor === 'string') setDistributor(d.distributor);
+        if (Array.isArray(d.networks)) setNetworks(d.networks);
+        if (typeof d.sacem === 'string') setSacem(d.sacem);
+        if (typeof d.adsBudget === 'string') setAdsBudget(d.adsBudget);
+      }
+    } catch {}
+    setDraftLoaded(true);
+  }, []);
+  useEffect(() => {
+    if (!draftLoaded) return;
+    try { localStorage.setItem('spotlift_plan_draft', JSON.stringify({ trackName, releaseDate, genre, distributor, networks, sacem, adsBudget })); } catch {}
+  }, [draftLoaded, trackName, releaseDate, genre, distributor, networks, sacem, adsBudget]);
 
   useEffect(() => {
     (async () => {
@@ -94,7 +116,7 @@ export default function ReleasePlan({ onGoTo }: { onGoTo: (section: string) => v
         body: JSON.stringify({ track: trackName, releaseDate, answers: { genre, distributor, networks, sacem, adsBudget: adsBudget === 'yes' } }),
       });
       const data = await res.json();
-      if (data.plan) { setPlan(data.plan); setToday(data.today); setEditing(false); window.scrollTo({ top: 0 }); }
+      if (data.plan) { setPlan(data.plan); setToday(data.today); setEditing(false); setTrackName(''); setReleaseDate(''); window.scrollTo({ top: 0 }); }
       else setError(data.error || 'Une erreur est survenue. Réessaie.');
     } catch {
       setError('Erreur de connexion. Réessaie.');
@@ -182,10 +204,11 @@ export default function ReleasePlan({ onGoTo }: { onGoTo: (section: string) => v
             <Choice value="yes" current={adsBudget} onPick={setAdsBudget}>Oui, un peu</Choice>
           </div>
 
-          {error && <p role="alert" style={{ color: '#e67e80', margin: '0 0 14px 0', fontSize: '14px' }}>{error}</p>}
+          {error && <p role="alert" style={{ color: '#fff', background: '#7a1f2b', border: '1px solid #e67e80', borderRadius: '10px', padding: '12px 14px', margin: '0 0 14px 0', fontSize: '15px', fontWeight: 'bold' }}>⚠️ {error}</p>}
           <button onClick={create} disabled={saving} style={{ ...primary, opacity: saving ? 0.7 : 1 }}>
-            {saving ? '⏳ Création de ton plan…' : 'Créer mon plan de sortie'}
+            {saving ? '⏳ Création de ton plan… (quelques secondes)' : 'Créer mon plan de sortie'}
           </button>
+          <p style={{ color: '#888', fontSize: '13px', textAlign: 'center', margin: '12px 0 0 0' }}>Ton plan n&apos;est enregistré qu&apos;après ce bouton.</p>
           {editing && (
             <button onClick={() => { setEditing(false); setError(''); }} style={{ background: 'none', border: 'none', color: '#888', marginTop: '14px', width: '100%', cursor: 'pointer', fontSize: '13px' }}>
               Annuler et garder mon plan actuel

@@ -102,12 +102,16 @@ const [showMoreMenu, setShowMoreMenu] = useState(false);
   const [showToolsModal, setShowToolsModal] = useState(false);
 const [tutorialStep, setTutorialStep] = useState(0);
   useEffect(() => {
+    // Après un rechargement, on revient sur l'outil où l'artiste se trouvait.
+    let stored: string | null = null;
+    try { stored = sessionStorage.getItem('spotlift_section'); } catch {}
+    if (stored) setActiveSection(stored);
     const getUser = async () => {
       const { data } = await supabase.auth.getUser();
       if (data.user) {
         setUser(data.user);
         // Un artiste qui a déjà un plan de sortie retombe directement dessus.
-        authFetch('/api/plan').then(r => r.json()).then(d => { if (d.plan) setActiveSection('manager'); }).catch(() => {});
+        authFetch('/api/plan').then(r => r.json()).then(d => { if (d.plan && !stored) setActiveSection('manager'); }).catch(() => {});
         authFetch('/api/event', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ name: 'dashboard_opened' }) }).catch(() => {});
       }
       else window.location.href = '/login';
@@ -119,6 +123,9 @@ const [tutorialStep, setTutorialStep] = useState(0);
       localStorage.setItem('spotlift_tutoriel_vu', 'true');
     }
   }, []);
+  useEffect(() => {
+    try { sessionStorage.setItem('spotlift_section', activeSection); } catch {}
+  }, [activeSection]);
 
 
 
