@@ -60,7 +60,7 @@ export default function Pricing() {
           <p style={{fontSize:'48px',fontWeight:'bold',marginBottom:'5px'}}>0 EUR</p>
           <p style={{color:'#aaa',marginBottom:'25px',fontSize:'14px'}}>Pour decouvrir Spotlift</p>
           <div style={{marginBottom:'25px'}}>
-            {['Pitch Generator IA','Bio Generator','Release Checklist'].map((f,i) => (
+            {['Pitch Generator IA','Plan de sortie personnalisé','Rappels par email'].map((f,i) => (
               <p key={i} style={{color:'#ccc',marginBottom:'8px',fontSize:'14px'}}>✅ {f}</p>
             ))}
           </div>
@@ -78,7 +78,7 @@ export default function Pricing() {
           <p style={{fontSize:'48px',fontWeight:'bold',marginBottom:'2px'}}>{annual ? '7.99' : '9.99'} EUR<span style={{fontSize:'16px'}}>/mois</span></p>
           {annual && <p style={{fontSize:'13px',marginBottom:'5px',opacity:0.8}}>soit 95.88 EUR/an</p>}
           <div style={{marginBottom:'25px',marginTop:'15px'}}>
-            {['Tout le plan Free','Playlist Finder','Manager IA 44 jours','Growth Score','Generateur de contenu','IA Assistant Marketing'].map((f,i) => (
+            {['Tout le plan Free','Playlist Finder','Script Vidéo IA','Growth Score','Generateur de contenu','IA Assistant Marketing'].map((f,i) => (
               <p key={i} style={{marginBottom:'8px',fontSize:'14px'}}>✅ {f}</p>
             ))}
           </div>

@@ -14,7 +14,7 @@ export default function FAQ() {
         {q:"C'est quoi Spotlift ?",a:"Spotlift est un outil IA complet pour artistes indépendants sur Spotify. Il génère des pitches professionnels, planifie tes sorties sur 44 jours, analyse tes performances et bien plus."},
         {q:"C'est gratuit ?",a:"Oui ! Le plan Free est 100% gratuit. Les plans Pro (9.99€/mois) et Pro+ (19.99€/mois) débloquent toutes les fonctionnalités avancées."},
         {q:"Comment fonctionne le Pitch Generator IA ?",a:"Tu entres le nom de ton track et ton genre musical, et l'IA génère en 10 secondes un pitch professionnel prêt à envoyer aux curateurs de playlist."},
-        {q:"Qu'est-ce que le Manager IA ?",a:"Le Manager IA planifie automatiquement toute ta stratégie de sortie sur 44 jours — de J-30 jusqu'à J+14. Tu sais exactement quoi faire chaque jour."},
+        {q:"Qu'est-ce que le plan de sortie ?",a:"Tu réponds à six questions (titre, date, genre, distributeur, réseaux, SACEM) et tu reçois un plan daté de J-44 à J+14. Il est sauvegardé, tu coches les étapes au fur et à mesure et tu reçois un rappel par email les jours où une étape est prévue. Il est gratuit."},
         {q:"L'app est-elle disponible sur mobile ?",a:"Oui ! Spotlift est disponible sur Android via Google Play. La version iOS arrive prochainement."},
         {q:"Comment annuler mon abonnement ?",a:"Tu peux annuler à tout moment depuis ton dashboard. Aucun engagement, aucune pénalité."},
         {q:"Mes données sont-elles sécurisées ?",a:"Oui ! Tes données sont stockées sur Supabase (Union Européenne) et nous respectons le RGPD. Tes données ne sont jamais vendues."},

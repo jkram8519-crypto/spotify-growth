@@ -7,12 +7,12 @@ export const metadata: Metadata = {
   verification: { google: ['w17B4UcOtxx0p-Ii0l56PIKEtxE1zQB9m0V-_lKToD8', 'jZLMRXvHcvLK1wqAvtYJdf-Q4O0P3-b7X_3a5s8dO3E'] },
   title: 'Spotlift — L\'outil IA pour artistes indépendants',
   manifest: '/manifest.json',
-  description: 'Génère des pitches Spotify pro en 10 secondes, planifie tes sorties avec l\'IA et analyse tes performances. 12 outils IA pour artistes indépendants.',
+  description: 'Génère des pitches Spotify pro en 10 secondes, suis ton plan de sortie personnalisé et analyse tes performances. 11 outils pour artistes indépendants.',
   keywords: 'Spotify, artiste indépendant, pitch generator, playlist, music marketing, IA, croissance Spotify, curateur playlist, promotion musicale, pitch Spotify gratuit, outil musique IA, manager musical IA, analytics Spotify, growth score Spotify, viral TikTok musique, beatmaker, producteur indépendant, sortie musicale, streaming musique',
   authors: [{ name: 'Spotlift' }],
   openGraph: {
     title: 'Spotlift — L\'outil IA pour artistes indépendants',
-    description: 'Génère des pitches Spotify pro en 10 secondes, planifie tes sorties avec l\'IA et analyse tes performances.',
+    description: 'Génère des pitches Spotify pro en 10 secondes, suis ton plan de sortie personnalisé et analyse tes performances.',
     url: 'https://getspotlift.com',
     siteName: 'Spotlift',
     images: [

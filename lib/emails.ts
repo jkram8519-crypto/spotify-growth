@@ -87,7 +87,7 @@ export function sendDay1(email: string, hasUsedTool: boolean, name?: string | nu
     paragraphs: [
       hello(prenom),
       'Tu as généré ton premier pitch, bien joué.',
-      'L\'étape qui fait vraiment la différence ensuite, c\'est de planifier ta sortie. Le Manager IA te dit quoi faire chaque jour : quand soumettre ton titre dans Spotify for Artists, quand contacter les curateurs, quand publier sur les réseaux.',
+      'L\'étape qui fait vraiment la différence ensuite, c\'est de planifier ta sortie. Ton plan de sortie te dit quoi faire chaque jour : quand soumettre ton titre dans Spotify for Artists, quand contacter les curateurs, quand publier sur les réseaux. Il est gratuit et il reste enregistré.',
     ],
     cta: { label: 'Planifier ma sortie', url: 'https://getspotlift.com/dashboard' },
     after: ['Petite question au passage : qu\'est-ce qui t\'a donné envie de t\'inscrire ? Réponds en une ligne, je lis tout.'],
@@ -102,7 +102,7 @@ export function sendDay2(email: string, name?: string | null) {
     paragraphs: [
       hello(prenom),
       'Petit message pour te prévenir : ton essai Pro se termine demain.',
-      'Après, tu gardes un compte gratuit avec le générateur de pitch. Si tu veux continuer avec tous les outils (Manager IA, Playlist Finder, contenus pour les réseaux), c\'est 9,99 € par mois, sans engagement.',
+      'Après, tu gardes gratuitement le générateur de pitch, ton plan de sortie et ses rappels. Si tu veux continuer avec les outils qui font le travail à chaque étape (Playlist Finder, contenus pour les réseaux, scripts vidéo), c\'est 9,99 € par mois, sans engagement.',
     ],
     cta: { label: 'Voir les offres', url: 'https://getspotlift.com/pricing' },
     after: ['Et si Spotlift ne t\'a pas convaincu, j\'aimerais vraiment savoir pourquoi. Réponds à ce mail, même pour me dire ce qui manque.'],
@@ -146,5 +146,33 @@ export function sendReleasePlan(email: string, track: string, pitch: string, rel
     ],
     cta: { label: 'Créer mon compte gratuit', url: 'https://getspotlift.com/inscription?utm_source=email&utm_medium=plan-sortie' },
     after: ['Une question sur ta sortie ? Réponds à ce mail, c\'est moi qui lis. Tu ne veux plus recevoir de mails de ma part ? Réponds simplement « stop ».'],
+  });
+}
+
+// Rappel du plan de sortie : les étapes prévues aujourd'hui (cron /api/plan-reminders)
+export function sendPlanReminder(
+  email: string,
+  name: string | null | undefined,
+  track: string,
+  due: { title: string; detail: string }[],
+  overdue: number,
+  daysLeft: number
+) {
+  const prenom = firstName(name);
+  const t = esc(track);
+  const when = daysLeft > 1 ? `dans ${daysLeft} jours` : daysLeft === 1 ? 'demain' : daysLeft === 0 ? 'aujourd\'hui' : `il y a ${-daysLeft} jour${daysLeft < -1 ? 's' : ''}`;
+  const subject = daysLeft === 0
+    ? `C'est le jour J pour « ${track} »`
+    : due.length === 1 ? `« ${track} » : ${due[0].title.charAt(0).toLowerCase()}${due[0].title.slice(1)}` : `« ${track} » : ${due.length} étapes aujourd'hui`;
+  return send(email, {
+    subject,
+    paragraphs: [
+      hello(prenom),
+      daysLeft >= 0 ? `<b>${t}</b> sort ${when}. Voici ce que ton plan prévoit aujourd'hui :` : `<b>${t}</b> est sorti ${when}. Voici ce que ton plan prévoit aujourd'hui :`,
+      ...due.map(d => `<b>${esc(d.title)}</b><br/>${esc(d.detail)}`),
+      ...(overdue > 0 ? [`Il te reste aussi ${overdue} étape${overdue > 1 ? 's' : ''} en retard. Pas grave : fais d'abord celle du jour.`] : []),
+    ],
+    cta: { label: 'Ouvrir mon plan', url: 'https://getspotlift.com/dashboard?utm_source=email&utm_medium=rappel-plan' },
+    after: ['Tu peux couper ces rappels d\'un clic en haut de ton plan, ou en répondant « stop » à ce mail.'],
   });
 }

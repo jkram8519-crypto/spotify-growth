@@ -2,6 +2,7 @@
 import { useState, useEffect } from 'react';
 import { supabase } from '../../supabase';
 import GrowthOrb3D from '../components/GrowthOrb3D';
+import ReleasePlan from './ReleasePlan';
 import SpotifyEmbedPlayer from '@/components/SpotifyEmbedPlayer';
 
 function isValidInput(value: string): boolean {
@@ -36,7 +37,7 @@ const TOOL_PILLARS = [
   {
     title: 'Lancer',
     items: [
-      {id:'manager', emoji:'🗓️', label:'Manager IA (44 jours)'},
+      {id:'manager', emoji:'🗓️', label:'Mon plan de sortie'},
       {id:'contenu', emoji:'📱', label:'Contenu Social'},
       {id:'script', emoji:'🎬', label:'Script Vidéo IA'},
       {id:'viral', emoji:'🔥', label:'Viral Potentiel'},
@@ -103,7 +104,12 @@ const [tutorialStep, setTutorialStep] = useState(0);
   useEffect(() => {
     const getUser = async () => {
       const { data } = await supabase.auth.getUser();
-      if (data.user) setUser(data.user);
+      if (data.user) {
+        setUser(data.user);
+        // Un artiste qui a déjà un plan de sortie retombe directement dessus.
+        authFetch('/api/plan').then(r => r.json()).then(d => { if (d.plan) setActiveSection('manager'); }).catch(() => {});
+        authFetch('/api/event', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ name: 'dashboard_opened' }) }).catch(() => {});
+      }
       else window.location.href = '/login';
     };
     getUser();
@@ -181,12 +187,12 @@ const [tutorialStep, setTutorialStep] = useState(0);
   <div style={{position:"fixed",top:0,left:0,right:0,bottom:0,background:"rgba(0,0,0,0.85)",zIndex:1000,display:"flex",alignItems:"center",justifyContent:"center",padding:"20px"}} onClick={() => setShowToolsModal(false)}>
       <div style={{background:"#0d0020",padding:"30px",borderRadius:"24px",maxWidth:"500px",width:"100%",border:"1px solid #9B59B6",maxHeight:"80vh",overflowY:"auto"}} onClick={e => e.stopPropagation()}>
             <div style={{display:"flex",justifyContent:"space-between",alignItems:"center",marginBottom:"20px"}}>
-                    <h2 style={{margin:0,fontSize:"22px",fontWeight:"bold"}}> Les 12 outils IA</h2>
+                    <h2 style={{margin:0,fontSize:"22px",fontWeight:"bold"}}> Les 11 outils</h2>
                             <button onClick={() => setShowToolsModal(false)} style={{background:"none",border:"none",color:"#aaa",cursor:"pointer",fontSize:"20px"}}></button>
                                   </div>
                                         {[
                                                 {emoji:"",title:"Pitch Generator IA",desc:"Génère des pitches professionnels en 10 secondes.",section:"pitch"},
-                                                        {emoji:"",title:"Manager IA",desc:"Planifie ta sortie sur 44 jours automatiquement.",section:"manager"},
+                                                        {emoji:"",title:"Mon plan de sortie",desc:"Ton plan personnalisé de J-44 à J+14, sauvegardé, avec rappels par email.",section:"manager"},
                                                                 {emoji:"",title:"Playlist Finder",desc:"Trouve de vraies playlists Spotify pour ton son.",section:"playlists"},
                                                                         {emoji:"",title:"Analytics IA",desc:"Recommandations actionnables sur tes stats.",section:"analytics"},
                                                                                 {emoji:"",title:"Growth Score",desc:"Calcule ton score de croissance sur 100 points.",section:"growth"},
@@ -221,7 +227,7 @@ const [tutorialStep, setTutorialStep] = useState(0);
 <div className="mobile-bottom-nav">
   {[
     {id:'pitch',emoji:'🚀',label:'Pitch'},
-    {id:'manager',emoji:'🗓️',label:'Manager'},
+    {id:'manager',emoji:'🗓️',label:'Mon plan'},
     {id:'playlists',emoji:'🎧',label:'Playlist'},
     {id:'analytics',emoji:'📊',label:'Analytics'},
     {id:'growth',emoji:'🎯',label:'Score'},
@@ -296,7 +302,7 @@ const [tutorialStep, setTutorialStep] = useState(0);
   </div>
   <div style={{display:'flex',gap:'10px'}}>
     <button onClick={() => setShowToolsModal(true)} style={{background:'#0d0020',padding:'10px 15px',borderRadius:'10px',textAlign:'center',border:'1px solid #9B59B6',cursor:'pointer'}}>
-      <p style={{margin:0,color:'#9B59B6',fontWeight:'bold',fontSize:'18px'}}>12</p>
+      <p style={{margin:0,color:'#9B59B6',fontWeight:'bold',fontSize:'18px'}}>11</p>
       <p style={{margin:0,color:'#555',fontSize:'11px'}}>Outils IA</p>
     </button>
     <button onClick={() => window.location.href='/pricing'} style={{background:'#0d0020',padding:'10px 15px',borderRadius:'10px',textAlign:'center',border:'1px solid #2d1040',cursor:'pointer'}}>
@@ -311,7 +317,7 @@ const [tutorialStep, setTutorialStep] = useState(0);
         )}
 
         {/* MANAGER IA */}
-       {activeSection === 'manager' && (plan === 'Free' ? <ProGate plan={plan} feature="Manager IA — Planning 44 jours" /> : <ManagerIA user={user} />)}
+       {activeSection === 'manager' && <ReleasePlan onGoTo={setActiveSection} />}
 
         {/* PLAYLIST FINDER */}
         {activeSection === 'playlists' && (plan === 'Free' ? <ProGate plan={plan} feature="Playlist Finder" /> : <PlaylistFinder user={user} />)}
@@ -461,7 +467,7 @@ function FirstPitchOnboarding({ user, onClose, onGoTo }: { user: any; onClose: (
             <button onClick={copy} style={{ ...ghost, marginBottom: '22px' }}>{copied ? '✓ Copié' : '📋 Copier le pitch'}</button>
             <p style={{ color: '#fff', fontWeight: 'bold', margin: '0 0 6px 0' }}>Prochaine étape : planifier ta sortie</p>
             <p style={{ color: '#aaa', margin: '0 0 18px 0', lineHeight: 1.6, fontSize: '14px' }}>
-              Le Manager IA te donne quoi faire, jour par jour, jusqu&apos;à la sortie : soumission Spotify, curateurs, contenus.
+              Ton plan de sortie te dit quoi faire, jour par jour, jusqu&apos;à la sortie : distributeur, soumission Spotify, curateurs, contenus. Il est gratuit et sauvegardé.
             </p>
             <div style={{ display: 'flex', gap: '10px', flexWrap: 'wrap' }}>
               <button onClick={() => onGoTo('manager')} style={primary}>🗓️ Planifier ma sortie</button>
@@ -551,6 +557,10 @@ function SearchSpotify() {
         
 
 function ProGate({ plan, feature }: { plan: string, feature: string }) {
+  useEffect(() => {
+    if (plan === 'Pro' || plan === 'Pro+') return;
+    authFetch('/api/event', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ name: 'gate_seen', meta: { feature } }) }).catch(() => {});
+  }, [plan, feature]);
   if (plan === 'Pro' || plan === 'Pro+') return null;
   return (
     <div style={{textAlign:'center',padding:'60px 30px',background:'#0d0020',borderRadius:'20px',border:'2px solid #9B59B6'}}>
@@ -753,69 +763,6 @@ const searchSpotify = async (query: string) => {
           </div>
         </div>
       )}
-    </div>
-  );
-}
-
-function ManagerIA({ user }: { user: any }) {
-  const [trackName, setTrackName] = useState('');
-  const [releaseDate, setReleaseDate] = useState('');
-  const [calendar, setCalendar] = useState<any[]>([]);
-
-  const generateCalendar = () => {
-    if (!isValidInput(trackName) || !releaseDate) { alert('Merci d\'entrer un nom de track valide et une date de sortie.'); return; }
-    const release = new Date(releaseDate);
-    const addDays = (d: Date, n: number) => { const r = new Date(d); r.setDate(r.getDate()+n); return r; };
-    const format = (d: Date) => d.toLocaleDateString('fr-FR', {day:'numeric',month:'long'});
-    const items = [
-      {day:-30,emoji:'🎭',action:`Teaser mystère Instagram pour "${trackName}"`},
-      {day:-21,emoji:'📢',action:`Annonce officielle du titre "${trackName}"`},
-      {day:-14,emoji:'🎯',action:`Envoyer le pitch aux curateurs Spotify`},
-      {day:-10,emoji:'🎵',action:`Premier extrait TikTok (15 secondes)`},
-      {day:-7,emoji:'📮',action:`Soumission Spotify Editorial Playlist`},
-      {day:-5,emoji:'🎬',action:`Deuxième TikTok (making of)`},
-      {day:-3,emoji:'⏰',action:`Story countdown Instagram`},
-      {day:-2,emoji:'💾',action:`Lancer les pré-saves`},
-      {day:-1,emoji:'🔥',action:`Teaser final 30 secondes`},
-      {day:0,emoji:'🚀',action:`SORTIE DE "${trackName}" — Poster sur tous les réseaux !`,highlight:true},
-      {day:1,emoji:'📱',action:`TikTok/Reels reaction à la sortie`},
-      {day:3,emoji:'💰',action:`Lancer les ads Facebook/Instagram`},
-      {day:7,emoji:'📊',action:`Bilan des streams et ajuster la stratégie`},
-      {day:14,emoji:'🔄',action:`Relance avec nouveau contenu`},
-    ];
-    setCalendar(items.map(item => ({...item, date: format(addDays(release, item.day)), label: item.day === 0 ? 'JOUR J' : item.day > 0 ? `J+${item.day}` : `J${item.day}`})));
-    fetch('/api/track-usage', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ userId: user?.id, toolName: 'Manager IA' }),
-    }).catch(() => {});
-  };
-
-  return (
-    <div>
-      <h1 style={{fontSize:'28px',fontWeight:'bold',marginBottom:'8px'}}>🗓️ Manager IA</h1>
-      <p style={{color:'#aaa',marginBottom:'30px'}}>Planifie automatiquement ta sortie sur 44 jours</p>
-      <p style={{background:'#1a0030',color:'#9B59B6',fontSize:'13px',padding:'10px 14px',borderRadius:'10px',marginBottom:'20px',border:'1px solid #2d1040'}}>💡 Renseigne ta date de sortie pour générer un planning complet jour par jour.</p>
-      <div style={{background:'#0d0020',padding:'30px',borderRadius:'20px',border:'1px solid #2d1040',marginBottom:'20px'}}>
-        <input value={trackName} onChange={e => setTrackName(e.target.value)}
-          placeholder="Nom du track"
-          style={{width:'100%',background:'#1a0030',border:'1px solid #2d1040',borderRadius:'10px',padding:'12px',color:'#fff',marginBottom:'15px',boxSizing:'border-box'}}/>
-        <input type="date" value={releaseDate} onChange={e => setReleaseDate(e.target.value)}
-          style={{width:'100%',background:'#1a0030',border:'1px solid #2d1040',borderRadius:'10px',padding:'12px',color:'#fff',marginBottom:'20px',boxSizing:'border-box'}}/>
-        <button onClick={generateCalendar}
-          style={{width:'100%',background:'#9B59B6',color:'#fff',padding:'14px',borderRadius:'10px',fontWeight:'bold',fontSize:'16px',cursor:'pointer',border:'none'}}>
-          🗓️ Générer le planning
-        </button>
-      </div>
-      {calendar.length > 0 && calendar.map((item, i) => (
-        <div key={i} style={{display:'flex',alignItems:'flex-start',gap:'15px',padding:'15px',borderRadius:'12px',marginBottom:'10px',background: item.highlight ? '#2d1040' : '#0d0020',border: item.highlight ? '1px solid #9B59B6' : '1px solid #2d1040'}}>
-          <span style={{fontSize:'24px'}}>{item.emoji}</span>
-          <div>
-            <p style={{color:'#9B59B6',fontSize:'12px',margin:0,fontWeight:'bold'}}>{item.label} — {item.date}</p>
-            <p style={{color:'#fff',fontSize:'14px',margin:0}}>{item.action}</p>
-          </div>
-        </div>
-      ))}
     </div>
   );
 }

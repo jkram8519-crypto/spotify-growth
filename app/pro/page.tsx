@@ -17,7 +17,7 @@ export default function ProPage() {
 
         {[
           {emoji:'🚀',titre:'Pitch Generator IA — Illimité',desc:'Génère autant de pitches professionnels que tu veux en 10 secondes. L\'IA adapte chaque pitch au genre musical et au statut du track (à venir ou déjà sorti). Recherche de tracks directement sur Spotify pour des pitches ultra-personnalisés.',badge:'ILLIMITÉ'},
-          {emoji:'🗓️',titre:'Manager IA — Planning 44 jours',desc:'Planifie automatiquement toute ta stratégie de sortie de J-30 à J+14. Chaque jour une action précise : soumission playlists, posts réseaux sociaux, pitches curateurs, relances. Plus jamais de sortie désorganisée.',badge:'NOUVEAU'},
+          {emoji:'🎬',titre:'Script Vidéo IA',desc:'Un script complet pour tes vidéos TikTok et Reels, à partir de ton titre : accroche, plans, texte à l\'écran. Ton plan de sortie, lui, reste gratuit.'},
           {emoji:'🎧',titre:'Playlist Finder',desc:'Trouve de vraies playlists Spotify correspondant à ton genre et à ton ambiance, avec un lien direct pour les écouter et une checklist anti-arnaque avant de contacter un curateur.',badge:''},
           {emoji:'📊',titre:'Analytics IA — Recommandations Actionnables',desc:'Analyse ton taux de save, skip rate, et toutes tes métriques Spotify. L\'IA génère des recommandations concrètes pour améliorer tes performances semaine après semaine.',badge:''},
           {emoji:'🎯',titre:'Growth Score sur 100',desc:'Calcule ton score de croissance sur 100 à partir de tes chiffres Spotify for Artists (streams, followers, playlists, taux de save). Refais-le chaque semaine pour suivre ton évolution.',badge:'NOUVEAU'},
