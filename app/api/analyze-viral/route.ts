@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { requirePlan } from '@/lib/require-plan';
 
 export async function POST(req: NextRequest) {
-  const auth = await requirePlan(req, 'pro+');
+  const auth = await requirePlan(req, 'pro');
   if (auth instanceof NextResponse) return auth;
 
   try {

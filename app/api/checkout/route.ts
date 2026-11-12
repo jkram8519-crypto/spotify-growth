@@ -5,6 +5,11 @@ export async function POST(req: NextRequest) {
   try {
     const { plan, billing, currentPlan } = await req.json();
 
+    // Une seule offre payante depuis novembre 2026 : Pro+ ne se vend plus.
+    if (plan !== 'pro') {
+      return NextResponse.json({ error: 'Offre inconnue.' }, { status: 400 });
+    }
+
     // Le code promo n'est proposé qu'aux utilisateurs encore en Free (jamais payé)
     const allowPromo = (currentPlan || 'Free') === 'Free';
 

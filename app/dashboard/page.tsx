@@ -341,10 +341,10 @@ const [tutorialStep, setTutorialStep] = useState(0);
          {activeSection === 'growth' && <GrowthScore user={user} plan={plan} />}
 
         {/* VIRAL POTENTIEL */}
-        {activeSection === 'viral' && (plan === 'Pro+' ? <ViralPotentiel user={user} /> : <ProPlusGate plan={plan} feature="Viral Potentiel" />)}
+        {activeSection === 'viral' && (plan === 'Free' ? <ProGate plan={plan} feature="Viral Potentiel" /> : <ViralPotentiel user={user} />)}
         
         {/* PROFIL ARTISTE */}
-        {activeSection === 'profil' && (plan === 'Pro+' ? <ProfilArtiste user={user} />: <ProPlusGate plan={plan} feature="Optimisation Profil Artiste" />)}
+        {activeSection === 'profil' && (plan === 'Free' ? <ProGate plan={plan} feature="Optimisation Profil Artiste" /> : <ProfilArtiste user={user} />)}
         
         {/* CONTENU SOCIAL */}
                 {activeSection === 'contenu' && (plan === 'Free' ? <ProGate plan={plan} feature="Contenu Social" /> : <ContenuSocial user={user} />)}
@@ -579,7 +579,10 @@ function ProGate({ plan, feature }: { plan: string, feature: string }) {
       <p style={{fontSize:'48px',marginBottom:'20px'}}>🔒</p>
       <h2 style={{fontSize:'24px',fontWeight:'bold',marginBottom:'10px'}}>Fonctionnalité Pro</h2>
       <p style={{color:'#aaa',marginBottom:'25px',fontSize:'16px'}}>
-        <strong style={{color:'#fff'}}>{feature}</strong> est disponible uniquement dans le plan Pro.
+        <strong style={{color:'#fff'}}>{feature}</strong> fait partie du plan Pro.
+      </p>
+      <p style={{color:'#ccc',marginBottom:'25px',fontSize:'14px',lineHeight:1.6}}>
+        Ton plan de sortie et ses rappels restent gratuits. Pro ajoute les outils qui font le travail à chaque étape : playlists, publications, scripts vidéo, analyse de tes stats.
       </p>
       
       <a href="/pricing" style={{background:'linear-gradient(135deg,#6C3483,#9B59B6)',color:'#fff',padding:'14px 40px',borderRadius:'30px',textDecoration:'none',fontWeight:'bold',fontSize:'16px',display:'inline-block',boxShadow:'0 0 20px rgba(155,89,182,0.4)'}}>
@@ -590,28 +593,6 @@ function ProGate({ plan, feature }: { plan: string, feature: string }) {
   );
 }
 
-
-function ProPlusGate({ plan, feature }: { plan: string, feature: string }) {
-  if (plan === 'Pro+') return null;
-  return (
-    <div style={{textAlign:'center',padding:'60px 30px',background:'#0a1628',borderRadius:'20px',border:'2px solid #2980b9'}}>
-      <p style={{fontSize:'48px',marginBottom:'20px'}}>🔒</p>
-      <h2 style={{fontSize:'24px',fontWeight:'bold',marginBottom:'10px'}}>Fonctionnalité Pro+</h2>
-      <p style={{color:'#aaa',marginBottom:'25px',fontSize:'16px'}}>
-        <strong style={{color:'#fff'}}>{feature}</strong> est disponible uniquement dans le plan Pro+.
-      </p>
-      <div style={{background:'#1a2a40',padding:'20px',borderRadius:'15px',marginBottom:'25px',border:'1px solid #2980b950'}}>
-        <p style={{color:'#2980b9',fontWeight:'bold',margin:'0 0 5px 0'}}>🎁 Offre exclusive</p>
-        <p style={{color:'#fff',fontSize:'24px',fontWeight:'bold',margin:'0 0 5px 0'}}>Code EARLY10</p>
-        <p style={{color:'#aaa',fontSize:'13px',margin:0}}>1 mois Pro+ gratuit !</p>
-      </div>
-      <a href="/pricing" style={{background:'linear-gradient(135deg,#1a5276,#2980b9)',color:'#fff',padding:'14px 40px',borderRadius:'30px',textDecoration:'none',fontWeight:'bold',fontSize:'16px',display:'inline-block',boxShadow:'0 0 20px rgba(41,128,185,0.4)'}}>
-        Passer en Pro+ — 19.99€/mois →
-      </a>
-      <p style={{color:'#555',fontSize:'12px',marginTop:'15px'}}>Sans engagement • Annulation en 1 clic</p>
-    </div>
-  );
-}
 
 function PitchGenerator({ user }: { user: any }) {
   const [track, setTrack] = useState('');
@@ -1029,8 +1010,8 @@ function GrowthScore({ user, plan }: { user: any; plan: string }) {
       )}
             {score !== null && plan === 'Free' && (
         <div style={{background:'linear-gradient(135deg,#6C3483,#9B59B6)',padding:'20px',borderRadius:'16px',marginTop:'15px',textAlign:'center'}}>
-          <p style={{color:'#fff',fontWeight:'bold',margin:'0 0 10px 0'}}>🔓 Passe Pro pour suivre ton évolution dans le temps</p>
-          <p style={{color:'rgba(255,255,255,0.85)',fontSize:'14px',margin:'0 0 15px 0'}}>Historique de ton score, 11 autres outils IA, plan de sortie guidé.</p>
+          <p style={{color:'#fff',fontWeight:'bold',margin:'0 0 10px 0'}}>🔓 Passe Pro pour agir sur ton score</p>
+          <p style={{color:'rgba(255,255,255,0.85)',fontSize:'14px',margin:'0 0 15px 0'}}>Playlist Finder, publications pour les réseaux, scripts vidéo et analyse de tes stats.</p>
           <a href="/pro" style={{background:'#fff',color:'#6C3483',padding:'10px 20px',borderRadius:'10px',textDecoration:'none',fontWeight:'bold',display:'inline-block'}}>Voir l'offre Pro</a>
         </div>
       )}

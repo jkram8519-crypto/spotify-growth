@@ -7,7 +7,7 @@ export default function CGV() {
       {[
         {title:'1. Objet',text:"Les présentes CGV régissent l'utilisation de Spotlift, une plateforme SaaS permettant aux artistes indépendants de développer leur présence sur Spotify grâce à des outils d'intelligence artificielle."},
         {title:'2. Éditeur',text:"Spotlift est édité par J.K. Ram. Email : contact.spotlift@gmail.com"},
-        {title:'3. Services proposés',text:"Free (0€/mois) : Pitch generator, plan de sortie personnalisé, rappels par email. Pro (9.99€/mois) : Tous les outils IA avancés, playlist finder, release planner. Pro+ (19.99€/mois) : Analytics Spotify, growth AI, marketing automation."},
+        {title:'3. Services proposés',text:"Free (0€/mois) : Pitch generator, plan de sortie personnalisé, rappels par email. Pro (9.99€/mois ou 7.99€/mois en annuel) : tous les outils (Playlist Finder, publications pour les réseaux, script vidéo, analyse des statistiques, potentiel viral, optimisation du profil, vue multi-plateformes, assistant IA). Les abonnements Pro+ souscrits avant novembre 2026 restent actifs aux mêmes conditions."},
         {title:'4. Prix et paiement',text:"Les prix sont en euros TTC. Le paiement s'effectue par carte bancaire via Stripe. L'abonnement est renouvelé automatiquement chaque mois jusqu'à résiliation."},
         {title:'5. Résiliation',text:"L'utilisateur peut résilier son abonnement à tout moment. La résiliation prend effet à la fin de la période en cours. Aucun remboursement ne sera effectué pour la période déjà payée."},
         {title:'6. Droit de rétractation',text:"Conformément à la législation européenne, l'utilisateur dispose de 14 jours pour exercer son droit de rétractation. Contact : contact.spotlift@gmail.com"},

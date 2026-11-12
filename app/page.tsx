@@ -155,7 +155,7 @@ export default function LandingPage() {
               </div>
             </div>
             <div style={{background:'#1a0030',padding:'15px',borderRadius:'12px',border:'1px solid #2d1040',marginBottom:'15px'}}>
-              <p style={{color:'#f39c12',fontSize:'11px',margin:'0 0 8px 0',fontWeight:'bold'}}>MANAGER IA - PROCHAINE ACTION</p>
+              <p style={{color:'#f39c12',fontSize:'11px',margin:'0 0 8px 0',fontWeight:'bold'}}>MON PLAN DE SORTIE - PROCHAINE ÉTAPE</p>
               <p style={{color:'#ccc',fontSize:'12px',margin:0}}>J-7 - Soumettre le track à Spotify Editorial Playlist</p>
             </div>
             <div style={{display:'grid',gridTemplateColumns:'1fr 1fr 1fr',gap:'10px'}}>
@@ -281,16 +281,9 @@ export default function LandingPage() {
             <p style={{background:'rgba(255,255,255,0.2)',borderRadius:'15px',padding:'4px 12px',display:'inline-block',marginBottom:'10px',fontSize:'12px',fontWeight:'bold'}}>POPULAIRE</p>
             <h3 style={{fontSize:'24px',marginBottom:'8px'}}>Pro</h3>
             <p style={{fontSize:'40px',fontWeight:'bold',marginBottom:'5px'}}>9.99€<span style={{fontSize:'16px'}}>/mois</span></p>
-            <p style={{marginBottom:'10px'}}>Playlist Finder, contenus pour les réseaux, scripts vidéo, assistant IA</p>
+            <p style={{marginBottom:'10px'}}>Tous les outils : Playlist Finder, publications pour les réseaux, scripts vidéo, analyse de tes stats, assistant IA</p>
             <a href="/pro" style={{color:'rgba(255,255,255,0.8)',fontSize:'13px',display:'block',marginBottom:'15px'}}>Voir ce qui est inclus →</a>
             <a href="/inscription" style={{display:'block',background:'#fff',color:'#6C3483',padding:'14px',borderRadius:'12px',textDecoration:'none',textAlign:'center',fontWeight:'bold'}}>Commencer Pro</a>
-          </div>
-          <div style={{background:'#0d0020',padding:'35px',borderRadius:'24px',border:'2px solid #9B59B6',textAlign:'left'}}>
-            <h3 style={{fontSize:'24px',marginBottom:'8px'}}>Pro+</h3>
-            <p style={{fontSize:'40px',fontWeight:'bold',marginBottom:'5px'}}>19.99€<span style={{fontSize:'16px'}}>/mois</span></p>
-            <p style={{color:'#ccc',marginBottom:'10px'}}>Viral Potentiel, Optimisation Profil, Analytics IA, Tout illimité</p>
-            <a href="/pro-plus" style={{color:'#9B59B6',fontSize:'13px',display:'block',marginBottom:'15px'}}>Voir ce qui est inclus →</a>
-            <a href="/inscription" style={{display:'block',background:'#9B59B6',color:'#fff',padding:'14px',borderRadius:'12px',textDecoration:'none',textAlign:'center',fontWeight:'bold'}}>Commencer Pro+</a>
           </div>
         </div>
       </section>  

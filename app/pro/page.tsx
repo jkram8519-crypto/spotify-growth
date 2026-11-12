@@ -13,18 +13,18 @@ export default function ProPage() {
           </div>
         </div>
 
-        <h2 style={{fontSize:'28px',fontWeight:'bold',marginBottom:'30px',textAlign:'center'}}>Ce que tu obtiens avec le Plan Pro</h2>
+        <h2 style={{fontSize:'28px',fontWeight:'bold',marginBottom:'12px',textAlign:'center'}}>Ce que tu obtiens avec le Plan Pro</h2>
+        <p style={{color:'#aaa',textAlign:'center',margin:'0 0 30px 0',lineHeight:1.6}}>Ton plan de sortie, ses rappels et le générateur de pitch restent gratuits. Pro ajoute les outils qui t&apos;aident à faire chaque étape.</p>
 
         {[
-          {emoji:'🚀',titre:'Pitch Generator IA — Illimité',desc:'Génère autant de pitches professionnels que tu veux en 10 secondes. L\'IA adapte chaque pitch au genre musical et au statut du track (à venir ou déjà sorti). Recherche de tracks directement sur Spotify pour des pitches ultra-personnalisés.',badge:'ILLIMITÉ'},
-          {emoji:'🎬',titre:'Script Vidéo IA',desc:'Un script complet pour tes vidéos TikTok et Reels, à partir de ton titre : accroche, plans, texte à l\'écran. Ton plan de sortie, lui, reste gratuit.'},
-          {emoji:'🎧',titre:'Playlist Finder',desc:'Trouve de vraies playlists Spotify correspondant à ton genre et à ton ambiance, avec un lien direct pour les écouter et une checklist anti-arnaque avant de contacter un curateur.',badge:''},
-          {emoji:'📊',titre:'Analytics IA — Recommandations Actionnables',desc:'Analyse ton taux de save, skip rate, et toutes tes métriques Spotify. L\'IA génère des recommandations concrètes pour améliorer tes performances semaine après semaine.',badge:''},
-          {emoji:'🎯',titre:'Growth Score sur 100',desc:'Calcule ton score de croissance sur 100 à partir de tes chiffres Spotify for Artists (streams, followers, playlists, taux de save). Refais-le chaque semaine pour suivre ton évolution.',badge:'NOUVEAU'},
-          {emoji:'📱',titre:'Générateur Contenu Réseaux Sociaux',desc:'Génère du contenu optimisé pour Instagram, TikTok, Twitter et Email. Des posts prêts à publier adaptés à chaque plateforme pour promouvoir ta musique efficacement.',badge:''},
-          {emoji:'🤖',titre:'IA Assistant Marketing',desc:'Pose tes questions à l\'IA manager et obtiens des conseils pro instantanés sur ta stratégie musicale, ton marketing, et ta croissance Spotify.',badge:''},
-          {emoji:'📊',titre:'Dashboard Multi-Plateformes',desc:'Rassemble tes chiffres Spotify, TikTok, Instagram et YouTube sur un seul écran pour voir où ta musique prend le mieux.',badge:''},
-          {emoji:'💬',titre:'Feedback Prioritaire',desc:'Ton feedback est traité en priorité pour améliorer l\'app. Tu influences directement les nouvelles fonctionnalités de Spotlift.',badge:''},
+          {emoji:'🎧',titre:'Playlist Finder',desc:'Trouve de vraies playlists Spotify de ton genre et de ton ambiance, avec un lien direct pour les écouter et une checklist anti-arnaque avant de contacter un curateur.',badge:''},
+          {emoji:'📱',titre:'Publications pour les réseaux',desc:'Des textes prêts à publier pour Instagram, TikTok, X et email, pour annoncer ta sortie et la faire vivre.',badge:''},
+          {emoji:'🎬',titre:'Script vidéo IA',desc:'Un script complet pour tes vidéos TikTok et Reels : accroche, plans, texte à l\'écran.',badge:''},
+          {emoji:'📊',titre:'Analyse de tes stats',desc:'Saisis tes chiffres Spotify for Artists (écoutes, enregistrements, playlists) et reçois des recommandations concrètes.',badge:''},
+          {emoji:'🔥',titre:'Potentiel viral',desc:'Décris ton morceau (intro, drop, tempo, accroche) et reçois des conseils pour choisir et monter ton extrait TikTok ou Reels.',badge:''},
+          {emoji:'🎨',titre:'Optimisation du profil artiste',desc:'Réponds à quelques questions sur ton profil Spotify (photo, bio, liens, Artist Pick) et reçois les priorités à corriger.',badge:''},
+          {emoji:'🌐',titre:'Vue multi-plateformes',desc:'Saisis tes chiffres Spotify, TikTok, Instagram et YouTube pour les voir côte à côte sur un seul écran.',badge:''},
+          {emoji:'🤖',titre:'Assistant IA marketing',desc:'Pose tes questions sur ta sortie, ton marketing ou ta stratégie, et reçois une réponse adaptée à ta situation.',badge:''},
         ].map((f,i) => (
           <div key={i} className="feat-card" style={{background:'#0d0020',padding:'25px',borderRadius:'16px',marginBottom:'15px',border:'1px solid #2d1040',display:'flex',gap:'20px',alignItems:'flex-start'}}>
             <span style={{fontSize:'36px',flexShrink:0}}>{f.emoji}</span>
@@ -39,21 +39,10 @@ export default function ProPage() {
           </div>
         ))}
 
-        <div style={{background:'#0d0020',padding:'25px',borderRadius:'16px',marginBottom:'15px',border:'1px solid #e74c3c'}}>
-          <div style={{display:'flex',gap:'20px',alignItems:'center'}}>
-            <span style={{fontSize:'36px'}}>🔥</span>
-            <div>
-              <h3 style={{fontSize:'18px',fontWeight:'bold',margin:'0 0 5px 0',color:'#e74c3c'}}>Viral Potentiel — Non inclus dans Pro</h3>
-              <p style={{color:'#aaa',margin:0,fontSize:'14px'}}>Disponible uniquement dans le Plan Pro+</p>
-            </div>
-            <span style={{color:'#e74c3c',fontSize:'24px',marginLeft:'auto'}}>✗</span>
-          </div>
-        </div>
-
         <div style={{background:'linear-gradient(135deg,#1a0030,#0d0020)',padding:'30px',borderRadius:'20px',border:'1px solid #9B59B6',marginTop:'40px',textAlign:'center'}}>
           <h2 style={{fontSize:'24px',fontWeight:'bold',marginBottom:'10px'}}>Garanties Pro</h2>
           <div style={{display:'grid',gridTemplateColumns:'repeat(auto-fit,minmax(200px,1fr))',gap:'15px',marginBottom:'25px'}}>
-            {['Annulation en 1 clic','Sans engagement','Support email 24h','Accès immédiat'].map((g,i) => (
+            {['Annulation en 1 clic','Sans engagement','Support par email','Accès immédiat'].map((g,i) => (
               <div key={i} style={{background:'#0d0020',padding:'15px',borderRadius:'12px',border:'1px solid #2d1040'}}>
                 <p style={{color:'#1DB954',margin:'0 0 5px 0',fontSize:'20px'}}>✓</p>
                 <p style={{color:'#ccc',margin:0,fontSize:'14px'}}>{g}</p>
@@ -63,8 +52,7 @@ export default function ProPage() {
           <a href="/pricing" style={{background:'linear-gradient(135deg,#6C3483,#9B59B6)',color:'#fff',padding:'16px 50px',borderRadius:'30px',textDecoration:'none',fontWeight:'bold',fontSize:'18px',display:'inline-block',boxShadow:'0 0 30px rgba(155,89,182,0.4)'}}>
             Commencer Pro — 9.99€/mois
           </a>
-          <p style={{color:'#555',marginTop:'15px',fontSize:'13px'}}>Aucune carte bancaire requise pour l'essai gratuit</p>
-          <p style={{marginTop:'10px'}}><a href="/pro-plus" style={{color:'#9B59B6',textDecoration:'none',fontSize:'14px'}}>Voir le Plan Pro+ →</a></p>
+          <p style={{color:'#555',marginTop:'15px',fontSize:'13px'}}>Essai Pro de 3 jours offert à l'inscription, sans carte bancaire</p>
         </div>
 
         <div style={{textAlign:'center',marginTop:'30px'}}>

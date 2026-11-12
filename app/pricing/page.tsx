@@ -40,7 +40,7 @@ export default function Pricing() {
   return (
     <main style={{background:'#000',color:'#fff',fontFamily:'sans-serif',minHeight:'100vh',padding:'60px 20px'}}>
       <h1 style={{textAlign:'center',fontSize:'42px',fontWeight:'bold',marginBottom:'10px'}}>Tarifs simples</h1>
-      <p style={{textAlign:'center',color:'#aaa',marginBottom:'30px',fontSize:'16px'}}>Commence gratuitement, evolue quand tu es pret</p>
+      <p style={{textAlign:'center',color:'#aaa',marginBottom:'30px',fontSize:'16px'}}>Le plan de sortie est gratuit. Pro débloque tous les outils.</p>
       <div style={{display:'flex',justifyContent:'center',marginBottom:'40px'}}>
         <div style={{display:'inline-flex',background:'#1a0030',borderRadius:'30px',padding:'4px',border:'1px solid #2d1040'}}>
           <button onClick={() => setAnnual(false)} style={{background: !annual ? '#9B59B6' : 'transparent',color: !annual ? 'white' : '#aaa',border:'none',padding:'10px 24px',borderRadius:'25px',fontWeight:'bold',cursor:'pointer',fontSize:'14px'}}>
@@ -51,14 +51,14 @@ export default function Pricing() {
           </button>
         </div>
       </div>
-      {annual && <p style={{textAlign:'center',color:'#1DB954',marginBottom:'30px',fontSize:'14px',fontWeight:'bold'}}>🎉 Tu economises jusqu'a 48 EUR/an avec le plan annuel !</p>}
+      {annual && <p style={{textAlign:'center',color:'#1DB954',marginBottom:'30px',fontSize:'14px',fontWeight:'bold'}}>🎉 Tu économises 24 EUR par an avec le plan annuel.</p>}
       <div style={{display:'flex',flexDirection:'column',gap:'20px',maxWidth:'450px',margin:'0 auto'}}>
 
         {/* PLAN FREE */}
         <div style={{background:'#0d0020',padding:'35px',borderRadius:'24px',border:'1px solid #2d1040',opacity: currentRank >= 0 ? (currentPlan === 'Free' ? 1 : 0.5) : 1}}>
           <h2 style={{fontSize:'24px',marginBottom:'8px'}}>Free</h2>
           <p style={{fontSize:'48px',fontWeight:'bold',marginBottom:'5px'}}>0 EUR</p>
-          <p style={{color:'#aaa',marginBottom:'25px',fontSize:'14px'}}>Pour decouvrir Spotlift</p>
+          <p style={{color:'#aaa',marginBottom:'25px',fontSize:'14px'}}>Pour préparer ta sortie</p>
           <div style={{marginBottom:'25px'}}>
             {['Pitch Generator IA','Plan de sortie personnalisé','Rappels par email'].map((f,i) => (
               <p key={i} style={{color:'#ccc',marginBottom:'8px',fontSize:'14px'}}>✅ {f}</p>
@@ -78,7 +78,7 @@ export default function Pricing() {
           <p style={{fontSize:'48px',fontWeight:'bold',marginBottom:'2px'}}>{annual ? '7.99' : '9.99'} EUR<span style={{fontSize:'16px'}}>/mois</span></p>
           {annual && <p style={{fontSize:'13px',marginBottom:'5px',opacity:0.8}}>soit 95.88 EUR/an</p>}
           <div style={{marginBottom:'25px',marginTop:'15px'}}>
-            {['Tout le plan Free','Playlist Finder','Script Vidéo IA','Growth Score','Generateur de contenu','IA Assistant Marketing'].map((f,i) => (
+            {['Tout le plan Free','Playlist Finder','Publications pour les réseaux','Script vidéo IA','Analyse de tes stats Spotify','Détection du potentiel viral','Optimisation du profil artiste','Vue multi-plateformes','Assistant IA marketing'].map((f,i) => (
               <p key={i} style={{marginBottom:'8px',fontSize:'14px'}}>✅ {f}</p>
             ))}
           </div>
@@ -93,28 +93,9 @@ export default function Pricing() {
           )}
         </div>
 
-        {/* PLAN PRO+ */}
-        <div style={{background:'#0d0020',padding:'35px',borderRadius:'24px',border: currentPlan === 'Pro+' ? '2px solid #1DB954' : '2px solid #9B59B6'}}>
-          {annual && <div style={{background:'#1DB954',borderRadius:'15px',padding:'4px 12px',display:'inline-block',marginBottom:'10px',fontSize:'12px',fontWeight:'bold',color:'white'}}>ECONOMISEZ 48 EUR/AN</div>}
-          <h2 style={{fontSize:'24px',marginBottom:'8px'}}>Pro+</h2>
-          <p style={{fontSize:'48px',fontWeight:'bold',marginBottom:'2px'}}>{annual ? '15.99' : '19.99'} EUR<span style={{fontSize:'16px'}}>/mois</span></p>
-          {annual && <p style={{fontSize:'13px',color:'#aaa',marginBottom:'5px'}}>soit 191.88 EUR/an</p>}
-          <div style={{marginBottom:'25px',marginTop:'15px'}}>
-            {['Tout le plan Pro','Analytics IA avancee','Detection Viral Potentiel','Optimisation Profil Artiste','Dashboard Multi-Plateformes','Support prioritaire'].map((f,i) => (
-              <p key={i} style={{color:'#ccc',marginBottom:'8px',fontSize:'14px'}}>✅ {f}</p>
-            ))}
-          </div>
-          {currentPlan === 'Pro+' ? (
-            <div style={{background:'#1a0030',border:'1px solid #1DB954',color:'#1DB954',padding:'14px',borderRadius:'12px',textAlign:'center',fontWeight:'bold',fontSize:'15px'}}>✓ Plan actuel</div>
-          ) : (
-            <button onClick={() => goToCheckout('pro_plus')} style={{background:'#9B59B6',color:'#fff',padding:'14px',borderRadius:'12px',textAlign:'center',fontWeight:'bold',fontSize:'15px',border:'none',cursor:'pointer',width:'100%'}}>
-              {annual ? 'Commencer Pro+ Annuel' : 'Commencer Pro+'}
-            </button>
-          )}
-        </div>
       </div>
       <div style={{textAlign:'center',marginTop:'40px',padding:'20px',background:'#0d0020',borderRadius:'15px',maxWidth:'450px',margin:'40px auto 0'}}>
-        <p style={{color:'#1DB954',fontWeight:'bold',marginBottom:'5px'}}>✅ Annulation a tout moment</p>
+        <p style={{color:'#1DB954',fontWeight:'bold',marginBottom:'5px'}}>✅ Annulation à tout moment</p>
         <p style={{color:'#aaa',fontSize:'13px',margin:0}}>Aucun engagement. Annule quand tu veux depuis ton dashboard.</p>
       </div>
       <div style={{maxWidth:'450px',margin:'30px auto 0',textAlign:'center'}}>
