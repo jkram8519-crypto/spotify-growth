@@ -128,7 +128,7 @@ export default function LandingPage() {
           </a>
         </div>
         <p style={{margin:'0 0 20px 0'}}>
-          <a href="/pitch-gratuit" style={{color:'#D7BDE2',fontSize:'15px',textDecoration:'underline'}}>✨ Essaie le générateur de pitch gratuitement, sans inscription →</a>
+          <a href="/plan-de-sortie-gratuit" style={{color:'#D7BDE2',fontSize:'15px',textDecoration:'underline'}}>🗓️ Vois ton plan de sortie tout de suite, sans inscription →</a>
         </p>
         <div style={{display:'flex',gap:'20px',justifyContent:'center',flexWrap:'wrap',fontSize:'13px',color:'#aaa'}}>
           <span style={{color:'#1DB954'}}>✓ {t[lang].trust1}</span>

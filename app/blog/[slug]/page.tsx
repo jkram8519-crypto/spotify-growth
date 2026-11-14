@@ -49,9 +49,9 @@ function Block({ s, slug }: { s: Section; slug: string }) {
       return (
         <div style={{ background: 'linear-gradient(135deg,#6C3483,#9B59B6)', padding: '24px', borderRadius: '18px', margin: '30px 0', textAlign: 'center' }}>
           <p style={{ color: '#fff', margin: '0 0 16px 0', fontSize: '17px' }}>{s.text}</p>
-          <a href={`/inscription?utm_source=blog&utm_medium=article&utm_campaign=${slug}`}
+          <a href={`/plan-de-sortie-gratuit?utm_source=blog&utm_medium=article&utm_campaign=${slug}`}
             style={{ background: '#fff', color: '#6C3483', padding: '12px 26px', borderRadius: '30px', textDecoration: 'none', fontWeight: 'bold', display: 'inline-block' }}>
-            Créer mon plan de sortie gratuit →
+            Voir mon plan de sortie gratuit →
           </a>
         </div>
       );
