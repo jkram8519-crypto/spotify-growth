@@ -1,0 +1,61 @@
+{
+  "slug": "pitch-editorial-spotify-date-limite",
+  "titre": "Pitch éditorial Spotify : la date limite et comment la tenir",
+  "description": "Jusqu'à quand pitcher ton titre aux éditeurs Spotify, ce que ça change pour ton Release Radar, et le calendrier pour ne plus jamais rater la date.",
+  "categorie": "GUIDE",
+  "date": "2026-11-14",
+  "temps": "7 min",
+  "motCle": "pitch éditorial spotify date limite",
+  "sections": [
+    { "type": "p", "text": "Le pitch éditorial est la seule façon officielle et gratuite de présenter un titre inédit à l'équipe qui gère les playlists de Spotify. Il a une date limite, et beaucoup d'artistes indépendants la découvrent trop tard : le titre est déjà sorti, et il ne peut plus être pitché. Ce guide t'explique la règle exacte, ce que tu gagnes à la respecter même si aucun éditeur ne te sélectionne, et comment t'organiser pour ne plus jamais la rater." },
+
+    { "type": "h2", "text": "La règle : au moins 7 jours avant la sortie" },
+    { "type": "p", "text": "Spotify demande que ta musique lui soit livrée au moins 7 jours avant sa date de sortie, pour laisser le temps aux éditeurs de l'écouter. C'est la seule date limite officielle. Elle se compte à partir du jour de sortie que tu as choisi chez ton distributeur : pour une sortie le vendredi 20, ton pitch doit être envoyé au plus tard le vendredi 13." },
+    { "type": "p", "text": "Une fois le titre en ligne, il n'est plus possible de le pitcher. Il n'y a pas de rattrapage : si tu rates la fenêtre, tu dois attendre ton prochain titre." },
+    { "type": "tip", "title": "Ce que tu gagnes même sans être sélectionné", "text": "Quand tu pitches un titre au moins 7 jours avant sa sortie, Spotify l'ajoute au Radar des sorties (Release Radar) des personnes qui suivent ton profil. C'est l'avantage le plus concret du pitch : il ne dépend pas du choix des éditeurs." },
+
+    { "type": "h2", "text": "Le vrai piège : ton titre doit d'abord apparaître dans Spotify for Artists" },
+    { "type": "p", "text": "Tu ne peux pitcher qu'un titre que Spotify a déjà reçu. Concrètement, ton distributeur doit avoir livré la sortie, et elle doit apparaître dans Spotify for Artists, dans l'onglet Musique, rubrique À venir. Tant qu'elle n'y est pas, le bouton pour pitcher n'existe pas." },
+    { "type": "p", "text": "C'est là que la plupart des dates limites sont ratées : l'artiste envoie son titre au distributeur une semaine avant la sortie, le traitement prend quelques jours, et quand le titre apparaît enfin, il reste moins de 7 jours. Le délai de traitement varie selon les distributeurs et les périodes. Le conseil le plus sûr est d'envoyer ton titre à ton distributeur environ quatre semaines avant la date de sortie. Tu te laisses ainsi le temps de corriger une erreur de métadonnées et de pitcher sans stress." },
+
+    { "type": "h2", "text": "Comment envoyer ton pitch, étape par étape" },
+    { "type": "list", "ordered": true, "items": [
+      "Connecte-toi sur artists.spotify.com avec un compte qui a l'accès Administrateur ou Éditeur sur ton profil d'artiste.",
+      "Va dans Musique, puis À venir, et choisis le titre que tu veux présenter.",
+      "Remplis le formulaire : genre, ambiance, instruments, culture, et le texte qui présente le titre. Plus tu donnes d'informations, plus les éditeurs peuvent le situer.",
+      "Envoie le pitch. Tu peux encore le modifier jusqu'au jour de sortie, mais rien ne garantit qu'un éditeur verra la nouvelle version : soigne la première."
+    ] },
+    { "type": "p", "text": "Quelques règles à connaître : tu ne peux pitcher qu'un seul titre à la fois, et tu pourras en pitcher un autre dès que le premier sera en ligne. Les compilations et les titres sur lesquels tu apparais seulement en featuring ne peuvent pas être pitchés." },
+
+    { "type": "h2", "text": "Que mettre dans le texte du pitch" },
+    { "type": "p", "text": "Les éditeurs reçoivent énormément de propositions. Ton texte doit les aider à comprendre en quelques secondes où ton titre a sa place. Évite de demander une faveur ou d'affirmer que ton morceau est un tube : décris-le." },
+    { "type": "list", "items": [
+      "Le son : le genre précis, l'ambiance, ce qu'on entend (un drop, une voix, un instrument qui marque).",
+      "L'histoire : d'où vient le titre, ce qu'il raconte, pourquoi il sort maintenant.",
+      "Ton public : qui t'écoute déjà, et où (une ville, une scène, une communauté en ligne).",
+      "Ce que tu prépares autour : vidéos, concerts, publications, campagne de pré-enregistrement. Les éditeurs voient ainsi que la sortie sera soutenue."
+    ] },
+    { "type": "tip", "title": "Un exemple de structure", "text": "Une phrase sur le son, une phrase sur l'histoire, une phrase sur ton public, une phrase sur ton plan de promotion. Quatre phrases claires valent mieux qu'un long paragraphe flou." },
+
+    { "type": "h2", "text": "Après l'envoi : à quoi t'attendre" },
+    { "type": "p", "text": "Le pitch ne garantit aucun placement. Les éditeurs peuvent aussi choisir un autre titre que celui que tu as présenté. Si ton morceau est sélectionné, Spotify te prévient par email, et tu peux vérifier les playlists qui l'ont ajouté dans l'onglet Playlists de Spotify for Artists une fois la sortie en ligne." },
+    { "type": "p", "text": "S'il n'est pas retenu, ce n'est pas un échec définitif : un titre peut être découvert plus tard. En attendant, le Radar des sorties de tes abonnés fait son travail, et tu peux présenter ton morceau à des curateurs de playlists indépendantes, qui ne dépendent pas de Spotify." },
+
+    { "type": "h2", "text": "Le calendrier qui évite de rater la date" },
+    { "type": "p", "text": "Le plus simple est de partir de ta date de sortie et de remonter le temps. Voici un repère qui laisse une marge confortable :" },
+    { "type": "list", "items": [
+      "Environ 4 semaines avant : envoi du titre, de la pochette et des crédits à ton distributeur.",
+      "Dès que le titre apparaît dans À venir : rédaction et envoi du pitch, sans attendre la dernière semaine.",
+      "7 jours avant : date limite officielle de Spotify. Si ton pitch n'est pas envoyé, c'est le dernier moment.",
+      "Jour de sortie : vérifie que le titre est bien en ligne, puis partage-le partout."
+    ] },
+    { "type": "cta", "text": "Spotlift calcule ces dates pour toi à partir de ton jour de sortie, et t'envoie un rappel par email quand une étape arrive, pitch éditorial compris. C'est gratuit." },
+
+    { "type": "h2", "text": "En résumé" },
+    { "type": "p", "text": "Pitche ton titre au moins 7 jours avant sa sortie, depuis Spotify for Artists, rubrique À venir. Pour que ce soit possible, envoie ton morceau à ton distributeur bien plus tôt, idéalement quatre semaines avant. Même sans sélection par les éditeurs, un pitch envoyé à temps place ton titre dans le Radar des sorties de tes abonnés. C'est gratuit, et c'est l'une des rares choses qui ne dépendent que de ton organisation." }
+  ],
+  "sources": [
+    { "titre": "Spotify for Artists : pitcher des titres auprès de nos éditeurs de playlists", "url": "https://support.spotify.com/bf-fr/artists/article/pitching-music-to-playlist-editors/" },
+    { "titre": "Spotify for Artists : pitcher des titres et des vidéos auprès de l'équipe éditoriale", "url": "https://support.spotify.com/fr/artists/article/pitching-music-and-videos-to-playlist-editors/" }
+  ]
+}

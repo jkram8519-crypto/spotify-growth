@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import { getArticles, frDate } from '@/lib/articles';
 
 export const metadata: Metadata = {
   title: 'Blog Spotlift — Conseils pour artistes indépendants Spotify',
@@ -6,14 +7,14 @@ export const metadata: Metadata = {
 };
 
 export default function Blog() {
-  const articles = [
+  const legacy = [
     {
       slug: 'comment-pitcher-spotify',
       titre: 'Comment pitcher une playlist Spotify en 2026',
       description: 'Guide complet pour convaincre les curateurs d\'ajouter ton track à leur playlist.',
       categorie: 'GUIDE',
       temps: '10 min',
-      date: '10 Juin 2026',
+      date: '10 juin 2026',
     },
     {
       slug: 'augmenter-streams-spotify',
@@ -21,7 +22,7 @@ export default function Blog() {
       description: 'Les meilleures stratégies pour booster tes streams et trouver de nouveaux auditeurs.',
       categorie: 'STRATÉGIE',
       temps: '8 min',
-      date: 'Bientôt',
+      date: '25 juin 2026',
     },
     {
       slug: 'meilleur-outil-artiste-independant',
@@ -29,7 +30,7 @@ export default function Blog() {
       description: 'Comparatif des outils indispensables pour gérer ta carrière musicale.',
       categorie: 'COMPARATIF',
       temps: '12 min',
-      date: 'Bientôt',
+      date: '25 juin 2026',
     },
     {
       slug: 'musique-jeux-video-gta',
@@ -37,8 +38,13 @@ export default function Blog() {
       description: 'Les licences de jeux en monde ouvert ont marqué la culture musicale. Quelles leçons pour ta stratégie Spotify.',
       categorie: 'CULTURE MUSICALE',
       temps: '6 min',
-      date: '25 Juin 2026',
+      date: '25 juin 2026',
     },
+  ];
+
+  const articles = [
+    ...getArticles().map(a => ({ slug: a.slug, titre: a.titre, description: a.description, categorie: a.categorie, temps: a.temps, date: frDate(a.date) })),
+    ...legacy,
   ];
 
   return (
@@ -63,7 +69,7 @@ export default function Blog() {
                 </div>
                 <h2 style={{fontSize:'22px',fontWeight:'bold',margin:'0 0 10px 0',color:'#fff'}}>{article.titre}</h2>
                 <p style={{color:'#aaa',margin:'0 0 15px 0',fontSize:'15px',lineHeight:'1.6'}}>{article.description}</p>
-                <span style={{color:'#9B59B6',fontSize:'14px',fontWeight:'bold'}}>Lire l'article →</span>
+                <span style={{color:'#9B59B6',fontSize:'14px',fontWeight:'bold'}}>Lire l&apos;article →</span>
               </div>
             </a>
           ))}
@@ -71,8 +77,8 @@ export default function Blog() {
 
         <div style={{background:'linear-gradient(135deg,#6C3483,#9B59B6)',padding:'30px',borderRadius:'20px',textAlign:'center',marginTop:'50px'}}>
           <h2 style={{fontSize:'22px',fontWeight:'bold',marginBottom:'10px'}}>Essaie Spotlift gratuitement</h2>
-          <p style={{marginBottom:'20px',opacity:0.9}}>L'outil IA pour artistes indépendants sur Spotify</p>
-          <a href="/inscription" style={{background:'#fff',color:'#6C3483',padding:'14px 30px',borderRadius:'30px',textDecoration:'none',fontWeight:'bold',display:'inline-block'}}>
+          <p style={{marginBottom:'20px',opacity:0.9}}>Ton plan de sortie daté, étape par étape, avec des rappels par email.</p>
+          <a href="/inscription?utm_source=blog&utm_medium=index" style={{background:'#fff',color:'#6C3483',padding:'14px 30px',borderRadius:'30px',textDecoration:'none',fontWeight:'bold',display:'inline-block'}}>
             Commencer gratuitement →
           </a>
         </div>

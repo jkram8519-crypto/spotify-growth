@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://getspotlift.vercel.app/sitemap.xml
+Sitemap: https://getspotlift.com/sitemap.xml

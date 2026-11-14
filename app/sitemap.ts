@@ -1,7 +1,16 @@
 import { MetadataRoute } from 'next';
+import { getArticles } from '@/lib/articles';
+
+const LEGACY_POSTS = ['comment-pitcher-spotify', 'augmenter-streams-spotify', 'meilleur-outil-artiste-independant', 'musique-jeux-video-gta'];
 
 export default function sitemap(): MetadataRoute.Sitemap {
+  const posts: MetadataRoute.Sitemap = [
+    { url: 'https://getspotlift.com/blog', lastModified: new Date(), changeFrequency: 'weekly', priority: 0.8 },
+    ...getArticles().map(a => ({ url: `https://getspotlift.com/blog/${a.slug}`, lastModified: new Date(a.date + 'T12:00:00Z'), changeFrequency: 'monthly' as const, priority: 0.7 })),
+    ...LEGACY_POSTS.map(slug => ({ url: `https://getspotlift.com/blog/${slug}`, changeFrequency: 'monthly' as const, priority: 0.5 })),
+  ];
   return [
+    ...posts,
     {
       url: 'https://getspotlift.com',
       lastModified: new Date(),
