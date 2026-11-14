@@ -148,17 +148,48 @@ export function buildPlan(track: string, releaseDate: string, a: PlanAnswers, to
     return { ...s, date: late ? today : planned, late: late || undefined, done: false };
   });
 
+  // Sortie proche et titre pas encore chez le distributeur : le délai de livraison
+  // devient le vrai risque. On le dit clairement, sans inventer de délai précis.
+  const distrib = tasks.find(t => t.id === 'distrib-envoi');
+  if (distrib && distrib.late && daysLeft < 21) {
+    distrib.title = `Urgent : vérifier que ton distributeur peut livrer à temps`;
+    distrib.detail = `Ta sortie est ${daysLeft <= 1 ? (daysLeft === 1 ? 'demain' : 'aujourd\'hui') : `dans ${daysLeft} jours`}. Les distributeurs demandent souvent plusieurs jours, parfois plusieurs semaines, pour livrer un titre aux plateformes : regarde le délai indiqué par le tien et envoie le titre dès aujourd'hui. S'il est trop court, décale ta date de sortie : tu garderas le temps de pitcher Spotify.`;
+  }
+
   // Sortie proche : le pitch éditorial a une vraie date limite (J-7). S'il est à rattraper,
-  // il passe en tête du plan avec sa date butoir, pour ne pas se perdre parmi les autres rattrapages.
+  // il passe en tête avec sa date butoir, pour ne pas se perdre parmi les autres rattrapages.
   const editorial = tasks.find(t => t.id === 'editorial');
+  const urgent: string[] = [];
+  if (distrib && distrib.late && daysLeft < 21) {
+    if (tasks.find(t => t.id === 'master')?.late) urgent.push('master');
+    urgent.push('distrib-envoi');
+  }
   if (editorial && editorial.late && daysLeft >= 7) {
     const limit = new Date(addDays(releaseDate, -7) + 'T12:00:00Z')
       .toLocaleDateString('fr-FR', { weekday: 'long', day: 'numeric', month: 'long', timeZone: 'UTC' });
     editorial.title = `Urgent : pitcher les playlists éditoriales de Spotify avant ${limit}`;
     editorial.detail = `Spotify n'accepte plus le pitch à moins de 7 jours de la sortie : il te reste ${daysLeft - 7 === 0 ? 'aujourd\'hui seulement' : daysLeft - 7 === 1 ? 'jusqu\'à demain' : (daysLeft - 7) + ' jours'}. Dans Spotify for Artists, rubrique « À venir », soumets le titre avec ton pitch.`;
-    const pitch = tasks.find(t => t.id === 'pitch');
-    const rest = tasks.filter(t => t.id !== 'editorial' && t.id !== 'pitch');
-    return [...(pitch ? [pitch] : []), editorial, ...rest];
+    urgent.push('pitch', 'editorial');
   }
-  return tasks;
+
+  // Les étapes en retard ne s'empilent plus toutes sur aujourd'hui : on les étale,
+  // dans l'ordre de priorité, sur les jours qui restent avant la sortie (2 par jour au plus
+  // tant que c'est possible). Les urgences passent en premier, le jour même.
+  const late = tasks.filter(t => t.late);
+  const ordered = [...late.filter(t => urgent.includes(t.id)).sort((x, y) => urgent.indexOf(x.id) - urgent.indexOf(y.id)), ...late.filter(t => !urgent.includes(t.id))];
+  const slots = Math.max(1, daysLeft); // jours disponibles d'aujourd'hui à la veille de la sortie
+  const perDay = Math.max(2, Math.ceil(ordered.length / slots));
+  const nUrgent = ordered.filter(t => urgent.includes(t.id)).length;
+  ordered.forEach((t, i) => {
+    // Les urgences restent toutes aujourd'hui ; les autres remplissent les jours suivants.
+    const slot = i < nUrgent ? 0 : Math.floor(Math.max(i, perDay * Math.ceil(nUrgent / perDay)) / perDay);
+    t.date = addDays(today, Math.min(slot, slots - 1));
+  });
+
+  // Ordre final : par date, puis urgences d'abord, puis ordre logique des étapes.
+  const rank = new Map(ordered.map((t, i) => [t.id, i]));
+  return tasks
+    .map((t, i) => ({ t, i }))
+    .sort((x, y) => x.t.date.localeCompare(y.t.date) || (rank.get(x.t.id) ?? 999) - (rank.get(y.t.id) ?? 999) || x.i - y.i)
+    .map(x => x.t);
 }

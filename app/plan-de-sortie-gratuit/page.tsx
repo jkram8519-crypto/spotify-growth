@@ -41,7 +41,7 @@ function toIcs(trackName: string, tasks: PlanTask[]): string {
   };
   const stamp = new Date().toISOString().replace(/[-:]/g, '').replace(/\.\d+/, '');
   const lines = ['BEGIN:VCALENDAR', 'VERSION:2.0', 'PRODID:-//Spotlift//Plan de sortie//FR', 'CALSCALE:GREGORIAN', 'METHOD:PUBLISH'];
-  tasks.forEach((t, i) => {
+  tasks.filter(t => !t.title.includes('trop tard')).forEach((t, i) => {
     const start = t.date.replace(/-/g, '');
     const end = new Date(t.date + 'T12:00:00Z');
     end.setUTCDate(end.getUTCDate() + 1);
