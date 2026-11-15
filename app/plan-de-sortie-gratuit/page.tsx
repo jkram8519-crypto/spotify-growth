@@ -1,6 +1,7 @@
 'use client';
 import { useState } from 'react';
 import Link from 'next/link';
+import CourseSignup from '@/app/components/CourseSignup';
 import { GENRES, PlanTask, buildPlan, cleanAnswers, daysBetween, todayParis } from '@/lib/release-plan';
 
 // Outil public, sans compte : le rétroplanning daté d'une sortie, calculé dans le navigateur.
@@ -202,6 +203,8 @@ export default function PlanDeSortieGratuit() {
             </div>
           </section>
         )}
+
+        <CourseSignup source={tasks ? 'outil-plan-apres' : 'outil-plan'} />
 
         <section style={{ marginTop: '44px', color: '#bbb', fontSize: '15px', lineHeight: 1.7 }}>
           <h2 style={{ color: '#fff', fontSize: '22px' }}>Pourquoi un rétroplanning pour une sortie ?</h2>

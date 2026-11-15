@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import { getArticles, getArticle, frDate, Section } from '@/lib/articles';
+import CourseSignup from '@/app/components/CourseSignup';
 
 // Pages d'articles générées à partir de content/articles/*.json.
 // Les anciens articles (dossiers app/blog/<slug>/) restent servis par leurs propres pages.
@@ -95,6 +96,8 @@ export default async function ArticlePage({ params }: { params: Promise<{ slug: 
           {a.sections.map((s, i) => <Block key={i} s={s} slug={a.slug} />)}
           {!hasCta && <Block s={{ type: 'cta', text: 'Spotlift te prépare un plan de sortie daté, étape par étape, avec des rappels par email. Gratuit.' }} slug={a.slug} />}
         </div>
+
+        <CourseSignup source={`blog-${a.slug}`} />
 
         {a.sources.length > 0 && (
           <div style={{ borderTop: '1px solid #2d1040', marginTop: '40px', paddingTop: '20px' }}>

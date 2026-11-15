@@ -16,7 +16,7 @@ function hello(prenom: string): string {
   return prenom ? `Salut ${prenom},` : 'Salut,';
 }
 
-type Mail = { subject: string; paragraphs: string[]; cta?: { label: string; url: string }; after?: string[] };
+export type Mail = { subject: string; paragraphs: string[]; cta?: { label: string; url: string }; after?: string[] };
 
 function renderHtml(m: Mail): string {
   const p = (t: string) => `<p style="margin:0 0 16px 0;line-height:1.6;">${t}</p>`;
@@ -41,11 +41,19 @@ function renderText(m: Mail): string {
   ].join('\n\n');
 }
 
-async function send(to: string, m: Mail): Promise<boolean> {
+async function send(to: string, m: Mail, unsubscribeUrl?: string): Promise<boolean> {
+  let html = renderHtml(m);
+  let text = renderText(m);
+  const extra: Record<string, unknown> = {};
+  if (unsubscribeUrl) {
+    html += `<p style="font-family:Arial,Helvetica,sans-serif;font-size:12px;color:#999999;max-width:560px;margin:0 auto;padding:0 24px 24px;">Tu reçois cet email car tu t'es inscrit à la formation « Ta sortie en 6 emails ». <a href="${unsubscribeUrl}" style="color:#999999;">Se désinscrire</a></p>`;
+    text += `\n\nSe désinscrire : ${unsubscribeUrl}`;
+    extra.headers = { 'List-Unsubscribe': `<${unsubscribeUrl}>`, 'List-Unsubscribe-Post': 'List-Unsubscribe=One-Click' };
+  }
   const res = await fetch('https://api.resend.com/emails', {
     method: 'POST',
     headers: { Authorization: `Bearer ${process.env.RESEND_API_KEY}`, 'Content-Type': 'application/json' },
-    body: JSON.stringify({ from: FROM, to, reply_to: REPLY_TO, subject: m.subject, html: renderHtml(m), text: renderText(m) }),
+    body: JSON.stringify({ from: FROM, to, reply_to: REPLY_TO, subject: m.subject, html, text, ...extra }),
   });
   if (!res.ok) console.error('Resend error', res.status, await res.text().catch(() => ''));
   return res.ok;
@@ -175,4 +183,9 @@ export function sendPlanReminder(
     cta: { label: 'Ouvrir mon plan', url: 'https://getspotlift.com/dashboard?utm_source=email&utm_medium=rappel-plan' },
     after: ['Tu peux couper ces rappels d\'un clic en haut de ton plan, ou en répondant « stop » à ce mail.'],
   });
+}
+
+// Formation « Ta sortie en 6 emails » : envoi avec lien de désinscription (en-tête + pied de mail)
+export function sendCourseMail(to: string, m: Mail, unsubscribeUrl: string) {
+  return send(to, m, unsubscribeUrl);
 }
