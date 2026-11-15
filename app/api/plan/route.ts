@@ -3,6 +3,7 @@ import { createClient } from '@supabase/supabase-js';
 import { requirePlan } from '@/lib/require-plan';
 import { isClean } from '@/lib/moderation';
 import { buildPlan, cleanAnswers, daysBetween, todayParis, PlanTask } from '@/lib/release-plan';
+import { shareSlug } from '@/lib/shared-plan';
 
 // Plan de sortie sauvegardé : un plan par compte, gratuit pour tout le monde.
 // GET = lire, POST = créer ou remplacer, PATCH = cocher une étape ou couper les rappels.
@@ -63,7 +64,7 @@ export async function GET(req: NextRequest) {
   if (auth instanceof NextResponse) return auth;
   const { data } = await admin
     .from('release_plans')
-    .select('track_name, release_date, answers, tasks, reminders')
+    .select('track_name, release_date, answers, tasks, reminders, shared, share_slug, artist_name')
     .eq('user_id', auth.userId)
     .maybeSingle();
   return NextResponse.json({ plan: data || null, today: todayParis() });
@@ -102,6 +103,8 @@ export async function POST(req: NextRequest) {
       tasks,
       reminders: true,
       last_reminder_on: null,
+      shared: false,
+      share_slug: null,
       updated_at: new Date().toISOString(),
     };
     const { error } = await admin.from('release_plans').upsert(row, { onConflict: 'user_id' });
@@ -111,7 +114,7 @@ export async function POST(req: NextRequest) {
     }
     await logEvent(auth.userId, 'plan_created', { genre: answers.genre, days_left: daysLeft, distributor: answers.distributor });
     return NextResponse.json({
-      plan: { track_name: track, release_date: releaseDate, answers, tasks, reminders: true },
+      plan: { track_name: track, release_date: releaseDate, answers, tasks, reminders: true, shared: false, share_slug: null },
       today,
     });
   } catch {
@@ -143,6 +146,30 @@ export async function PATCH(req: NextRequest) {
         .eq('user_id', auth.userId);
       if (error) return NextResponse.json({ error: 'Enregistrement impossible. Réessaie.' }, { status: 500 });
       await logEvent(auth.userId, body.reminders ? 'reminders_on' : 'reminders_off');
+    }
+    // Partage public du plan (choix explicite de l'artiste, réversible).
+    if (typeof body.share === 'boolean') {
+      const { data: current } = await admin
+        .from('release_plans')
+        .select('track_name, share_slug')
+        .eq('user_id', auth.userId)
+        .maybeSingle();
+      if (!current) return NextResponse.json({ error: 'Aucun plan enregistré.' }, { status: 404 });
+      const update: Record<string, unknown> = { shared: body.share, updated_at: new Date().toISOString() };
+      if (typeof body.artistName === 'string') {
+        const name = body.artistName.trim().replace(/\s+/g, ' ').slice(0, 60);
+        if (name && !isClean(name)) return NextResponse.json({ error: 'Ce nom contient des propos inappropriés.' }, { status: 400 });
+        update.artist_name = name || null;
+      }
+      let slug = current.share_slug as string | null;
+      if (body.share && !slug) {
+        slug = shareSlug(current.track_name);
+        update.share_slug = slug;
+      }
+      const { error } = await admin.from('release_plans').update(update).eq('user_id', auth.userId);
+      if (error) return NextResponse.json({ error: 'Partage impossible. Réessaie.' }, { status: 500 });
+      await logEvent(auth.userId, body.share ? 'plan_shared' : 'plan_unshared');
+      return NextResponse.json({ success: true, shared: body.share, share_slug: slug });
     }
     return NextResponse.json({ success: true });
   } catch {

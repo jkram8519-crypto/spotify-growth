@@ -6,7 +6,7 @@ import { GENRES, PlanAnswers, PlanTask, daysBetween } from '@/lib/release-plan';
 // Plan de sortie : quelques questions, puis un plan personnalisé, sauvegardé,
 // avec des étapes à cocher et des rappels par email. Gratuit pour tous les comptes.
 
-type Plan = { track_name: string; release_date: string; answers: PlanAnswers; tasks: PlanTask[]; reminders: boolean };
+type Plan = { track_name: string; release_date: string; answers: PlanAnswers; tasks: PlanTask[]; reminders: boolean; shared?: boolean; share_slug?: string | null; artist_name?: string | null };
 
 async function authFetch(url: string, init: RequestInit = {}) {
   const { data } = await supabase.auth.getSession();
@@ -67,6 +67,9 @@ export default function ReleasePlan({ onGoTo }: { onGoTo: (section: string) => v
   const [sacem, setSacem] = useState('unknown');
   const [adsBudget, setAdsBudget] = useState('no');
   const [draftLoaded, setDraftLoaded] = useState(false);
+  const [artistName, setArtistName] = useState('');
+  const [sharing, setSharing] = useState(false);
+  const [copied, setCopied] = useState(false);
 
   // Brouillon du formulaire : un rechargement ne fait pas perdre les réponses.
   useEffect(() => {
@@ -94,7 +97,7 @@ export default function ReleasePlan({ onGoTo }: { onGoTo: (section: string) => v
       try {
         const res = await authFetch('/api/plan');
         const data = await res.json();
-        if (data.plan) setPlan(data.plan);
+        if (data.plan) { setPlan(data.plan); setArtistName(data.plan.artist_name || ''); }
         if (data.today) setToday(data.today);
         track('plan_viewed', { has_plan: data.plan ? 'oui' : 'non' });
       } catch {
@@ -140,6 +143,36 @@ export default function ReleasePlan({ onGoTo }: { onGoTo: (section: string) => v
     const reminders = !plan.reminders;
     setPlan({ ...plan, reminders });
     await authFetch('/api/plan', { method: 'PATCH', body: JSON.stringify({ reminders }) }).catch(() => {});
+  };
+
+  const shareUrl = plan?.share_slug ? `https://getspotlift.com/plan/${plan.share_slug}` : '';
+
+  const setShare = async (share: boolean) => {
+    if (!plan) return;
+    setSharing(true);
+    setError('');
+    try {
+      const res = await authFetch('/api/plan', { method: 'PATCH', body: JSON.stringify({ share, artistName }) });
+      const data = await res.json();
+      if (res.ok) setPlan({ ...plan, shared: data.shared, share_slug: data.share_slug, artist_name: artistName.trim() || null });
+      else setError(data.error || 'Partage impossible. Réessaie.');
+    } catch {
+      setError('Erreur de connexion. Réessaie.');
+    }
+    setSharing(false);
+  };
+
+  const copyLink = async () => {
+    try { await navigator.clipboard.writeText(shareUrl); setCopied(true); setTimeout(() => setCopied(false), 2500); } catch {}
+    track('share_link_copied');
+  };
+
+  const nativeShare = async () => {
+    if (!plan) return;
+    try {
+      await navigator.share({ title: `« ${plan.track_name} »`, text: `Ma prochaine sortie « ${plan.track_name} » arrive : voici mon plan.`, url: shareUrl });
+      track('share_native');
+    } catch {}
   };
 
   const openTool = (task: PlanTask) => {
@@ -244,6 +277,42 @@ export default function ReleasePlan({ onGoTo }: { onGoTo: (section: string) => v
           <input type="checkbox" checked={plan.reminders} onChange={toggleReminders} style={{ width: '18px', height: '18px', accentColor: '#9B59B6' }} />
           Me rappeler par email les jours où une étape est prévue
         </label>
+      </div>
+
+      <div style={{ ...card, border: plan.shared ? '1px solid #1DB954' : '1px solid #2d1040' }}>
+        <p style={{ margin: '0 0 6px 0', fontWeight: 'bold' }}>📣 Partager mon plan</p>
+        {!plan.shared ? (
+          <>
+            <p style={{ color: '#aaa', fontSize: '14px', margin: '0 0 14px 0', lineHeight: 1.6 }}>
+              Crée une page publique avec ton titre, ta date de sortie et ton avancement, à mettre en story ou à envoyer à ton équipe. Aucune information personnelle n&apos;y apparaît, et tu peux la retirer quand tu veux.
+            </p>
+            <label htmlFor="artist-name" style={{ display: 'block', color: '#ccc', fontSize: '13px', marginBottom: '6px' }}>Ton nom d&apos;artiste (facultatif)</label>
+            <input id="artist-name" value={artistName} onChange={e => setArtistName(e.target.value)} maxLength={60} placeholder="Ex. J.K. RAM"
+              style={{ ...field, marginBottom: '12px' }} />
+            <button onClick={() => setShare(true)} disabled={sharing} style={{ ...primary, fontSize: '15px', padding: '12px', opacity: sharing ? 0.7 : 1 }}>
+              {sharing ? 'Création du lien…' : 'Créer mon lien de partage'}
+            </button>
+          </>
+        ) : (
+          <>
+            <p style={{ color: '#aaa', fontSize: '14px', margin: '0 0 12px 0' }}>Ta page est en ligne. Elle se met à jour quand tu coches une étape.</p>
+            <p style={{ background: '#1a0030', borderRadius: '10px', padding: '10px 12px', fontSize: '14px', wordBreak: 'break-all', margin: '0 0 12px 0' }}>{shareUrl}</p>
+            <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap' }}>
+              <button onClick={copyLink} style={{ background: '#1DB954', color: '#000', border: 'none', padding: '10px 16px', borderRadius: '10px', fontWeight: 'bold', cursor: 'pointer' }}>
+                {copied ? '✓ Lien copié' : 'Copier le lien'}
+              </button>
+              {typeof navigator !== 'undefined' && 'share' in navigator && (
+                <button onClick={nativeShare} style={{ background: 'transparent', color: '#c38be0', border: '1px solid #9B59B6', padding: '10px 16px', borderRadius: '10px', fontWeight: 'bold', cursor: 'pointer' }}>
+                  Partager…
+                </button>
+              )}
+              <a href={shareUrl} target="_blank" rel="noopener" style={{ color: '#c38be0', padding: '10px 6px', fontSize: '14px' }}>Voir la page</a>
+              <button onClick={() => setShare(false)} disabled={sharing} style={{ background: 'none', border: 'none', color: '#888', padding: '10px 6px', cursor: 'pointer', fontSize: '13px', textDecoration: 'underline' }}>
+                Retirer la page
+              </button>
+            </div>
+          </>
+        )}
       </div>
 
       {error && <p role="alert" style={{ color: '#e67e80', margin: '0 0 14px 0', fontSize: '14px' }}>{error}</p>}
