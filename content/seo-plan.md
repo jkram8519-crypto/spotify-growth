@@ -13,6 +13,7 @@ Règle : un article = une question précise qu'un artiste tape dans Google, avec
 | 2026-06-25 | meilleur-outil-artiste-independant | outil artiste indépendant (ancien format) |
 | 2026-06-25 | musique-jeux-video-gta | (ancien format) |
 | 2026-11-14 | pitch-editorial-spotify-date-limite | pitch éditorial spotify date limite |
+| 2026-11-15 | groover-prix-avis-alternatives | groover prix avis (comparatif) |
 
 ## À écrire (prendre le premier non publié, ou un sujet plus porteur trouvé en recherche)
 
@@ -31,3 +32,11 @@ Règle : un article = une question précise qu'un artiste tape dans Google, avec
 13. Aides du CNM pour les artistes : qui peut en demander — « aide cnm artiste »
 14. Sortir un single ou un EP quand on débute — « single ou ep »
 15. Annoncer une sortie sur Instagram et TikTok sans budget — « promouvoir sa musique sans argent »
+
+## Comparatifs à écrire (semaines impaires)
+
+1. DistroKid, TuneCore, CD Baby, Spinnup : comparer les distributeurs — « distrokid ou tunecore »
+2. Alternatives à SubmitHub pour les artistes francophones — « alternative submithub »
+3. un:hurd : prix, fonctionnement et alternatives — « unhurd avis »
+4. Feature.fm ou Linkfire pour ton lien de pré-sauvegarde — « feature fm vs linkfire »
+5. artist.tools : vérifier une playlist avant de payer — « artist tools avis »
