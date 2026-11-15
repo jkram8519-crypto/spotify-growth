@@ -45,7 +45,6 @@ const TOOL_PILLARS = [
     items: [
       {id:'contenu', emoji:'📱', label:'Contenu Social'},
       {id:'script', emoji:'🎬', label:'Script Vidéo IA'},
-      {id:'viral', emoji:'🔥', label:'Viral Potentiel'},
     ],
   },
   {
@@ -53,7 +52,6 @@ const TOOL_PILLARS = [
     items: [
       {id:'growth', emoji:'🎯', label:'Growth Score'},
       {id:'analytics', emoji:'📊', label:'Analytics IA'},
-      {id:'multi', emoji:'🌐', label:'Multi-Plateformes'},
     ],
   },
 ];

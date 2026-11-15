@@ -18,7 +18,7 @@ export async function GET(req: NextRequest) {
   const today = todayParis();
   const { data: plans, error } = await admin
     .from('release_plans')
-    .select('user_id, track_name, release_date, tasks, last_reminder_on')
+    .select('id, user_id, track_name, release_date, tasks, last_reminder_on')
     .eq('reminders', true)
     .limit(500);
   if (error) return NextResponse.json({ error: error.message }, { status: 500 });
@@ -40,7 +40,7 @@ export async function GET(req: NextRequest) {
     const ok = await sendPlanReminder(email, name, plan.track_name, due, overdue, daysBetween(today, plan.release_date));
     if (ok) {
       sent++;
-      await admin.from('release_plans').update({ last_reminder_on: today }).eq('user_id', plan.user_id);
+      await admin.from('release_plans').update({ last_reminder_on: today }).eq('id', plan.id);
       await admin.from('events').insert({ user_id: plan.user_id, name: 'reminder_sent', meta: { due: due.length } });
     }
   }

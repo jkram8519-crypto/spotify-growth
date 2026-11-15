@@ -14,16 +14,16 @@ export default function ProPage() {
         </div>
 
         <h2 style={{fontSize:'28px',fontWeight:'bold',marginBottom:'12px',textAlign:'center'}}>Ce que tu obtiens avec le Plan Pro</h2>
-        <p style={{color:'#aaa',textAlign:'center',margin:'0 0 30px 0',lineHeight:1.6}}>Ton plan de sortie, ses rappels et le générateur de pitch restent gratuits. Pro ajoute les outils qui t&apos;aident à faire chaque étape.</p>
+        <p style={{color:'#aaa',textAlign:'center',margin:'0 0 30px 0',lineHeight:1.6}}>Ton plan de sortie, ses rappels et ton pitch restent gratuits. Pro prépare avec toi le contenu de chaque étape et garde toutes tes sorties.</p>
 
         {[
+          {emoji:'✨',titre:'Le contenu prêt à chaque étape',desc:'Dans ton plan, chaque étape clé a son bouton : post d\'annonce, 3 idées de vidéos de 15 secondes, messages aux curateurs en français et en anglais, relances, publications du jour J, grille de bilan. Adapté à ton titre et à ton style, à copier-coller.',badge:'NOUVEAU'},
+          {emoji:'🎵',titre:'Plusieurs sorties',desc:'Prépare ta prochaine sortie sans effacer celle en cours, retrouve l\'historique de tes sorties, et repars de tes réponses précédentes au lieu de tout ressaisir.',badge:'NOUVEAU'},
           {emoji:'🎧',titre:'Playlist Finder',desc:'Trouve de vraies playlists Spotify de ton genre et de ton ambiance, avec un lien direct pour les écouter et une checklist anti-arnaque avant de contacter un curateur.',badge:''},
           {emoji:'📱',titre:'Publications pour les réseaux',desc:'Des textes prêts à publier pour Instagram, TikTok, X et email, pour annoncer ta sortie et la faire vivre.',badge:''},
           {emoji:'🎬',titre:'Script vidéo IA',desc:'Un script complet pour tes vidéos TikTok et Reels : accroche, plans, texte à l\'écran.',badge:''},
           {emoji:'📊',titre:'Analyse de tes stats',desc:'Saisis tes chiffres Spotify for Artists (écoutes, enregistrements, playlists) et reçois des recommandations concrètes.',badge:''},
-          {emoji:'🔥',titre:'Potentiel viral',desc:'Décris ton morceau (intro, drop, tempo, accroche) et reçois des conseils pour choisir et monter ton extrait TikTok ou Reels.',badge:''},
           {emoji:'🎨',titre:'Optimisation du profil artiste',desc:'Réponds à quelques questions sur ton profil Spotify (photo, bio, liens, Artist Pick) et reçois les priorités à corriger.',badge:''},
-          {emoji:'🌐',titre:'Vue multi-plateformes',desc:'Saisis tes chiffres Spotify, TikTok, Instagram et YouTube pour les voir côte à côte sur un seul écran.',badge:''},
           {emoji:'🤖',titre:'Assistant IA marketing',desc:'Pose tes questions sur ta sortie, ton marketing ou ta stratégie, et reçois une réponse adaptée à ta situation.',badge:''},
         ].map((f,i) => (
           <div key={i} className="feat-card" style={{background:'#0d0020',padding:'25px',borderRadius:'16px',marginBottom:'15px',border:'1px solid #2d1040',display:'flex',gap:'20px',alignItems:'flex-start'}}>

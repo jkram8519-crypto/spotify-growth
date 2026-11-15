@@ -7,7 +7,8 @@ import { KIT_SPECS, Kit } from '@/lib/plan-kit';
 // Plan de sortie : quelques questions, puis un plan personnalisé, sauvegardé,
 // avec des étapes à cocher et des rappels par email. Gratuit pour tous les comptes.
 
-type Plan = { track_name: string; release_date: string; answers: PlanAnswers; tasks: PlanTask[]; reminders: boolean; shared?: boolean; share_slug?: string | null; artist_name?: string | null; kits?: Record<string, Kit> };
+type PlanSummary = { id: string; track_name: string; release_date: string; selected: boolean; done: number; total: number };
+type Plan = { id?: string; track_name: string; release_date: string; answers: PlanAnswers; tasks: PlanTask[]; reminders: boolean; shared?: boolean; share_slug?: string | null; artist_name?: string | null; kits?: Record<string, Kit> };
 
 async function authFetch(url: string, init: RequestInit = {}) {
   const { data } = await supabase.auth.getSession();
@@ -56,6 +57,9 @@ export default function ReleasePlan({ onGoTo }: { onGoTo: (section: string) => v
   const [loading, setLoading] = useState(true);
   const [plan, setPlan] = useState<Plan | null>(null);
   const [level, setLevel] = useState<'free' | 'pro' | 'pro+'>('free');
+  const [plans, setPlans] = useState<PlanSummary[]>([]);
+  const [newMode, setNewMode] = useState(false);
+  const [switching, setSwitching] = useState(false);
   const [kitBusy, setKitBusy] = useState('');
   const [kitMsg, setKitMsg] = useState<Record<string, string>>({});
   const [kitCopied, setKitCopied] = useState('');
@@ -104,6 +108,7 @@ export default function ReleasePlan({ onGoTo }: { onGoTo: (section: string) => v
         const data = await res.json();
         if (data.plan) { setPlan(data.plan); setArtistName(data.plan.artist_name || ''); }
         if (data.level) setLevel(data.level);
+        if (Array.isArray(data.plans)) setPlans(data.plans);
         if (data.today) setToday(data.today);
         track('plan_viewed', { has_plan: data.plan ? 'oui' : 'non' });
       } catch {
@@ -122,10 +127,15 @@ export default function ReleasePlan({ onGoTo }: { onGoTo: (section: string) => v
     try {
       const res = await authFetch('/api/plan', {
         method: 'POST',
-        body: JSON.stringify({ track: trackName, releaseDate, answers: { genre, distributor, networks, sacem, adsBudget: adsBudget === 'yes' } }),
+        body: JSON.stringify({ track: trackName, releaseDate, mode: newMode ? 'new' : 'replace', answers: { genre, distributor, networks, sacem, adsBudget: adsBudget === 'yes' } }),
       });
       const data = await res.json();
-      if (data.plan) { setPlan(data.plan); setToday(data.today); setEditing(false); setTrackName(''); setReleaseDate(''); window.scrollTo({ top: 0 }); }
+      if (data.plan) {
+        setPlan(data.plan); setToday(data.today); setEditing(false); setNewMode(false); setTrackName(''); setReleaseDate('');
+        setArtistName(data.plan.artist_name || '');
+        if (Array.isArray(data.plans)) setPlans(data.plans);
+        window.scrollTo({ top: 0 });
+      }
       else setError(data.error || 'Une erreur est survenue. Réessaie.');
     } catch {
       setError('Erreur de connexion. Réessaie.');
@@ -150,6 +160,40 @@ export default function ReleasePlan({ onGoTo }: { onGoTo: (section: string) => v
     setPlan({ ...plan, reminders });
     await authFetch('/api/plan', { method: 'PATCH', body: JSON.stringify({ reminders }) }).catch(() => {});
   };
+
+  // Rouvre le formulaire avec les réponses du plan actuel (genre, réseaux…) : seuls le titre et la date changent.
+  function startPlan(asNew: boolean) {
+    if (plan?.answers) {
+      setGenre(plan.answers.genre || '');
+      setNetworks(plan.answers.networks?.length ? plan.answers.networks : ['instagram']);
+      setSacem(plan.answers.sacem || 'unknown');
+      setAdsBudget(plan.answers.adsBudget ? 'yes' : 'no');
+      setDistributor('ready');
+    }
+    setNewMode(asNew); setEditing(true); setTrackName(''); setReleaseDate(''); setError('');
+    window.scrollTo({ top: 0 });
+  }
+
+  async function switchPlan(id: string) {
+    if (switching) return;
+    setSwitching(true);
+    try {
+      const res = await authFetch('/api/plan', { method: 'PATCH', body: JSON.stringify({ selectPlan: id }) });
+      const data = await res.json();
+      if (data.plan) { setPlan(data.plan); setArtistName(data.plan.artist_name || ''); setKitMsg({}); }
+      if (Array.isArray(data.plans)) setPlans(data.plans);
+    } catch {
+      setError('Impossible d\'ouvrir cette sortie. Réessaie.');
+    }
+    setSwitching(false);
+  }
+
+  async function deletePlan(p: PlanSummary) {
+    if (!window.confirm(`Supprimer la sortie « ${p.track_name} » et son avancement ? Cette action est définitive.`)) return;
+    const res = await authFetch('/api/plan', { method: 'PATCH', body: JSON.stringify({ deletePlan: p.id }) }).catch(() => null);
+    const data = res ? await res.json().catch(() => ({})) : {};
+    if (Array.isArray(data.plans)) setPlans(data.plans);
+  }
 
   async function generateKit(task: PlanTask) {
     if (!plan || kitBusy) return;
@@ -220,7 +264,8 @@ export default function ReleasePlan({ onGoTo }: { onGoTo: (section: string) => v
     const toggleNet = (n: string) => setNetworks(networks.includes(n) ? networks.filter(x => x !== n) : [...networks, n]);
     return (
       <div style={{ maxWidth: '640px' }}>
-        <h1 style={{ fontSize: '28px', fontWeight: 'bold', marginBottom: '8px' }}>🗓️ Mon plan de sortie</h1>
+        <h1 style={{ fontSize: '28px', fontWeight: 'bold', marginBottom: '8px' }}>{newMode ? '➕ Nouvelle sortie' : '🗓️ Mon plan de sortie'}</h1>
+        {newMode && <p style={{ color: '#1DB954', fontSize: '14px', margin: '0 0 10px 0' }}>Ta sortie actuelle est gardée. Tes réponses précédentes sont déjà remplies : change seulement ce qui est différent.</p>}
         <p style={{ color: '#aaa', marginBottom: '24px', lineHeight: 1.6 }}>
           Réponds à six questions. Tu repars avec ton plan daté, étape par étape, de la préparation jusqu&apos;à deux semaines après la sortie. Il est sauvegardé et gratuit.
         </p>
@@ -276,7 +321,7 @@ export default function ReleasePlan({ onGoTo }: { onGoTo: (section: string) => v
           </button>
           <p style={{ color: '#888', fontSize: '13px', textAlign: 'center', margin: '12px 0 0 0' }}>Ton plan n&apos;est enregistré qu&apos;après ce bouton.</p>
           {editing && (
-            <button onClick={() => { setEditing(false); setError(''); }} style={{ background: 'none', border: 'none', color: '#888', marginTop: '14px', width: '100%', cursor: 'pointer', fontSize: '13px' }}>
+            <button onClick={() => { setEditing(false); setNewMode(false); setError(''); }} style={{ background: 'none', border: 'none', color: '#888', marginTop: '14px', width: '100%', cursor: 'pointer', fontSize: '13px' }}>
               Annuler et garder mon plan actuel
             </button>
           )}
@@ -296,6 +341,26 @@ export default function ReleasePlan({ onGoTo }: { onGoTo: (section: string) => v
     <div style={{ maxWidth: '720px' }}>
       <h1 style={{ fontSize: '28px', fontWeight: 'bold', marginBottom: '6px' }}>🗓️ « {plan.track_name} »</h1>
       <p style={{ color: '#aaa', marginBottom: '20px' }}>{countdown} · {frDate(plan.release_date)}</p>
+
+      {plans.length > 1 && (
+        <div style={{ ...card, padding: '16px' }}>
+          <p style={{ margin: '0 0 10px 0', fontWeight: 'bold', fontSize: '14px' }}>🎵 Mes sorties</p>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+            {plans.map(p => (
+              <div key={p.id} style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                <button onClick={() => !p.selected && switchPlan(p.id)} disabled={p.selected || switching} aria-current={p.selected ? 'true' : undefined}
+                  style={{ flex: 1, textAlign: 'left', background: p.selected ? '#1a0030' : 'transparent', border: p.selected ? '1px solid #9B59B6' : '1px solid #2d1040', borderRadius: '10px', padding: '10px 12px', color: '#fff', cursor: p.selected ? 'default' : 'pointer', fontSize: '14px' }}>
+                  <b>« {p.track_name} »</b> <span style={{ color: '#aaa' }}>· {frDate(p.release_date)} · {p.done}/{p.total} étapes</span>{p.selected ? <span style={{ color: '#c38be0' }}> · affichée</span> : ''}
+                </button>
+                {!p.selected && (
+                  <button onClick={() => deletePlan(p)} aria-label={`Supprimer la sortie ${p.track_name}`} title="Supprimer"
+                    style={{ background: 'none', border: 'none', color: '#777', cursor: 'pointer', fontSize: '18px', padding: '4px 8px' }}>×</button>
+                )}
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
 
       <div style={card}>
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', marginBottom: '10px', gap: '10px', flexWrap: 'wrap' }}>
@@ -423,10 +488,27 @@ export default function ReleasePlan({ onGoTo }: { onGoTo: (section: string) => v
         );
       })}
 
-      <button onClick={() => { setEditing(true); setTrackName(''); setReleaseDate(''); setError(''); }}
-        style={{ background: 'none', border: '1px solid #444', color: '#aaa', padding: '12px 18px', borderRadius: '12px', cursor: 'pointer', fontSize: '14px', marginTop: '10px' }}>
-        Préparer une autre sortie (remplace ce plan)
-      </button>
+      {level !== 'free' ? (
+        <div style={{ display: 'flex', gap: '10px', flexWrap: 'wrap', marginTop: '10px' }}>
+          <button onClick={() => startPlan(true)} style={{ background: '#9B59B6', border: 'none', color: '#fff', padding: '12px 18px', borderRadius: '12px', cursor: 'pointer', fontSize: '14px', fontWeight: 'bold' }}>
+            ➕ Préparer une nouvelle sortie
+          </button>
+          <button onClick={() => startPlan(false)} style={{ background: 'none', border: '1px solid #444', color: '#aaa', padding: '12px 18px', borderRadius: '12px', cursor: 'pointer', fontSize: '14px' }}>
+            Refaire ce plan
+          </button>
+        </div>
+      ) : (
+        <div style={{ marginTop: '10px' }}>
+          <button onClick={() => startPlan(false)}
+            style={{ background: 'none', border: '1px solid #444', color: '#aaa', padding: '12px 18px', borderRadius: '12px', cursor: 'pointer', fontSize: '14px' }}>
+            Préparer une autre sortie (remplace ce plan)
+          </button>
+          <p style={{ color: '#888', fontSize: '13px', margin: '10px 0 0 0', lineHeight: 1.6 }}>
+            Avec Pro, tu gardes toutes tes sorties et tu prépares la suivante sans effacer celle-ci.{' '}
+            <a href="/pricing?from=sorties" onClick={() => track('kit_upgrade_click', { task: 'sorties' })} style={{ color: '#c38be0' }}>Voir l&apos;offre Pro</a>
+          </p>
+        </div>
+      )}
     </div>
   );
 }

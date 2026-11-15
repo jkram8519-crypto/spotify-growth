@@ -60,7 +60,7 @@ export default function Pricing() {
           <p style={{fontSize:'48px',fontWeight:'bold',marginBottom:'5px'}}>0 EUR</p>
           <p style={{color:'#aaa',marginBottom:'25px',fontSize:'14px'}}>Pour préparer ta sortie</p>
           <div style={{marginBottom:'25px'}}>
-            {['Pitch Generator IA','Plan de sortie personnalisé','Rappels par email'].map((f,i) => (
+            {['Plan de sortie daté, étape par étape','Rappels par email les jours où une étape est prévue','Ton pitch rédigé par l\'IA','1 sortie en cours à la fois'].map((f,i) => (
               <p key={i} style={{color:'#ccc',marginBottom:'8px',fontSize:'14px'}}>✅ {f}</p>
             ))}
           </div>
@@ -78,7 +78,7 @@ export default function Pricing() {
           <p style={{fontSize:'48px',fontWeight:'bold',marginBottom:'2px'}}>{annual ? '7.99' : '9.99'} EUR<span style={{fontSize:'16px'}}>/mois</span></p>
           {annual && <p style={{fontSize:'13px',marginBottom:'5px',opacity:0.8}}>soit 95.88 EUR/an</p>}
           <div style={{marginBottom:'25px',marginTop:'15px'}}>
-            {['Tout le plan Free','Playlist Finder','Publications pour les réseaux','Script vidéo IA','Analyse de tes stats Spotify','Détection du potentiel viral','Optimisation du profil artiste','Vue multi-plateformes','Assistant IA marketing'].map((f,i) => (
+            {['Tout le plan Free','Le contenu prêt à chaque étape : posts, idées de vidéos, messages aux curateurs, relances','Plusieurs sorties et l\'historique de tes sorties','Playlist Finder pour repérer des playlists de ton style','Scripts vidéo, analyse de tes stats et optimisation du profil','Assistant IA pour tes questions de promo'].map((f,i) => (
               <p key={i} style={{marginBottom:'8px',fontSize:'14px'}}>✅ {f}</p>
             ))}
           </div>

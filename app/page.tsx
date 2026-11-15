@@ -247,14 +247,13 @@ export default function LandingPage() {
           {[
             {emoji:'🚀',title:'Pitch Generator IA',desc:'Génère des pitches professionnels en 10 secondes.',badge:''},
             {emoji:'🗓️',title:'Plan de sortie',desc:'Ton plan personnalisé de J-44 à J+14 : sauvegardé, à cocher, avec rappels par email. Gratuit.',badge:'GRATUIT'},
+            {emoji:'✨',title:'Contenu prêt à chaque étape',desc:'Posts, idées de vidéos, messages aux curateurs : préparés pour ton titre au bon moment du plan. Pro.',badge:'NOUVEAU'},
             {emoji:'🎯',title:'Playlist Finder',desc:'Trouve de vraies playlists Spotify pour ton genre et ton ambiance.',badge:''},
             {emoji:'📊',title:'Analytics IA',desc:'Saisis tes stats Spotify for Artists, reçois des actions concrètes.',badge:''},
             {emoji:'📱',title:'Contenu Réseaux Sociaux',desc:'Génère du contenu pour Instagram, TikTok.',badge:''},
             {emoji:'🎯',title:'Growth Score',desc:'Calcule ton score de croissance Spotify sur 100 points.',badge:'NOUVEAU'},
-            {emoji:'🔥',title:'Détection Viral Potentiel',desc:'Analyse ton track et détecte son potentiel viral sur TikTok.',badge:'NOUVEAU'},
             {emoji:'🎨',title:'Optimisation Profil',desc:'Analyse ton profil Spotify et optimise chaque élément.',badge:'NOUVEAU'},
             {emoji:'🤖',title:'IA Assistant Marketing',desc:"Pose tes questions à l'IA manager.",badge:'NOUVEAU'},
-            {emoji:'📊',title:'Dashboard Multi-Plateformes',desc:'Saisis tes chiffres Spotify, TikTok et Instagram : une vue d\'ensemble sur un seul écran.',badge:'NOUVEAU'},
             {emoji:'🎬',title:'Script Vidéo IA',desc:'Génère un script complet pour tes vidéos TikTok et Reels.',badge:'NOUVEAU'},
           ].map((f,i) => (
             <div key={i} style={{background:'#0d0020',padding:'30px',borderRadius:'20px',border:f.badge?'2px solid #9B59B6':'1px solid #2d1040'}}>

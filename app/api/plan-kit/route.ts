@@ -33,8 +33,8 @@ export async function POST(req: NextRequest) {
   }
 
   const { data: plan } = await admin.from('release_plans')
-    .select('track_name, release_date, answers, artist_name, kits')
-    .eq('user_id', auth.userId).maybeSingle();
+    .select('id, track_name, release_date, answers, artist_name, kits')
+    .eq('user_id', auth.userId).eq('selected', true).maybeSingle();
   if (!plan) return NextResponse.json({ error: 'Crée d\'abord ton plan de sortie.' }, { status: 404 });
 
   const answers = (plan.answers || {}) as { genre?: string; networks?: string[] };
@@ -75,7 +75,7 @@ export async function POST(req: NextRequest) {
 
   const kit: Kit = { blocks, created_at: new Date().toISOString() };
   const kits = { ...((plan.kits as Record<string, Kit>) || {}), [taskId]: kit };
-  await admin.from('release_plans').update({ kits }).eq('user_id', auth.userId);
+  await admin.from('release_plans').update({ kits }).eq('id', plan.id);
   try { await admin.from('events').insert({ user_id: auth.userId, name: 'kit_generated', meta: { task: taskId, level: auth.level } }); } catch {}
 
   return NextResponse.json({ kit });
