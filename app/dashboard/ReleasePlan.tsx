@@ -2,11 +2,12 @@
 import { useEffect, useState } from 'react';
 import { supabase } from '../../supabase';
 import { GENRES, PlanAnswers, PlanTask, daysBetween } from '@/lib/release-plan';
+import { KIT_SPECS, Kit } from '@/lib/plan-kit';
 
 // Plan de sortie : quelques questions, puis un plan personnalisé, sauvegardé,
 // avec des étapes à cocher et des rappels par email. Gratuit pour tous les comptes.
 
-type Plan = { track_name: string; release_date: string; answers: PlanAnswers; tasks: PlanTask[]; reminders: boolean; shared?: boolean; share_slug?: string | null; artist_name?: string | null };
+type Plan = { track_name: string; release_date: string; answers: PlanAnswers; tasks: PlanTask[]; reminders: boolean; shared?: boolean; share_slug?: string | null; artist_name?: string | null; kits?: Record<string, Kit> };
 
 async function authFetch(url: string, init: RequestInit = {}) {
   const { data } = await supabase.auth.getSession();
@@ -54,6 +55,10 @@ function Choice({ value, current, onPick, children }: { value: string; current: 
 export default function ReleasePlan({ onGoTo }: { onGoTo: (section: string) => void }) {
   const [loading, setLoading] = useState(true);
   const [plan, setPlan] = useState<Plan | null>(null);
+  const [level, setLevel] = useState<'free' | 'pro' | 'pro+'>('free');
+  const [kitBusy, setKitBusy] = useState('');
+  const [kitMsg, setKitMsg] = useState<Record<string, string>>({});
+  const [kitCopied, setKitCopied] = useState('');
   const [today, setToday] = useState('');
   const [editing, setEditing] = useState(false);
   const [saving, setSaving] = useState(false);
@@ -98,6 +103,7 @@ export default function ReleasePlan({ onGoTo }: { onGoTo: (section: string) => v
         const res = await authFetch('/api/plan');
         const data = await res.json();
         if (data.plan) { setPlan(data.plan); setArtistName(data.plan.artist_name || ''); }
+        if (data.level) setLevel(data.level);
         if (data.today) setToday(data.today);
         track('plan_viewed', { has_plan: data.plan ? 'oui' : 'non' });
       } catch {
@@ -144,6 +150,33 @@ export default function ReleasePlan({ onGoTo }: { onGoTo: (section: string) => v
     setPlan({ ...plan, reminders });
     await authFetch('/api/plan', { method: 'PATCH', body: JSON.stringify({ reminders }) }).catch(() => {});
   };
+
+  async function generateKit(task: PlanTask) {
+    if (!plan || kitBusy) return;
+    const spec = KIT_SPECS[task.id];
+    if (!spec.free && level === 'free') {
+      setKitMsg(m => ({ ...m, [task.id]: 'locked' }));
+      track('kit_locked_click', { task: task.id });
+      return;
+    }
+    setKitBusy(task.id);
+    setKitMsg(m => ({ ...m, [task.id]: '' }));
+    try {
+      const res = await authFetch('/api/plan-kit', { method: 'POST', body: JSON.stringify({ taskId: task.id }) });
+      const data = await res.json().catch(() => ({}));
+      if (res.status === 403 && data.error === 'pro') { setKitMsg(m => ({ ...m, [task.id]: 'locked' })); return; }
+      if (!res.ok || !data.kit) { setKitMsg(m => ({ ...m, [task.id]: data.error || 'La génération n\'a pas abouti. Réessaie.' })); return; }
+      setPlan(p => (p ? { ...p, kits: { ...(p.kits || {}), [task.id]: data.kit } } : p));
+    } catch {
+      setKitMsg(m => ({ ...m, [task.id]: 'Connexion impossible. Réessaie.' }));
+    } finally {
+      setKitBusy('');
+    }
+  }
+
+  async function copyKit(key: string, text: string) {
+    try { await navigator.clipboard.writeText(text); setKitCopied(key); setTimeout(() => setKitCopied(''), 2000); } catch {}
+  }
 
   const shareUrl = plan?.share_slug ? `https://getspotlift.com/plan/${plan.share_slug}` : '';
 
@@ -337,7 +370,50 @@ export default function ReleasePlan({ onGoTo }: { onGoTo: (section: string) => v
                   💡 Pour ton style : {task.tip}
                 </p>
               )}
-              {task.tool && !task.done && (
+              {KIT_SPECS[task.id] && (() => {
+                const spec = KIT_SPECS[task.id];
+                const kit = plan.kits?.[task.id];
+                const locked = !spec.free && level === 'free';
+                const busy = kitBusy === task.id;
+                const msg = kitMsg[task.id];
+                return (
+                  <div style={{ marginTop: '12px' }}>
+                    {kit ? (
+                      <div style={{ background: '#14002a', border: '1px solid #2d1040', borderRadius: '12px', padding: '12px' }}>
+                        <p style={{ margin: '0 0 8px 0', color: '#c38be0', fontSize: '12px', fontWeight: 'bold' }}>✨ TON CONTENU PRÊT À L&apos;EMPLOI</p>
+                        {kit.blocks.map((b, i) => (
+                          <div key={i} style={{ marginBottom: i < kit.blocks.length - 1 ? '12px' : 0 }}>
+                            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: '8px', marginBottom: '4px' }}>
+                              <p style={{ margin: 0, color: '#fff', fontSize: '13px', fontWeight: 'bold' }}>{b.label}</p>
+                              <button onClick={() => copyKit(`${task.id}-${i}`, b.text)} style={{ background: 'none', border: '1px solid #444', color: kitCopied === `${task.id}-${i}` ? '#1DB954' : '#bbb', borderRadius: '8px', padding: '4px 10px', fontSize: '12px', cursor: 'pointer', flexShrink: 0 }}>
+                                {kitCopied === `${task.id}-${i}` ? '✓ Copié' : 'Copier'}
+                              </button>
+                            </div>
+                            <p style={{ margin: 0, color: '#ddd', fontSize: '14px', lineHeight: 1.6, whiteSpace: 'pre-wrap' }}>{b.text}</p>
+                          </div>
+                        ))}
+                        <button onClick={() => generateKit(task)} disabled={busy} style={{ marginTop: '10px', background: 'none', border: 'none', color: '#888', fontSize: '12px', cursor: 'pointer', textDecoration: 'underline', padding: 0 }}>
+                          {busy ? 'Nouvelle version en cours…' : 'Proposer une autre version'}
+                        </button>
+                      </div>
+                    ) : !task.done && (
+                      <button onClick={() => generateKit(task)} disabled={busy}
+                        style={{ background: locked ? 'transparent' : '#9B59B6', color: locked ? '#c38be0' : '#fff', border: '1px solid #9B59B6', padding: '8px 14px', borderRadius: '20px', cursor: 'pointer', fontSize: '13px', fontWeight: 'bold', opacity: busy ? 0.7 : 1 }}>
+                        {busy ? '✨ Préparation… (10 secondes)' : locked ? `🔒 ${spec.button} · Pro` : `✨ ${spec.button}`}
+                      </button>
+                    )}
+                    {msg === 'locked' ? (
+                      <p style={{ margin: '10px 0 0 0', fontSize: '13px', color: '#ddd', lineHeight: 1.6, background: '#14002a', padding: '10px 12px', borderRadius: '10px' }}>
+                        Avec Pro, Spotlift prépare le contenu de chaque étape pour ton titre : posts, idées de vidéos, messages aux curateurs, relances. Tu n&apos;as plus qu&apos;à copier-coller.{' '}
+                        <a href="/pricing?from=kit" onClick={() => track('kit_upgrade_click', { task: task.id })} style={{ color: '#c38be0', fontWeight: 'bold' }}>Voir l&apos;offre Pro →</a>
+                      </p>
+                    ) : msg ? (
+                      <p role="alert" style={{ margin: '8px 0 0 0', fontSize: '13px', color: '#e67e80' }}>{msg}</p>
+                    ) : null}
+                  </div>
+                );
+              })()}
+              {task.tool && !task.done && !KIT_SPECS[task.id] && (
                 <button onClick={() => openTool(task)} style={{ marginTop: '12px', background: 'transparent', color: '#c38be0', border: '1px solid #9B59B6', padding: '8px 14px', borderRadius: '20px', cursor: 'pointer', fontSize: '13px', fontWeight: 'bold' }}>
                   {TOOL_LABELS[task.tool] || 'Ouvrir l\'outil'} →
                 </button>

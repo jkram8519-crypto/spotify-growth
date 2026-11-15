@@ -64,10 +64,10 @@ export async function GET(req: NextRequest) {
   if (auth instanceof NextResponse) return auth;
   const { data } = await admin
     .from('release_plans')
-    .select('track_name, release_date, answers, tasks, reminders, shared, share_slug, artist_name')
+    .select('track_name, release_date, answers, tasks, reminders, shared, share_slug, artist_name, kits')
     .eq('user_id', auth.userId)
     .maybeSingle();
-  return NextResponse.json({ plan: data || null, today: todayParis() });
+  return NextResponse.json({ plan: data || null, today: todayParis(), level: auth.level });
 }
 
 export async function POST(req: NextRequest) {
@@ -105,6 +105,7 @@ export async function POST(req: NextRequest) {
       last_reminder_on: null,
       shared: false,
       share_slug: null,
+      kits: {},
       updated_at: new Date().toISOString(),
     };
     const { error } = await admin.from('release_plans').upsert(row, { onConflict: 'user_id' });
@@ -114,7 +115,7 @@ export async function POST(req: NextRequest) {
     }
     await logEvent(auth.userId, 'plan_created', { genre: answers.genre, days_left: daysLeft, distributor: answers.distributor });
     return NextResponse.json({
-      plan: { track_name: track, release_date: releaseDate, answers, tasks, reminders: true, shared: false, share_slug: null },
+      plan: { track_name: track, release_date: releaseDate, answers, tasks, reminders: true, shared: false, share_slug: null, kits: {} },
       today,
     });
   } catch {

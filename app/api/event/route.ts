@@ -9,7 +9,7 @@ const admin = createClient(
   process.env.SUPABASE_SERVICE_ROLE_KEY!
 );
 
-const ALLOWED = ['dashboard_opened', 'plan_viewed', 'gate_seen', 'tool_opened_from_plan', 'signup_page_viewed', 'public_plan_created', 'public_plan_ics', 'public_plan_cta', 'share_link_copied', 'share_native'];
+const ALLOWED = ['dashboard_opened', 'plan_viewed', 'gate_seen', 'tool_opened_from_plan', 'signup_page_viewed', 'public_plan_created', 'public_plan_ics', 'public_plan_cta', 'share_link_copied', 'share_native', 'kit_locked_click', 'kit_upgrade_click'];
 
 export async function POST(req: NextRequest) {
   try {
