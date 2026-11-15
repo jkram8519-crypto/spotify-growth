@@ -28,7 +28,10 @@ export async function getSharedPlan(slug: string): Promise<SharedPlan | null> {
     track: data.track_name,
     artist: data.artist_name || null,
     releaseDate: data.release_date,
-    steps: (data.tasks as PlanTask[]).map(t => ({ day: t.day, date: t.date, title: t.title, done: !!t.done })),
+    // Ordre chronologique (J-44 → J+14), plus lisible pour un visiteur que l'ordre des rattrapages.
+    steps: (data.tasks as PlanTask[])
+      .map(t => ({ day: t.day, date: t.date, title: t.title, done: !!t.done }))
+      .sort((a, b) => a.day - b.day),
   };
 }
 
