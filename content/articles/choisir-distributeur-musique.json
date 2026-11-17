@@ -1,0 +1,53 @@
+{
+  "slug": "choisir-distributeur-musique",
+  "titre": "Choisir un distributeur de musique : les 8 critères à comparer",
+  "description": "DistroKid, TuneCore, CD Baby ou un autre ? Les critères concrets pour choisir ton distributeur de musique sans te faire piéger par les frais cachés.",
+  "categorie": "GUIDE",
+  "date": "2026-11-17",
+  "temps": "8 min",
+  "motCle": "choisir distributeur musique",
+  "sections": [
+    { "type": "p", "text": "Pour sortir un titre sur Spotify, Apple Music ou Deezer quand tu es indépendant, tu passes obligatoirement par un distributeur (ou par un label qui en a un). Spotify ne prend pas d'envoi direct de la part des artistes : c'est le distributeur qui livre ton audio, ta pochette et tes infos aux plateformes, puis qui te reverse tes revenus. Le choix paraît simple, mais il engage ta musique pour des années. Changer de distributeur plus tard, c'est possible, mais c'est du travail. Ici, pas de classement ni de « meilleur distributeur » : je te donne les critères à vérifier toi-même, pour que tu choisisses celui qui colle à ta façon de sortir de la musique." },
+    { "type": "tip", "title": "Avant de commencer", "text": "Les tarifs et les conditions des distributeurs changent souvent, parfois plusieurs fois par an. Ne te fie pas à un tableau trouvé sur un blog ou une vidéo d'il y a deux ans : ouvre la page tarifs officielle de chaque service le jour où tu décides, et vérifie les prix avant de payer." },
+    { "type": "h2", "text": "1. Le modèle de paiement : abonnement, paiement par sortie ou commission" },
+    { "type": "p", "text": "C'est le critère qui fait le plus de différence sur ton budget. Les distributeurs fonctionnent selon trois grands modèles, parfois mélangés. Le premier, c'est l'abonnement annuel : tu paies une somme fixe chaque année et tu sors autant de titres que tu veux. Le deuxième, c'est le paiement à la sortie : tu paies une fois pour chaque single ou chaque album. Le troisième, c'est la commission : l'envoi est gratuit ou peu cher, mais le distributeur garde un pourcentage de tes revenus de streaming." },
+    { "type": "list", "items": [
+      "Tu sors un single par mois ou plus : un abonnement annuel revient souvent moins cher qu'un paiement par sortie.",
+      "Tu sors un ou deux projets par an : le paiement par sortie peut être plus logique, surtout s'il n'y a rien à repayer ensuite.",
+      "Tu débutes sans budget : une offre gratuite avec commission te permet de tester, mais calcule ce que la commission te coûterait si un titre marche.",
+      "Dans tous les cas, fais le calcul sur trois ans, pas sur trois mois."
+    ] },
+    { "type": "h2", "text": "2. Ce qui arrive à ta musique si tu arrêtes de payer" },
+    { "type": "p", "text": "C'est la question que presque personne ne pose avant de s'inscrire. Avec certains abonnements, si tu ne renouvelles pas, tes titres peuvent être retirés des plateformes. Avec d'autres modèles, une sortie payée une fois reste en ligne. Selon le cas, retirer un titre peut aussi lui faire perdre son historique d'écoutes et sa place dans les playlists où il était. Cherche dans l'aide ou les conditions générales du distributeur la réponse exacte à cette question : « que deviennent mes sorties si je résilie ou si je ne renouvelle pas ? » Si la réponse n'est pas claire, pose-la au support par écrit avant de payer." },
+    { "type": "h2", "text": "3. La part des revenus que tu gardes" },
+    { "type": "p", "text": "Certains distributeurs annoncent que tu gardes l'intégralité de tes revenus de streaming, d'autres prennent une commission, et certains font les deux selon l'offre. Regarde aussi les frais autour : frais de retrait quand tu récupères ton argent, seuil minimum de paiement, frais de change si tu es payé en dollars. Sur de petits montants, ces détails pèsent plus lourd que le prix affiché sur la page d'accueil." },
+    { "type": "h2", "text": "4. Les options payantes en plus" },
+    { "type": "p", "text": "Le prix de base ne couvre pas toujours tout. Selon les services, certaines choses peuvent être facturées en option : la monétisation de ta musique sur YouTube (Content ID), le choix d'une date de sortie précise, une page de pré-sauvegarde, l'ajout de paroles, la collecte de tes droits d'édition, ou le fait de garder tes titres en ligne si tu arrêtes l'abonnement. Liste les options dont tu as vraiment besoin, puis additionne le prix réel pour chaque distributeur. Tu verras parfois que l'offre la moins chère au départ devient la plus chère une fois les options ajoutées." },
+    { "type": "h2", "text": "5. Le partage des revenus avec tes collaborateurs" },
+    { "type": "p", "text": "Si tu fais des featurings ou si tu travailles avec un beatmaker, vérifie que le distributeur permet de répartir automatiquement les revenus d'un titre entre plusieurs personnes (on parle de « splits »). Sans ça, c'est toi qui reçois tout et qui dois reverser à la main chaque mois, ce qui crée vite des tensions. Regarde aussi si tes collaborateurs doivent créer un compte, et si la répartition est gratuite ou incluse seulement dans certaines offres." },
+    { "type": "h2", "text": "6. Le délai de livraison et la date de sortie" },
+    { "type": "p", "text": "Pour avoir une chance d'être écouté par les éditeurs de playlists Spotify, ton titre doit apparaître dans Spotify for Artists avant sa sortie, pour que tu puisses le pitcher. Il faut donc que ton distributeur livre vite et te laisse choisir ta date de sortie. Vérifie le délai de validation annoncé, et prévois large : envoyer ton titre trois à quatre semaines avant la sortie te laisse le temps de corriger une erreur de métadonnées et de faire ton pitch éditorial sereinement." },
+    { "type": "tip", "title": "Le piège classique", "text": "Envoyer ton titre au distributeur trois jours avant la sortie. Le titre sort, mais tu as raté la fenêtre de pitch éditorial, et ton pré-enregistrement n'a pas eu le temps de tourner. Cale d'abord ta date, puis compte à rebours." },
+    { "type": "h2", "text": "7. Les codes ISRC et UPC, et la possibilité de partir" },
+    { "type": "p", "text": "Chaque titre a un code ISRC et chaque sortie un code UPC. La plupart des distributeurs les fournissent, mais vérifie que tu peux les récupérer et les réutiliser. C'est important si un jour tu changes de distributeur : en renvoyant ton titre avec le même ISRC chez le nouveau, tu as plus de chances de garder ton historique d'écoutes. Lis aussi la procédure de départ : préavis, frais éventuels, et ce qu'il faut faire pour éviter que ton titre disparaisse quelques jours entre les deux." },
+    { "type": "h2", "text": "8. Le support, la langue et les statistiques" },
+    { "type": "p", "text": "Quand un titre est livré sur le mauvais profil d'artiste ou qu'un paiement n'arrive pas, tu vas devoir écrire au support. Regarde s'il répond en français, par quel canal (email, chat, formulaire) et en combien de temps d'après sa propre aide. Côté statistiques, Spotify for Artists te donne déjà l'essentiel pour Spotify, mais les rapports de revenus du distributeur sont les seuls à te dire combien chaque plateforme t'a vraiment payé." },
+    { "type": "h2", "text": "Les signaux d'alerte à repérer" },
+    { "type": "list", "items": [
+      "Une offre de distribution qui inclut des « streams », des « écoutes » ou des « abonnés » : acheter de l'audience artificielle viole les règles des plateformes et peut faire retirer ton titre.",
+      "Une promesse de placement en playlist éditoriale : personne ne peut la garantir, c'est l'équipe éditoriale de Spotify qui décide.",
+      "Des conditions de résiliation introuvables ou floues.",
+      "Un distributeur que tu ne trouves pas dans l'annuaire des fournisseurs de Spotify for Artists : ce n'est pas forcément un problème, mais pose plus de questions."
+    ] },
+    { "type": "p", "text": "Spotify publie un annuaire de fournisseurs de distribution sur le site Spotify for Artists. C'est un bon point de départ pour lister les services sérieux, puis comparer leurs pages tarifs officielles avec les huit critères ci-dessus." },
+    { "type": "h2", "text": "Ma méthode pour décider en une heure" },
+    { "type": "p", "text": "Prends trois distributeurs qui reviennent souvent quand les artistes en parlent, par exemple DistroKid, TuneCore et CD Baby, plus un service français si le support en français compte pour toi. Fais un tableau avec une ligne par critère : prix sur trois ans selon ton rythme de sortie, ce qui se passe si tu arrêtes, part des revenus, options utiles et leur prix, splits, délai de livraison, ISRC, support. Remplis chaque case uniquement avec ce que dit le site officiel aujourd'hui. Le bon choix, c'est celui qui coche tes besoins réels au prix le plus clair, pas celui que ton pote utilise." },
+    { "type": "p", "text": "Le distributeur, ce n'est qu'une étape. Une sortie qui marche bien, c'est aussi une date choisie à l'avance, un pitch éditorial envoyé à temps, un pré-enregistrement partagé, des contenus pour annoncer le titre. Spotlift t'aide sur cette partie-là : un plan de sortie daté gratuit, des rappels par email à chaque étape, et une aide IA pour écrire ton pitch et tes contenus. L'offre Pro coûte 9,99 € par mois, ou 7,99 € par mois en annuel. Spotlift ne distribue pas ta musique, ne contacte pas de curateurs et ne promet aucun résultat : c'est un outil d'organisation." },
+    { "type": "cta", "text": "Tu as choisi ton distributeur ? Génère ton plan de sortie gratuit : toutes les étapes datées, de l'envoi au distributeur jusqu'au jour J, en 30 secondes." }
+  ],
+  "sources": [
+    { "titre": "Spotify for Artists : mettre sa musique sur Spotify", "url": "https://support.spotify.com/fr/artists/article/getting-music-on-spotify/" },
+    { "titre": "Spotify for Artists : annuaire des fournisseurs de distribution", "url": "https://artists.spotify.com/directory/distribution" },
+    { "titre": "Spotify for Artists : pitcher des titres auprès de l'équipe éditoriale", "url": "https://support.spotify.com/fr/artists/article/pitching-music-and-videos-to-playlist-editors/" }
+  ]
+}
